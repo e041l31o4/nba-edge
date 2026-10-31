@@ -16,3 +16,5 @@
 .form-factor-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0;padding:12px;border:1px solid rgba(140,170,200,.16);border-radius:12px;background:rgba(18,34,50,.45)}
 .form-factor-strip span{font-size:11px;line-height:1.55;color:#a9bacb}
 @media(max-width:600px){.form-factor-strip{grid-template-columns:1fr}}
+
+.injury-impact-strip{display:flex;flex-direction:column;gap:7px;margin:12px 0;padding:13px 14px;border:1px solid rgba(164,236,98,.24);border-radius:10px;background:rgba(20,39,52,.72)}.injury-impact-strip>b{font-size:11px;color:#d7e7f2}.injury-impact-strip>span{font-size:11px;color:#b9c9d8}.injury-impact-strip>small{font-size:9px;line-height:1.6;color:#8298ad}
