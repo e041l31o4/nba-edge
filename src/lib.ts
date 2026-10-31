@@ -6,7 +6,11 @@ const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 export function taiwanDate(d = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).replaceAll('-', '') }
 export function dateLabel(d: string) { return new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(d)) }
 export async function getScoreboard(date: string): Promise<Game[]> {
-  const res = await fetch(`${ESPN}/scoreboard?dates=${date}`)
+  // ESPN scoreboard dates are keyed to the US game date; Taiwan is normally one calendar day ahead.
+  const taiwanDay = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00')
+  taiwanDay.setDate(taiwanDay.getDate() - 1)
+  const usDate = taiwanDay.toISOString().slice(0,10).replaceAll('-', '')
+  const res = await fetch(`${ESPN}/scoreboard?dates=${usDate}`)
   if (!res.ok) throw new Error('賽程來源暫時無法連線')
   const json = await res.json()
   return (json.events ?? []).map((e: any) => {
