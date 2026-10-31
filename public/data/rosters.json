@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:41:12.020190+00:00",
+  "updatedAt": "2026-10-31T17:42:11.725842+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -9,27 +9,6 @@
         "athleteId": "4278039",
         "position": "G",
         "jersey": "7"
-      },
-      {
-        "team": "ATL",
-        "player": "Virginia Tech",
-        "athleteId": "259",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -47,24 +26,10 @@
       },
       {
         "team": "ATL",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Luguentz Dort",
         "athleteId": "4397020",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "ATL",
-        "player": "Arizona State",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -75,31 +40,10 @@
       },
       {
         "team": "ATL",
-        "player": "St. John's",
-        "athleteId": "2599",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Dorian Finney-Smith",
         "athleteId": "2578185",
         "position": "F",
         "jersey": "8"
-      },
-      {
-        "team": "ATL",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -110,24 +54,10 @@
       },
       {
         "team": "ATL",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Keshon Gilbert",
         "athleteId": "4585618",
         "position": "G",
         "jersey": "00"
-      },
-      {
-        "team": "ATL",
-        "player": "Iowa State",
-        "athleteId": "66",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -138,24 +68,10 @@
       },
       {
         "team": "ATL",
-        "player": "Washington State",
-        "athleteId": "265",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Jalen Johnson",
         "athleteId": "4701230",
         "position": "F",
         "jersey": "1"
-      },
-      {
-        "team": "ATL",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -166,24 +82,10 @@
       },
       {
         "team": "ATL",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Jock Landale",
         "athleteId": "3146557",
         "position": "C",
         "jersey": "31"
-      },
-      {
-        "team": "ATL",
-        "player": "Saint Mary's",
-        "athleteId": "2608",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -194,24 +96,10 @@
       },
       {
         "team": "ATL",
-        "player": "Lehigh",
-        "athleteId": "2329",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Asa Newell",
         "athleteId": "4873201",
         "position": "F",
         "jersey": "14"
-      },
-      {
-        "team": "ATL",
-        "player": "Georgia",
-        "athleteId": "61",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -222,24 +110,10 @@
       },
       {
         "team": "ATL",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Henri Veesaar",
         "athleteId": "5105571",
         "position": "C",
         "jersey": "13"
-      },
-      {
-        "team": "ATL",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ATL",
@@ -250,24 +124,10 @@
       },
       {
         "team": "ATL",
-        "player": "Maryland",
-        "athleteId": "120",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ATL",
         "player": "Jalen Wilson",
         "athleteId": "4431714",
         "position": "F",
         "jersey": "22"
-      },
-      {
-        "team": "ATL",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
       }
     ],
     "BOS": [
@@ -280,45 +140,10 @@
       },
       {
         "team": "BOS",
-        "player": "Providence",
-        "athleteId": "2507",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Chris Cenac Jr.",
         "athleteId": "5142621",
         "position": "F",
         "jersey": "12"
-      },
-      {
-        "team": "BOS",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BOS",
@@ -329,13 +154,6 @@
       },
       {
         "team": "BOS",
-        "player": "Ohio State",
-        "athleteId": "194",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Luka Garza",
         "athleteId": "4277951",
         "position": "C",
@@ -343,31 +161,10 @@
       },
       {
         "team": "BOS",
-        "player": "Iowa",
-        "athleteId": "2294",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Paul George",
         "athleteId": "4251",
         "position": "F",
         "jersey": "13"
-      },
-      {
-        "team": "BOS",
-        "player": "Fresno State",
-        "athleteId": "278",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BOS",
@@ -385,24 +182,10 @@
       },
       {
         "team": "BOS",
-        "player": "Rutgers",
-        "athleteId": "164",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Sam Hauser",
         "athleteId": "4065804",
         "position": "F",
         "jersey": "30"
-      },
-      {
-        "team": "BOS",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BOS",
@@ -413,13 +196,6 @@
       },
       {
         "team": "BOS",
-        "player": "St. John's",
-        "athleteId": "2599",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Payton Pritchard",
         "athleteId": "4066354",
         "position": "G",
@@ -427,24 +203,10 @@
       },
       {
         "team": "BOS",
-        "player": "Oregon",
-        "athleteId": "2483",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Neemias Queta",
         "athleteId": "4397424",
         "position": "C",
         "jersey": "88"
-      },
-      {
-        "team": "BOS",
-        "player": "Utah State",
-        "athleteId": "328",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BOS",
@@ -462,24 +224,10 @@
       },
       {
         "team": "BOS",
-        "player": "Creighton",
-        "athleteId": "156",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Jayson Tatum",
         "athleteId": "4065648",
         "position": "F",
         "jersey": "0"
-      },
-      {
-        "team": "BOS",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BOS",
@@ -490,13 +238,6 @@
       },
       {
         "team": "BOS",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Derrick White",
         "athleteId": "3078576",
         "position": "G",
@@ -504,31 +245,10 @@
       },
       {
         "team": "BOS",
-        "player": "Colorado",
-        "athleteId": "38",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
         "player": "Amari Williams",
         "athleteId": "4702745",
         "position": "F",
         "jersey": "77"
-      },
-      {
-        "team": "BOS",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BOS",
-        "player": "Boston Celtics",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
       }
     ],
     "BKN": [
@@ -541,45 +261,10 @@
       },
       {
         "team": "BKN",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Mikel Brown Jr.",
         "athleteId": "5101761",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "BKN",
-        "player": "Louisville",
-        "athleteId": "97",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BKN",
@@ -590,24 +275,10 @@
       },
       {
         "team": "BKN",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Egor Demin",
         "athleteId": "5175643",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "BKN",
-        "player": "BYU",
-        "athleteId": "252",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BKN",
@@ -625,24 +296,10 @@
       },
       {
         "team": "BKN",
-        "player": "Iowa State",
-        "athleteId": "66",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Chaney Johnson",
         "athleteId": "5174655",
         "position": "F",
         "jersey": "31"
-      },
-      {
-        "team": "BKN",
-        "player": "Auburn",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BKN",
@@ -653,24 +310,10 @@
       },
       {
         "team": "BKN",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Josh Minott",
         "athleteId": "4687718",
         "position": "F",
         "jersey": "00"
-      },
-      {
-        "team": "BKN",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BKN",
@@ -688,13 +331,6 @@
       },
       {
         "team": "BKN",
-        "player": "Missouri",
-        "athleteId": "142",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Drake Powell",
         "athleteId": "5037873",
         "position": "G",
@@ -702,24 +338,10 @@
       },
       {
         "team": "BKN",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Julius Randle",
         "athleteId": "3064514",
         "position": "F",
         "jersey": "30"
-      },
-      {
-        "team": "BKN",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "BKN",
@@ -737,13 +359,6 @@
       },
       {
         "team": "BKN",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Nolan Traore",
         "athleteId": "5279130",
         "position": "G",
@@ -758,24 +373,10 @@
       },
       {
         "team": "BKN",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "BKN",
         "player": "Danny Wolf",
         "athleteId": "5107173",
         "position": "F",
         "jersey": "2"
-      },
-      {
-        "team": "BKN",
-        "player": "Brooklyn Nets",
-        "athleteId": "17",
-        "position": "",
-        "jersey": null
       }
     ],
     "CHA": [
@@ -788,38 +389,10 @@
       },
       {
         "team": "CHA",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Christian Anderson",
         "athleteId": "5060701",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "CHA",
-        "player": "Texas Tech",
-        "athleteId": "2641",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHA",
@@ -830,13 +403,6 @@
       },
       {
         "team": "CHA",
-        "player": "Illinois",
-        "athleteId": "356",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Moussa Diabate",
         "athleteId": "4433249",
         "position": "F",
@@ -844,38 +410,10 @@
       },
       {
         "team": "CHA",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "PJ Hall",
         "athleteId": "4701225",
         "position": "C",
         "jersey": "16"
-      },
-      {
-        "team": "CHA",
-        "player": "Clemson",
-        "athleteId": "228",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHA",
@@ -893,13 +431,6 @@
       },
       {
         "team": "CHA",
-        "player": "Creighton",
-        "athleteId": "156",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Kon Knueppel",
         "athleteId": "5061575",
         "position": "G",
@@ -914,24 +445,10 @@
       },
       {
         "team": "CHA",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Brandon Miller",
         "athleteId": "4433287",
         "position": "F",
         "jersey": "24"
-      },
-      {
-        "team": "CHA",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHA",
@@ -942,24 +459,10 @@
       },
       {
         "team": "CHA",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Naz Reid",
         "athleteId": "4396971",
         "position": "C",
         "jersey": "0"
-      },
-      {
-        "team": "CHA",
-        "player": "LSU",
-        "athleteId": "99",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHA",
@@ -984,13 +487,6 @@
       },
       {
         "team": "CHA",
-        "player": "Washington",
-        "athleteId": "264",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Coby White",
         "athleteId": "4395651",
         "position": "G",
@@ -998,31 +494,10 @@
       },
       {
         "team": "CHA",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
         "player": "Grant Williams",
         "athleteId": "4066218",
         "position": "F",
         "jersey": "2"
-      },
-      {
-        "team": "CHA",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHA",
-        "player": "Charlotte Hornets",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
       }
     ],
     "CHI": [
@@ -1032,27 +507,6 @@
         "athleteId": "5105555",
         "position": "F",
         "jersey": "19"
-      },
-      {
-        "team": "CHI",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1070,31 +524,10 @@
       },
       {
         "team": "CHI",
-        "player": "Georgia",
-        "athleteId": "61",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Zach Collins",
         "athleteId": "4066650",
         "position": "F",
         "jersey": "12"
-      },
-      {
-        "team": "CHI",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1112,24 +545,10 @@
       },
       {
         "team": "CHI",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Jordan Hawkins",
         "athleteId": "4683750",
         "position": "G",
         "jersey": "15"
-      },
-      {
-        "team": "CHI",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1140,24 +559,10 @@
       },
       {
         "team": "CHI",
-        "player": "Oklahoma",
-        "athleteId": "201",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Tre Jones",
         "athleteId": "4395626",
         "position": "G",
         "jersey": "30"
-      },
-      {
-        "team": "CHI",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1175,24 +580,10 @@
       },
       {
         "team": "CHI",
-        "player": "Auburn",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Norman Powell",
         "athleteId": "2595516",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "CHI",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1203,24 +594,10 @@
       },
       {
         "team": "CHI",
-        "player": "Providence",
-        "athleteId": "2507",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Jalen Smith",
         "athleteId": "4397189",
         "position": "F",
         "jersey": "25"
-      },
-      {
-        "team": "CHI",
-        "player": "Maryland",
-        "athleteId": "120",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CHI",
@@ -1231,13 +608,6 @@
       },
       {
         "team": "CHI",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Patrick Williams",
         "athleteId": "4431687",
         "position": "F",
@@ -1245,31 +615,10 @@
       },
       {
         "team": "CHI",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
         "player": "Caleb Wilson",
         "athleteId": "5095151",
         "position": "F",
         "jersey": "8"
-      },
-      {
-        "team": "CHI",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CHI",
-        "player": "Chicago Bulls",
-        "athleteId": "4",
-        "position": "",
-        "jersey": null
       }
     ],
     "CLE": [
@@ -1282,38 +631,10 @@
       },
       {
         "team": "CLE",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Thomas Bryant",
         "athleteId": "3934723",
         "position": "C",
         "jersey": "3"
-      },
-      {
-        "team": "CLE",
-        "player": "Indiana",
-        "athleteId": "84",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1324,31 +645,10 @@
       },
       {
         "team": "CLE",
-        "player": "Cleveland State",
-        "athleteId": "325",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "James Harden",
         "athleteId": "3992",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "CLE",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1366,24 +666,10 @@
       },
       {
         "team": "CLE",
-        "player": "Utah State",
-        "athleteId": "328",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Riley Minix",
         "athleteId": "5177362",
         "position": "F",
         "jersey": "12"
-      },
-      {
-        "team": "CLE",
-        "player": "Morehead State",
-        "athleteId": "2413",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1394,24 +680,10 @@
       },
       {
         "team": "CLE",
-        "player": "Louisville",
-        "athleteId": "97",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Evan Mobley",
         "athleteId": "4432158",
         "position": "C",
         "jersey": "4"
-      },
-      {
-        "team": "CLE",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1422,24 +694,10 @@
       },
       {
         "team": "CLE",
-        "player": "Wichita State",
-        "athleteId": "2724",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Tyrese Proctor",
         "athleteId": "5023693",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "CLE",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1450,24 +708,10 @@
       },
       {
         "team": "CLE",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Jaylon Tyson",
         "athleteId": "4683747",
         "position": "G",
         "jersey": "20"
-      },
-      {
-        "team": "CLE",
-        "player": "California",
-        "athleteId": "25",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "CLE",
@@ -1478,31 +722,10 @@
       },
       {
         "team": "CLE",
-        "player": "Miami",
-        "athleteId": "2390",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
         "player": "Peyton Watson",
         "athleteId": "4576087",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "CLE",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "CLE",
-        "player": "Cleveland Cavaliers",
-        "athleteId": "5",
-        "position": "",
-        "jersey": null
       }
     ],
     "DAL": [
@@ -1512,27 +735,6 @@
         "athleteId": "4593125",
         "position": "F",
         "jersey": "34"
-      },
-      {
-        "team": "DAL",
-        "player": "Loyola Maryland",
-        "athleteId": "2352",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DAL",
@@ -1550,20 +752,6 @@
       },
       {
         "team": "DAL",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Moussa Cisse",
         "athleteId": "4701208",
         "position": "C",
@@ -1571,31 +759,10 @@
       },
       {
         "team": "DAL",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Walter Clayton Jr.",
         "athleteId": "4896372",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "DAL",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DAL",
@@ -1613,13 +780,6 @@
       },
       {
         "team": "DAL",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Daniel Gafford",
         "athleteId": "4278049",
         "position": "F",
@@ -1627,24 +787,10 @@
       },
       {
         "team": "DAL",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Jett Howard",
         "athleteId": "5105806",
         "position": "G",
         "jersey": "9"
-      },
-      {
-        "team": "DAL",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DAL",
@@ -1669,13 +815,6 @@
       },
       {
         "team": "DAL",
-        "player": "Virginia Tech",
-        "athleteId": "259",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Dereck Lively II",
         "athleteId": "4683688",
         "position": "C",
@@ -1690,24 +829,10 @@
       },
       {
         "team": "DAL",
-        "player": "Xavier",
-        "athleteId": "2752",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "Caleb Martin",
         "athleteId": "3138160",
         "position": "F",
         "jersey": "16"
-      },
-      {
-        "team": "DAL",
-        "player": "Nevada",
-        "athleteId": "2440",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DAL",
@@ -1725,31 +850,10 @@
       },
       {
         "team": "DAL",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
         "player": "P.J. Washington",
         "athleteId": "4278078",
         "position": "F",
         "jersey": "25"
-      },
-      {
-        "team": "DAL",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DAL",
-        "player": "Dallas Mavericks",
-        "athleteId": "6",
-        "position": "",
-        "jersey": null
       }
     ],
     "DEN": [
@@ -1762,45 +866,10 @@
       },
       {
         "team": "DEN",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Christian Braun",
         "athleteId": "4431767",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "DEN",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1811,24 +880,10 @@
       },
       {
         "team": "DEN",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "DeMar DeRozan",
         "athleteId": "3978",
         "position": "G",
         "jersey": "10"
-      },
-      {
-        "team": "DEN",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1839,24 +894,10 @@
       },
       {
         "team": "DEN",
-        "player": "Providence",
-        "athleteId": "2507",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Aaron Gordon",
         "athleteId": "3064290",
         "position": "F",
         "jersey": "32"
-      },
-      {
-        "team": "DEN",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1867,24 +908,10 @@
       },
       {
         "team": "DEN",
-        "player": "Dayton",
-        "athleteId": "2168",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Bryce Hopkins",
         "athleteId": "4565698",
         "position": "F",
         "jersey": "13"
-      },
-      {
-        "team": "DEN",
-        "player": "St. John's",
-        "athleteId": "2599",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1895,13 +922,6 @@
       },
       {
         "team": "DEN",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Nikola Jokic",
         "athleteId": "3112335",
         "position": "C",
@@ -1909,24 +929,10 @@
       },
       {
         "team": "DEN",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Spencer Jones",
         "athleteId": "4592427",
         "position": "F",
         "jersey": "21"
-      },
-      {
-        "team": "DEN",
-        "player": "Stanford",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1944,24 +950,10 @@
       },
       {
         "team": "DEN",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DEN",
         "player": "Ryan Nembhard",
         "athleteId": "4433629",
         "position": "G",
         "jersey": "9"
-      },
-      {
-        "team": "DEN",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DEN",
@@ -1983,13 +975,6 @@
         "athleteId": "5105592",
         "position": "F",
         "jersey": "00"
-      },
-      {
-        "team": "DEN",
-        "player": "Villanova",
-        "athleteId": "222",
-        "position": "",
-        "jersey": null
       }
     ],
     "DET": [
@@ -2002,45 +987,10 @@
       },
       {
         "team": "DET",
-        "player": "Wake Forest",
-        "athleteId": "154",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Cade Cunningham",
         "athleteId": "4432166",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "DET",
-        "player": "Oklahoma State",
-        "athleteId": "197",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2051,20 +1001,6 @@
       },
       {
         "team": "DET",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Javonte Green",
         "athleteId": "2596112",
         "position": "G",
@@ -2072,24 +1008,10 @@
       },
       {
         "team": "DET",
-        "player": "Radford",
-        "athleteId": "2515",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Elijah Harkless",
         "athleteId": "4397449",
         "position": "G",
         "jersey": "94"
-      },
-      {
-        "team": "DET",
-        "player": "UNLV",
-        "athleteId": "2439",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2107,24 +1029,10 @@
       },
       {
         "team": "DET",
-        "player": "Maryland",
-        "athleteId": "120",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Daniss Jenkins",
         "athleteId": "5107199",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "DET",
-        "player": "St. John's",
-        "athleteId": "2599",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2135,24 +1043,10 @@
       },
       {
         "team": "DET",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Isaac Jones",
         "athleteId": "5107818",
         "position": "C",
         "jersey": "13"
-      },
-      {
-        "team": "DET",
-        "player": "Washington State",
-        "athleteId": "265",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2163,24 +1057,10 @@
       },
       {
         "team": "DET",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Ebuka Okorie",
         "athleteId": "5258459",
         "position": "G",
         "jersey": "23"
-      },
-      {
-        "team": "DET",
-        "player": "Stanford",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2191,24 +1071,10 @@
       },
       {
         "team": "DET",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Taurean Prince",
         "athleteId": "2990962",
         "position": "F",
         "jersey": "12"
-      },
-      {
-        "team": "DET",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2219,13 +1085,6 @@
       },
       {
         "team": "DET",
-        "player": "DePaul",
-        "athleteId": "305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Duncan Robinson",
         "athleteId": "3157465",
         "position": "F",
@@ -2233,24 +1092,10 @@
       },
       {
         "team": "DET",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "DET",
         "player": "Tolu Smith",
         "athleteId": "4397882",
         "position": "F",
         "jersey": "35"
-      },
-      {
-        "team": "DET",
-        "player": "Mississippi State",
-        "athleteId": "344",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "DET",
@@ -2270,45 +1115,10 @@
       },
       {
         "team": "GS",
-        "player": "Western Kentucky",
-        "athleteId": "98",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Jimmy Butler III",
         "athleteId": "6430",
         "position": "F",
         "jersey": "10"
-      },
-      {
-        "team": "GS",
-        "player": "Marquette",
-        "athleteId": "269",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "GS",
@@ -2319,31 +1129,10 @@
       },
       {
         "team": "GS",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Stephen Curry",
         "athleteId": "3975",
         "position": "G",
         "jersey": "30"
-      },
-      {
-        "team": "GS",
-        "player": "Davidson",
-        "athleteId": "2166",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "GS",
@@ -2354,13 +1143,6 @@
       },
       {
         "team": "GS",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Al Horford",
         "athleteId": "3213",
         "position": "C",
@@ -2368,23 +1150,9 @@
       },
       {
         "team": "GS",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Graham Ike",
         "athleteId": "4703396",
         "position": "F",
-        "jersey": null
-      },
-      {
-        "team": "GS",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
         "jersey": null
       },
       {
@@ -2396,24 +1164,10 @@
       },
       {
         "team": "GS",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Malevy Leons",
         "athleteId": "4897449",
         "position": "F",
         "jersey": "33"
-      },
-      {
-        "team": "GS",
-        "player": "Bradley",
-        "athleteId": "71",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "GS",
@@ -2424,24 +1178,10 @@
       },
       {
         "team": "GS",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Moses Moody",
         "athleteId": "4432171",
         "position": "G",
         "jersey": "4"
-      },
-      {
-        "team": "GS",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "GS",
@@ -2452,13 +1192,6 @@
       },
       {
         "team": "GS",
-        "player": "Iowa State",
-        "athleteId": "66",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Gary Payton II",
         "athleteId": "3134903",
         "position": "G",
@@ -2466,24 +1199,10 @@
       },
       {
         "team": "GS",
-        "player": "Oregon State",
-        "athleteId": "204",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "GS",
         "player": "Brandin Podziemski",
         "athleteId": "4709138",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "GS",
-        "player": "Santa Clara",
-        "athleteId": "2541",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "GS",
@@ -2512,13 +1231,6 @@
         "athleteId": "4397040",
         "position": "G",
         "jersey": "12"
-      },
-      {
-        "team": "GS",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       }
     ],
     "HOU": [
@@ -2531,38 +1243,10 @@
       },
       {
         "team": "HOU",
-        "player": "Pittsburgh",
-        "athleteId": "221",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Bogdan Bogdanovic",
         "athleteId": "3037789",
         "position": "G",
         "jersey": "31"
-      },
-      {
-        "team": "HOU",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "HOU",
@@ -2580,31 +1264,10 @@
       },
       {
         "team": "HOU",
-        "player": "NC State",
-        "athleteId": "152",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Isaiah Crawford",
         "athleteId": "4592857",
         "position": "F",
         "jersey": "27"
-      },
-      {
-        "team": "HOU",
-        "player": "Louisiana Tech",
-        "athleteId": "2348",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "HOU",
@@ -2615,13 +1278,6 @@
       },
       {
         "team": "HOU",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Tari Eason",
         "athleteId": "4433192",
         "position": "F",
@@ -2629,24 +1285,10 @@
       },
       {
         "team": "HOU",
-        "player": "LSU",
-        "athleteId": "99",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Julian Phillips",
         "athleteId": "5105553",
         "position": "F",
         "jersey": "3"
-      },
-      {
-        "team": "HOU",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "HOU",
@@ -2664,24 +1306,10 @@
       },
       {
         "team": "HOU",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Marcus Smart",
         "athleteId": "2990992",
         "position": "G",
         "jersey": "36"
-      },
-      {
-        "team": "HOU",
-        "player": "Oklahoma State",
-        "athleteId": "197",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "HOU",
@@ -2692,24 +1320,10 @@
       },
       {
         "team": "HOU",
-        "player": "Auburn",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
         "player": "Jae'Sean Tate",
         "athleteId": "3136777",
         "position": "F",
         "jersey": "8"
-      },
-      {
-        "team": "HOU",
-        "player": "Ohio State",
-        "athleteId": "194",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "HOU",
@@ -2738,20 +1352,6 @@
         "athleteId": "2991230",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "HOU",
-        "player": "Wichita State",
-        "athleteId": "2724",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "HOU",
-        "player": "Houston Rockets",
-        "athleteId": "10",
-        "position": "",
-        "jersey": null
       }
     ],
     "IND": [
@@ -2764,38 +1364,10 @@
       },
       {
         "team": "IND",
-        "player": "Missouri",
-        "athleteId": "142",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Johnny Furphy",
         "athleteId": "5157066",
         "position": "G",
         "jersey": "12"
-      },
-      {
-        "team": "IND",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2806,31 +1378,10 @@
       },
       {
         "team": "IND",
-        "player": "Iowa State",
-        "athleteId": "66",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Jay Huff",
         "athleteId": "4065731",
         "position": "C",
         "jersey": "32"
-      },
-      {
-        "team": "IND",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2841,24 +1392,10 @@
       },
       {
         "team": "IND",
-        "player": "Texas A&M",
-        "athleteId": "245",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "T.J. McConnell",
         "athleteId": "2530530",
         "position": "G",
         "jersey": "9"
-      },
-      {
-        "team": "IND",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2869,20 +1406,6 @@
       },
       {
         "team": "IND",
-        "player": "Wyoming",
-        "athleteId": "2751",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Andrew Nembhard",
         "athleteId": "4395712",
         "position": "G",
@@ -2890,24 +1413,10 @@
       },
       {
         "team": "IND",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Aaron Nesmith",
         "athleteId": "4396909",
         "position": "G",
         "jersey": "23"
-      },
-      {
-        "team": "IND",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2925,24 +1434,10 @@
       },
       {
         "team": "IND",
-        "player": "Belmont",
-        "athleteId": "2057",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Pascal Siakam",
         "athleteId": "3149673",
         "position": "F",
         "jersey": "43"
-      },
-      {
-        "team": "IND",
-        "player": "New Mexico State",
-        "athleteId": "166",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2953,24 +1448,10 @@
       },
       {
         "team": "IND",
-        "player": "Furman",
-        "athleteId": "231",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Braden Smith",
         "athleteId": "5105854",
         "position": "G",
         "jersey": "3"
-      },
-      {
-        "team": "IND",
-        "player": "Purdue",
-        "athleteId": "2509",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "IND",
@@ -2981,13 +1462,6 @@
       },
       {
         "team": "IND",
-        "player": "Dayton",
-        "athleteId": "2168",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Jarace Walker",
         "athleteId": "5106060",
         "position": "F",
@@ -2995,24 +1469,10 @@
       },
       {
         "team": "IND",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "IND",
         "player": "Ivica Zubac",
         "athleteId": "4017837",
         "position": "C",
         "jersey": "40"
-      },
-      {
-        "team": "IND",
-        "player": "Indiana Pacers",
-        "athleteId": "11",
-        "position": "",
-        "jersey": null
       }
     ],
     "LAC": [
@@ -3025,38 +1485,10 @@
       },
       {
         "team": "LAC",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Cam Christie",
         "athleteId": "4845363",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "LAC",
-        "player": "Minnesota",
-        "athleteId": "135",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3067,24 +1499,10 @@
       },
       {
         "team": "LAC",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Kris Dunn",
         "athleteId": "2991139",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "LAC",
-        "player": "Providence",
-        "athleteId": "2507",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3095,31 +1513,10 @@
       },
       {
         "team": "LAC",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Rui Hachimura",
         "athleteId": "4066648",
         "position": "F",
         "jersey": "28"
-      },
-      {
-        "team": "LAC",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3130,24 +1527,10 @@
       },
       {
         "team": "LAC",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Isaiah Jackson",
         "athleteId": "4432170",
         "position": "F",
         "jersey": "23"
-      },
-      {
-        "team": "LAC",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3158,31 +1541,10 @@
       },
       {
         "team": "LAC",
-        "player": "UNLV",
-        "athleteId": "2439",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Brook Lopez",
         "athleteId": "3448",
         "position": "C",
         "jersey": "11"
-      },
-      {
-        "team": "LAC",
-        "player": "Stanford",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3193,24 +1555,10 @@
       },
       {
         "team": "LAC",
-        "player": "Northwestern",
-        "athleteId": "77",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Baba Miller",
         "athleteId": "5075626",
         "position": "F",
         "jersey": "18"
-      },
-      {
-        "team": "LAC",
-        "player": "Cincinnati",
-        "athleteId": "2132",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3221,24 +1569,10 @@
       },
       {
         "team": "LAC",
-        "player": "Miami",
-        "athleteId": "2390",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Yanic Konan Niederhauser",
         "athleteId": "5108024",
         "position": "C",
         "jersey": "14"
-      },
-      {
-        "team": "LAC",
-        "player": "Penn State",
-        "athleteId": "213",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3256,24 +1590,10 @@
       },
       {
         "team": "LAC",
-        "player": "Nevada",
-        "athleteId": "2440",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Max Strus",
         "athleteId": "4065778",
         "position": "G",
         "jersey": "31"
-      },
-      {
-        "team": "LAC",
-        "player": "DePaul",
-        "athleteId": "305",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAC",
@@ -3284,31 +1604,10 @@
       },
       {
         "team": "LAC",
-        "player": "Illinois",
-        "athleteId": "356",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
         "player": "Blake Wesley",
         "athleteId": "4683935",
         "position": "G",
         "jersey": "20"
-      },
-      {
-        "team": "LAC",
-        "player": "Notre Dame",
-        "athleteId": "87",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAC",
-        "player": "LA Clippers",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       }
     ],
     "LAL": [
@@ -3318,27 +1617,6 @@
         "athleteId": "5113969",
         "position": "G",
         "jersey": "43"
-      },
-      {
-        "team": "LAL",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3356,13 +1634,6 @@
       },
       {
         "team": "LAL",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Jaden Hardy",
         "athleteId": "4868423",
         "position": "G",
@@ -3377,31 +1648,10 @@
       },
       {
         "team": "LAL",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Arthur Kaluma",
         "athleteId": "4433599",
         "position": "F",
         "jersey": "47"
-      },
-      {
-        "team": "LAL",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3412,31 +1662,10 @@
       },
       {
         "team": "LAL",
-        "player": "Auburn",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Jake LaRavia",
         "athleteId": "4592691",
         "position": "F",
         "jersey": "12"
-      },
-      {
-        "team": "LAL",
-        "player": "Wake Forest",
-        "athleteId": "154",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3447,23 +1676,9 @@
       },
       {
         "team": "LAL",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Lawson Lovering",
         "athleteId": "4596528",
         "position": "C",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Utah",
-        "athleteId": "254",
-        "position": "",
         "jersey": null
       },
       {
@@ -3475,24 +1690,10 @@
       },
       {
         "team": "LAL",
-        "player": "Seton Hall",
-        "athleteId": "2550",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Chris Manon",
         "athleteId": "4702972",
         "position": "G",
         "jersey": "30"
-      },
-      {
-        "team": "LAL",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3510,24 +1711,10 @@
       },
       {
         "team": "LAL",
-        "player": "Oklahoma",
-        "athleteId": "201",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Collin Sexton",
         "athleteId": "4277811",
         "position": "G",
         "jersey": "10"
-      },
-      {
-        "team": "LAL",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3538,24 +1725,10 @@
       },
       {
         "team": "LAL",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Matisse Thybulle",
         "athleteId": "3907498",
         "position": "G",
         "jersey": "4"
-      },
-      {
-        "team": "LAL",
-        "player": "Washington",
-        "athleteId": "264",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "LAL",
@@ -3566,31 +1739,10 @@
       },
       {
         "team": "LAL",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
         "player": "Ziaire Williams",
         "athleteId": "4433137",
         "position": "F",
         "jersey": "11"
-      },
-      {
-        "team": "LAL",
-        "player": "Stanford",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "LAL",
-        "player": "Los Angeles Lakers",
-        "athleteId": "13",
-        "position": "",
-        "jersey": null
       }
     ],
     "MEM": [
@@ -3603,45 +1755,10 @@
       },
       {
         "team": "MEM",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Carson Cooper",
         "athleteId": "5105817",
         "position": "C",
         "jersey": "20"
-      },
-      {
-        "team": "MEM",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3652,24 +1769,10 @@
       },
       {
         "team": "MEM",
-        "player": "Washington State",
-        "athleteId": "265",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Zach Edey",
         "athleteId": "4600663",
         "position": "C",
         "jersey": "14"
-      },
-      {
-        "team": "MEM",
-        "player": "Purdue",
-        "athleteId": "2509",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3680,24 +1783,10 @@
       },
       {
         "team": "MEM",
-        "player": "Syracuse",
-        "athleteId": "183",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Taylor Hendricks",
         "athleteId": "4684806",
         "position": "F",
         "jersey": "22"
-      },
-      {
-        "team": "MEM",
-        "player": "UCF",
-        "athleteId": "2116",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3708,31 +1797,10 @@
       },
       {
         "team": "MEM",
-        "player": "South Carolina",
-        "athleteId": "2579",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Ty Jerome",
         "athleteId": "4065733",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "MEM",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3750,24 +1818,10 @@
       },
       {
         "team": "MEM",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Kris Murray",
         "athleteId": "4594326",
         "position": "F",
         "jersey": "17"
-      },
-      {
-        "team": "MEM",
-        "player": "Iowa",
-        "athleteId": "2294",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3778,24 +1832,10 @@
       },
       {
         "team": "MEM",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Quinten Post",
         "athleteId": "4593016",
         "position": "C",
         "jersey": "41"
-      },
-      {
-        "team": "MEM",
-        "player": "Boston College",
-        "athleteId": "103",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3806,24 +1846,10 @@
       },
       {
         "team": "MEM",
-        "player": "Marquette",
-        "athleteId": "269",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Javon Small",
         "athleteId": "4781746",
         "position": "G",
         "jersey": "10"
-      },
-      {
-        "team": "MEM",
-        "player": "West Virginia",
-        "athleteId": "277",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MEM",
@@ -3834,13 +1860,6 @@
       },
       {
         "team": "MEM",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Isaiah Stewart",
         "athleteId": "4432810",
         "position": "C",
@@ -3848,24 +1867,10 @@
       },
       {
         "team": "MEM",
-        "player": "Washington",
-        "athleteId": "264",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MEM",
         "player": "Jaylen Wells",
         "athleteId": "5112087",
         "position": "F",
         "jersey": "0"
-      },
-      {
-        "team": "MEM",
-        "player": "Memphis Grizzlies",
-        "athleteId": "29",
-        "position": "",
-        "jersey": null
       }
     ],
     "MIA": [
@@ -3878,38 +1883,10 @@
       },
       {
         "team": "MIA",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Giannis Antetokounmpo",
         "athleteId": "3032977",
         "position": "F",
         "jersey": "7"
-      },
-      {
-        "team": "MIA",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIA",
@@ -3920,31 +1897,10 @@
       },
       {
         "team": "MIA",
-        "player": "Louisville",
-        "athleteId": "97",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Tre Donaldson",
         "athleteId": "4837356",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "MIA",
-        "player": "Miami",
-        "athleteId": "2390",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIA",
@@ -3962,24 +1918,10 @@
       },
       {
         "team": "MIA",
-        "player": "Little Rock",
-        "athleteId": "2031",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Vladislav Goldin",
         "athleteId": "4700818",
         "position": "C",
         "jersey": "50"
-      },
-      {
-        "team": "MIA",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIA",
@@ -3994,13 +1936,6 @@
         "athleteId": "4431786",
         "position": "F",
         "jersey": "16"
-      },
-      {
-        "team": "MIA",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIA",
@@ -4025,24 +1960,10 @@
       },
       {
         "team": "MIA",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Bobby Portis",
         "athleteId": "3064482",
         "position": "F",
         "jersey": "95"
-      },
-      {
-        "team": "MIA",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIA",
@@ -4060,13 +1981,6 @@
       },
       {
         "team": "MIA",
-        "player": "Missouri",
-        "athleteId": "142",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Klay Thompson",
         "athleteId": "6475",
         "position": "G",
@@ -4074,31 +1988,10 @@
       },
       {
         "team": "MIA",
-        "player": "Washington State",
-        "athleteId": "265",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
         "player": "Andrew Wiggins",
         "athleteId": "3059319",
         "position": "F",
         "jersey": "22"
-      },
-      {
-        "team": "MIA",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIA",
-        "player": "Miami Heat",
-        "athleteId": "14",
-        "position": "",
-        "jersey": null
       }
     ],
     "MIL": [
@@ -4111,45 +2004,10 @@
       },
       {
         "team": "MIL",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Brayden Burries",
         "athleteId": "5082206",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "MIL",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4167,24 +2025,10 @@
       },
       {
         "team": "MIL",
-        "player": "Northern Iowa",
-        "athleteId": "2460",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Tyler Herro",
         "athleteId": "4395725",
         "position": "G",
         "jersey": "11"
-      },
-      {
-        "team": "MIL",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4195,24 +2039,10 @@
       },
       {
         "team": "MIL",
-        "player": "Illinois",
-        "athleteId": "356",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Jaime Jaquez Jr.",
         "athleteId": "4432848",
         "position": "F",
         "jersey": "24"
-      },
-      {
-        "team": "MIL",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4223,13 +2053,6 @@
       },
       {
         "team": "MIL",
-        "player": "Marquette",
-        "athleteId": "269",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Kyle Kuzma",
         "athleteId": "3134907",
         "position": "F",
@@ -4237,24 +2060,10 @@
       },
       {
         "team": "MIL",
-        "player": "Utah",
-        "athleteId": "254",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Caris LeVert",
         "athleteId": "2991043",
         "position": "G",
         "jersey": "12"
-      },
-      {
-        "team": "MIL",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4272,24 +2081,10 @@
       },
       {
         "team": "MIL",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Ryan Rollins",
         "athleteId": "4591725",
         "position": "G",
         "jersey": "13"
-      },
-      {
-        "team": "MIL",
-        "player": "Toledo",
-        "athleteId": "2649",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4307,31 +2102,10 @@
       },
       {
         "team": "MIL",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
         "player": "Gary Trent Jr.",
         "athleteId": "4277843",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "MIL",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIL",
@@ -4346,20 +2120,6 @@
         "athleteId": "5105623",
         "position": "C",
         "jersey": "9"
-      },
-      {
-        "team": "MIL",
-        "player": "Indiana",
-        "athleteId": "84",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIL",
-        "player": "Milwaukee Bucks",
-        "athleteId": "15",
-        "position": "",
-        "jersey": null
       }
     ],
     "MIN": [
@@ -4372,31 +2132,10 @@
       },
       {
         "team": "MIN",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Joan Beringer",
         "athleteId": "5279133",
         "position": "F",
         "jersey": "19"
-      },
-      {
-        "team": "MIN",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4407,24 +2146,10 @@
       },
       {
         "team": "MIN",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Donte DiVincenzo",
         "athleteId": "3934673",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "MIN",
-        "player": "Villanova",
-        "athleteId": "222",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4435,24 +2160,10 @@
       },
       {
         "team": "MIN",
-        "player": "Illinois",
-        "athleteId": "356",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Anthony Edwards",
         "athleteId": "4594268",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "MIN",
-        "player": "Georgia",
-        "athleteId": "61",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4463,24 +2174,10 @@
       },
       {
         "team": "MIN",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Enrique Freeman",
         "athleteId": "4592699",
         "position": "F",
         "jersey": "25"
-      },
-      {
-        "team": "MIN",
-        "player": "Akron",
-        "athleteId": "2006",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4491,24 +2188,10 @@
       },
       {
         "team": "MIN",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Bones Hyland",
         "athleteId": "4592492",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "MIN",
-        "player": "VCU",
-        "athleteId": "2670",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4526,13 +2209,6 @@
       },
       {
         "team": "MIN",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Jaden McDaniels",
         "athleteId": "4431671",
         "position": "F",
@@ -4540,24 +2216,10 @@
       },
       {
         "team": "MIN",
-        "player": "Washington",
-        "athleteId": "264",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Zyon Pullin",
         "athleteId": "4592979",
         "position": "G",
         "jersey": "15"
-      },
-      {
-        "team": "MIN",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "MIN",
@@ -4575,24 +2237,10 @@
       },
       {
         "team": "MIN",
-        "player": "Colorado",
-        "athleteId": "38",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "MIN",
         "player": "Rocco Zikarsky",
         "athleteId": "5157587",
         "position": "C",
         "jersey": "44"
-      },
-      {
-        "team": "MIN",
-        "player": "Minnesota Timberwolves",
-        "athleteId": "16",
-        "position": "",
-        "jersey": null
       }
     ],
     "NO": [
@@ -4605,27 +2253,6 @@
       },
       {
         "team": "NO",
-        "player": "Villanova",
-        "athleteId": "222",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Malik Dia",
         "athleteId": "4712862",
         "position": "F",
@@ -4633,31 +2260,10 @@
       },
       {
         "team": "NO",
-        "player": "Ole Miss",
-        "athleteId": "145",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Jeremiah Fears",
         "athleteId": "5144091",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "NO",
-        "player": "Oklahoma",
-        "athleteId": "201",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NO",
@@ -4675,13 +2281,6 @@
       },
       {
         "team": "NO",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "DeAndre Jordan",
         "athleteId": "3442",
         "position": "C",
@@ -4689,31 +2288,10 @@
       },
       {
         "team": "NO",
-        "player": "Texas A&M",
-        "athleteId": "245",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Bennedict Mathurin",
         "athleteId": "4683634",
         "position": "G",
         "jersey": "24"
-      },
-      {
-        "team": "NO",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NO",
@@ -4731,24 +2309,10 @@
       },
       {
         "team": "NO",
-        "player": "Nebraska",
-        "athleteId": "158",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Yves Missi",
         "athleteId": "5061589",
         "position": "C",
         "jersey": "21"
-      },
-      {
-        "team": "NO",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NO",
@@ -4759,24 +2323,10 @@
       },
       {
         "team": "NO",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Dejounte Murray",
         "athleteId": "3907497",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "NO",
-        "player": "Washington",
-        "athleteId": "264",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NO",
@@ -4787,13 +2337,6 @@
       },
       {
         "team": "NO",
-        "player": "SMU",
-        "athleteId": "2567",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Jordan Poole",
         "athleteId": "4277956",
         "position": "G",
@@ -4801,24 +2344,10 @@
       },
       {
         "team": "NO",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Derik Queen",
         "athleteId": "4869780",
         "position": "C",
         "jersey": "22"
-      },
-      {
-        "team": "NO",
-        "player": "Maryland",
-        "athleteId": "120",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NO",
@@ -4836,24 +2365,10 @@
       },
       {
         "team": "NO",
-        "player": "LSU",
-        "athleteId": "99",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NO",
         "player": "Zion Williamson",
         "athleteId": "4395628",
         "position": "F",
         "jersey": "1"
-      },
-      {
-        "team": "NO",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       }
     ],
     "NY": [
@@ -4866,38 +2381,10 @@
       },
       {
         "team": "NY",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Jose Alvarado",
         "athleteId": "4277869",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "NY",
-        "player": "Georgia Tech",
-        "athleteId": "59",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NY",
@@ -4908,31 +2395,10 @@
       },
       {
         "team": "NY",
-        "player": "Indiana",
-        "athleteId": "84",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Mikal Bridges",
         "athleteId": "3147657",
         "position": "G",
         "jersey": "25"
-      },
-      {
-        "team": "NY",
-        "player": "Villanova",
-        "athleteId": "222",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NY",
@@ -4947,13 +2413,6 @@
         "athleteId": "2528426",
         "position": "G",
         "jersey": "00"
-      },
-      {
-        "team": "NY",
-        "player": "Missouri",
-        "athleteId": "142",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NY",
@@ -4978,20 +2437,6 @@
       },
       {
         "team": "NY",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Josh Hart",
         "athleteId": "3062679",
         "position": "G",
@@ -5006,24 +2451,10 @@
       },
       {
         "team": "NY",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Tyler Kolek",
         "athleteId": "4433225",
         "position": "G",
         "jersey": "13"
-      },
-      {
-        "team": "NY",
-        "player": "Marquette",
-        "athleteId": "269",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NY",
@@ -5034,24 +2465,10 @@
       },
       {
         "team": "NY",
-        "player": "West Virginia",
-        "athleteId": "277",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Tyler Nickel",
         "athleteId": "4838721",
         "position": "F",
         "jersey": "55"
-      },
-      {
-        "team": "NY",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "NY",
@@ -5062,13 +2479,6 @@
       },
       {
         "team": "NY",
-        "player": "Wichita State",
-        "athleteId": "2724",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "Karl-Anthony Towns",
         "athleteId": "3136195",
         "position": "C",
@@ -5076,31 +2486,10 @@
       },
       {
         "team": "NY",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
         "player": "James Wiseman",
         "athleteId": "4432808",
         "position": "C",
         "jersey": "35"
-      },
-      {
-        "team": "NY",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "NY",
-        "player": "New York Knicks",
-        "athleteId": "18",
-        "position": "",
-        "jersey": null
       }
     ],
     "OKC": [
@@ -5113,45 +2502,10 @@
       },
       {
         "team": "OKC",
-        "player": "Northwestern",
-        "athleteId": "77",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Alex Caruso",
         "athleteId": "2991350",
         "position": "G",
         "jersey": "9"
-      },
-      {
-        "team": "OKC",
-        "player": "Texas A&M",
-        "athleteId": "245",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "OKC",
@@ -5162,24 +2516,10 @@
       },
       {
         "team": "OKC",
-        "player": "Creighton",
-        "athleteId": "156",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Shai Gilgeous-Alexander",
         "athleteId": "4278073",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "OKC",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "OKC",
@@ -5190,24 +2530,10 @@
       },
       {
         "team": "OKC",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Chet Holmgren",
         "athleteId": "4433255",
         "position": "C",
         "jersey": "7"
-      },
-      {
-        "team": "OKC",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "OKC",
@@ -5218,24 +2544,10 @@
       },
       {
         "team": "OKC",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Jared McCain",
         "athleteId": "4683778",
         "position": "G",
         "jersey": "3"
-      },
-      {
-        "team": "OKC",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "OKC",
@@ -5246,23 +2558,9 @@
       },
       {
         "team": "OKC",
-        "player": "UC Santa Barbara",
-        "athleteId": "2540",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Micah Peavy",
         "athleteId": "4432185",
         "position": "G",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
-        "player": "Georgetown",
-        "athleteId": "46",
-        "position": "",
         "jersey": null
       },
       {
@@ -5278,13 +2576,6 @@
         "athleteId": "5241364",
         "position": "G",
         "jersey": "14"
-      },
-      {
-        "team": "OKC",
-        "player": "Iowa",
-        "athleteId": "2294",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "OKC",
@@ -5309,13 +2600,6 @@
       },
       {
         "team": "OKC",
-        "player": "Santa Clara",
-        "athleteId": "2541",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Jaylin Williams",
         "athleteId": "4432823",
         "position": "F",
@@ -5323,31 +2607,10 @@
       },
       {
         "team": "OKC",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
         "player": "Kenrich Williams",
         "athleteId": "3133626",
         "position": "G",
         "jersey": "34"
-      },
-      {
-        "team": "OKC",
-        "player": "TCU",
-        "athleteId": "2628",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "OKC",
-        "player": "Oklahoma City Thunder",
-        "athleteId": "25",
-        "position": "",
-        "jersey": null
       }
     ],
     "ORL": [
@@ -5360,45 +2623,10 @@
       },
       {
         "team": "ORL",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Desmond Bane",
         "athleteId": "4066320",
         "position": "G",
         "jersey": "3"
-      },
-      {
-        "team": "ORL",
-        "player": "TCU",
-        "athleteId": "2628",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5409,24 +2637,10 @@
       },
       {
         "team": "ORL",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Anthony Black",
         "athleteId": "4712849",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "ORL",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5437,24 +2651,10 @@
       },
       {
         "team": "ORL",
-        "player": "Oakland",
-        "athleteId": "2473",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Jevon Carter",
         "athleteId": "3133635",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "ORL",
-        "player": "West Virginia",
-        "athleteId": "277",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5472,24 +2672,10 @@
       },
       {
         "team": "ORL",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Tristan da Silva",
         "athleteId": "4702382",
         "position": "F",
         "jersey": "23"
-      },
-      {
-        "team": "ORL",
-        "player": "Colorado",
-        "athleteId": "38",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5500,13 +2686,6 @@
       },
       {
         "team": "ORL",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Alex Morales",
         "athleteId": "4593034",
         "position": "G",
@@ -5514,24 +2693,10 @@
       },
       {
         "team": "ORL",
-        "player": "Wagner",
-        "athleteId": "2681",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Izaiyah Nelson",
         "athleteId": "5107251",
         "position": "F",
         "jersey": "25"
-      },
-      {
-        "team": "ORL",
-        "player": "South Florida",
-        "athleteId": "58",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5549,24 +2714,10 @@
       },
       {
         "team": "ORL",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Jalen Suggs",
         "athleteId": "4432165",
         "position": "G",
         "jersey": "4"
-      },
-      {
-        "team": "ORL",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "ORL",
@@ -5577,31 +2728,10 @@
       },
       {
         "team": "ORL",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
         "player": "Franz Wagner",
         "athleteId": "4566434",
         "position": "F",
         "jersey": "22"
-      },
-      {
-        "team": "ORL",
-        "player": "Michigan",
-        "athleteId": "130",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "ORL",
-        "player": "Orlando Magic",
-        "athleteId": "19",
-        "position": "",
-        "jersey": null
       }
     ],
     "PHI": [
@@ -5614,38 +2744,10 @@
       },
       {
         "team": "PHI",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Adem Bona",
         "athleteId": "5105637",
         "position": "C",
         "jersey": "30"
-      },
-      {
-        "team": "PHI",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHI",
@@ -5656,31 +2758,10 @@
       },
       {
         "team": "PHI",
-        "player": "California",
-        "athleteId": "25",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Kentavious Caldwell-Pope",
         "athleteId": "2581018",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "PHI",
-        "player": "Georgia",
-        "athleteId": "61",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHI",
@@ -5691,24 +2772,10 @@
       },
       {
         "team": "PHI",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Justin Edwards",
         "athleteId": "4711297",
         "position": "F",
         "jersey": "11"
-      },
-      {
-        "team": "PHI",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHI",
@@ -5719,24 +2786,10 @@
       },
       {
         "team": "PHI",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Tacko Fall",
         "athleteId": "3904625",
         "position": "C",
         "jersey": "99"
-      },
-      {
-        "team": "PHI",
-        "player": "UCF",
-        "athleteId": "2116",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHI",
@@ -5761,13 +2814,6 @@
       },
       {
         "team": "PHI",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Tyrese Maxey",
         "athleteId": "4431678",
         "position": "G",
@@ -5779,13 +2825,6 @@
         "athleteId": "4873090",
         "position": "G",
         "jersey": "00"
-      },
-      {
-        "team": "PHI",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHI",
@@ -5810,31 +2849,10 @@
       },
       {
         "team": "PHI",
-        "player": "Kansas State",
-        "athleteId": "2306",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
         "player": "Jabari Walker",
         "athleteId": "4432446",
         "position": "F",
         "jersey": "33"
-      },
-      {
-        "team": "PHI",
-        "player": "Colorado",
-        "athleteId": "38",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHI",
-        "player": "Philadelphia 76ers",
-        "athleteId": "20",
-        "position": "",
-        "jersey": null
       }
     ],
     "PHX": [
@@ -5847,38 +2865,10 @@
       },
       {
         "team": "PHX",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Jamaree Bouyea",
         "athleteId": "4280245",
         "position": "G",
         "jersey": "17"
-      },
-      {
-        "team": "PHX",
-        "player": "San Francisco",
-        "athleteId": "2539",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -5889,31 +2879,10 @@
       },
       {
         "team": "PHX",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Dillon Brooks",
         "athleteId": "3155526",
         "position": "F",
         "jersey": "3"
-      },
-      {
-        "team": "PHX",
-        "player": "Oregon",
-        "athleteId": "2483",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -5924,24 +2893,10 @@
       },
       {
         "team": "PHX",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Rasheer Fleming",
         "athleteId": "5105977",
         "position": "F",
         "jersey": "20"
-      },
-      {
-        "team": "PHX",
-        "player": "Saint Joseph's",
-        "athleteId": "2603",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -5952,24 +2907,10 @@
       },
       {
         "team": "PHX",
-        "player": "Villanova",
-        "athleteId": "222",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Jordan Goodwin",
         "athleteId": "4278402",
         "position": "G",
         "jersey": "23"
-      },
-      {
-        "team": "PHX",
-        "player": "Saint Louis",
-        "athleteId": "139",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -5987,24 +2928,10 @@
       },
       {
         "team": "PHX",
-        "player": "Marquette",
-        "athleteId": "269",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Luke Kennard",
         "athleteId": "3913174",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "PHX",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -6015,24 +2942,10 @@
       },
       {
         "team": "PHX",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Koa Peat",
         "athleteId": "5041953",
         "position": "F",
         "jersey": "18"
-      },
-      {
-        "team": "PHX",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -6043,24 +2956,10 @@
       },
       {
         "team": "PHX",
-        "player": "LSU",
-        "athleteId": "99",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Pat Spencer",
         "athleteId": "4592714",
         "position": "G",
         "jersey": "61"
-      },
-      {
-        "team": "PHX",
-        "player": "Northwestern",
-        "athleteId": "77",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "PHX",
@@ -6071,24 +2970,10 @@
       },
       {
         "team": "PHX",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "PHX",
         "player": "Mark Williams",
         "athleteId": "4701232",
         "position": "C",
         "jersey": "25"
-      },
-      {
-        "team": "PHX",
-        "player": "Phoenix Suns",
-        "athleteId": "21",
-        "position": "",
-        "jersey": null
       }
     ],
     "POR": [
@@ -6101,31 +2986,10 @@
       },
       {
         "team": "POR",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Toumani Camara",
         "athleteId": "4431736",
         "position": "F",
         "jersey": "33"
-      },
-      {
-        "team": "POR",
-        "player": "Dayton",
-        "athleteId": "2168",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "POR",
@@ -6136,20 +3000,6 @@
       },
       {
         "team": "POR",
-        "player": "Utah",
-        "athleteId": "254",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Sidy Cissoko",
         "athleteId": "5081727",
         "position": "G",
@@ -6157,24 +3007,10 @@
       },
       {
         "team": "POR",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Donovan Clingan",
         "athleteId": "5105565",
         "position": "C",
         "jersey": "23"
-      },
-      {
-        "team": "POR",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "POR",
@@ -6199,24 +3035,10 @@
       },
       {
         "team": "POR",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Jayson Kent",
         "athleteId": "4703889",
         "position": "G",
         "jersey": "29"
-      },
-      {
-        "team": "POR",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "POR",
@@ -6234,24 +3056,10 @@
       },
       {
         "team": "POR",
-        "player": "Weber State",
-        "athleteId": "2692",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Ja Morant",
         "athleteId": "4279888",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "POR",
-        "player": "Murray State",
-        "athleteId": "93",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "POR",
@@ -6262,24 +3070,10 @@
       },
       {
         "team": "POR",
-        "player": "Wisconsin",
-        "athleteId": "275",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Shaedon Sharpe",
         "athleteId": "4914336",
         "position": "G",
         "jersey": "17"
-      },
-      {
-        "team": "POR",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "POR",
@@ -6297,31 +3091,10 @@
       },
       {
         "team": "POR",
-        "player": "Texas A&M",
-        "athleteId": "245",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
         "player": "Chris Youngblood",
         "athleteId": "4706557",
         "position": "G",
         "jersey": "11"
-      },
-      {
-        "team": "POR",
-        "player": "Alabama",
-        "athleteId": "333",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "POR",
-        "player": "Portland Trail Blazers",
-        "athleteId": "22",
-        "position": "",
-        "jersey": null
       }
     ],
     "SAC": [
@@ -6334,45 +3107,10 @@
       },
       {
         "team": "SAC",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Darius Acuff Jr.",
         "athleteId": "5142620",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "SAC",
-        "player": "Arkansas",
-        "athleteId": "8",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6383,31 +3121,10 @@
       },
       {
         "team": "SAC",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Dylan Cardwell",
         "athleteId": "4433174",
         "position": "C",
         "jersey": "32"
-      },
-      {
-        "team": "SAC",
-        "player": "Auburn",
-        "athleteId": "2",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6418,24 +3135,10 @@
       },
       {
         "team": "SAC",
-        "player": "Colorado State",
-        "athleteId": "36",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "De'Andre Hunter",
         "athleteId": "4065732",
         "position": "F",
         "jersey": "15"
-      },
-      {
-        "team": "SAC",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6446,24 +3149,10 @@
       },
       {
         "team": "SAC",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Zach LaVine",
         "athleteId": "3064440",
         "position": "G",
         "jersey": "8"
-      },
-      {
-        "team": "SAC",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6474,24 +3163,10 @@
       },
       {
         "team": "SAC",
-        "player": "San Francisco",
-        "athleteId": "2539",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Malik Monk",
         "athleteId": "4066262",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "SAC",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6502,24 +3177,10 @@
       },
       {
         "team": "SAC",
-        "player": "Iowa",
-        "athleteId": "2294",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Sean Pedulla",
         "athleteId": "4709131",
         "position": "G",
         "jersey": "3"
-      },
-      {
-        "team": "SAC",
-        "player": "Ole Miss",
-        "athleteId": "145",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6530,24 +3191,10 @@
       },
       {
         "team": "SAC",
-        "player": "Bowling Green",
-        "athleteId": "189",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Maxime Raynaud",
         "athleteId": "4898371",
         "position": "C",
         "jersey": "42"
-      },
-      {
-        "team": "SAC",
-        "player": "Stanford",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SAC",
@@ -6558,13 +3205,6 @@
       },
       {
         "team": "SAC",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Emanuel Sharp",
         "athleteId": "5106058",
         "position": "G",
@@ -6572,31 +3212,10 @@
       },
       {
         "team": "SAC",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
         "player": "Ben Simmons",
         "athleteId": "3907387",
         "position": "G",
         "jersey": "25"
-      },
-      {
-        "team": "SAC",
-        "player": "LSU",
-        "athleteId": "99",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SAC",
-        "player": "Sacramento Kings",
-        "athleteId": "23",
-        "position": "",
-        "jersey": null
       }
     ],
     "SA": [
@@ -6609,38 +3228,10 @@
       },
       {
         "team": "SA",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Maliq Brown",
         "athleteId": "5105337",
         "position": "F",
         "jersey": "15"
-      },
-      {
-        "team": "SA",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SA",
@@ -6651,31 +3242,10 @@
       },
       {
         "team": "SA",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Stephon Castle",
         "athleteId": "4845367",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "SA",
-        "player": "UConn",
-        "athleteId": "41",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SA",
@@ -6686,24 +3256,10 @@
       },
       {
         "team": "SA",
-        "player": "St. John's",
-        "athleteId": "2599",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "De'Aaron Fox",
         "athleteId": "4066259",
         "position": "G",
         "jersey": "4"
-      },
-      {
-        "team": "SA",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SA",
@@ -6714,24 +3270,10 @@
       },
       {
         "team": "SA",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Dylan Harper",
         "athleteId": "5037871",
         "position": "G",
         "jersey": "2"
-      },
-      {
-        "team": "SA",
-        "player": "Rutgers",
-        "athleteId": "164",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SA",
@@ -6756,13 +3298,6 @@
       },
       {
         "team": "SA",
-        "player": "Memphis",
-        "athleteId": "235",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Luke Kornet",
         "athleteId": "3064560",
         "position": "C",
@@ -6770,31 +3305,10 @@
       },
       {
         "team": "SA",
-        "player": "Vanderbilt",
-        "athleteId": "238",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Jordan McLaughlin",
         "athleteId": "3134916",
         "position": "G",
         "jersey": "0"
-      },
-      {
-        "team": "SA",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "SA",
@@ -6819,24 +3333,10 @@
       },
       {
         "team": "SA",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "SA",
         "player": "Victor Wembanyama",
         "athleteId": "5104157",
         "position": "F",
         "jersey": "1"
-      },
-      {
-        "team": "SA",
-        "player": "San Antonio Spurs",
-        "athleteId": "24",
-        "position": "",
-        "jersey": null
       }
     ],
     "TOR": [
@@ -6849,38 +3349,10 @@
       },
       {
         "team": "TOR",
-        "player": "UCLA",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Scottie Barnes",
         "athleteId": "4433134",
         "position": "F",
         "jersey": "4"
-      },
-      {
-        "team": "TOR",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "TOR",
@@ -6891,13 +3363,6 @@
       },
       {
         "team": "TOR",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Jamison Battle",
         "athleteId": "4431893",
         "position": "F",
@@ -6905,30 +3370,9 @@
       },
       {
         "team": "TOR",
-        "player": "Ohio State",
-        "athleteId": "194",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Nate Bittle",
         "athleteId": "4432586",
         "position": "C",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Oregon",
-        "athleteId": "2483",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
         "jersey": null
       },
       {
@@ -6940,31 +3384,10 @@
       },
       {
         "team": "TOR",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Allen Graves",
         "athleteId": "5149115",
         "position": "F",
         "jersey": "22"
-      },
-      {
-        "team": "TOR",
-        "player": "Santa Clara",
-        "athleteId": "2541",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "TOR",
@@ -6975,24 +3398,10 @@
       },
       {
         "team": "TOR",
-        "player": "Indiana",
-        "athleteId": "84",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Kawhi Leonard",
         "athleteId": "6450",
         "position": "F",
         "jersey": "2"
-      },
-      {
-        "team": "TOR",
-        "player": "San Diego State",
-        "athleteId": "21",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "TOR",
@@ -7003,24 +3412,10 @@
       },
       {
         "team": "TOR",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Collin Murray-Boyles",
         "athleteId": "5093267",
         "position": "F",
         "jersey": "30"
-      },
-      {
-        "team": "TOR",
-        "player": "South Carolina",
-        "athleteId": "2579",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "TOR",
@@ -7031,24 +3426,10 @@
       },
       {
         "team": "TOR",
-        "player": "Utah",
-        "athleteId": "254",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Immanuel Quickley",
         "athleteId": "4395724",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "TOR",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "TOR",
@@ -7059,13 +3440,6 @@
       },
       {
         "team": "TOR",
-        "player": "Houston",
-        "athleteId": "248",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Malachi Smith",
         "athleteId": "4397784",
         "position": "G",
@@ -7073,31 +3447,10 @@
       },
       {
         "team": "TOR",
-        "player": "Gonzaga",
-        "athleteId": "2250",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
         "player": "Ja'Kobe Walter",
         "athleteId": "4684272",
         "position": "G",
         "jersey": "14"
-      },
-      {
-        "team": "TOR",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "TOR",
-        "player": "Toronto Raptors",
-        "athleteId": "28",
-        "position": "",
-        "jersey": null
       }
     ],
     "UTAH": [
@@ -7110,38 +3463,10 @@
       },
       {
         "team": "UTAH",
-        "player": "Creighton",
-        "athleteId": "156",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Ace Bailey",
         "athleteId": "4873138",
         "position": "G",
         "jersey": "19"
-      },
-      {
-        "team": "UTAH",
-        "player": "Rutgers",
-        "athleteId": "164",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "UTAH",
@@ -7152,31 +3477,10 @@
       },
       {
         "team": "UTAH",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Tony Bradley",
         "athleteId": "4065673",
         "position": "C",
         "jersey": "13"
-      },
-      {
-        "team": "UTAH",
-        "player": "North Carolina",
-        "athleteId": "153",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "UTAH",
@@ -7187,31 +3491,10 @@
       },
       {
         "team": "UTAH",
-        "player": "USC",
-        "athleteId": "30",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Kyle Filipowski",
         "athleteId": "4684793",
         "position": "F",
         "jersey": "2"
-      },
-      {
-        "team": "UTAH",
-        "player": "Duke",
-        "athleteId": "150",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "UTAH",
@@ -7222,24 +3505,10 @@
       },
       {
         "team": "UTAH",
-        "player": "Baylor",
-        "athleteId": "239",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Josh Green",
         "athleteId": "4432811",
         "position": "G",
         "jersey": "5"
-      },
-      {
-        "team": "UTAH",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "UTAH",
@@ -7257,13 +3526,6 @@
       },
       {
         "team": "UTAH",
-        "player": "Pittsburgh",
-        "athleteId": "221",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Harrison Ingram",
         "athleteId": "4433618",
         "position": "F",
@@ -7275,13 +3537,6 @@
         "athleteId": "4277961",
         "position": "F",
         "jersey": "20"
-      },
-      {
-        "team": "UTAH",
-        "player": "Michigan State",
-        "athleteId": "127",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "UTAH",
@@ -7299,13 +3554,6 @@
       },
       {
         "team": "UTAH",
-        "player": "Kansas",
-        "athleteId": "2305",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Jusuf Nurkic",
         "athleteId": "3102530",
         "position": "C",
@@ -7320,13 +3568,6 @@
       },
       {
         "team": "UTAH",
-        "player": "Georgia Tech",
-        "athleteId": "59",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
         "player": "Darryn Peterson",
         "athleteId": "5041955",
         "position": "G",
@@ -7338,20 +3579,6 @@
         "athleteId": "5105839",
         "position": "F",
         "jersey": "28"
-      },
-      {
-        "team": "UTAH",
-        "player": "Ohio State",
-        "athleteId": "194",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "UTAH",
-        "player": "Utah Jazz",
-        "athleteId": "26",
-        "position": "",
-        "jersey": null
       }
     ],
     "WSH": [
@@ -7364,45 +3591,10 @@
       },
       {
         "team": "WSH",
-        "player": "Arizona",
-        "athleteId": "12",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
-        "player": "Center",
-        "athleteId": "9",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
-        "player": "Active",
-        "athleteId": "1",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Reece Beekman",
         "athleteId": "4432187",
         "position": "G",
         "jersey": "26"
-      },
-      {
-        "team": "WSH",
-        "player": "Virginia",
-        "athleteId": "258",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
-        "player": "Guard",
-        "athleteId": "3",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "WSH",
@@ -7413,24 +3605,10 @@
       },
       {
         "team": "WSH",
-        "player": "Pittsburgh",
-        "athleteId": "221",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Justin Champagnie",
         "athleteId": "4432907",
         "position": "F",
         "jersey": "9"
-      },
-      {
-        "team": "WSH",
-        "player": "Forward",
-        "athleteId": "7",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "WSH",
@@ -7448,13 +3626,6 @@
       },
       {
         "team": "WSH",
-        "player": "Kentucky",
-        "athleteId": "96",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "AJ Dybantsa",
         "athleteId": "5142718",
         "position": "F",
@@ -7462,24 +3633,10 @@
       },
       {
         "team": "WSH",
-        "player": "BYU",
-        "athleteId": "252",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Kyshawn George",
         "athleteId": "5174563",
         "position": "F",
         "jersey": "18"
-      },
-      {
-        "team": "WSH",
-        "player": "Miami",
-        "athleteId": "2390",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "WSH",
@@ -7497,24 +3654,10 @@
       },
       {
         "team": "WSH",
-        "player": "Texas",
-        "athleteId": "251",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Tre Mann",
         "athleteId": "4432819",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "WSH",
-        "player": "Florida",
-        "athleteId": "57",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "WSH",
@@ -7525,13 +3668,6 @@
       },
       {
         "team": "WSH",
-        "player": "Texas A&M",
-        "athleteId": "245",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Felix Okpara",
         "athleteId": "5105841",
         "position": "F",
@@ -7539,24 +3675,10 @@
       },
       {
         "team": "WSH",
-        "player": "Tennessee",
-        "athleteId": "2633",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Will Riley",
         "athleteId": "5144126",
         "position": "G",
         "jersey": "27"
-      },
-      {
-        "team": "WSH",
-        "player": "Illinois",
-        "athleteId": "356",
-        "position": "",
-        "jersey": null
       },
       {
         "team": "WSH",
@@ -7581,31 +3703,10 @@
       },
       {
         "team": "WSH",
-        "player": "Florida State",
-        "athleteId": "52",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
         "player": "Trae Young",
         "athleteId": "4277905",
         "position": "G",
         "jersey": "3"
-      },
-      {
-        "team": "WSH",
-        "player": "Oklahoma",
-        "athleteId": "201",
-        "position": "",
-        "jersey": null
-      },
-      {
-        "team": "WSH",
-        "player": "Washington Wizards",
-        "athleteId": "27",
-        "position": "",
-        "jersey": null
       }
     ]
   },
