@@ -14,7 +14,10 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install PDF parser for official NBA injury report
-        run: pip install pypdf\n      - name: Refresh team form and NBA official injury report\n        run: python scripts/update-analysis-data.py\n      - name: Fetch authorized official feed and preserve timestamped snapshots
+        run: pip install pypdf
+      - name: Refresh team form and NBA official injury report
+        run: python scripts/update-analysis-data.py
+      - name: Fetch authorized official feed and preserve timestamped snapshots
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
           SPORTSLOTTERY_API_TOKEN: ${{ secrets.SPORTSLOTTERY_API_TOKEN }}
@@ -54,7 +57,8 @@ jobs:
           with open('public/data/odds.json','w',encoding='utf-8') as f:
               json.dump({'updatedAt':now.isoformat(),'source':'Taiwan Sports Lottery - authorized feed','games':out_games},f,ensure_ascii=False,separators=(',',':'))
           with hist.open('a',encoding='utf-8') as f:
-              for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\\n')
+              for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\
+')
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
       - name: Commit refreshed data
