@@ -59,7 +59,7 @@ def event_row(event, team_id):
     }
 
 now = datetime.datetime.now(datetime.timezone.utc)
-season = now.year
+season = now.year + 1 if now.month >= 7 else now.year
 league = get(BASE + '/teams?limit=40')
 teams = league.get('sports', [{}])[0].get('leagues', [{}])[0].get('teams', [])
 forms = {}
@@ -80,6 +80,11 @@ for item in teams:
         rows = []
         for event in events:
             if not completed_event(event):
+                continue
+            event_season = event.get('season') or {}
+            competition_season = ((event.get('competitions') or [{}])[0].get('season') or {})
+            season_type = event_season.get('type') or competition_season.get('type')
+            if season_type is not None and str(season_type) != '2':
                 continue
             row = event_row(event, team_id)
             if row:
@@ -125,6 +130,9 @@ if games_found == 0:
         board = get(f'{BASE}/scoreboard?dates={start}-{end}&limit=1000')
         for event in board.get('events', []):
             if not completed_event(event):
+                continue
+            event_season = event.get('season') or {}
+            if event_season.get('type') is not None and str(event_season.get('type')) != '2':
                 continue
             comp = (event.get('competitions') or [{}])[0]
             for competitor in comp.get('competitors', []):
