@@ -1,7 +1,530 @@
 {
-  "updatedAt": "2026-10-31T16:28:07.898892+00:00",
-  "source": "NBA Official Injury Report",
-  "sourceUrl": "https://official.nba.com/nba-injury-report-2026-27-season/",
-  "players": [],
-  "status": "unavailable"
+  "updatedAt": "2026-10-31T16:29:03.960950+00:00",
+  "source": "ESPN public injury feed (fallback)",
+  "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+  "players": [
+    {
+      "team": "球隊待確認",
+      "player": "Mouhamed Gueye",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Henri Veesaar",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Devin Carter",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Egor Demin",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tyler Bilodeau",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Kon Knueppel",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Coby White",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Grant Williams",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Kylan Boswell",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Dailyn Swain",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Nic Claxton",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jaylon Tyson",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Meleek Thomas",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Sergio de Larrea",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Santi Aldama",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tarik Biberovic",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Dereck Lively II",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Alpha Diallo",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Spencer Jones",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Julian Strawther",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Isaiah Joe",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jalen Duren",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Kristaps Porzingis",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Moses Moody",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jimmy Butler III",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Reed Sheppard",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Alperen Sengun",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Steven Adams",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Obi Toppin",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "T.J. McConnell",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Johnny Furphy",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ivica Zubac",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ben Sheppard",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tyrese Haliburton",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Yanic Konan Niederhauser",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Max Strus",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Brandon Ingram",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Bradley Beal",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jordan Miller",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ziaire Williams",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Adou Thiero",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Scotty Pippen Jr.",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ty Jerome",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Quinten Post",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Anthony Edwards",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Donte DiVincenzo",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Yves Missi",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jordan Poole",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jose Alvarado",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Cason Wallace",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Chet Holmgren",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jalen Williams",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Alex Caruso",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Thomas Sorber",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Nikola Topic",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jonathan Isaac",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jalen Suggs",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Paolo Banchero",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Noah Penda",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Izaiyah Nelson",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Joel Embiid",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "LeBron James",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jaylen Brown",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jabari Walker",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tacko Fall",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Dominick Barlow",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ariel Hukporti",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Mark Williams",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Robert Williams III",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Chris Youngblood",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ja Morant",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Shaedon Sharpe",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Dylan Cardwell",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Maxime Raynaud",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Keegan Murray",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Ben Simmons",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tobias Harris",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jayden Quaintance",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Kawhi Leonard",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Nate Bittle",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Lauri Markkanen",
+      "status": "Day-To-Day",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jaren Jackson Jr.",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Trey Alexander",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jusuf Nurkic",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Justin Champagnie",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Tristan Vukcevic",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "球隊待確認",
+      "player": "Jamir Watkins",
+      "status": "Out",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    }
+  ],
+  "status": "available"
 }
