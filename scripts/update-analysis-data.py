@@ -312,7 +312,7 @@ for player in injuries:
     try:
         overview = get(f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/overview')
         averages = extract_player_averages(overview)
-        if averages['pointsPerGame'] is None:
+        if any(value is None for value in averages.values()):
             stats_payload = get(f'{BASE}/athletes/{athlete_id}/stats')
             fallback = extract_player_averages(stats_payload)
             averages = {key: averages[key] if averages[key] is not None else fallback[key] for key in averages}
