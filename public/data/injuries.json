@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T18:08:21.746633+00:00",
+  "updatedAt": "2026-10-31T18:45:49.810853+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -106,16 +106,6 @@
     },
     {
       "team": "CLE",
-      "player": "Jaylon Tyson",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
-      "athleteId": "4683747",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.8
-    },
-    {
-      "team": "CLE",
       "player": "Meleek Thomas",
       "status": "Day-To-Day",
       "detail": "Foot · Leg · 2026-10-31",
@@ -123,6 +113,16 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13
+    },
+    {
+      "team": "CLE",
+      "player": "Jaylon Tyson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
+      "athleteId": "4683747",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 7.8
     },
     {
       "team": "DAL",
@@ -659,25 +659,6 @@
     },
     {
       "team": "POR",
-      "player": "Robert Williams III",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Left · 2026-10-31",
-      "athleteId": "4066211",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 9.7
-    },
-    {
-      "team": "POR",
-      "player": "Chris Youngblood",
-      "status": "Out",
-      "detail": "Ankle · Leg · Soreness · Left · 2026-10-31",
-      "athleteId": "4706557",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "POR",
       "player": "Ja Morant",
       "status": "Out",
       "detail": "Hamstring · Leg · Not Specified · Left · 2026-12-01",
@@ -768,16 +749,6 @@
       "athleteId": "4432586",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "UTAH",
-      "player": "Lauri Markkanen",
-      "status": "Day-To-Day",
-      "detail": "Wrist · Arm · Not Specified · Right · 2026-10-31",
-      "athleteId": "4066336",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
     },
     {
       "team": "UTAH",
