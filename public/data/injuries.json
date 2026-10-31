@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T19:27:05.742651+00:00",
+  "updatedAt": "2026-10-31T19:56:58.832783+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -208,6 +208,15 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13
+    },
+    {
+      "team": "GS",
+      "player": "Stephen Curry",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-02",
+      "athleteId": "3975",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "GS",
