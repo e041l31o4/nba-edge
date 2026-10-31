@@ -305,7 +305,23 @@ def extract_player_averages(payload):
     visit(payload)
     return found
 
+# Keep previously verified player averages when ESPN's athlete overview/stats endpoint is unavailable.
+previous_players = {}
+try:
+    previous_data = json.loads(pathlib.Path('public/data/injuries.json').read_text(encoding='utf-8'))
+    for previous in previous_data.get('players', []):
+        key = previous.get('athleteId') or (str(previous.get('team', '')).upper() + '|' + str(previous.get('player', '')).strip().lower())
+        if key:
+            previous_players[key] = previous
+except Exception as error:
+    print('Previous injury metrics unavailable:', str(error)[:120])
+
 for player in injuries:
+    key = player.get('athleteId') or (str(player.get('team', '')).upper() + '|' + str(player.get('player', '')).strip().lower())
+    previous = previous_players.get(key, {})
+    for field in ('pointsPerGame', 'minutesPerGame', 'reboundsPerGame', 'assistsPerGame', 'stealsPerGame', 'blocksPerGame', 'turnoversPerGame', 'usageRate', 'gamesPlayed'):
+        if player.get(field) is None and previous.get(field) is not None:
+            player[field] = previous[field]
     athlete_id = player.get('athleteId')
     if not athlete_id:
         continue
@@ -316,7 +332,7 @@ for player in injuries:
             stats_payload = get(f'{BASE}/athletes/{athlete_id}/stats')
             fallback = extract_player_averages(stats_payload)
             averages = {key: averages[key] if averages[key] is not None else fallback[key] for key in averages}
-        player.update(averages)
+        player.update({key: value for key, value in averages.items() if value is not None})
     except Exception as error:
         print('player stats skipped', player.get('player'), str(error)[:100])
 
