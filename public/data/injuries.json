@@ -1,84 +1,790 @@
 {
-  "updatedAt": "2026-10-31T16:31:32.289366+00:00",
-  "source": "NBA Official Injury Report",
-  "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf",
+  "updatedAt": "2026-10-31T16:32:08.402494+00:00",
+  "source": "ESPN public injury feed (fallback)",
+  "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
     {
-      "team": "The",
-      "player": "player is",
+      "team": "ATL",
+      "player": "Mouhamed Gueye",
       "status": "Out",
-      "detail": "-of-bounds when he touches the floor or any object on or outside a",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Foot · Leg · Fracture · Left · 2026-11-20",
+      "athleteId": "4712863",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "of",
-      "player": "touching something other than a player. If the ball is",
+      "team": "ATL",
+      "player": "Henri Veesaar",
       "status": "Out",
-      "detail": "-of-bounds because of touching",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Knee · Leg · Right · 2027-07-01",
+      "athleteId": "5105571",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "the",
-      "player": "ball is released; (7) throw the ball",
+      "team": "BOS",
+      "player": "Devin Carter",
       "status": "Out",
-      "detail": "-of-bounds without it being touched by a  player",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Illness · Other · 2026-11-08",
+      "athleteId": "4433188",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "the",
-      "player": "nearest courtside broadcast production TV monitor",
-      "status": "Available",
-      "detail": ".",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "team": "BKN",
+      "player": "Egor Demin",
+      "status": "Out",
+      "detail": "Leg · Leg · Bruise · Right · 2026-11-07",
+      "athleteId": "5175643",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "the",
-      "player": "Replay Center Official will review the video to evaluate whether the",
+      "team": "BKN",
+      "player": "Tyler Bilodeau",
       "status": "Out",
-      "detail": "-of-bounds violation",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Shoulder · Arm · Sprain · Right · 2026-11-06",
+      "athleteId": "5105626",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "in",
-      "player": "determining whether a prior uncalled foul is proximate to the",
+      "team": "CHA",
+      "player": "Kon Knueppel",
       "status": "Out",
-      "detail": "-of-bounds",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Hamstring · Leg · Left · 2026-11-02",
+      "athleteId": "5061575",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "or",
-      "player": "different players than the ones involved in the",
+      "team": "CHA",
+      "player": "Coby White",
       "status": "Out",
-      "detail": "-of-bounds violation under",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Calf · Leg · Strain · Left · 2026-11-02",
+      "athleteId": "4395651",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "If",
-      "player": "a Challenge is utilized to trigger instant replay review of an",
+      "team": "CHA",
+      "player": "Grant Williams",
       "status": "Out",
-      "detail": "-of-bounds violation, that",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Hamstring · Leg · Right · 2026-11-02",
+      "athleteId": "4066218",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "he",
-      "player": "passes off and immediately makes a move",
+      "team": "CHA",
+      "player": "Kylan Boswell",
       "status": "Out",
-      "detail": "of the lane, there should be no whistle.",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
+      "athleteId": "4684269",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "is",
-      "player": "thrown inbounds and then hit instantly",
-      "status": "Out",
-      "detail": "-of-bounds. If less than :00.3 expires in such a",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "team": "CHI",
+      "player": "Dailyn Swain",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "athleteId": "4848625",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "Arm",
-      "player": "straight",
+      "team": "CHI",
+      "player": "Nic Claxton",
       "status": "Out",
-      "detail": "",
-      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
+      "detail": "Hamstring · Leg · Not Specified · 2026-11-04",
+      "athleteId": "4278067",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Jaylon Tyson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
+      "athleteId": "4683747",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Meleek Thomas",
+      "status": "Day-To-Day",
+      "detail": "Foot · Leg · 2026-10-31",
+      "athleteId": "5041951",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Sergio de Larrea",
+      "status": "Out",
+      "detail": "Knee · Leg · Strain · Right · 2026-11-04",
+      "athleteId": "5279129",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Santi Aldama",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
+      "athleteId": "4593125",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Tarik Biberovic",
+      "status": "Out",
+      "detail": "Heel · Leg · Inflammation · Right · 2026-11-02",
+      "athleteId": "5148538",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Dereck Lively II",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-02",
+      "athleteId": "4683688",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
+      "player": "Alpha Diallo",
+      "status": "Out",
+      "detail": "Personal · Other · Right · 2026-11-02",
+      "athleteId": "4065813",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
+      "player": "Spencer Jones",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-02",
+      "athleteId": "4592427",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
+      "player": "Julian Strawther",
+      "status": "Out",
+      "detail": "Knee · Leg · Sprain · Left · 2026-11-29",
+      "athleteId": "4432181",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DET",
+      "player": "Isaiah Joe",
+      "status": "Out",
+      "detail": "Hip · Torso · Bruise · Right · 2026-11-02",
+      "athleteId": "4395702",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DET",
+      "player": "Jalen Duren",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
+      "athleteId": "4433621",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
+      "player": "Kristaps Porzingis",
+      "status": "Out",
+      "detail": "Illness · Other · 2026-12-01",
+      "athleteId": "3102531",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
+      "player": "Moses Moody",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Left · 2026-12-01",
+      "athleteId": "4432171",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
+      "player": "Jimmy Butler III",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2027-01-02",
+      "athleteId": "6430",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "HOU",
+      "player": "Reed Sheppard",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · 2026-10-31",
+      "athleteId": "4711272",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "HOU",
+      "player": "Alperen Sengun",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-10-31",
+      "athleteId": "4871144",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "HOU",
+      "player": "Steven Adams",
+      "status": "Out",
+      "detail": "Calf · Leg · Strain · Right · 2026-11-02",
+      "athleteId": "2991235",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Obi Toppin",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-11-01",
+      "athleteId": "4278355",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "T.J. McConnell",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-02",
+      "athleteId": "2530530",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Johnny Furphy",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2027-01-02",
+      "athleteId": "5157066",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Ivica Zubac",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-01",
+      "athleteId": "4017837",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Ben Sheppard",
+      "status": "Out",
+      "detail": "Knee · Leg · Left · 2027-01-02",
+      "athleteId": "4433076",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Tyrese Haliburton",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Left · 2026-11-13",
+      "athleteId": "4396993",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Yanic Konan Niederhauser",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "5108024",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Max Strus",
+      "status": "Out",
+      "detail": "Foot · Leg · Plantar Fasciitis · Right · 2026-11-08",
+      "athleteId": "4065778",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Brandon Ingram",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "3913176",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Bradley Beal",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Right · 2026-11-08",
+      "athleteId": "6580",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Jordan Miller",
+      "status": "Out",
+      "detail": "Shoulder · Arm · Surgery · Left · 2027-03-02",
+      "athleteId": "4396818",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAL",
+      "player": "Ziaire Williams",
+      "status": "Day-To-Day",
+      "detail": "Foot · Leg · Left · 2026-11-01",
+      "athleteId": "4433137",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAL",
+      "player": "Adou Thiero",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-01",
+      "athleteId": "5060631",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MEM",
+      "player": "Scotty Pippen Jr.",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-10-31",
+      "athleteId": "4431785",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MEM",
+      "player": "Ty Jerome",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-10-31",
+      "athleteId": "4065733",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MEM",
+      "player": "Quinten Post",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Not Specified · Right · 2026-10-31",
+      "athleteId": "4593016",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIN",
+      "player": "Anthony Edwards",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2026-12-21",
+      "athleteId": "4594268",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIN",
+      "player": "Donte DiVincenzo",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2027-04-02",
+      "athleteId": "3934673",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NO",
+      "player": "Yves Missi",
+      "status": "Out",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
+      "athleteId": "5061589",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NO",
+      "player": "Jordan Poole",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
+      "athleteId": "4277956",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NY",
+      "player": "Jose Alvarado",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
+      "athleteId": "4277869",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Cason Wallace",
+      "status": "Out",
+      "detail": "Shoulder · Arm · Surgery · Left · 2027-03-02",
+      "athleteId": "4683692",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Chet Holmgren",
+      "status": "Out",
+      "detail": "Knee · Leg · Right · 2027-01-02",
+      "athleteId": "4433255",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Jalen Williams",
+      "status": "Out",
+      "detail": "Leg · Leg · Fracture · Left · 2027-03-02",
+      "athleteId": "4593803",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Alex Caruso",
+      "status": "Out",
+      "detail": "Ankle · Leg · Right · 2026-11-04",
+      "athleteId": "2991350",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Thomas Sorber",
+      "status": "Out",
+      "detail": "Knee · Leg · 2026-11-04",
+      "athleteId": "5061603",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Nikola Topic",
+      "status": "Out",
+      "detail": "Back · Torso · 2026-11-04",
+      "athleteId": "5159925",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Jonathan Isaac",
+      "status": "Out",
+      "detail": "Knee · Leg · Not Specified · Left · 2026-11-10",
+      "athleteId": "4065654",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Jalen Suggs",
+      "status": "Out",
+      "detail": "Knee · Leg · Right · 2026-11-10",
+      "athleteId": "4432165",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Paolo Banchero",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-22",
+      "athleteId": "4432573",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Noah Penda",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-18",
+      "athleteId": "5214637",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Izaiyah Nelson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Surgery · Left · 2026-11-18",
+      "athleteId": "5107251",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Joel Embiid",
+      "status": "Day-To-Day",
+      "detail": "Rest · Other · 2026-10-31",
+      "athleteId": "3059318",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "LeBron James",
+      "status": "Day-To-Day",
+      "detail": "Rest · Other · 2026-10-31",
+      "athleteId": "1966",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Jaylen Brown",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · 2026-10-31",
+      "athleteId": "3917376",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Jabari Walker",
+      "status": "Out",
+      "detail": "Knee · Leg · Soreness · Left · 2026-10-31",
+      "athleteId": "4432446",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Tacko Fall",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · Strain · Left · 2026-11-04",
+      "athleteId": "3904625",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Dominick Barlow",
+      "status": "Out",
+      "detail": "Back · Torso · Fracture · Not Specified · 2026-11-04",
+      "athleteId": "4870562",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHI",
+      "player": "Ariel Hukporti",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2027-10-01",
+      "athleteId": "4871141",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHX",
+      "player": "Mark Williams",
+      "status": "Out",
+      "detail": "Shoulder · Arm · Surgery · Left · 2027-02-03",
+      "athleteId": "4701232",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "POR",
+      "player": "Robert Williams III",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Left · 2026-10-31",
+      "athleteId": "4066211",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "POR",
+      "player": "Chris Youngblood",
+      "status": "Out",
+      "detail": "Ankle · Leg · Soreness · Left · 2026-10-31",
+      "athleteId": "4706557",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "POR",
+      "player": "Ja Morant",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Not Specified · Left · 2026-12-01",
+      "athleteId": "4279888",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "POR",
+      "player": "Shaedon Sharpe",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2027-03-02",
+      "athleteId": "4914336",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "Dylan Cardwell",
+      "status": "Out",
+      "detail": "Calf · Leg · Strain · Left · 2026-11-06",
+      "athleteId": "4433174",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "Maxime Raynaud",
+      "status": "Out",
+      "detail": "Knee · Leg · Dislocated · Right · 2026-11-10",
+      "athleteId": "4898371",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "Keegan Murray",
+      "status": "Out",
+      "detail": "Ankle · Leg · 2026-11-06",
+      "athleteId": "4594327",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "Ben Simmons",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2027-10-01",
+      "athleteId": "3907387",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SA",
+      "player": "Tobias Harris",
+      "status": "Out",
+      "detail": "Calf · Leg · Strain · Left · 2026-11-06",
+      "athleteId": "6440",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SA",
+      "player": "Jayden Quaintance",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2026-12-03",
+      "athleteId": "5101845",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Kawhi Leonard",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-23",
+      "athleteId": "6450",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Nate Bittle",
+      "status": "Out",
+      "detail": "Foot · Leg · Fracture · Right · 2026-11-02",
+      "athleteId": "4432586",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
+      "player": "Lauri Markkanen",
+      "status": "Day-To-Day",
+      "detail": "Wrist · Arm · Not Specified · Right · 2026-10-31",
+      "athleteId": "4066336",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
+      "player": "Jaren Jackson Jr.",
+      "status": "Out",
+      "detail": "Knee · Leg · Not Specified · Right · 2026-12-14",
+      "athleteId": "4277961",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
+      "player": "Trey Alexander",
+      "status": "Out",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-06",
+      "athleteId": "4433268",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
+      "player": "Jusuf Nurkic",
+      "status": "Out",
+      "detail": "Foot · Leg · Strain · Right · 2026-11-04",
+      "athleteId": "3102530",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Justin Champagnie",
+      "status": "Out",
+      "detail": "Foot · Leg · Not Specified · Right · 2027-02-25",
+      "athleteId": "4432907",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Tristan Vukcevic",
+      "status": "Out",
+      "detail": "Hip · Torso · Pinched Nerve · Left · 2026-11-02",
+      "athleteId": "4997537",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Jamir Watkins",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Left · 2027-04-02",
+      "athleteId": "4606840",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     }
   ],
   "status": "available"
