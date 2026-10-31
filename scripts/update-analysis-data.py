@@ -183,7 +183,14 @@ try:
         for line in pdf_text.splitlines():
             match = re.search(r'^\s*([A-Z]{2,3})\s+(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$', line, re.I)
             if match:
-                injuries.append({'team': match.group(1), 'player': match.group(2).strip(), 'status': match.group(3).title(), 'detail': match.group(4).strip(), 'sourceUrl': injury_url})
+                player_name = match.group(2).strip()
+                roster_info = roster_map.get(player_name.lower(), {})
+                injuries.append({
+                    'team': match.group(1), 'player': player_name,
+                    'status': match.group(3).title(), 'detail': match.group(4).strip(),
+                    'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
+                    'sourceUrl': injury_url
+                })
 except Exception as error:
     print('Official injury report unavailable:', str(error)[:160])
 
@@ -242,6 +249,48 @@ if not injuries:
             injury_source = 'ESPN public injury feed (fallback)'
     except Exception as error:
         print('ESPN injury fallback unavailable:', str(error)[:160])
+
+# Enrich listed players with season PPG / MPG so the match model can estimate role-weighted absence cost.
+def numeric_stat(value):
+    try:
+        return float(str(value).replace(',', '').strip())
+    except (TypeError, ValueError):
+        return None
+
+for player in injuries:
+    athlete_id = player.get('athleteId')
+    if not athlete_id:
+        continue
+    try:
+        overview = get(f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/overview')
+        stats = overview.get('statistics') or overview.get('stats') or {}
+        labels = stats.get('labels') or stats.get('names') or []
+        values = stats.get('displayValues') or stats.get('values') or []
+        def find_stat(pattern):
+            for index, label in enumerate(labels):
+                if re.search(pattern, str(label), re.I) and index < len(values):
+                    return numeric_stat(values[index])
+            return None
+        player['pointsPerGame'] = find_stat(r'^(PTS|avgPoints|points)
+    'updatedAt': now.isoformat(),
+    'source': injury_source,
+    'sourceUrl': injury_url,
+    'players': injuries,
+    'status': 'available' if injuries else 'unavailable'
+})
+print('Saved team form for', len(forms), 'teams;', games_found, 'completed team results; injury rows:', len(injuries), 'source:', injury_source)
+)
+        player['minutesPerGame'] = find_stat(r'^(MIN|avgMinutes|minutes)
+    'updatedAt': now.isoformat(),
+    'source': injury_source,
+    'sourceUrl': injury_url,
+    'players': injuries,
+    'status': 'available' if injuries else 'unavailable'
+})
+print('Saved team form for', len(forms), 'teams;', games_found, 'completed team results; injury rows:', len(injuries), 'source:', injury_source)
+)
+    except Exception as error:
+        print('player stats skipped', player.get('player'), str(error)[:100])
 
 save('public/data/injuries.json', {
     'updatedAt': now.isoformat(),
