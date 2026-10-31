@@ -11,7 +11,6 @@ def save(path,data):
     pathlib.Path(path).parent.mkdir(parents=True,exist_ok=True)
     pathlib.Path(path).write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
 
-# Current team schedule snapshots: last 10 completed games for all 30 NBA teams.
 league=get(BASE+'/teams?limit=40')
 teams=league.get('sports',[{}])[0].get('leagues',[{}])[0].get('teams',[])
 forms={}
@@ -45,17 +44,15 @@ for item in teams:
         print('schedule skipped',team_id,str(error)[:120])
 save('public/data/team-form.json',{'updatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':'ESPN public scoreboard/schedule data','teams':forms})
 
-# Prefer the NBA official injury PDF. If its page is unavailable/unparseable, use ESPN and label it as a fallback.
 injuries=[]
 injury_source='NBA Official Injury Report'
 injury_url='https://official.nba.com/nba-injury-report-2026-27-season/'
 try:
     import html
     page=urllib.request.urlopen(urllib.request.Request(injury_url,headers=HEAD),timeout=25).read().decode('utf-8','ignore')
+    links=re.findall(r"href=""([^""]+\.pdf)",page,re.I) + re.findall(r"href='([^']+\.pdf)",page,re.I)
     urls=[]
-    for link in re.findall(r'href=["\\']([^"\\']+)',page,re.I):
-        if '.pdf' not in link.lower():
-            continue
+    for link in links:
         if link.startswith('/'):
             link='https://official.nba.com'+link
         elif link.startswith('//'):
@@ -68,9 +65,9 @@ try:
         pdf=urllib.request.urlopen(urllib.request.Request(injury_url,headers=HEAD),timeout=30).read()
         pathlib.Path('/tmp/nba-injury.pdf').write_bytes(pdf)
         import pypdf
-        pdf_text='\\n'.join(page.extract_text() or '' for page in pypdf.PdfReader('/tmp/nba-injury.pdf').pages)
+        pdf_text='\n'.join(page.extract_text() or '' for page in pypdf.PdfReader('/tmp/nba-injury.pdf').pages)
         for line in pdf_text.splitlines():
-            match=re.search(r'^\\s*([A-Z]{2,3})\\s+(.+?)\\s+(Out|Doubtful|Questionable|Probable|Available)\\b\\s*(.*)$',line,re.I)
+            match=re.search(r'^\s*([A-Z]{2,3})\s+(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$',line,re.I)
             if match:
                 injuries.append({'team':match.group(1),'player':match.group(2).strip(),'status':match.group(3).title(),'detail':match.group(4).strip(),'sourceUrl':injury_url})
 except Exception as error:
