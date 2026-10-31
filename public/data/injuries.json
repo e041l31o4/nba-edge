@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:31:27.114765+00:00",
+  "updatedAt": "2026-10-31T17:32:14.819690+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -37,16 +37,7 @@
       "detail": "Leg · Leg · Bruise · Right · 2026-11-07",
       "athleteId": "5175643",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 3.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "BKN",
@@ -100,16 +91,7 @@
       "detail": "Back · Torso · Soreness · 2026-11-02",
       "athleteId": "4848625",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "CHI",
@@ -127,16 +109,7 @@
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
       "athleteId": "4683747",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.8,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.8,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "CLE",
@@ -145,16 +118,7 @@
       "detail": "Foot · Leg · 2026-10-31",
       "athleteId": "5041951",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 0.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -163,16 +127,7 @@
       "detail": "Knee · Leg · Strain · Right · 2026-11-04",
       "athleteId": "5279129",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 5.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -208,16 +163,7 @@
       "detail": "Personal · Other · Right · 2026-11-02",
       "athleteId": "4065813",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 4.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DEN",
@@ -244,16 +190,7 @@
       "detail": "Hip · Torso · Bruise · Right · 2026-11-02",
       "athleteId": "4395702",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DET",
@@ -262,16 +199,7 @@
       "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
       "athleteId": "4433621",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "GS",
@@ -307,16 +235,7 @@
       "detail": "Knee · Leg · Right · 2026-11-02",
       "athleteId": "2991230",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 6.4,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "HOU",
@@ -325,16 +244,7 @@
       "detail": "Back · Torso · 2026-10-31",
       "athleteId": "4711272",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 10.5,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 4.8,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "HOU",
@@ -343,16 +253,7 @@
       "detail": "Calf · Leg · Strain · Right · 2026-11-02",
       "athleteId": "2991235",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 4.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -361,16 +262,7 @@
       "detail": "Back · Torso · Soreness · 2026-11-01",
       "athleteId": "4278355",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -397,16 +289,7 @@
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-01",
       "athleteId": "4017837",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -415,16 +298,7 @@
       "detail": "Knee · Leg · Left · 2027-01-02",
       "athleteId": "4433076",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 3.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 0.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -433,16 +307,7 @@
       "detail": "Hamstring · Leg · Strain · Left · 2026-11-13",
       "athleteId": "4396993",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 24.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 10.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "LAC",
@@ -496,16 +361,7 @@
       "detail": "Foot · Leg · Left · 2026-11-01",
       "athleteId": "4433137",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 11.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "LAL",
@@ -523,16 +379,7 @@
       "detail": "Back · Torso · Soreness · 2026-10-31",
       "athleteId": "4431785",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MEM",
@@ -541,16 +388,7 @@
       "detail": "Back · Torso · Soreness · 2026-10-31",
       "athleteId": "4065733",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 31.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 7.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MEM",
@@ -559,16 +397,7 @@
       "detail": "Ankle · Leg · Not Specified · Right · 2026-10-31",
       "athleteId": "4593016",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
@@ -577,16 +406,7 @@
       "detail": "Knee · Leg · Surgery · Right · 2026-12-21",
       "athleteId": "4594268",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 33.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 3.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
@@ -604,16 +424,7 @@
       "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
       "athleteId": "5061589",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 9.5,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NO",
@@ -622,16 +433,7 @@
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
       "athleteId": "4277956",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 3.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NY",
@@ -640,16 +442,7 @@
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
       "athleteId": "4277869",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 5.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",
@@ -658,16 +451,7 @@
       "detail": "Shoulder · Arm · Surgery · Left · 2027-03-02",
       "athleteId": "4683692",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",
@@ -676,16 +460,7 @@
       "detail": "Knee · Leg · Right · 2027-01-02",
       "athleteId": "4433255",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 12.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",
@@ -694,16 +469,7 @@
       "detail": "Leg · Leg · Fracture · Left · 2027-03-02",
       "athleteId": "4593803",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13.7,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 3.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",
@@ -712,16 +478,7 @@
       "detail": "Ankle · Leg · Right · 2026-11-04",
       "athleteId": "2991350",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 9.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 3.8,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",
@@ -757,16 +514,7 @@
       "detail": "Knee · Leg · Right · 2026-11-10",
       "athleteId": "4432165",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 8.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 5.7,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "ORL",
@@ -775,16 +523,7 @@
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-22",
       "athleteId": "4432573",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 24.5,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 7.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "ORL",
@@ -811,16 +550,7 @@
       "detail": "Back · Torso · 2026-11-02",
       "athleteId": "1966",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.4,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 7.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
@@ -829,16 +559,7 @@
       "detail": "Foot · Leg · Right · 2026-11-02",
       "athleteId": "3059318",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 19.2,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 5.2,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
@@ -847,16 +568,7 @@
       "detail": "Knee · Leg · Left · 2026-10-31",
       "athleteId": "3917376",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 20.6,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 4.2,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
@@ -865,16 +577,7 @@
       "detail": "Knee · Leg · Soreness · Left · 2026-10-31",
       "athleteId": "4432446",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2.7,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 0.7,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
@@ -919,16 +622,7 @@
       "detail": "Knee · Leg · Left · 2026-10-31",
       "athleteId": "4066211",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 9.7,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 0.7,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "POR",
@@ -946,16 +640,7 @@
       "detail": "Hamstring · Leg · Not Specified · Left · 2026-12-01",
       "athleteId": "4279888",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 15.8,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 5.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "POR",
@@ -991,16 +676,7 @@
       "detail": "Ankle · Leg · 2026-11-06",
       "athleteId": "4594327",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 0.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "SAC",
@@ -1036,16 +712,7 @@
       "detail": "Knee · Leg · Inflammation · Left · 2026-11-23",
       "athleteId": "6450",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 19.5,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.5,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "TOR",
@@ -1063,16 +730,7 @@
       "detail": "Wrist · Arm · Not Specified · Right · 2026-10-31",
       "athleteId": "4066336",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.0,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.8,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "UTAH",
@@ -1081,16 +739,7 @@
       "detail": "Knee · Leg · Not Specified · Right · 2026-12-14",
       "athleteId": "4277961",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 2.0,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "UTAH",
@@ -1117,16 +766,7 @@
       "detail": "Foot · Leg · Not Specified · Right · 2027-02-25",
       "athleteId": "4432907",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.3,
-      "minutesPerGame": null,
-      "reboundsPerGame": null,
-      "assistsPerGame": 1.3,
-      "stealsPerGame": null,
-      "blocksPerGame": null,
-      "turnoversPerGame": null,
-      "usageRate": null,
-      "gamesPlayed": null
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "WSH",
