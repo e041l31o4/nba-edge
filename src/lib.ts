@@ -21,7 +21,7 @@ export async function getScoreboard(date: string): Promise<Game[]> {
   })
 }
 export async function getOdds(): Promise<OddsRecord | null> {
-  try { const r = await fetch(`${import.meta.env.BASE_URL}data/odds.json?t=${Date.now()}`); if (!r.ok) return null; const data = await r.json(); return data.games ? data : null } catch { return null }
+  try { const r = await fetch(`${import.meta.env.BASE_URL}data/odds.json?t=${Date.now()}`); if (!r.ok) return null; const data = await r.json(); return Array.isArray(data.games) && data.games.length > 0 ? data : null } catch { return null }
 }
 export function marketFor(game: Game, odds: OddsRecord | null) {
   const found = odds?.games.find(g => g.home_team.toLowerCase() === game.home.name.toLowerCase() && g.away_team.toLowerCase() === game.away.name.toLowerCase())
