@@ -13,7 +13,7 @@ export type ModelResult = {
   homeBackToBack:boolean; awayBackToBack:boolean; injuryRisk:'待確認'|'偏高'|'一般';
 }
 const clamp=(n:number,min=0.01,max=0.99)=>Math.max(min,Math.min(max,n))
-function cdf(z:number){const sign=z<0?-1:1,x=Math.abs(z)/Math.sqrt(2),t=1/(1+0.3275911*x);const erf=1-(((((1.061405429*t)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return clamp(0.5*(1+sign*erf))}
+function cdf(z:number){const sign=z<0?-1:1,x=Math.abs(z)/Math.sqrt(2),t=1/(1+0.3275911*x);const erf=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return clamp(0.5*(1+sign*erf))}
 const avg=(a:number[])=>a.reduce((s,n)=>s+n,0)/Math.max(a.length,1)
 const record=(rows:RecentGame[])=>{const wins=rows.filter(x=>x.win).length;return `${wins}-${rows.length-wins}`}
 const net=(rows:RecentGame[])=>avg(rows.map(x=>x.pointsFor-x.pointsAgainst))
