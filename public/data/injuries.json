@@ -1,616 +1,84 @@
 {
-  "updatedAt": "2026-10-31T16:30:46.646517+00:00",
-  "source": "ESPN public injury feed (fallback)",
-  "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+  "updatedAt": "2026-10-31T16:31:32.289366+00:00",
+  "source": "NBA Official Injury Report",
+  "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf",
   "players": [
     {
-      "team": "球隊待確認",
-      "player": "Mouhamed Gueye",
+      "team": "The",
+      "player": "player is",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Fracture', 'side': 'Left', 'returnDate': '2026-11-20'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds when he touches the floor or any object on or outside a",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Henri Veesaar",
+      "team": "of",
+      "player": "touching something other than a player. If the ball is",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OFS', 'abbreviation': 'OFS'}, 'type': 'Knee', 'location': 'Leg', 'side': 'Right', 'returnDate': '2027-07-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds because of touching",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Devin Carter",
+      "team": "the",
+      "player": "ball is released; (7) throw the ball",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Illness', 'location': 'Other', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds without it being touched by a  player",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Egor Demin",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Leg', 'location': 'Leg', 'detail': 'Bruise', 'side': 'Right', 'returnDate': '2026-11-07'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Tyler Bilodeau",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Shoulder', 'location': 'Arm', 'detail': 'Sprain', 'side': 'Right', 'returnDate': '2026-11-06'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Kon Knueppel",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'side': 'Left', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Coby White",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Calf', 'location': 'Leg', 'detail': 'Strain', 'side': 'Left', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Grant Williams",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Kylan Boswell",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Dailyn Swain",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Soreness', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Nic Claxton",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'side': 'Not Specified', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jaylon Tyson",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Meleek Thomas",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Foot', 'location': 'Leg', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Sergio de Larrea",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Santi Aldama",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Tarik Biberovic",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Heel', 'location': 'Leg', 'detail': 'Inflammation', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Dereck Lively II",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Alpha Diallo",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Personal', 'location': 'Other', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Spencer Jones",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Not Specified', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Julian Strawther",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Left', 'returnDate': '2026-11-29'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Isaiah Joe",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Hip', 'location': 'Torso', 'detail': 'Bruise', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jalen Duren",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-09'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Kristaps Porzingis",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Illness', 'location': 'Other', 'returnDate': '2026-12-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Moses Moody",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2026-12-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jimmy Butler III",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-01-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Reed Sheppard",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Alperen Sengun",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Soreness', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Steven Adams",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Calf', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Obi Toppin",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Soreness', 'returnDate': '2026-11-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "T.J. McConnell",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Johnny Furphy",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-01-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ivica Zubac",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Left', 'returnDate': '2026-11-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ben Sheppard",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'side': 'Left', 'returnDate': '2027-01-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Tyrese Haliburton",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Strain', 'side': 'Left', 'returnDate': '2026-11-13'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Yanic Konan Niederhauser",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Max Strus",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Plantar Fasciitis', 'side': 'Right', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Brandon Ingram",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Achilles', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Bradley Beal",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Inflammation', 'side': 'Right', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jordan Miller",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Shoulder', 'location': 'Arm', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2027-03-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ziaire Williams",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Foot', 'location': 'Leg', 'side': 'Left', 'returnDate': '2026-11-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Adou Thiero",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Inflammation', 'side': 'Left', 'returnDate': '2026-11-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Scotty Pippen Jr.",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Soreness', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ty Jerome",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Soreness', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Quinten Post",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Right', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Anthony Edwards",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-12-21'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Donte DiVincenzo",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Achilles', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-04-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Yves Missi",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Bruise', 'side': 'Left', 'returnDate': '2026-11-08'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jordan Poole",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Left', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jose Alvarado",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Left', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Cason Wallace",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Shoulder', 'location': 'Arm', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2027-03-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Chet Holmgren",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'side': 'Right', 'returnDate': '2027-01-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jalen Williams",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Leg', 'location': 'Leg', 'detail': 'Fracture', 'side': 'Left', 'returnDate': '2027-03-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Alex Caruso",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'side': 'Right', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Thomas Sorber",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Nikola Topic",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Back', 'location': 'Torso', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jonathan Isaac",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Left', 'returnDate': '2026-11-10'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jalen Suggs",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'side': 'Right', 'returnDate': '2026-11-10'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Paolo Banchero",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Sprain', 'side': 'Right', 'returnDate': '2026-11-22'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Noah Penda",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-18'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Izaiyah Nelson",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2026-11-18'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Joel Embiid",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Rest', 'location': 'Other', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "LeBron James",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Rest', 'location': 'Other', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jaylen Brown",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Knee', 'location': 'Leg', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jabari Walker",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Soreness', 'side': 'Left', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Tacko Fall",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Quadriceps', 'location': 'Leg', 'detail': 'Strain', 'side': 'Left', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Dominick Barlow",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Back', 'location': 'Torso', 'detail': 'Fracture', 'side': 'Not Specified', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ariel Hukporti",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OFS', 'abbreviation': 'OFS'}, 'type': 'Achilles', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-10-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Mark Williams",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Shoulder', 'location': 'Arm', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2027-02-03'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Robert Williams III",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Knee', 'location': 'Leg', 'side': 'Left', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Chris Youngblood",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Ankle', 'location': 'Leg', 'detail': 'Soreness', 'side': 'Left', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Ja Morant",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hamstring', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Left', 'returnDate': '2026-12-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Shaedon Sharpe",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-03-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Dylan Cardwell",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Calf', 'location': 'Leg', 'detail': 'Strain', 'side': 'Left', 'returnDate': '2026-11-06'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Maxime Raynaud",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Dislocated', 'side': 'Right', 'returnDate': '2026-11-10'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Keegan Murray",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Ankle', 'location': 'Leg', 'returnDate': '2026-11-06'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "team": "the",
+      "player": "nearest courtside broadcast production TV monitor",
+      "status": "Available",
+      "detail": ".",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Ben Simmons",
+      "team": "the",
+      "player": "Replay Center Official will review the video to evaluate whether the",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OFS', 'abbreviation': 'OFS'}, 'type': 'Achilles', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2027-10-01'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Tobias Harris",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Calf', 'location': 'Leg', 'detail': 'Strain', 'side': 'Left', 'returnDate': '2026-11-06'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Jayden Quaintance",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Right', 'returnDate': '2026-12-03'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Kawhi Leonard",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Inflammation', 'side': 'Left', 'returnDate': '2026-11-23'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Nate Bittle",
-      "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Fracture', 'side': 'Right', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "球隊待確認",
-      "player": "Lauri Markkanen",
-      "status": "Day-To-Day",
-      "detail": "{'fantasyStatus': {'description': 'GTD', 'abbreviation': 'GTD'}, 'type': 'Wrist', 'location': 'Arm', 'detail': 'Not Specified', 'side': 'Right', 'returnDate': '2026-10-31'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds violation",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Jaren Jackson Jr.",
+      "team": "in",
+      "player": "determining whether a prior uncalled foul is proximate to the",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Right', 'returnDate': '2026-12-14'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Trey Alexander",
+      "team": "or",
+      "player": "different players than the ones involved in the",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Bruise', 'side': 'Left', 'returnDate': '2026-11-06'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds violation under",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Jusuf Nurkic",
+      "team": "If",
+      "player": "a Challenge is utilized to trigger instant replay review of an",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Strain', 'side': 'Right', 'returnDate': '2026-11-04'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds violation, that",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Justin Champagnie",
+      "team": "he",
+      "player": "passes off and immediately makes a move",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Foot', 'location': 'Leg', 'detail': 'Not Specified', 'side': 'Right', 'returnDate': '2027-02-25'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "of the lane, there should be no whistle.",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Tristan Vukcevic",
+      "team": "is",
+      "player": "thrown inbounds and then hit instantly",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Hip', 'location': 'Torso', 'detail': 'Pinched Nerve', 'side': 'Left', 'returnDate': '2026-11-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "-of-bounds. If less than :00.3 expires in such a",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     },
     {
-      "team": "球隊待確認",
-      "player": "Jamir Watkins",
+      "team": "Arm",
+      "player": "straight",
       "status": "Out",
-      "detail": "{'fantasyStatus': {'description': 'OUT', 'abbreviation': 'OUT'}, 'type': 'Knee', 'location': 'Leg', 'detail': 'Surgery', 'side': 'Left', 'returnDate': '2027-04-02'}",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "detail": "",
+      "sourceUrl": "https://ak-static.cms.nba.com/wp-content/uploads/sites/4/2026/10/2026-27-Official-NBA-Playing-Rules.pdf"
     }
   ],
   "status": "available"
