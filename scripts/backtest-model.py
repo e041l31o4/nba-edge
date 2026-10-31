@@ -139,6 +139,54 @@ def metrics(predictions):
         'totalMAE': round(total_mae, 3)
     }
 
+def logit(p):
+    p = min(0.999, max(0.001, p))
+    return math.log(p / (1 - p))
+
+def sigmoid(x):
+    if x >= 0:
+        z = math.exp(-min(x, 40))
+        return 1 / (1 + z)
+    z = math.exp(max(x, -40))
+    return z / (1 + z)
+
+def fit_platt(training):
+    # Regularized Platt scaling fitted only on earlier seasons.
+    if len(training) < 200:
+        return None
+    a, b = 1.0, 0.0
+    xs = [logit(p['homeWin']) for p in training]
+    ys = [p['actualHomeWin'] for p in training]
+    for _ in range(80):
+        g1 = g2 = h11 = h12 = h22 = 0.0
+        for x, y in zip(xs, ys):
+            q = sigmoid(a * x + b)
+            d, w = q - y, q * (1 - q)
+            g1 += d * x; g2 += d
+            h11 += w * x * x; h12 += w * x; h22 += w
+        n = len(xs)
+        g1, g2 = g1 / n + 0.01 * (a - 1), g2 / n + 0.01 * b
+        h11, h12, h22 = h11 / n + 0.01, h12 / n, h22 / n + 0.01
+        det = h11 * h22 - h12 * h12
+        if abs(det) < 1e-12: break
+        da, db = (h22*g1-h12*g2)/det, (-h12*g1+h11*g2)/det
+        a -= max(-1.0, min(1.0, da)); b -= max(-1.0, min(1.0, db))
+        if abs(da) + abs(db) < 1e-7: break
+    return {'a': round(a, 6), 'b': round(b, 6), 'trainingSamples': len(training)}
+
+def probability_metrics(predictions, probability_key):
+    n = len(predictions)
+    if not n:
+        return {'sampleSize': 0, 'winnerAccuracy': None, 'brierScore': None, 'logLoss': None}
+    probs = [min(0.999, max(0.001, p[probability_key])) for p in predictions]
+    ys = [p['actualHomeWin'] for p in predictions]
+    return {
+        'sampleSize': n,
+        'winnerAccuracy': round(avg([1 if (p >= 0.5) == bool(y) else 0 for p, y in zip(probs, ys)]), 5),
+        'brierScore': round(avg([(p-y)**2 for p, y in zip(probs, ys)]), 5),
+        'logLoss': round(avg([-y*math.log(p)-(1-y)*math.log(1-p) for p, y in zip(probs, ys)]), 5)
+    }
+
 def calibration(predictions):
     bands = [(0.50, 0.55), (0.55, 0.60), (0.60, 0.65), (0.65, 0.70),
              (0.70, 0.75), (0.75, 0.80), (0.80, 0.90), (0.90, 1.001)]
@@ -160,6 +208,8 @@ current_season_end_year = now.year if now.month >= 7 else now.year - 1
 season_years = list(range(current_season_end_year - 2, current_season_end_year + 1))
 season_results = []
 all_predictions = []
+calibration_training = []
+calibrated_predictions = []
 for season_year in season_years:
     games = fetch_season(season_year)
     if len(games) < 500:
@@ -169,12 +219,28 @@ for season_year in season_years:
     if len(predictions) < 300:
         print('Skipping insufficient prediction season', season_year, 'predictions:', len(predictions))
         continue
-    all_predictions.extend(predictions)
+    season_name = f'{season_year-1}-{str(season_year)[-2:]}'
+    calibrator = fit_platt(calibration_training)
+    if calibrator:
+        calibrated = []
+        for row in predictions:
+            item = dict(row)
+            item['calibratedHomeWin'] = sigmoid(calibrator['a'] * logit(row['homeWin']) + calibrator['b'])
+            calibrated.append(item)
+        calibrated_predictions.extend(calibrated)
+        calibrated_metrics = probability_metrics(calibrated, 'calibratedHomeWin')
+    else:
+        calibrated_metrics = None
     season_results.append({
-        'season': f'{season_year-1}-{str(season_year)[-2:]}',
+        'season': season_name,
         'completedGames': len(games),
-        'metrics': metrics(predictions)
+        'metrics': metrics(predictions),
+        'calibrationTrainingSamples': len(calibration_training),
+        'calibrator': calibrator,
+        'calibratedMetrics': calibrated_metrics
     })
+    calibration_training.extend(predictions)
+    all_predictions.extend(predictions)
 
 if len(all_predictions) < 900 or len(season_results) < 2:
     raise SystemExit(f'Insufficient multi-season out-of-sample data: {len(all_predictions)} predictions across {len(season_results)} seasons')
@@ -184,16 +250,24 @@ result = {
     'source': 'ESPN completed regular-season schedules',
     'seasons': [row['season'] for row in season_results],
     'method': 'Three-season walk-forward: each game is predicted only from games completed earlier in that same season; current result is appended after prediction.',
-    'modelVersion': 'odds-blind-v3-multiseason',
+    'modelVersion': 'odds-blind-v4-walkforward-calibration',
     'sampleSize': len(all_predictions),
     'metrics': metrics(all_predictions),
     'seasonResults': season_results,
     'calibration': calibration(all_predictions),
+    'calibrationEvaluation': {
+        'method': 'Regularized Platt scaling; each season is calibrated only with predictions from earlier seasons. The first season is excluded because no prior-season training data exists.',
+        'trainingPolicy': 'strictly chronological; no same-season outcomes are used to fit that season calibrator',
+        'sampleSize': len(calibrated_predictions),
+        'rawMetrics': probability_metrics(calibrated_predictions, 'homeWin') if calibrated_predictions else None,
+        'calibratedMetrics': probability_metrics(calibrated_predictions, 'calibratedHomeWin') if calibrated_predictions else None,
+        'improvedBrier': (probability_metrics(calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(calibrated_predictions, 'homeWin')['brierScore']) if calibrated_predictions else None
+    },
     'limitations': [
         'Historical injury reports and player availability are not reconstructed; the injury adjustment is not included in this historical test.',
         'No historical betting odds are used; ATS, totals market hit rate and ROI are not calculated.',
         'Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.',
-        'This retrospective multi-season walk-forward test is not proof of future performance.'
+        'Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance.'
     ]
 }
 pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
