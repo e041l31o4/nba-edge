@@ -1,5 +1,5 @@
 import type { Game } from './lib'
-import { analyzeMatch, type TeamFormData, type InjuryData } from './model'
+import { analyzeMatch, type TeamFormData, type InjuryData, type ProbabilityCalibrator } from './model'
 
 export type PredictionRecord = {
   gameId: string
@@ -30,7 +30,7 @@ function save(records: PredictionRecord[]) {
 }
 
 /** Save the first available odds-blind forecast before tipoff. Never overwrite it later. */
-export function capturePregamePredictions(games: Game[], form: TeamFormData | null, injuries: InjuryData | null) {
+export function capturePregamePredictions(games: Game[], form: TeamFormData | null, injuries: InjuryData | null, calibrator?: ProbabilityCalibrator | null) {
   if (!form || typeof localStorage === 'undefined') return
   const records = getPredictionRecords()
   const known = new Set(records.map(x => x.gameId))
@@ -39,7 +39,7 @@ export function capturePregamePredictions(games: Game[], form: TeamFormData | nu
     if (known.has(game.id) || game.status.toLowerCase().includes('final')) continue
     const tipoff = new Date(game.date).getTime()
     if (!Number.isFinite(tipoff) || tipoff <= Date.now()) continue
-    const report = analyzeMatch(game, form, injuries)
+    const report = analyzeMatch(game, form, injuries, calibrator)
     if (!report.available) continue
     records.push({
       gameId: game.id,
