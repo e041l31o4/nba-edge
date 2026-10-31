@@ -160,7 +160,9 @@ def extract_team_metrics(payload):
                 normalized = re.sub(r'[^a-z0-9]', '', str(label).lower())
                 for target, accepted in aliases.items():
                     if normalized in accepted and target not in found:
-                        parsed = numeric_stat(node.get('value', node.get('displayValue')))
+                        raw_value = node.get('value', node.get('displayValue'))
+                        try: parsed = float(str(raw_value).replace(',', '').replace('%', '').strip())
+                        except (TypeError, ValueError): parsed = None
                         if parsed is not None: found[target] = parsed
             for value in node.values():
                 if isinstance(value, (dict, list)): visit(value)
