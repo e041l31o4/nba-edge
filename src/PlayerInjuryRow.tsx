@@ -3,7 +3,7 @@ import type { InjuryRow } from './model'
 
 type PlayerAverages={points?:string;minutes?:string;rebounds?:string;assists?:string}
 export default function PlayerInjuryRow({player}:{player:InjuryRow}){
- const [averages,setAverages]=useState<PlayerAverages|null>(null)
+ const [averages,setAverages]=useState<PlayerAverages|null>(()=>player.pointsPerGame!==undefined?{points:String(player.pointsPerGame),minutes:player.minutesPerGame!==undefined?String(player.minutesPerGame):undefined}:null)
  const [loading,setLoading]=useState(false)
  useEffect(()=>{
   if(!player.athleteId)return
@@ -19,7 +19,7 @@ export default function PlayerInjuryRow({player}:{player:InjuryRow}){
     const next={points:pick(/PTS|avgPoints|points/i),minutes:pick(/MIN|avgMinutes|minutes/i),rebounds:pick(/REB|avgRebounds|rebounds/i),assists:pick(/AST|avgAssists|assists/i)}
     if(active&&Object.values(next).some(Boolean))setAverages(next)
    })
-   .catch(()=>{if(active)setAverages(null)})
+   .catch(()=>{/* Keep the scheduled data-feed averages when the live overview endpoint is unavailable. */})
    .finally(()=>{if(active)setLoading(false)})
   return()=>{active=false}
  },[player.athleteId])
