@@ -1,0 +1,47 @@
+name: Refresh NBA odds data
+on:
+  schedule:
+    - cron: '15 */3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch odds when API key is configured
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          mkdir -p public/data
+          python - <<'PY'
+          import json, os, urllib.request, datetime
+          key = os.getenv('ODDS_API_KEY')
+          path = 'public/data/odds.json'
+          if key:
+              url = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?regions=us&markets=spreads,totals&oddsFormat=american&dateFormat=iso&apiKey=' + key
+              try:
+                  with urllib.request.urlopen(url, timeout=30) as response:
+                      games = json.load(response)
+                  data = {'updatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'source': 'The Odds API', 'games': games}
+                  with open(path, 'w', encoding='utf-8') as f: json.dump(data, f, ensure_ascii=False)
+                  print('Saved', len(games), 'games')
+              except Exception as e:
+                  print('Odds refresh failed; retaining existing file:', e)
+          elif not os.path.exists(path):
+              with open(path, 'w', encoding='utf-8') as f:
+                  json.dump({'updatedAt': None, 'source': None, 'games': []}, f)
+              print('No ODDS_API_KEY configured; created empty data file.')
+          PY
+      - name: Commit refreshed data
+        run: |
+          if git diff --quiet; then echo "No data changes"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/odds.json
+          git commit -m "chore: refresh NBA odds data"
+          git push
