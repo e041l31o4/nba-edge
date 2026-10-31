@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
+import { Activity, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, type OddsRecord } from './lib'
 import ParlayLab from './ParlayLab'
 import MatchAnalysis from './MatchAnalysis'
@@ -51,9 +51,4 @@ function GameCard({game, odds, onClick}:{game:Game;odds:OddsRecord|null;onClick:
  return <button className="game-card" onClick={onClick}><div className="game-top"><span className={done?'game-state done':'game-state'}>{done?'FINAL':game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div><div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<><b>{game.away.score}</b><small>FINAL</small><b>{game.home.score}</b></>:'VS'}</div><TeamLine team={game.home}/></div><div className="market-strip"><div><small>讓分盤</small><b>{m?.spread.length ? '已取得盤口' : '盤口待更新'}</b></div><div><small>大小分</small><b>{m?.total.length ? '已取得盤口' : '盤口待更新'}</b></div><span className="card-arrow"><ChevronRight size={16}/></span></div></button>
 }
 function TeamLine({team}:{team:Game['home']}) { return <div className="team-line">{team.logo?<img src={team.logo} alt="" />:<span className="team-placeholder">{team.abbreviation}</span>}<div><b>{team.abbreviation}</b><small>{team.displayName}</small></div></div> }
-function Analysis({game,odds,onBack}:{game:Game;odds:OddsRecord|null;onBack:()=>void}) {
- const m=marketFor(game,odds)
- return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button><div className="matchup-head"><div><span>{game.detail || '賽前資料'}</span><h3>{game.away.displayName} <em>@</em> {game.home.displayName}</h3><small>{new Date(game.date).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}（台灣時間）</small></div></div><div className="analysis-panels"><div className="analysis-panel"><div className="panel-title"><ArrowUpRight size={17}/> 讓分盤分析</div>{m?.spread.length ? m.spread.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{(x.point ?? 0)>0?'+':''}{x.point ?? '—'}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div><div className="analysis-panel"><div className="panel-title"><ArrowDownRight size={17}/> 大小分分析</div>{m?.total.length ? m.total.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{x.point}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div></div><div className="notice"><CircleAlert size={17}/>模型預測與傷兵影響評估尚未完成資料驗證；本場暫不產生推薦。待取得可靠球隊數據、傷兵狀態與有效盤口後，才會計算預測機率及優勢值。</div><div className="data-check"><b>本場資料檢查</b><span><i className="ok"/> 賽程：已取得</span><span><i className={m?'ok':'warn'}/> 盤口：{m?'已取得':'尚未取得'}</span><span><i className="warn"/> 傷兵：尚未完成來源同步</span><span><i className="warn"/> 近期效率數據：待建置</span></div></div>
-}
-function Missing(){return <div className="missing"><CircleAlert size={18}/><b>目前沒有可驗證的盤口</b><span>不以估算值或假盤口代替真實市場資料。</span></div>}
 export default App
