@@ -1,7 +1,7 @@
-name: Refresh NBA odds data
+name: Refresh Taiwan Sports Lottery NBA odds
 on:
   schedule:
-    - cron: '15 */3 * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -13,35 +13,62 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Fetch odds when API key is configured
+      - name: Fetch authorized Taiwan Sports Lottery feed and preserve snapshots
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
+          SPORTSLOTTERY_API_TOKEN: ${{ secrets.SPORTSLOTTERY_API_TOKEN }}
         run: |
-          mkdir -p public/data
           python - <<'PY'
-          import json, os, urllib.request, datetime
-          key = os.getenv('ODDS_API_KEY')
-          path = 'public/data/odds.json'
-          if key:
-              url = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?regions=us&markets=spreads,totals&oddsFormat=american&dateFormat=iso&apiKey=' + key
-              try:
-                  with urllib.request.urlopen(url, timeout=30) as response:
-                      games = json.load(response)
-                  data = {'updatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'source': 'The Odds API', 'games': games}
-                  with open(path, 'w', encoding='utf-8') as f: json.dump(data, f, ensure_ascii=False)
-                  print('Saved', len(games), 'games')
-              except Exception as e:
-                  print('Odds refresh failed; retaining existing file:', e)
-          elif not os.path.exists(path):
-              with open(path, 'w', encoding='utf-8') as f:
-                  json.dump({'updatedAt': None, 'source': None, 'games': []}, f)
-              print('No ODDS_API_KEY configured; created empty data file.')
+          import os, json, urllib.request, datetime, pathlib, sys
+          feed = os.getenv('SPORTSLOTTERY_FEED_URL', '').strip()
+          if not feed:
+              print('No documented/authorized official feed configured. Skipping fetch; never scraping private or protected endpoints.')
+              sys.exit(0)
+          headers = {'Accept': 'application/json', 'User-Agent': 'NBA-EDGE-data-client/1.0'}
+          token = os.getenv('SPORTSLOTTERY_API_TOKEN', '').strip()
+          if token:
+              headers['Authorization'] = 'Bearer ' + token
+          req = urllib.request.Request(feed, headers=headers)
+          with urllib.request.urlopen(req, timeout=30) as response:
+              payload = json.load(response)
+          if not isinstance(payload, dict) or not isinstance(payload.get('games'), list):
+              raise SystemExit('Feed schema invalid: expected object with games[]')
+          now = datetime.datetime.now(datetime.timezone.utc)
+          normalized = []
+          snapshots = []
+          for game in payload['games']:
+              required = ['home_team', 'away_team', 'commence_time']
+              if not all(game.get(k) for k in required):
+                  continue
+              game['bookmakers'] = game.get('bookmakers') or []
+              game['id'] = str(game.get('id') or (game['away_team'] + '-' + game['home_team'] + '-' + game['commence_time']))
+              normalized.append(game)
+              snapshots.append({
+                  'capturedAt': now.isoformat(),
+                  'source': 'Taiwan Sports Lottery - authorized feed',
+                  'gameId': game['id'],
+                  'home_team': game['home_team'],
+                  'away_team': game['away_team'],
+                  'commence_time': game['commence_time'],
+                  'bookmakers': game['bookmakers']
+              })
+          if not normalized:
+              raise SystemExit('No valid NBA games in official feed; retaining previous data.')
+          out = {'updatedAt': now.isoformat(), 'source': 'Taiwan Sports Lottery - authorized feed', 'games': normalized}
+          pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
+          with open('public/data/odds.json', 'w', encoding='utf-8') as f:
+              json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
+          hist = pathlib.Path('public/data/odds-history.jsonl')
+          with hist.open('a', encoding='utf-8') as f:
+              for row in snapshots:
+                  f.write(json.dumps(row, ensure_ascii=False, separators=(',', ':')) + '\\n')
+          print('Saved', len(normalized), 'official NBA games and', len(snapshots), 'snapshots.')
           PY
       - name: Commit refreshed data
         run: |
           if git diff --quiet; then echo "No data changes"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/odds.json
-          git commit -m "chore: refresh NBA odds data"
+          git add public/data/odds.json public/data/odds-history.jsonl
+          git commit -m "chore: refresh official Taiwan Sports Lottery odds"
           git push
