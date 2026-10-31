@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install PDF parser for official NBA injury report\n        run: pip install pypdf\n      - name: Refresh team form and NBA official injury report\n        run: python scripts/update-analysis-data.py\n      - name: Fetch authorized official feed and preserve timestamped snapshots
+      - name: Install PDF parser for official NBA injury report
+        run: pip install pypdf\n      - name: Refresh team form and NBA official injury report\n        run: python scripts/update-analysis-data.py\n      - name: Fetch authorized official feed and preserve timestamped snapshots
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
           SPORTSLOTTERY_API_TOKEN: ${{ secrets.SPORTSLOTTERY_API_TOKEN }}
