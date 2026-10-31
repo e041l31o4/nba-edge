@@ -3,13 +3,13 @@ export type Game = { id: string; date: string; name: string; shortName: string; 
 export type OddsGame = { id?: string; commence_time: string; home_team: string; away_team: string; bookmakers?: { title: string; markets: { key: string; outcomes: { name: string; price: number; point?: number }[] }[] }[] }
 export type OddsRecord = { updatedAt: string; games: OddsGame[]; source: string }
 const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
-export function taiwanDate(d = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).replaceAll('-', '') }
+export function taiwanDate(d = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).replace(/-/g, '') }
 export function dateLabel(d: string) { return new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(d)) }
 export async function getScoreboard(date: string): Promise<Game[]> {
   // ESPN scoreboard dates are keyed to the US game date; Taiwan is normally one calendar day ahead.
   const taiwanDay = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00')
   taiwanDay.setDate(taiwanDay.getDate() - 1)
-  const usDate = taiwanDay.toISOString().slice(0,10).replaceAll('-', '')
+  const usDate = taiwanDay.toISOString().slice(0,10).replace(/-/g, '')
   const res = await fetch(`${ESPN}/scoreboard?dates=${usDate}`)
   if (!res.ok) throw new Error('賽程來源暫時無法連線')
   const json = await res.json()
