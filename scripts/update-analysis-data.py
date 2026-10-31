@@ -76,6 +76,7 @@ try:
         elif not link.startswith('http'):
             link='https://official.nba.com/'+link.lstrip('/')
         urls.append(html.unescape(link))
+    urls=[url for url in urls if 'injury' in url.lower() and 'report' in url.lower()]
     if urls:
         injury_url=urls[0]
         pdf=urllib.request.urlopen(urllib.request.Request(injury_url,headers=HEAD),timeout=30).read()
