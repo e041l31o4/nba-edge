@@ -4,6 +4,7 @@ import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, ty
 import ParlayLab from './ParlayLab'
 import MatchAnalysis from './MatchAnalysis'
 import type { TeamFormData, InjuryData } from './model'
+import { capturePregamePredictions, getPredictionRecords, settleCompletedPredictions, summarizePredictions, type PredictionRecord } from './predictionLedger'
 
 type Tab = 'games' | 'analysis' | 'performance' | 'parlay'
 function App() {
@@ -17,6 +18,7 @@ function App() {
   const [error, setError] = useState('')
   const [updated, setUpdated] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
+  const [predictionRecords, setPredictionRecords] = useState<PredictionRecord[]>([])
   const load = async () => {
     setLoading(true); setError('')
     try { const [g, o, tf, inj] = await Promise.all([getScoreboard(date), getOdds(), fetch(`${import.meta.env.BASE_URL}data/team-form.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/injuries.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null)]); setGames(g); setOdds(o); setTeamForm(tf); setInjuryData(inj); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
@@ -24,6 +26,12 @@ function App() {
     finally { setLoading(false) }
   }
   useEffect(() => { void load() }, [date])
+  useEffect(() => {
+    if (teamForm) capturePregamePredictions(games, teamForm, injuryData)
+    settleCompletedPredictions(games)
+    setPredictionRecords(getPredictionRecords())
+  }, [games, teamForm, injuryData])
+  const predictionStats = summarizePredictions(predictionRecords)
   const upcoming = useMemo(() => games.filter(g => !g.status.toLowerCase().includes('final')), [games])
   const completed = games.filter(g => g.status.toLowerCase().includes('final'))
   const moveDate = (delta: number) => { const d = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00'); d.setDate(d.getDate()+delta); setDate(taiwanDate(d)) }
@@ -39,7 +47,7 @@ function App() {
         {loading ? <div className="empty"><RefreshCw className="spin" size={22}/>正在同步 NBA 賽程…</div> : games.length===0 ? <div className="empty"><CalendarDays size={25}/><b>當日沒有賽事</b><span>可切換日期查看其他比賽。</span></div> : <div className="game-grid">{games.map(g => <GameCard key={g.id} game={g} odds={odds} onClick={()=>{setSelected(g.id);setTab('analysis')}}/> )}</div>}</>}
       {tab==='analysis' && <><section className="section-heading"><div><span className="eyebrow">PRE-GAME INTELLIGENCE</span><h2>賽前分析</h2></div><span className="muted">{upcoming.length} 場未完賽</span></section>{active ? <MatchAnalysis game={active} odds={odds} teamForm={teamForm} injuryData={injuryData} onBack={()=>setSelected(null)}/> : <div className="analysis-list">{upcoming.map(g=><button className="analysis-row" key={g.id} onClick={()=>setSelected(g.id)}><span>{g.away.abbreviation} @ {g.home.abbreviation}</span><b>{g.away.displayName} 對 {g.home.displayName}</b><span>{g.detail || '待開賽'} <ChevronRight size={15}/></span></button>)}</div>}{!active && upcoming.length===0 && <div className="empty">目前沒有可分析的未完賽賽事，請切換日期。</div>}</>}
       {tab==='parlay' && <><section className="section-heading"><div><span className="eyebrow">PARLAY & VERIFICATION</span><h2>串關研究與驗證</h2></div><span className="muted">分析工具，不保證結果</span></section><ParlayLab/></>}
-      {tab==='performance' && <><section className="section-heading"><div><span className="eyebrow">MODEL TRACK RECORD</span><h2>模型績效</h2></div><span className="muted">真實紀錄優先</span></section><div className="performance-grid"><div className="perf-card"><Target/><span>歷史預測筆數</span><strong>0</strong><small>尚未建立有效樣本</small></div><div className="perf-card"><Trophy/><span>讓分命中率</span><strong>—</strong><small>累積足夠賽事後計算</small></div><div className="perf-card"><TrendingUp/><span>大小分命中率</span><strong>—</strong><small>累積足夠賽事後計算</small></div><div className="perf-card"><ShieldCheck/><span>投資報酬率 ROI</span><strong>—</strong><small>需有真實盤口與結算資料</small></div></div><div className="notice"><CircleAlert size={17}/>目前尚未有經過結算的歷史預測，因此不顯示虛構命中率或 ROI。後續會逐場保存預測時間、盤口與賽果，並以實際結算計算績效。</div></>}
+      {tab==='performance' && <><section className="section-heading"><div><span className="eyebrow">MODEL TRACK RECORD</span><h2>模型績效</h2></div><span className="muted">真實紀錄優先</span></section><div className="performance-grid"><div className="perf-card"><Target/><span>賽前預測紀錄</span><strong>{predictionStats.total}</strong><small>只保存開賽前已產生的預測</small></div><div className="perf-card"><Trophy/><span>已結算場次</span><strong>{predictionStats.settled}</strong><small>需先有賽前預測紀錄</small></div><div className="perf-card"><TrendingUp/><span>勝負方向命中率</span><strong>{predictionStats.accuracy===null?'—':(predictionStats.accuracy*100).toFixed(1)+'%'}</strong><small>僅計入已結算預測</small></div><div className="perf-card"><ShieldCheck/><span>Brier Score</span><strong>{predictionStats.brier===null?'—':predictionStats.brier.toFixed(3)}</strong><small>越低越好；0 為完美機率預測</small></div><div className="perf-card"><Activity/><span>平均分差誤差</span><strong>{predictionStats.marginError===null?'—':predictionStats.marginError.toFixed(1)}</strong><small>預測主隊分差與實際分差差距</small></div><div className="perf-card"><CircleAlert/><span>ATS／大小分／ROI</span><strong>—</strong><small>待接通可追溯官方盤口與結算</small></div></div><div className="notice"><CircleAlert size={17}/>預測紀錄目前保存在這台裝置的瀏覽器；只會在網站被開啟且取得賽前資料時建立紀錄。換裝置、清除瀏覽器資料或未曾於開賽前開啟網站，均不會補造歷史預測。Brier Score 評估機率品質，不能單獨代表投注獲利。</div></>}
       <footer><div className="footer-brand">NBA <b>EDGE</b></div><span>數據研究工具，不構成投注建議。預測不保證結果，請理性評估風險。</span><span>DATA-DRIVEN · ALWAYS VERIFY</span></footer>
     </main>
     {completed.length>0 && <div className="completed-count">已完賽 {completed.length} 場</div>}
