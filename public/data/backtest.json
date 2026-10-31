@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:08:04.849886+00:00",
+  "updatedAt": "2026-10-31T17:17:54.251733+00:00",
   "source": "ESPN completed regular-season schedules",
   "seasons": [
     "2023-24",
@@ -7,7 +7,7 @@
     "2025-26"
   ],
   "method": "Three-season walk-forward: each game is predicted only from games completed earlier in that same season; current result is appended after prediction.",
-  "modelVersion": "odds-blind-v3-multiseason",
+  "modelVersion": "odds-blind-v4-walkforward-calibration",
   "sampleSize": 3560,
   "metrics": {
     "sampleSize": 3560,
@@ -26,7 +26,10 @@
         "brierScore": 0.22505,
         "marginMAE": 11.532,
         "totalMAE": 15.399
-      }
+      },
+      "calibrationTrainingSamples": 0,
+      "calibrator": null,
+      "calibratedMetrics": null
     },
     {
       "season": "2024-25",
@@ -37,6 +40,18 @@
         "brierScore": 0.21883,
         "marginMAE": 11.448,
         "totalMAE": 16.235
+      },
+      "calibrationTrainingSamples": 1185,
+      "calibrator": {
+        "a": 1.196535,
+        "b": -0.071266,
+        "trainingSamples": 1185
+      },
+      "calibratedMetrics": {
+        "sampleSize": 1188,
+        "winnerAccuracy": 0.66077,
+        "brierScore": 0.21701,
+        "logLoss": 0.62348
       }
     },
     {
@@ -48,6 +63,18 @@
         "brierScore": 0.21524,
         "marginMAE": 11.945,
         "totalMAE": 16.487
+      },
+      "calibrationTrainingSamples": 2373,
+      "calibrator": {
+        "a": 1.281895,
+        "b": -0.105687,
+        "trainingSamples": 2373
+      },
+      "calibratedMetrics": {
+        "sampleSize": 1187,
+        "winnerAccuracy": 0.66639,
+        "brierScore": 0.2126,
+        "logLoss": 0.61356
       }
     }
   ],
@@ -95,10 +122,28 @@
       "actualHomeWin": 0.8571
     }
   ],
+  "calibrationEvaluation": {
+    "method": "Regularized Platt scaling; each season is calibrated only with predictions from earlier seasons. The first season is excluded because no prior-season training data exists.",
+    "trainingPolicy": "strictly chronological; no same-season outcomes are used to fit that season calibrator",
+    "sampleSize": 2375,
+    "rawMetrics": {
+      "sampleSize": 2375,
+      "winnerAccuracy": 0.65937,
+      "brierScore": 0.21703,
+      "logLoss": 0.6239
+    },
+    "calibratedMetrics": {
+      "sampleSize": 2375,
+      "winnerAccuracy": 0.66358,
+      "brierScore": 0.21481,
+      "logLoss": 0.61853
+    },
+    "improvedBrier": true
+  },
   "limitations": [
     "Historical injury reports and player availability are not reconstructed; the injury adjustment is not included in this historical test.",
     "No historical betting odds are used; ATS, totals market hit rate and ROI are not calculated.",
     "Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.",
-    "This retrospective multi-season walk-forward test is not proof of future performance."
+    "Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance."
   ]
 }
