@@ -14,6 +14,7 @@ def save(path,data):
 league=get(BASE+'/teams?limit=40')
 teams=league.get('sports',[{}])[0].get('leagues',[{}])[0].get('teams',[])
 forms={}
+roster_map={}
 season=datetime.datetime.now(datetime.timezone.utc).year
 for item in teams:
     team=item.get('team',{})
@@ -22,6 +23,21 @@ for item in teams:
         continue
     try:
         schedule=get(f'{BASE}/teams/{team_id}/schedule?season={season}')
+        try:
+            roster=get(f'{BASE}/teams/{team_id}/roster')
+            def walk_roster(node):
+                if isinstance(node,list):
+                    for value in node: walk_roster(value)
+                elif isinstance(node,dict):
+                    name=node.get('displayName') or node.get('fullName') or node.get('name')
+                    athlete_id=node.get('id')
+                    if isinstance(name,str) and athlete_id:
+                        roster_map[name.strip().lower()]={'team':team.get('abbreviation',''),'athleteId':str(athlete_id),'position':(node.get('position') or {}).get('abbreviation','') if isinstance(node.get('position'),dict) else str(node.get('position') or '')}
+                    for key,value in node.items():
+                        if key not in ('statistics','stats'): walk_roster(value)
+            walk_roster(roster)
+        except Exception as roster_error:
+            print('roster skipped',team_id,str(roster_error)[:100])
         rows=[]
         for event in schedule.get('events',[]):
             comp=(event.get('competitions') or [{}])[0]
@@ -101,9 +117,16 @@ if not injuries:
                                 raw_status=raw_status.get('description') or raw_status.get('name')
                             raw_type=record.get('type')
                             status=raw_status or record.get('description') or (raw_type.get('description') if isinstance(raw_type,dict) else raw_type)
-                            detail=record.get('details') or record.get('longComment') or record.get('comment') or ''
+                            raw_detail=record.get('details') or record.get('longComment') or record.get('comment') or ''
+                            if isinstance(raw_detail,dict):
+                                detail_parts=[str(raw_detail.get(k)) for k in ('type','location','detail','side','returnDate') if raw_detail.get(k)]
+                                detail=' · '.join(detail_parts)
+                            else:
+                                detail=str(raw_detail)
+                            roster_info=roster_map.get(name.strip().lower(),{})
+                            team=team or roster_info.get('team','')
                             if status:
-                                row={'team':str(team or '球隊待確認'),'player':name,'status':str(status),'detail':str(detail),'sourceUrl':injury_url}
+                                row={'team':str(team or '球隊待確認'),'player':name,'status':str(status),'detail':detail,'athleteId':roster_info.get('athleteId'),'position':roster_info.get('position'),'sourceUrl':injury_url}
                                 if not any(existing['team']==row['team'] and existing['player']==row['player'] for existing in injuries):
                                     injuries.append(row)
                 for key,value in node.items():
