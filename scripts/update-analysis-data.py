@@ -1,140 +1,122 @@
-import json, os, re, datetime, urllib.request, pathlib, subprocess, sys
+import json, re, datetime, urllib.request, pathlib
 BASE='https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 HEAD={'User-Agent':'Mozilla/5.0 NBA-EDGE/1.0'}
+
 def get(url):
     req=urllib.request.Request(url,headers=HEAD)
-    with urllib.request.urlopen(req,timeout=25) as r: return json.load(r)
+    with urllib.request.urlopen(req,timeout=25) as response:
+        return json.load(response)
+
 def save(path,data):
     pathlib.Path(path).parent.mkdir(parents=True,exist_ok=True)
     pathlib.Path(path).write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
-# Team IDs and names from ESPN's current league list
+
+# Current team schedule snapshots: last 10 completed games for all 30 NBA teams.
 league=get(BASE+'/teams?limit=40')
 teams=league.get('sports',[{}])[0].get('leagues',[{}])[0].get('teams',[])
 forms={}
 season=datetime.datetime.now(datetime.timezone.utc).year
 for item in teams:
-    t=item.get('team',{})
-    tid=str(t.get('id',''))
-    if not tid: continue
+    team=item.get('team',{})
+    team_id=str(team.get('id',''))
+    if not team_id:
+        continue
     try:
-        sched=get(f'{BASE}/teams/{tid}/schedule?season={season}')
+        schedule=get(f'{BASE}/teams/{team_id}/schedule?season={season}')
         rows=[]
-        for event in sched.get('events',[]):
+        for event in schedule.get('events',[]):
             comp=(event.get('competitions') or [{}])[0]
-            if not comp.get('status',{}).get('type',{}).get('completed'): continue
+            if not comp.get('status',{}).get('type',{}).get('completed'):
+                continue
             competitors=comp.get('competitors',[])
-            own=next((x for x in competitors if str(x.get('id'))==tid or str(x.get('team',{}).get('id'))==tid),None)
-            opp=next((x for x in competitors if x is not own),None)
-            if not own or not opp: continue
-            try: pf=float(own.get('score')); pa=float(opp.get('score'))
-            except (TypeError,ValueError): continue
-            rows.append({'date':event.get('date'),'pointsFor':pf,'pointsAgainst':pa,'win':pf>pa,'opponent':opp.get('team',{}).get('displayName','')})
-        rows.sort(key=lambda x:x.get('date') or '',reverse=True)
-        forms[tid]={'teamId':tid,'team':t.get('displayName'),'abbreviation':t.get('abbreviation'),'last10':rows[:10]}
-    except Exception as e:
-        print('schedule skipped',tid,str(e)[:120])
+            own=next((x for x in competitors if str(x.get('id'))==team_id or str(x.get('team',{}).get('id'))==team_id),None)
+            opponent=next((x for x in competitors if x is not own),None)
+            if not own or not opponent:
+                continue
+            try:
+                points_for=float(own.get('score'))
+                points_against=float(opponent.get('score'))
+            except (TypeError,ValueError):
+                continue
+            rows.append({'date':event.get('date'),'pointsFor':points_for,'pointsAgainst':points_against,'win':points_for>points_against,'opponent':opponent.get('team',{}).get('displayName','')})
+        rows.sort(key=lambda row:row.get('date') or '',reverse=True)
+        forms[team_id]={'teamId':team_id,'team':team.get('displayName'),'abbreviation':team.get('abbreviation'),'last10':rows[:10]}
+    except Exception as error:
+        print('schedule skipped',team_id,str(error)[:120])
 save('public/data/team-form.json',{'updatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':'ESPN public scoreboard/schedule data','teams':forms})
-# NBA official injury report page; resolve its latest linked PDF and parse status rows.
+
+# Prefer the NBA official injury PDF. If its page is unavailable/unparseable, use ESPN and label it as a fallback.
 injuries=[]
-source='https://official.nba.com/nba-injury-report-2026-27-season/'
+injury_source='NBA Official Injury Report'
+injury_url='https://official.nba.com/nba-injury-report-2026-27-season/'
 try:
     import html
-    page=urllib.request.urlopen(urllib.request.Request(source,headers=HEAD),timeout=25).read().decode('utf-8','ignore')
-    links=re.findall(r'https?://[^"\\\'<> ]+?\\.pdf|href=["\\\']([^"\\\']+\\.pdf)',page,re.I)
+    page=urllib.request.urlopen(urllib.request.Request(injury_url,headers=HEAD),timeout=25).read().decode('utf-8','ignore')
     urls=[]
-    for x in links:
-        u=x if isinstance(x,str) else ''
-        if u and u.startswith('/'): u='https://official.nba.com'+u
-        if u: urls.append(html.unescape(u))
-    if not urls:
-        # Many official report links are relative and embedded in href attributes.
-        for u in re.findall(r'href=["\\\']([^"\\\']+)',page,re.I):
-            if '.pdf' in u.lower():
-                if u.startswith('/'): u='https://official.nba.com'+u
-                elif u.startswith('//'): u='https:'+u
-                elif not u.startswith('http'): u='https://official.nba.com/'+u.lstrip('/')
-                urls.append(html.unescape(u))
+    for link in re.findall(r'href=["\\']([^"\\']+)',page,re.I):
+        if '.pdf' not in link.lower():
+            continue
+        if link.startswith('/'):
+            link='https://official.nba.com'+link
+        elif link.startswith('//'):
+            link='https:'+link
+        elif not link.startswith('http'):
+            link='https://official.nba.com/'+link.lstrip('/')
+        urls.append(html.unescape(link))
     if urls:
-        pdf=urllib.request.urlopen(urllib.request.Request(urls[0],headers=HEAD),timeout=30).read()
+        injury_url=urls[0]
+        pdf=urllib.request.urlopen(urllib.request.Request(injury_url,headers=HEAD),timeout=30).read()
         pathlib.Path('/tmp/nba-injury.pdf').write_bytes(pdf)
-        try:
-            import pypdf
-            text='\\n'.join(p.extract_text() or '' for p in pypdf.PdfReader('/tmp/nba-injury.pdf').pages)
-            for line in text.splitlines():
-                m=re.search(r'^\\s*([A-Z]{2,3})\\s+(.+?)\\s+(Out|Doubtful|Questionable|Probable|Available)\\b\\s*(.*)
-        except Exception as e: print('PDF parse unavailable:',e)
-except Exception as e: print('Official injury report unavailable:',e)
-# ESPN public injury feed is a clearly labelled fallback when the official PDF is not parseable.
-injury_source='NBA Official Injury Report'
-injury_url=source
+        import pypdf
+        pdf_text='\\n'.join(page.extract_text() or '' for page in pypdf.PdfReader('/tmp/nba-injury.pdf').pages)
+        for line in pdf_text.splitlines():
+            match=re.search(r'^\\s*([A-Z]{2,3})\\s+(.+?)\\s+(Out|Doubtful|Questionable|Probable|Available)\\b\\s*(.*)$',line,re.I)
+            if match:
+                injuries.append({'team':match.group(1),'player':match.group(2).strip(),'status':match.group(3).title(),'detail':match.group(4).strip(),'sourceUrl':injury_url})
+except Exception as error:
+    print('Official injury report unavailable:',str(error)[:160])
+
 if not injuries:
     try:
         injury_url=BASE+'/injuries'
         payload=get(injury_url)
         def walk_injuries(node,team_hint=''):
             if isinstance(node,list):
-                for item in node: walk_injuries(item,team_hint)
+                for value in node:
+                    walk_injuries(value,team_hint)
             elif isinstance(node,dict):
                 team_obj=node.get('team') or {}
+                if not isinstance(team_obj,dict):
+                    team_obj={}
                 team=team_obj.get('abbreviation') or team_obj.get('shortDisplayName') or team_obj.get('displayName') or team_hint
                 athlete=node.get('athlete') or node.get('player') or {}
                 if isinstance(athlete,dict):
                     name=athlete.get('displayName') or athlete.get('fullName') or athlete.get('name')
                     records=node.get('injuries') or [node]
-                    if isinstance(records,dict): records=[records]
-                    if isinstance(name,str):
-                        for record in records if isinstance(records,list) else []:
-                            if not isinstance(record,dict): continue
+                    if isinstance(records,dict):
+                        records=[records]
+                    if isinstance(name,str) and isinstance(records,list):
+                        for record in records:
+                            if not isinstance(record,dict):
+                                continue
                             raw_status=record.get('status')
-                            if isinstance(raw_status,dict): raw_status=raw_status.get('description') or raw_status.get('name')
+                            if isinstance(raw_status,dict):
+                                raw_status=raw_status.get('description') or raw_status.get('name')
                             raw_type=record.get('type')
                             status=raw_status or record.get('description') or (raw_type.get('description') if isinstance(raw_type,dict) else raw_type)
                             detail=record.get('details') or record.get('longComment') or record.get('comment') or ''
                             if status:
                                 row={'team':str(team or '球隊待確認'),'player':name,'status':str(status),'detail':str(detail),'sourceUrl':injury_url}
-                                if row not in injuries: injuries.append(row)
+                                if not any(existing['team']==row['team'] and existing['player']==row['player'] for existing in injuries):
+                                    injuries.append(row)
                 for key,value in node.items():
-                    if key not in ('athlete','player','team'): walk_injuries(value,str(team or team_hint))
+                    if key not in ('athlete','player','team'):
+                        walk_injuries(value,str(team or team_hint))
         walk_injuries(payload)
-        if injuries: injury_source='ESPN public injury feed (fallback)'
-    except Exception as e: print('ESPN injury fallback unavailable:',e)
+        if injuries:
+            injury_source='ESPN public injury feed (fallback)'
+    except Exception as error:
+        print('ESPN injury fallback unavailable:',str(error)[:160])
+
 save('public/data/injuries.json',{'updatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':injury_source,'sourceUrl':injury_url,'players':injuries,'status':'available' if injuries else 'unavailable'})
 print('Saved team form for',len(forms),'teams; injury rows:',len(injuries),'source:',injury_source)
-
-,line,re.I)
-                if m: injuries.append({'team':m.group(1),'player':m.group(2).strip(),'status':m.group(3).title(),'detail':m.group(4).strip(),'sourceUrl':urls[0]})
-        except Exception as e: print('PDF parse unavailable:',e)
-except Exception as e: print('Official injury report unavailable:',e)
-# ESPN public injury feed is a clearly labelled fallback when the official PDF is not parseable.
-injury_source='NBA Official Injury Report'
-injury_url=source
-if not injuries:
-    try:
-        injury_url=BASE+'/injuries'
-        payload=get(injury_url)
-        def walk_injuries(node,team_hint=''):
-            if isinstance(node,list):
-                for item in node: walk_injuries(item,team_hint)
-            elif isinstance(node,dict):
-                team_obj=node.get('team') or {}
-                team=team_obj.get('abbreviation') or team_obj.get('shortDisplayName') or team_obj.get('displayName') or team_hint
-                athlete=node.get('athlete') or node.get('player') or {}
-                if isinstance(athlete,dict):
-                    name=athlete.get('displayName') or athlete.get('fullName') or athlete.get('name')
-                    records=node.get('injuries') or [node]
-                    if isinstance(records,dict): records=[records]
-                    if isinstance(name,str):
-                        for record in records if isinstance(records,list) else []:
-                            if not isinstance(record,dict): continue
-                            status=record.get('status') or record.get('description') or record.get('type',{}).get('description') if isinstance(record.get('type'),dict) else record.get('status') or record.get('description') or record.get('type')
-                            if status:
-                                row={'team':str(team or '球隊待確認'),'player':name,'status':str(status),'sourceUrl':injury_url}
-                                if row not in injuries: injuries.append(row)
-                for key,value in node.items():
-                    if key not in ('athlete','player','team'): walk_injuries(value,str(team or team_hint))
-        walk_injuries(payload)
-        if injuries: injury_source='ESPN public injury feed (fallback)'
-    except Exception as e: print('ESPN injury fallback unavailable:',e)
-save('public/data/injuries.json',{'updatedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':injury_source,'sourceUrl':injury_url,'players':injuries,'status':'available' if injuries else 'unavailable'})
-print('Saved team form for',len(forms),'teams; injury rows:',len(injuries),'source:',injury_source)
-
