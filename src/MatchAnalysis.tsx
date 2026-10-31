@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Activity, ArrowDownRight, ArrowUpRight, CircleAlert, ShieldCheck } from 'lucide-react'
-import type { Game, OddsRecord } from './lib'\nimport PlayerInjuryRow from './PlayerInjuryRow'
+import type { Game, OddsRecord } from './lib'
+import PlayerInjuryRow from './PlayerInjuryRow'
 import { analyzeMatch, coverProbability, totalProbability, type TeamFormData, type InjuryData } from './model'
 
 export default function MatchAnalysis({game,odds,teamForm,injuryData,onBack}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;onBack:()=>void}){
