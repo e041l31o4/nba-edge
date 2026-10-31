@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:16:01.306189+00:00",
+  "updatedAt": "2026-10-31T17:17:55.408284+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -259,7 +259,7 @@
       "team": "HOU",
       "player": "Alperen Sengun",
       "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-10-31",
+      "detail": "Sengun will miss a second consecutive contest due to lower-back soreness, opening up additional minutes in the frontcourt for Tari Eason and Clint Capela. Sengun's next chance to play will come Saturday against the Thunder in the second leg of this back-to-back set.",
       "athleteId": "4871144",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
