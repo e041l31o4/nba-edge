@@ -95,7 +95,8 @@ def rest_days(rows, game_date):
         return None
     last = datetime.datetime.fromisoformat(rows[-1]['date'].replace('Z', '+00:00'))
     current = datetime.datetime.fromisoformat(game_date.replace('Z', '+00:00'))
-    return max(0, (current.date() - last.date()).days - 1)
+    elapsed_days = math.floor((current - last).total_seconds() / 86400)
+    return max(0, elapsed_days - 1)
 
 for game in games:
     home_rows, away_rows = team_rows(game['homeId']), team_rows(game['awayId'])
