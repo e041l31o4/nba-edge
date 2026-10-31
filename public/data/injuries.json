@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:23:00.172045+00:00",
+  "updatedAt": "2026-10-31T17:27:00.958246+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -243,17 +243,6 @@
       "athleteId": "6430",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "HOU",
-      "player": "Fred VanVleet",
-      "status": "Out",
-      "detail": "Knee · Leg · Right · 2026-11-02",
-      "athleteId": "2991230",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13.0,
-      "minutesPerGame": null
     },
     {
       "team": "HOU",
@@ -644,6 +633,15 @@
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 2.7,
       "minutesPerGame": null
+    },
+    {
+      "team": "PHI",
+      "player": "Tacko Fall",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · Strain · Left · 2026-10-31",
+      "athleteId": "3904625",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
