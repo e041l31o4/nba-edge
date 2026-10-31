@@ -1,14 +1,14 @@
 # NBA EDGE
 
-NBA 賽前數據分析平台（繁體中文 / 台灣時區 UTC+8）。
+NBA 專業賽前數據研究平台（繁體中文／台灣時間 UTC+8）。
 
-## 已建立功能
-- NBA 每日賽程、比賽狀態、比分與日期切換。
-- 賽事分析頁面，分開呈現讓分盤與大小分盤。
-- The Odds API 盤口資料檔讀取；沒有資料時明確標示，不製造假盤。
-- 模型績效頁先以空白樣本呈現，不虛構命中率或 ROI。
-- GitHub Actions 自動建置 GitHub Pages。
-- 每 3 小時排程更新盤口資料（需設定 API Secret）。
+## 功能
+- NBA 賽程、比分、日期切換與賽前分析。
+- 台灣運彩官方盤口資料適配器：只接受官方授權、文件化的 JSON feed；不會將其他莊家資料標示成台灣運彩。
+- 15 分鐘排程（需先取得官方授權 feed URL）；保留盤口快照供開盤觀測、盤中更新及賽前最後盤回溯。
+- 串關研究：2–6 關組合比較、組合賠率、估計過關率、理論 EV 與模擬返還。
+- 賽後逐項驗證：命中／未中／走盤；資料保存在目前瀏覽器。
+- 模型績效頁不虛構歷史命中率或 ROI。
 
 ## 本機開發
 ```bash
@@ -17,20 +17,32 @@ npm run dev
 npm run build
 ```
 
-## 部署網站
-1. 開啟 Repository → Settings → Pages。
-2. Build and deployment 的 Source 選擇 **GitHub Actions**。
-3. 到 Settings → Secrets and variables → Actions → New repository secret。
-4. 建立名稱為 `ODDS_API_KEY` 的 Secret，填入 The Odds API 金鑰。
-5. 到 Actions 手動執行 **Build and deploy NBA EDGE**，或推送新 commit 觸發部署。
+## GitHub Pages 部署
+Repository → Settings → Pages → Source 選擇 **GitHub Actions**。推送 commit 或在 Actions 手動執行 Build and deploy NBA EDGE。
 
-未設定 `ODDS_API_KEY` 時，網站仍可讀取賽程與比分，但不會顯示虛構盤口。API 金鑰請只放在 GitHub Secret，不要貼在公開程式碼或對話中。
+## 台灣運彩官方資料來源
+官方網站提供 NBA 賽事資訊與玩法說明，但目前本專案尚未確認有可公開依賴的官方即時盤口 API。官方玩法及賽事資訊：
+- https://www.sportslottery.com.tw/
+- https://member2.sportslottery.com.tw/zh-tw/about-us/135
 
-## 資料來源與限制
-- 賽程比分：ESPN 公開 JSON 介面。這是非官方、未文件化介面，可能變動，沒有服務保證。
-- 讓分與大小分：The Odds API；免費方案的額度、更新頻率與可用欄位依供應商當下方案為準。
-- 傷兵、近期效率、輪休與預測模型：後續階段再接入可驗證資料來源。資料未齊全時不輸出投注推薦。
-- 模型機率不是實際命中率；歷史績效只會在有保存預測、真實盤口與賽果結算後計算。
+因此目前採用「授權 feed adapter」設計，不抓取登入後資料、不繞過驗證、不把非官方盤口混入官方資料。若台灣運彩或合法資料供應方提供正式 API／資料授權，請在 Repository → Settings → Secrets and variables → Actions 設定：
+- `SPORTSLOTTERY_FEED_URL`：官方授權 JSON feed URL
+- `SPORTSLOTTERY_API_TOKEN`：若供應方要求，填入 API token
+
+Feed 預期回傳 JSON object，內含 `games` 陣列；每場至少包含 `home_team`、`away_team`、`commence_time`，盤口採標準化 `bookmakers[].markets[].outcomes[]` 格式，market key 使用 `spreads` 與 `totals`。未設定 feed 時，15 分鐘工作流程會安全略過，不會假裝已同步。
+
+### 開盤／即時／賽前定義
+- 首次觀測盤：NBA EDGE 第一次成功取得的官方快照；不冒稱官方真正開盤。
+- 即時盤：比賽開始後取得的官方快照（若官方 feed 提供場中盤）。
+- 賽前盤：開賽前最後一筆官方快照。
+- 若 feed 沒有提供真正開盤時間或完整歷史，網站不會回填猜測；歷史從正式接通後開始累積。
+
+## 串關模型與驗證
+- 支援 2–6 關組合，顯示組合賠率、估計過關率、理論 EV。
+- 目前過關率以各關輸入機率相乘，假設選項獨立；同場相關選項會使估算失真。
+- 建議先以 2 關做風險比較，不把多關高賠率誤認為高價值。
+- 賽後可標記命中、未中、走盤；目前紀錄存在瀏覽器 localStorage，換裝置或清除瀏覽器資料不會同步。
+- 只有累積足夠、可追溯的預測機率、盤口與正式賽果後，才應計算模型命中率與 ROI。
 
 ## 風險聲明
-本專案為運動數據研究與資訊整理工具，不構成投注建議，不保證預測結果。請理性評估風險。
+NBA EDGE 是運動數據研究與賽事分析工具，不提供保證獲利的投注建議。機率估計、EV 與串關結果均受模型校準、盤口變化、相關性及賽事資訊影響。
