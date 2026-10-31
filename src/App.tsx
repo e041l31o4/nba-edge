@@ -42,7 +42,7 @@ function App() {
     <header className="topbar"><a className="brand" href="#"><span className="brand-mark">E</span><span>NBA <b>EDGE</b><small>DATA · MATCHUP · INSIGHT</small></span></a><div className="top-right"><span className="live-dot"/> <span>台灣時間 UTC+8</span><button className="icon-btn" onClick={() => void load()} aria-label="重新整理"><RefreshCw size={16}/></button></div></header>
     <main>
       <section className="hero"><div><div className="eyebrow"><span/> NBA ANALYTICS PLATFORM</div><h1>看懂數據，<em>掌握比賽節奏。</em></h1><p>以賽程、球隊表現、盤口與賽前資訊，建立可追蹤、可驗證的 NBA 分析。</p></div><div className="hero-stat"><span>今日賽事</span><strong>{loading ? '—' : games.length.toString().padStart(2,'0')}</strong><small>GAMES SCHEDULED</small></div></section>
-      <section className="ticker"><div className="ticker-label"><Activity size={15}/> DATA STATUS</div><span className="status-ok"><i/> 賽程來源連線</span><span className={odds ? 'status-ok' : 'status-warn'}><i/> {odds ? '盤口資料已載入' : '尚未取得即時盤口'}</span><span className="ticker-time">最後更新 {updated || '—'}</span></section>
+      <section className="ticker"><div className="ticker-label"><Activity size={15}/> DATA STATUS</div><span className="status-ok"><i/> 賽程來源連線</span><span className={odds ? 'status-ok' : 'status-warn'}><i/> {odds ? '盤口資料已載入' : '官方盤口來源未接通'}</span><span className="ticker-time">最後更新 {updated || '—'}</span></section>
       <section className="toolbar"><div className="date-nav"><button className="icon-btn" onClick={() => moveDate(-1)}><ChevronLeft size={18}/></button><div><CalendarDays size={17}/><b>{date.slice(0,4)}/{date.slice(4,6)}/{date.slice(6,8)}</b><small>{dateLabel(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00')}</small></div><button className="icon-btn" onClick={() => moveDate(1)}><ChevronRight size={18}/></button><button className="today-btn" onClick={() => setDate(taiwanDate())}>今天</button></div><div className="tabs"><button className={tab==='games'?'active':''} onClick={()=>setTab('games')}>賽事總覽</button><button className={tab==='analysis'?'active':''} onClick={()=>setTab('analysis')}>賽前分析</button><button className={tab==='performance'?'active':''} onClick={()=>setTab('performance')}>模型績效</button><button className={tab==='parlay'?'active':''} onClick={()=>setTab('parlay')}>串關研究</button></div></section>
       {error && <div className="notice error"><CircleAlert size={17}/>{error}</div>}
       {tab==='games' && <><section className="section-heading"><div><span className="eyebrow">MATCH CENTER</span><h2>賽事總覽 <small>{date.slice(4,6)}/{date.slice(6,8)}</small></h2></div><div className="legend"><span><i className="green"/>進行中／未開賽</span><span><i className="gray"/>已完賽</span></div></section>
@@ -71,8 +71,8 @@ function GameCard({game, odds, teamForm, injuryData, onClick}:{game:Game;odds:Od
    {favorite?<><b>{favorite.displayName}</b><strong>{(favoriteProbability!*100).toFixed(1)}%</strong><small>預測 {report!.projectedAway.toFixed(0)} : {report!.projectedHome.toFixed(0)}</small></>:<b>資料累積中，暫不提供勝方</b>}
   </div>}
   <div className="market-strip">
-   <div><small>讓分盤</small><b>{spreadLine?spreadLine.name+' '+(spreadLine.point!>0?'+':'')+spreadLine.point:'盤口待更新'}</b></div>
-   <div><small>大小分</small><b>{totalLine?'總分 '+totalLine.point:'盤口待更新'}</b></div>
+   <div><small>讓分盤</small><b>{spreadLine?spreadLine.name+' '+(spreadLine.point!>0?'+':'')+spreadLine.point:(m?'尚無讓分資料':'來源未接通')}</b></div>
+   <div><small>大小分</small><b>{totalLine?'總分 '+totalLine.point:(m?'尚無大小分資料':'來源未接通')}</b></div>
    <span className="card-arrow"><ChevronRight size={16}/></span>
   </div>
  </button>
