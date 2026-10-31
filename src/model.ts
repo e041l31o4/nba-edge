@@ -3,6 +3,8 @@ export type TeamFormRow = { teamId: string; team: string; abbreviation: string; 
 export type TeamFormData = { updatedAt: string; source: string; teams: Record<string, TeamFormRow> }
 export type InjuryRow = { team: string; player: string; status: string; detail?: string; position?: string; athleteId?: string; sourceUrl?: string; pointsPerGame?: number; minutesPerGame?: number; reboundsPerGame?: number; assistsPerGame?: number; stealsPerGame?: number; blocksPerGame?: number; turnoversPerGame?: number; usageRate?: number; gamesPlayed?: number }
 export type InjuryData = { updatedAt: string; source: string; sourceUrl: string; players: InjuryRow[]; status: string }
+export type RosterPlayer = { team: string; player: string; athleteId: string; position?: string; jersey?: string }
+export type RosterData = { updatedAt: string; source: string; teams: Record<string, RosterPlayer[]>; status: string }
 export type ProbabilityCalibrator = { a: number; b: number; trainingSamples: number }
 export type ModelResult = {
   available: boolean; reason?: string; homeRecord: string; awayRecord: string;
