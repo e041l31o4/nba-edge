@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, type OddsRecord } from './lib'
-import ParlayLab from './ParlayLab'\nimport MatchAnalysis from './MatchAnalysis'\nimport type { TeamFormData, InjuryData } from './model'
+import ParlayLab from './ParlayLab'
+import MatchAnalysis from './MatchAnalysis'
+import type { TeamFormData, InjuryData } from './model'
 
 type Tab = 'games' | 'analysis' | 'performance' | 'parlay'
 function App() {
   const [date, setDate] = useState(taiwanDate())
   const [games, setGames] = useState<Game[]>([])
-  const [odds, setOdds] = useState<OddsRecord | null>(null)\n  const [teamForm, setTeamForm] = useState<TeamFormData | null>(null)\n  const [injuryData, setInjuryData] = useState<InjuryData | null>(null)
+  const [odds, setOdds] = useState<OddsRecord | null>(null)
+  const [teamForm, setTeamForm] = useState<TeamFormData | null>(null)
+  const [injuryData, setInjuryData] = useState<InjuryData | null>(null)
   const [tab, setTab] = useState<Tab>('games')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
