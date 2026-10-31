@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:37:30.878159+00:00",
+  "updatedAt": "2026-10-31T17:38:45.753638+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -238,6 +238,16 @@
     },
     {
       "team": "HOU",
+      "player": "Reed Sheppard",
+      "status": "Out",
+      "detail": "Back · Torso · 2026-11-02",
+      "athleteId": "4711272",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 10.5
+    },
+    {
+      "team": "HOU",
       "player": "Fred VanVleet",
       "status": "Out",
       "detail": "Knee · Leg · Right · 2026-11-02",
@@ -245,16 +255,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13
-    },
-    {
-      "team": "HOU",
-      "player": "Reed Sheppard",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · 2026-10-31",
-      "athleteId": "4711272",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 10.5
     },
     {
       "team": "HOU",
