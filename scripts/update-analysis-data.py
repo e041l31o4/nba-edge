@@ -253,7 +253,7 @@ if not injuries:
 # Enrich listed players with per-game box-score rates and usage where the public source provides them. The model only uses PPG/MPG for its current conservative absence estimate; other rates are shown as context until independently validated.
 def numeric_stat(value):
     try:
-        return float(str(value).replace(',', '').strip())
+        return float(str(value).replace(',', '').replace('%', '').strip())
     except (TypeError, ValueError):
         return None
 
