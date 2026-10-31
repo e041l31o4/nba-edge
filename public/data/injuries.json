@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:09:43.546188+00:00",
+  "updatedAt": "2026-10-31T17:14:24.092869+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -627,7 +627,7 @@
       "team": "PHI",
       "player": "Jaylen Brown",
       "status": "Day-To-Day",
-      "detail": "Knee · Leg · 2026-10-31",
+      "detail": "Knee · Leg · Left · 2026-10-31",
       "athleteId": "3917376",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
