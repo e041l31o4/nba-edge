@@ -110,17 +110,21 @@ for item in teams:
                     athlete_id = node.get('id')
                     if isinstance(name, str) and athlete_id:
                         position = node.get('position') or {}
-                        roster_entry = {
-                            'team': team.get('abbreviation', ''),
-                            'player': name.strip(),
-                            'athleteId': str(athlete_id),
-                            'position': position.get('abbreviation', '') if isinstance(position, dict) else str(position or ''),
-                            'jersey': node.get('jersey')
-                        }
-                        roster_map[name.strip().lower()] = roster_entry
-                        if str(athlete_id) not in seen_roster_ids:
-                            team_roster.append(roster_entry)
-                            seen_roster_ids.add(str(athlete_id))
+                        position_abbr = position.get('abbreviation', '') if isinstance(position, dict) else str(position or '')
+                        # ESPN roster payloads contain nested taxonomy nodes (e.g. school and position labels).
+                        # Keep only actual player records with a recognized basketball position.
+                        if position_abbr.upper() in ('PG', 'SG', 'SF', 'PF', 'C', 'G', 'F'):
+                            roster_entry = {
+                                'team': team.get('abbreviation', ''),
+                                'player': name.strip(),
+                                'athleteId': str(athlete_id),
+                                'position': position_abbr.upper(),
+                                'jersey': node.get('jersey')
+                            }
+                            roster_map[name.strip().lower()] = roster_entry
+                            if str(athlete_id) not in seen_roster_ids:
+                                team_roster.append(roster_entry)
+                                seen_roster_ids.add(str(athlete_id))
                     for key, value in node.items():
                         if key not in ('statistics', 'stats'):
                             walk_roster(value)
