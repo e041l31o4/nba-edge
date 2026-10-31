@@ -257,22 +257,53 @@ def numeric_stat(value):
     except (TypeError, ValueError):
         return None
 
+def extract_player_averages(payload):
+    found = {'pointsPerGame': None, 'minutesPerGame': None}
+    keys = {
+        'pointsPerGame': {'pts', 'avgpoints', 'points', 'pointspergame'},
+        'minutesPerGame': {'min', 'avgminutes', 'minutes', 'minutespergame'}
+    }
+    def visit(node):
+        if isinstance(node, list):
+            for value in node:
+                visit(value)
+        elif isinstance(node, dict):
+            labels = node.get('labels') or node.get('names') or []
+            values = node.get('displayValues') or node.get('values') or []
+            if isinstance(labels, list) and isinstance(values, list):
+                for index, label in enumerate(labels):
+                    if index < len(values):
+                        normalized = str(label).strip().lower()
+                        for target, accepted in keys.items():
+                            if normalized in accepted and found[target] is None:
+                                found[target] = numeric_stat(values[index])
+            label = next((node.get(k) for k in ('name', 'abbreviation', 'displayName', 'shortDisplayName') if node.get(k)), None)
+            if label is not None:
+                normalized = str(label).strip().lower()
+                for target, accepted in keys.items():
+                    if normalized in accepted and found[target] is None:
+                        for value_key in ('value', 'displayValue', 'displayvalue'):
+                            if node.get(value_key) is not None:
+                                found[target] = numeric_stat(node.get(value_key))
+                                break
+            for value in node.values():
+                if isinstance(value, (dict, list)):
+                    visit(value)
+    visit(payload)
+    return found
+
 for player in injuries:
     athlete_id = player.get('athleteId')
     if not athlete_id:
         continue
     try:
         overview = get(f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/overview')
-        stats = overview.get('statistics') or overview.get('stats') or {}
-        labels = stats.get('labels') or stats.get('names') or []
-        values = stats.get('displayValues') or stats.get('values') or []
-        def find_stat(names):
-            for index, label in enumerate(labels):
-                if str(label).strip().lower() in names and index < len(values):
-                    return numeric_stat(values[index])
-            return None
-        player['pointsPerGame'] = find_stat({'pts', 'avgpoints', 'points'})
-        player['minutesPerGame'] = find_stat({'min', 'avgminutes', 'minutes'})
+        averages = extract_player_averages(overview)
+        if averages['pointsPerGame'] is None:
+            stats_payload = get(f'{BASE}/athletes/{athlete_id}/stats')
+            fallback = extract_player_averages(stats_payload)
+            averages = {key: averages[key] if averages[key] is not None else fallback[key] for key in averages}
+        player.update(averages)
     except Exception as error:
         print('player stats skipped', player.get('player'), str(error)[:100])
 
