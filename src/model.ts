@@ -22,7 +22,8 @@ const record=(rows:RecentGame[])=>{const wins=rows.filter(x=>x.win).length;retur
 const net=(rows:RecentGame[])=>avg(rows.map(x=>x.pointsFor-x.pointsAgainst))
 const scheduleStrength=(rows:RecentGame[],form:TeamFormData)=>{const values=rows.map(x=>x.opponentId?form.teams[String(x.opponentId)]?.last10:null).filter((x):x is RecentGame[]=>!!x&&x.length>=5).map(net);return values.length>=3?avg(values):null}
 function absenceProbability(status:string){const s=status.toLowerCase();if(/out|inactive|suspended/.test(s))return 1;if(/doubtful/.test(s))return 0.8;if(/questionable|game.time|day.to.day/.test(s))return 0.5;if(/probable/.test(s))return 0.15;if(/available|active/.test(s))return 0;return 0}
-function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*0.45,0);return {points:Math.min(10,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length}}
+function replacementGap(minutesPerGame?:number){if(typeof minutesPerGame!=='number'||!Number.isFinite(minutesPerGame)||minutesPerGame<=0)return 0.35;return 0.25+0.20*Math.max(0,Math.min(1,minutesPerGame/36))}
+function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*replacementGap(x.minutesPerGame),0);return {points:Math.min(10,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length}}
 export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null):ModelResult{
  const h=form?.teams?.[String(game.home.id)],a=form?.teams?.[String(game.away.id)]
  const hi=(injuries?.players??[]).filter(x=>x.team===game.home.abbreviation), ai=(injuries?.players??[]).filter(x=>x.team===game.away.abbreviation)
@@ -43,7 +44,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const homeSOS=scheduleStrength(hs,form!),awaySOS=scheduleStrength(as,form!)
  const sosAdjustment=homeSOS===null||awaySOS===null?0:(homeSOS-awaySOS)*0.18
  const hImpact=injuryImpact(hi),aImpact=injuryImpact(ai)
- // Conservative replacement-adjusted scoring loss: 45% of affected player's PPG, weighted by status; capped at 10 points/team.
+ // Estimate only the un-replaced share of missing production. The replacement gap scales from 25% for low-minute roles to 45% for 36+ MPG roles; missing MPG uses a conservative 35% fallback. Status probability weights the estimate; cap 10 points/team.
  const homeInjuryImpact=hImpact.points,awayInjuryImpact=aImpact.points
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment-homeInjuryImpact+awayInjuryImpact
  const projectedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)-homeInjuryImpact-awayInjuryImpact
