@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:30:52.041019+00:00",
+  "updatedAt": "2026-10-31T17:31:27.114765+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -824,15 +824,6 @@
     },
     {
       "team": "PHI",
-      "player": "Tacko Fall",
-      "status": "Out",
-      "detail": "Quadriceps · Leg · Strain · Left · 2026-10-31",
-      "athleteId": "3904625",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "PHI",
       "player": "Joel Embiid",
       "status": "Out",
       "detail": "Foot · Leg · Right · 2026-11-02",
@@ -884,6 +875,15 @@
       "turnoversPerGame": null,
       "usageRate": null,
       "gamesPlayed": null
+    },
+    {
+      "team": "PHI",
+      "player": "Tacko Fall",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · Strain · Left · 2026-10-31",
+      "athleteId": "3904625",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHI",
