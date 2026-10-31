@@ -17,7 +17,7 @@ export default function PlayerInjuryRow({player}:{player:InjuryRow}){
     const values:(string|number)[]=stats.displayValues??stats.values??[]
     const pick=(pattern:RegExp)=>{const index=labels.findIndex(x=>pattern.test(x));return index>=0&&values[index]!==undefined?String(values[index]):undefined}
     const next={points:pick(/^PTS$|avgPoints|pointsPerGame/i),minutes:pick(/^MIN$|avgMinutes|minutesPerGame/i),rebounds:pick(/^REB$|^TRB$|avgRebounds|reboundsPerGame/i),assists:pick(/^AST$|avgAssists|assistsPerGame/i),steals:pick(/^STL$|avgSteals|stealsPerGame/i),blocks:pick(/^BLK$|avgBlocks|blocksPerGame/i),turnovers:pick(/^TO$|^TOV$|avgTurnovers|turnoversPerGame/i),usage:pick(/^USG%?$|usageRate|usage/i),games:pick(/^GP$|gamesPlayed/i)}
-    if(active&&Object.values(next).some(Boolean))setAverages(next)
+    if(active&&Object.values(next).some(Boolean))setAverages(previous=>({...previous,...Object.fromEntries(Object.entries(next).filter(([,value])=>Boolean(value)))}))
    })
    .catch(()=>{/* Keep the scheduled data-feed averages when the live overview endpoint is unavailable. */})
    .finally(()=>{if(active)setLoading(false)})
