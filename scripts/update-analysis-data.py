@@ -1,4 +1,4 @@
-import json, re, datetime, urllib.request, pathlib, html, sys
+import json, re, datetime, urllib.request, pathlib, html, sys, time
 
 BASE = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 HEAD = {'User-Agent': 'Mozilla/5.0 NBA-EDGE/1.1'}
@@ -135,6 +135,75 @@ for item in teams:
             print('roster skipped', team_id, str(error)[:100])
     except Exception as error:
         print('schedule skipped', team_id, str(error)[:120])
+
+
+# Current-season team efficiency metrics from ESPN's public Core API.
+# Display as context only until historical backtesting validates use in prediction.
+def extract_team_metrics(payload):
+    found = {}
+    aliases = {
+        'offensiveRating': {'offensiverating', 'offensiveefficiency', 'offensiveefficiencyrating', 'offrtg'},
+        'defensiveRating': {'defensiverating', 'defensiveefficiency', 'defensiveefficiencyrating', 'defrtg'},
+        'netRating': {'netrating', 'netefficiency', 'netrtg'},
+        'pace': {'pace', 'pacefactor'},
+        'trueShootingPct': {'trueshootingpct', 'trueshootingpercentage', 'tspct'},
+        'turnoverPct': {'turnoverpct', 'turnoverpercentage', 'tovpct'},
+        'reboundPct': {'reboundpct', 'reboundpercentage', 'rebpct'},
+        'gamesPlayed': {'gamesplayed', 'games', 'gp'}
+    }
+    def visit(node):
+        if isinstance(node, list):
+            for value in node: visit(value)
+        elif isinstance(node, dict):
+            label = next((node.get(k) for k in ('name', 'abbreviation', 'displayName', 'shortDisplayName') if node.get(k)), None)
+            if label is not None:
+                normalized = re.sub(r'[^a-z0-9]', '', str(label).lower())
+                for target, accepted in aliases.items():
+                    if normalized in accepted and target not in found:
+                        parsed = numeric_stat(node.get('value', node.get('displayValue')))
+                        if parsed is not None: found[target] = parsed
+            for value in node.values():
+                if isinstance(value, (dict, list)): visit(value)
+    visit(payload)
+    return found
+
+team_metrics = {}
+previous_metrics = {}
+try:
+    previous_metrics = json.loads(pathlib.Path('public/data/team-metrics.json').read_text(encoding='utf-8')).get('teams', {})
+except Exception:
+    pass
+
+for item in teams:
+    team = item.get('team', {})
+    team_id = str(team.get('id') or '')
+    abbreviation = str(team.get('abbreviation') or '')
+    if not team_id or not abbreviation: continue
+    try:
+        stats_url = f'https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/{season}/types/2/teams/{team_id}/statistics?lang=en&region=us'
+        payload = get(stats_url)
+        metrics = extract_team_metrics(payload)
+        if len(metrics) >= 2:
+            metrics.update({'teamId': team_id, 'abbreviation': abbreviation, 'updatedAt': now.isoformat(), 'stale': False})
+            team_metrics[abbreviation] = metrics
+        elif abbreviation in previous_metrics:
+            old = dict(previous_metrics[abbreviation]); old['stale'] = True; team_metrics[abbreviation] = old
+            print('team metrics insufficient; prior snapshot marked stale', abbreviation)
+    except Exception as error:
+        if abbreviation in previous_metrics:
+            old = dict(previous_metrics[abbreviation]); old['stale'] = True; team_metrics[abbreviation] = old
+        print('team metrics skipped', abbreviation, str(error)[:120])
+    time.sleep(0.15)
+
+if team_metrics:
+    save('public/data/team-metrics.json', {
+        'updatedAt': now.isoformat(), 'season': str(season),
+        'source': 'ESPN public Core API team season statistics',
+        'status': 'available' if any(not row.get('stale') for row in team_metrics.values()) else 'stale',
+        'teams': team_metrics
+    })
+else:
+    print('No verified current-season team efficiency metrics; preserving prior dataset.')
 
 # If the per-team schedule endpoint shape changes, use one league-wide date-range scoreboard.
 games_found = sum(len(x['last10']) for x in forms.values())
