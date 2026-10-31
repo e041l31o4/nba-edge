@@ -10,7 +10,7 @@ export type ModelResult = {
   projectedHome: number; projectedAway: number; projectedMargin: number; projectedTotal: number;
   homeWin: number; awayWin: number; homeInjuries: InjuryRow[]; awayInjuries: InjuryRow[];
   confidence: '低'|'中'|'高'; sample: number; homeRestDays:number|null; awayRestDays:number|null;
-  homeBackToBack:boolean; awayBackToBack:boolean; injuryRisk:'待確認'|'偏高'|'一般'; homeSOS:number|null; awaySOS:number|null;
+  homeBackToBack:boolean; awayBackToBack:boolean; injuryRisk:'待確認'|'偏高'|'中等'|'低'; homeSOS:number|null; awaySOS:number|null;
 }
 const clamp=(n:number,min=0.01,max=0.99)=>Math.max(min,Math.min(max,n))
 function cdf(z:number){const sign=z<0?-1:1,x=Math.abs(z)/Math.sqrt(2),t=1/(1+0.3275911*x);const erf=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return clamp(0.5*(1+sign*erf))}
@@ -41,7 +41,10 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const projectedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length),injuryCount=hi.length+ai.length
- const injuryRisk=injuries?.status!=='available'?'待確認':injuryCount>=4?'偏高':injuryCount>0?'一般':'一般'
+ const allInjuries=[...hi,...ai]
+ const outCount=allInjuries.filter(x=>/out|inactive|suspended/i.test(x.status)).length
+ const uncertainCount=allInjuries.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
+ const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
  // Confidence is intentionally capped at medium until historical calibration is complete.
  const confidence:ModelResult['confidence']=sample>=9&&injuries?.status==='available'&&injuryCount===0&&!homeBackToBack&&!awayBackToBack?'中':'低'
  return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:cdf(projectedMargin/12.2),awayWin:1-cdf(projectedMargin/12.2),confidence,sample,homeRestDays,awayRestDays,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS}
