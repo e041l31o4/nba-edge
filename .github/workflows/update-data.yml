@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-  actions: write
 concurrency:
   group: nba-edge-data-refresh
   cancel-in-progress: false
@@ -70,21 +69,15 @@ jobs:
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
       - name: Commit refreshed data
-        id: commit
         run: |
-          if git diff --quiet; then echo "No data changes"; echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if git diff --quiet; then echo "No data changes"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data/odds.json public/data/odds-history.jsonl public/data/team-form.json public/data/injuries.json
           git commit -m "chore: refresh official Taiwan Sports Lottery odds"
           git pull --rebase -X theirs origin main
           for attempt in 1 2 3; do
-            if git push; then echo "changed=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+            if git push; then exit 0; fi
             git pull --rebase -X theirs origin main
           done
           exit 1
-      - name: Deploy refreshed data to GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run deploy.yml --ref main
