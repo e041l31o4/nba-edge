@@ -23,10 +23,10 @@ export function analyzeMatch(game:{home:{id:string;abbreviation:string};away:{id
  // Blend each team's recent scoring and opponent concession; apply modest home-court edge.
  const rawHome=(hpf+apa)/2+2.2,rawAway=(apf+hpa)/2
  const projectedMargin=(rawHome-rawAway)*0.78
- const projectedTotal=(rawHome+rawAway)*0.78+(hpf+apa+apf+hpa)*0.055
+ const projectedTotal=rawHome+rawAway
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length)
- const confidence:ModelResult['confidence']=sample>=9?'中':'低'
+ const confidence:ModelResult['confidence']=sample>=9&&injuries?.status==='available'?'中':'低'
  return {available:true,...empty,homeRecord:`${hw}-${hs.length-hw}`,awayRecord:`${aw}-${as.length-aw}`,homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:cdf(projectedMargin/12.2),awayWin:1-cdf(projectedMargin/12.2),confidence,sample}
 }
 export function coverProbability(projectedMargin:number,point:number,isHome:boolean){const margin=isHome?projectedMargin:-projectedMargin;return cdf((margin+point)/11.8)}
