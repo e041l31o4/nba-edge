@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T18:45:49.810853+00:00",
+  "updatedAt": "2026-10-31T19:27:05.742651+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -3484,6 +3484,13 @@
       },
       {
         "team": "UTAH",
+        "player": "Kobe Bufkin",
+        "athleteId": "4683736",
+        "position": "G",
+        "jersey": "4"
+      },
+      {
+        "team": "UTAH",
         "player": "Isaiah Collier",
         "athleteId": "4683766",
         "position": "G",
@@ -3516,13 +3523,6 @@
         "athleteId": "4397077",
         "position": "C",
         "jersey": "11"
-      },
-      {
-        "team": "UTAH",
-        "player": "Blake Hinson",
-        "athleteId": "4396963",
-        "position": "F",
-        "jersey": "25"
       },
       {
         "team": "UTAH",

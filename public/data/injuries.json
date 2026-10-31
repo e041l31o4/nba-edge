@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T18:45:49.810853+00:00",
+  "updatedAt": "2026-10-31T19:27:05.742651+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -710,6 +710,15 @@
       "status": "Out",
       "detail": "Achilles · Leg · Surgery · Right · 2027-10-01",
       "athleteId": "3907387",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SA",
+      "player": "Stephon Castle",
+      "status": "Day-To-Day",
+      "detail": "Head · Head · Mild · 2026-10-31",
+      "athleteId": "4845367",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
