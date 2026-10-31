@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, type OddsRecord } from './lib'
-import ParlayLab from './ParlayLab'
+import ParlayLab from './ParlayLab'\nimport MatchAnalysis from './MatchAnalysis'\nimport type { TeamFormData, InjuryData } from './model'
 
 type Tab = 'games' | 'analysis' | 'performance' | 'parlay'
 function App() {
   const [date, setDate] = useState(taiwanDate())
   const [games, setGames] = useState<Game[]>([])
-  const [odds, setOdds] = useState<OddsRecord | null>(null)
+  const [odds, setOdds] = useState<OddsRecord | null>(null)\n  const [teamForm, setTeamForm] = useState<TeamFormData | null>(null)\n  const [injuryData, setInjuryData] = useState<InjuryData | null>(null)
   const [tab, setTab] = useState<Tab>('games')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -15,7 +15,7 @@ function App() {
   const [selected, setSelected] = useState<string | null>(null)
   const load = async () => {
     setLoading(true); setError('')
-    try { const [g, o] = await Promise.all([getScoreboard(date), getOdds()]); setGames(g); setOdds(o); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
+    try { const [g, o, tf, inj] = await Promise.all([getScoreboard(date), getOdds(), fetch(`${import.meta.env.BASE_URL}data/team-form.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/injuries.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null)]); setGames(g); setOdds(o); setTeamForm(tf); setInjuryData(inj); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
     catch (e) { setError(e instanceof Error ? e.message : '讀取失敗') }
     finally { setLoading(false) }
   }
@@ -33,7 +33,7 @@ function App() {
       {error && <div className="notice error"><CircleAlert size={17}/>{error}</div>}
       {tab==='games' && <><section className="section-heading"><div><span className="eyebrow">MATCH CENTER</span><h2>賽事總覽 <small>{date.slice(4,6)}/{date.slice(6,8)}</small></h2></div><div className="legend"><span><i className="green"/>進行中／未開賽</span><span><i className="gray"/>已完賽</span></div></section>
         {loading ? <div className="empty"><RefreshCw className="spin" size={22}/>正在同步 NBA 賽程…</div> : games.length===0 ? <div className="empty"><CalendarDays size={25}/><b>當日沒有賽事</b><span>可切換日期查看其他比賽。</span></div> : <div className="game-grid">{games.map(g => <GameCard key={g.id} game={g} odds={odds} onClick={()=>{setSelected(g.id);setTab('analysis')}}/> )}</div>}</>}
-      {tab==='analysis' && <><section className="section-heading"><div><span className="eyebrow">PRE-GAME INTELLIGENCE</span><h2>賽前分析</h2></div><span className="muted">{upcoming.length} 場未完賽</span></section>{active ? <Analysis game={active} odds={odds} onBack={()=>setSelected(null)}/> : <div className="analysis-list">{upcoming.map(g=><button className="analysis-row" key={g.id} onClick={()=>setSelected(g.id)}><span>{g.away.abbreviation} @ {g.home.abbreviation}</span><b>{g.away.displayName} 對 {g.home.displayName}</b><span>{g.detail || '待開賽'} <ChevronRight size={15}/></span></button>)}</div>}{!active && upcoming.length===0 && <div className="empty">目前沒有可分析的未完賽賽事，請切換日期。</div>}</>}
+      {tab==='analysis' && <><section className="section-heading"><div><span className="eyebrow">PRE-GAME INTELLIGENCE</span><h2>賽前分析</h2></div><span className="muted">{upcoming.length} 場未完賽</span></section>{active ? <MatchAnalysis game={active} odds={odds} teamForm={teamForm} injuryData={injuryData} onBack={()=>setSelected(null)}/> : <div className="analysis-list">{upcoming.map(g=><button className="analysis-row" key={g.id} onClick={()=>setSelected(g.id)}><span>{g.away.abbreviation} @ {g.home.abbreviation}</span><b>{g.away.displayName} 對 {g.home.displayName}</b><span>{g.detail || '待開賽'} <ChevronRight size={15}/></span></button>)}</div>}{!active && upcoming.length===0 && <div className="empty">目前沒有可分析的未完賽賽事，請切換日期。</div>}</>}
       {tab==='parlay' && <><section className="section-heading"><div><span className="eyebrow">PARLAY & VERIFICATION</span><h2>串關研究與驗證</h2></div><span className="muted">分析工具，不保證結果</span></section><ParlayLab/></>}
       {tab==='performance' && <><section className="section-heading"><div><span className="eyebrow">MODEL TRACK RECORD</span><h2>模型績效</h2></div><span className="muted">真實紀錄優先</span></section><div className="performance-grid"><div className="perf-card"><Target/><span>歷史預測筆數</span><strong>0</strong><small>尚未建立有效樣本</small></div><div className="perf-card"><Trophy/><span>讓分命中率</span><strong>—</strong><small>累積足夠賽事後計算</small></div><div className="perf-card"><TrendingUp/><span>大小分命中率</span><strong>—</strong><small>累積足夠賽事後計算</small></div><div className="perf-card"><ShieldCheck/><span>投資報酬率 ROI</span><strong>—</strong><small>需有真實盤口與結算資料</small></div></div><div className="notice"><CircleAlert size={17}/>目前尚未有經過結算的歷史預測，因此不顯示虛構命中率或 ROI。後續會逐場保存預測時間、盤口與賽果，並以實際結算計算績效。</div></>}
       <footer><div className="footer-brand">NBA <b>EDGE</b></div><span>數據研究工具，不構成投注建議。預測不保證結果，請理性評估風險。</span><span>DATA-DRIVEN · ALWAYS VERIFY</span></footer>
