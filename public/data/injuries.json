@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T21:23:25.596567+00:00",
+  "updatedAt": "2026-10-31T21:55:22.626906+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -502,6 +502,15 @@
     },
     {
       "team": "NO",
+      "player": "Dejounte Murray",
+      "status": "Out",
+      "detail": "Personal · Other · 2026-11-02",
+      "athleteId": "3907497",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NO",
       "player": "Yves Missi",
       "status": "Out",
       "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
@@ -637,16 +646,6 @@
     },
     {
       "team": "PHI",
-      "player": "Jabari Walker",
-      "status": "Out",
-      "detail": "Knee · Leg · Soreness · Left · 2026-10-31",
-      "athleteId": "4432446",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2.7
-    },
-    {
-      "team": "PHI",
       "player": "LeBron James",
       "status": "Out",
       "detail": "Back · Torso · 2026-11-02",
@@ -657,15 +656,6 @@
     },
     {
       "team": "PHI",
-      "player": "Tacko Fall",
-      "status": "Out",
-      "detail": "Quadriceps · Leg · Strain · Left · 2026-10-31",
-      "athleteId": "3904625",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "PHI",
       "player": "Joel Embiid",
       "status": "Out",
       "detail": "Foot · Leg · Right · 2026-11-02",
@@ -673,16 +663,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 19.2
-    },
-    {
-      "team": "PHI",
-      "player": "Jaylen Brown",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Left · 2026-10-31",
-      "athleteId": "3917376",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 20.6
     },
     {
       "team": "PHI",

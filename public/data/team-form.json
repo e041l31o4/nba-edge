@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T21:23:25.596567+00:00",
+  "updatedAt": "2026-10-31T21:55:22.626906+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -1364,6 +1364,15 @@
       "abbreviation": "POR",
       "last10": [
         {
+          "date": "2026-10-31T19:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 90.0,
+          "win": true,
+          "opponent": "Utah Jazz",
+          "opponentId": "26",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-10-30T02:00Z",
           "pointsFor": 103.0,
           "pointsAgainst": 124.0,
@@ -1562,6 +1571,15 @@
       "team": "Utah Jazz",
       "abbreviation": "UTAH",
       "last10": [
+        {
+          "date": "2026-10-31T19:00Z",
+          "pointsFor": 90.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-29T01:00Z",
           "pointsFor": 111.0,
