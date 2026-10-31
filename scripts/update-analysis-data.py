@@ -23,7 +23,8 @@ def extract_events(payload):
     return []
 
 def completed_event(event):
-    status = event.get('status') or {}
+    competition = (event.get('competitions') or [{}])[0]
+    status = event.get('status') or competition.get('status') or {}
     typ = status.get('type') or {}
     state = str(typ.get('state') or '').lower()
     name = str(typ.get('name') or status.get('name') or '').lower()
@@ -41,7 +42,7 @@ def event_row(event, team_id):
     competitions = event.get('competitions') or []
     comp = competitions[0] if competitions else event
     competitors = comp.get('competitors') or []
-    own = next((x for x in competitors if str(x.get('id') or (x.get('team') or {}).get('id')) == str(team_id)), None)
+    own = next((x for x in competitors if str((x.get('team') or {}).get('id') or x.get('id')) == str(team_id)), None)
     opponent = next((x for x in competitors if x is not own), None)
     if not own or not opponent:
         return None
@@ -53,7 +54,8 @@ def event_row(event, team_id):
         'pointsFor': pf,
         'pointsAgainst': pa,
         'win': pf > pa,
-        'opponent': (opponent.get('team') or {}).get('displayName', '')
+        'opponent': (opponent.get('team') or {}).get('displayName', ''),
+        'opponentId': str((opponent.get('team') or {}).get('id') or opponent.get('id') or '')
     }
 
 now = datetime.datetime.now(datetime.timezone.utc)
