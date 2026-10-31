@@ -13,8 +13,6 @@ export default function MatchAnalysis({game,odds,teamForm,injuryData,rosterData,
  const rotationSummary=(team:string)=>{
   const roster=rosterData?.teams?.[team]??[]
   const teamInjuries=(injuryData?.players??[]).filter(x=>x.team===team)
-  const listedIds=new Set(teamInjuries.map(x=>x.athleteId).filter((x):x is string=>Boolean(x)))
-  const listedNames=new Set(teamInjuries.map(x=>x.player.trim().toLowerCase()))
   const groups:{[key:string]:string}={PG:'後衛',SG:'後衛',G:'後衛',SF:'鋒線',PF:'鋒線',F:'鋒線',C:'中鋒'}
   const counts=new Map<string,{total:number;notListed:number;out:number;doubtful:number;questionable:number;probable:number;otherListed:number}>()
   roster.forEach(p=>{
