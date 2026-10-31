@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-10-31T16:45:15.871302+00:00",
+  "updatedAt": "2026-10-31T16:45:44.686790+00:00",
   "source": "ESPN completed regular-season schedules",
   "season": "2025-26",
   "method": "Walk-forward: each game is predicted only from games completed before its tipoff; current result is appended after prediction.",
   "modelVersion": "odds-blind-v2",
   "sampleSize": 1187,
   "metrics": {
-    "winnerAccuracy": 0.6647,
-    "brierScore": 0.21606,
-    "marginMAE": 11.967,
-    "totalMAE": 16.51
+    "winnerAccuracy": 0.66302,
+    "brierScore": 0.21524,
+    "marginMAE": 11.945,
+    "totalMAE": 16.487
   },
   "limitations": [
     "Historical injury reports and player availability are not reconstructed.",
