@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T17:14:24.092869+00:00",
+  "updatedAt": "2026-10-31T17:15:02.422855+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -649,7 +649,7 @@
       "team": "PHI",
       "player": "Tacko Fall",
       "status": "Out",
-      "detail": "Quadriceps · Leg · Strain · Left · 2026-11-04",
+      "detail": "Quadriceps · Leg · Strain · Left · 2026-10-31",
       "athleteId": "3904625",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
