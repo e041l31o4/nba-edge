@@ -55,7 +55,8 @@ def event_row(event, team_id):
         'pointsAgainst': pa,
         'win': pf > pa,
         'opponent': (opponent.get('team') or {}).get('displayName', ''),
-        'opponentId': str((opponent.get('team') or {}).get('id') or opponent.get('id') or '')
+        'opponentId': str((opponent.get('team') or {}).get('id') or opponent.get('id') or ''),
+        'homeAway': str(own.get('homeAway') or '').lower()
     }
 
 now = datetime.datetime.now(datetime.timezone.utc)
