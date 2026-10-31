@@ -1,5 +1,9 @@
 name: NBA EDGE historical walk-forward backtest
 on:
+  push:
+    paths:
+      - 'scripts/backtest-model.py'
+      - '.github/workflows/backtest.yml'
   schedule:
     - cron: '30 8 * * *'
   workflow_dispatch:
