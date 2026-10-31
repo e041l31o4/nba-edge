@@ -3710,5 +3710,6 @@
       }
     ]
   },
-  "status": "available"
+  "status": "available",
+  "metricsNote": "已排除 ESPN roster 回應中的學校、位置標籤、球隊與狀態等非球員節點；只保留具有效球員位置的名單資料。"
 }
