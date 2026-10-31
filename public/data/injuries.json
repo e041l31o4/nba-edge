@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T23:19:30.558783+00:00",
+  "updatedAt": "2026-10-31T23:53:44.723670+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -121,16 +121,6 @@
       "athleteId": "4278067",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
-      "player": "Meleek Thomas",
-      "status": "Day-To-Day",
-      "detail": "Foot · Leg · 2026-10-31",
-      "athleteId": "5041951",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13
     },
     {
       "team": "CLE",
@@ -444,19 +434,9 @@
     },
     {
       "team": "MEM",
-      "player": "Scotty Pippen Jr.",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-10-31",
-      "athleteId": "4431785",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6
-    },
-    {
-      "team": "MEM",
       "player": "Ty Jerome",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-10-31",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
       "athleteId": "4065733",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -464,9 +444,19 @@
     },
     {
       "team": "MEM",
+      "player": "Scotty Pippen Jr.",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "athleteId": "4431785",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 6
+    },
+    {
+      "team": "MEM",
       "player": "Quinten Post",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Not Specified · Right · 2026-10-31",
+      "status": "Out",
+      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
       "athleteId": "4593016",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
