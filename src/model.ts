@@ -5,7 +5,7 @@ export type InjuryRow = { team: string; player: string; status: string; detail?:
 export type InjuryData = { updatedAt: string; source: string; sourceUrl: string; players: InjuryRow[]; status: string }
 export type RosterPlayer = { team: string; player: string; athleteId: string; position?: string; jersey?: string }
 export type RosterData = { updatedAt: string; source: string; teams: Record<string, RosterPlayer[]>; status: string }
-export type ProbabilityCalibrator = { a: number; b: number; trainingSamples: number }
+export type TeamMetricRow = { teamId: string; abbreviation: string; updatedAt: string; stale?: boolean; offensiveRating?: number; defensiveRating?: number; netRating?: number; pace?: number; trueShootingPct?: number; turnoverPct?: number; reboundPct?: number; gamesPlayed?: number }\nexport type TeamMetricsData = { updatedAt: string; season: string; source: string; status: string; teams: Record<string, TeamMetricRow> }\nexport type ProbabilityCalibrator = { a: number; b: number; trainingSamples: number }
 export type ModelResult = {
   available: boolean; reason?: string; homeRecord: string; awayRecord: string;
   homePpg: number; homeOppPpg: number; awayPpg: number; awayOppPpg: number;
