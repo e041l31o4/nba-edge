@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T16:41:33.746595+00:00",
+  "updatedAt": "2026-10-31T16:42:00.968599+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -8,84 +8,52 @@
       "abbreviation": "ATL",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
+          "date": "2026-10-30T00:00Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 111.0,
+          "win": true,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5"
+        },
+        {
+          "date": "2026-10-28T23:00Z",
           "pointsFor": 117.0,
-          "pointsAgainst": 143.0,
+          "pointsAgainst": 129.0,
           "win": false,
           "opponent": "Miami Heat",
           "opponentId": "14"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 124.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 122.0,
+          "date": "2026-10-27T00:30Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 120.0,
           "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
+          "opponent": "Houston Rockets",
+          "opponentId": "10"
         },
         {
-          "date": "2026-04-06T23:00Z",
-          "pointsFor": 105.0,
-          "pointsAgainst": 108.0,
+          "date": "2026-10-25T00:30Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 121.0,
           "win": false,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
+          "opponent": "Houston Rockets",
+          "opponentId": "10"
         },
         {
-          "date": "2026-04-03T23:30Z",
-          "pointsFor": 141.0,
-          "pointsAgainst": 107.0,
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 81.0,
           "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30"
         },
         {
-          "date": "2026-04-01T23:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 101.0,
+          "date": "2026-10-21T23:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 125.0,
           "win": true,
           "opponent": "Orlando Magic",
           "opponentId": "19"
-        },
-        {
-          "date": "2026-03-30T23:30Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-03-28T23:30Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
-        },
-        {
-          "date": "2026-03-27T23:30Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 109.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-03-25T23:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 129.0,
-          "win": true,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
         }
       ]
     },
@@ -95,84 +63,44 @@
       "abbreviation": "BOS",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 108.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 111.0,
           "win": true,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
+          "opponent": "Chicago Bulls",
+          "opponentId": "4"
         },
         {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 144.0,
-          "pointsAgainst": 118.0,
+          "date": "2026-10-27T23:30Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 124.0,
           "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17"
         },
         {
-          "date": "2026-04-09T23:30Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 112.0,
-          "win": false,
+          "date": "2026-10-26T23:30Z",
+          "pointsFor": 134.0,
+          "pointsAgainst": 99.0,
+          "win": true,
+          "opponent": "Chicago Bulls",
+          "opponentId": "4"
+        },
+        {
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 107.0,
+          "pointsAgainst": 103.0,
+          "win": true,
           "opponent": "New York Knicks",
           "opponentId": "18"
         },
         {
-          "date": "2026-04-08T00:00Z",
+          "date": "2026-10-20T19:00Z",
           "pointsFor": 113.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 133.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-04-01T23:30Z",
-          "pointsFor": 147.0,
-          "pointsAgainst": 129.0,
-          "win": true,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-03-30T23:30Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 112.0,
+          "pointsAgainst": 121.0,
           "win": false,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-03-27T23:30Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
+          "opponent": "Detroit Pistons",
+          "opponentId": "8"
         }
       ]
     },
@@ -182,84 +110,44 @@
       "abbreviation": "BKN",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 136.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 94.0,
+          "pointsAgainst": 110.0,
           "win": false,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
+          "opponent": "Detroit Pistons",
+          "opponentId": "8"
         },
         {
-          "date": "2026-04-11T00:00Z",
-          "pointsFor": 108.0,
+          "date": "2026-10-27T23:30Z",
+          "pointsFor": 124.0,
           "pointsAgainst": 125.0,
           "win": false,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
+          "opponent": "Boston Celtics",
+          "opponentId": "2"
         },
         {
-          "date": "2026-04-09T23:30Z",
-          "pointsFor": 94.0,
-          "pointsAgainst": 123.0,
+          "date": "2026-10-25T22:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 136.0,
           "win": false,
           "opponent": "Indiana Pacers",
           "opponentId": "11"
         },
         {
-          "date": "2026-04-07T23:30Z",
-          "pointsFor": 96.0,
-          "pointsAgainst": 90.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
+          "date": "2026-10-24T23:30Z",
           "pointsFor": 121.0,
-          "pointsAgainst": 115.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-04-03T23:30Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 141.0,
+          "pointsAgainst": 125.0,
           "win": false,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5"
         },
         {
-          "date": "2026-03-31T23:30Z",
-          "pointsFor": 86.0,
-          "pointsAgainst": 117.0,
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 110.0,
           "win": false,
           "opponent": "Charlotte Hornets",
           "opponentId": "30"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
-        },
-        {
-          "date": "2026-03-28T02:30Z",
-          "pointsFor": 99.0,
-          "pointsAgainst": 116.0,
-          "win": false,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
-        },
-        {
-          "date": "2026-03-26T02:00Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 109.0,
-          "win": false,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
         }
       ]
     },
@@ -269,84 +157,52 @@
       "abbreviation": "CHA",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 96.0,
-          "win": true,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
+          "date": "2026-10-30T23:00Z",
+          "pointsFor": 79.0,
+          "pointsAgainst": 95.0,
+          "win": false,
+          "opponent": "Washington Wizards",
+          "opponentId": "27"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 100.0,
-          "pointsAgainst": 118.0,
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 89.0,
+          "pointsAgainst": 97.0,
           "win": false,
           "opponent": "Detroit Pistons",
           "opponentId": "8"
         },
         {
-          "date": "2026-04-08T00:00Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 113.0,
+          "date": "2026-10-26T23:00Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Washington Wizards",
+          "opponentId": "27"
+        },
+        {
+          "date": "2026-10-24T22:00Z",
+          "pointsFor": 115.0,
+          "pointsAgainst": 110.0,
+          "win": true,
+          "opponent": "Miami Heat",
+          "opponentId": "14"
+        },
+        {
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 81.0,
+          "pointsAgainst": 128.0,
           "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1"
         },
         {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 122.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-04-03T23:00Z",
-          "pointsFor": 129.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
-        },
-        {
-          "date": "2026-04-02T23:00Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 107.0,
-          "win": true,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-03-31T23:30Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 86.0,
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 103.0,
           "win": true,
           "opponent": "Brooklyn Nets",
           "opponentId": "17"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 99.0,
-          "pointsAgainst": 114.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-03-28T22:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 118.0,
-          "win": false,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-03-26T23:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 103.0,
-          "win": true,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
         }
       ]
     },
@@ -356,84 +212,52 @@
       "abbreviation": "CHI",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 149.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 125.0,
           "win": false,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
+          "opponent": "Boston Celtics",
+          "opponentId": "2"
         },
         {
-          "date": "2026-04-11T00:00Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
-        },
-        {
-          "date": "2026-04-09T23:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-04-07T23:00Z",
-          "pointsFor": 129.0,
-          "pointsAgainst": 98.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 120.0,
-          "win": false,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-04-03T23:30Z",
-          "pointsFor": 96.0,
-          "pointsAgainst": 136.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 127.0,
+          "pointsAgainst": 133.0,
           "win": false,
           "opponent": "New York Knicks",
           "opponentId": "18"
         },
         {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 126.0,
-          "pointsAgainst": 145.0,
+          "date": "2026-10-26T23:30Z",
+          "pointsFor": 99.0,
+          "pointsAgainst": 134.0,
           "win": false,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
+          "opponent": "Boston Celtics",
+          "opponentId": "2"
         },
         {
-          "date": "2026-03-31T00:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 129.0,
+          "date": "2026-10-25T00:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 124.0,
           "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
+          "opponent": "Washington Wizards",
+          "opponentId": "27"
         },
         {
-          "date": "2026-03-29T00:00Z",
-          "pointsFor": 124.0,
+          "date": "2026-10-23T20:00Z",
+          "pointsFor": 132.0,
           "pointsAgainst": 125.0,
-          "win": false,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15"
         },
         {
-          "date": "2026-03-28T00:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 131.0,
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 92.0,
+          "pointsAgainst": 135.0,
           "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
+          "opponent": "Toronto Raptors",
+          "opponentId": "28"
         }
       ]
     },
@@ -443,84 +267,44 @@
       "abbreviation": "CLE",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 117.0,
+          "date": "2026-10-30T00:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 114.0,
+          "win": false,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1"
+        },
+        {
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 111.0,
           "win": true,
           "opponent": "Washington Wizards",
           "opponentId": "27"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 124.0,
+          "date": "2026-10-26T23:00Z",
+          "pointsFor": 127.0,
+          "pointsAgainst": 125.0,
+          "win": true,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
+        },
+        {
+          "date": "2026-10-24T23:30Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 121.0,
+          "win": true,
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17"
+        },
+        {
+          "date": "2026-10-22T23:00Z",
+          "pointsFor": 106.0,
+          "pointsAgainst": 114.0,
           "win": false,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 122.0,
-          "pointsAgainst": 116.0,
-          "win": true,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-04-07T00:00Z",
-          "pointsFor": 142.0,
-          "pointsAgainst": 126.0,
-          "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
-        },
-        {
-          "date": "2026-04-05T22:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
-        },
-        {
-          "date": "2026-04-03T02:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 111.0,
-          "win": true,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
-        },
-        {
-          "date": "2026-04-01T02:30Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
-        },
-        {
-          "date": "2026-03-31T01:00Z",
-          "pointsFor": 122.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-03-27T23:30Z",
-          "pointsFor": 149.0,
-          "pointsAgainst": 128.0,
-          "win": true,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-03-25T23:30Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 120.0,
-          "win": false,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20"
         }
       ]
     },
@@ -530,84 +314,52 @@
       "abbreviation": "DAL",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 149.0,
-          "pointsAgainst": 128.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 111.0,
           "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
+          "opponent": "Houston Rockets",
+          "opponentId": "10"
         },
         {
-          "date": "2026-04-11T00:00Z",
+          "date": "2026-10-29T01:30Z",
           "pointsFor": 120.0,
-          "pointsAgainst": 139.0,
+          "pointsAgainst": 96.0,
+          "win": true,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25"
+        },
+        {
+          "date": "2026-10-26T23:30Z",
+          "pointsFor": 113.0,
+          "pointsAgainst": 109.0,
+          "win": true,
+          "opponent": "Miami Heat",
+          "opponentId": "14"
+        },
+        {
+          "date": "2026-10-25T00:00Z",
+          "pointsFor": 106.0,
+          "pointsAgainst": 122.0,
           "win": false,
           "opponent": "San Antonio Spurs",
           "opponentId": "24"
         },
         {
-          "date": "2026-04-09T02:00Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 112.0,
-          "win": false,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 105.0,
+          "win": true,
+          "opponent": "Indiana Pacers",
+          "opponentId": "11"
         },
         {
-          "date": "2026-04-08T02:30Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 116.0,
-          "win": false,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-04-05T23:30Z",
-          "pointsFor": 134.0,
+          "date": "2026-10-22T00:30Z",
+          "pointsFor": 110.0,
           "pointsAgainst": 128.0,
-          "win": true,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
-        },
-        {
-          "date": "2026-04-04T00:30Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 138.0,
           "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
-        },
-        {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 99.0,
-          "pointsAgainst": 123.0,
-          "win": false,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-03-31T00:30Z",
-          "pointsFor": 94.0,
-          "pointsAgainst": 124.0,
-          "win": false,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-03-28T02:00Z",
-          "pointsFor": 100.0,
-          "pointsAgainst": 93.0,
-          "win": true,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
-        },
-        {
-          "date": "2026-03-26T02:00Z",
-          "pointsFor": 135.0,
-          "pointsAgainst": 142.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
+          "opponent": "Houston Rockets",
+          "opponentId": "10"
         }
       ]
     },
@@ -617,84 +369,44 @@
       "abbreviation": "DEN",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 118.0,
-          "win": true,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-04-11T01:00Z",
+          "date": "2026-10-31T02:00Z",
           "pointsFor": 127.0,
-          "pointsAgainst": 107.0,
+          "pointsAgainst": 120.0,
           "win": true,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
+          "opponent": "Phoenix Suns",
+          "opponentId": "21"
         },
         {
-          "date": "2026-04-09T01:00Z",
-          "pointsFor": 136.0,
-          "pointsAgainst": 119.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 104.0,
+          "pointsAgainst": 91.0,
           "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3"
         },
         {
-          "date": "2026-04-07T01:00Z",
-          "pointsFor": 137.0,
-          "pointsAgainst": 132.0,
-          "win": true,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
-        },
-        {
-          "date": "2026-04-04T19:00Z",
-          "pointsFor": 136.0,
+          "date": "2026-10-27T02:00Z",
+          "pointsFor": 114.0,
           "pointsAgainst": 134.0,
-          "win": true,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-04-02T01:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 117.0,
-          "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-03-30T02:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 93.0,
-          "win": true,
+          "win": false,
           "opponent": "Golden State Warriors",
           "opponentId": "9"
         },
         {
-          "date": "2026-03-28T01:00Z",
-          "pointsFor": 135.0,
-          "pointsAgainst": 129.0,
-          "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-03-26T02:00Z",
-          "pointsFor": 142.0,
+          "date": "2026-10-25T01:00Z",
+          "pointsFor": 141.0,
           "pointsAgainst": 135.0,
           "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3"
         },
         {
-          "date": "2026-03-25T03:00Z",
-          "pointsFor": 125.0,
-          "pointsAgainst": 123.0,
-          "win": true,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
+          "date": "2026-10-23T01:30Z",
+          "pointsFor": 84.0,
+          "pointsAgainst": 96.0,
+          "win": false,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25"
         }
       ]
     },
@@ -704,84 +416,52 @@
       "abbreviation": "DET",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 133.0,
-          "pointsAgainst": 121.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 94.0,
           "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 100.0,
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 97.0,
+          "pointsAgainst": 89.0,
           "win": true,
           "opponent": "Charlotte Hornets",
           "opponentId": "30"
         },
         {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 137.0,
+          "date": "2026-10-28T00:00Z",
+          "pointsFor": 97.0,
           "pointsAgainst": 111.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-04-06T23:00Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 123.0,
           "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
+          "opponent": "New York Knicks",
+          "opponentId": "18"
         },
         {
-          "date": "2026-04-04T23:00Z",
-          "pointsFor": 116.0,
+          "date": "2026-10-25T23:30Z",
+          "pointsFor": 106.0,
           "pointsAgainst": 93.0,
           "win": true,
           "opponent": "Philadelphia 76ers",
           "opponentId": "20"
         },
         {
-          "date": "2026-04-02T23:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 108.0,
+          "date": "2026-10-24T00:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 111.0,
           "win": true,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
+          "opponent": "Miami Heat",
+          "opponentId": "14"
         },
         {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 116.0,
+          "date": "2026-10-20T19:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 113.0,
           "win": true,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-03-31T01:30Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 114.0,
-          "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
-        },
-        {
-          "date": "2026-03-28T21:30Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 87.0,
-          "win": true,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-03-26T23:00Z",
-          "pointsFor": 129.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "opponent": "Boston Celtics",
+          "opponentId": "2"
         }
       ]
     },
@@ -791,84 +471,52 @@
       "abbreviation": "GS",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 115.0,
-          "win": false,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-04-11T02:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 124.0,
-          "win": false,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
-        },
-        {
-          "date": "2026-04-10T02:00Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 119.0,
-          "win": false,
+          "date": "2026-10-31T02:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 95.0,
+          "win": true,
           "opponent": "Los Angeles Lakers",
           "opponentId": "13"
         },
         {
-          "date": "2026-04-08T02:00Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 105.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 114.0,
           "win": true,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
         },
         {
-          "date": "2026-04-06T02:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 117.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
-        },
-        {
-          "date": "2026-04-03T02:00Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 118.0,
-          "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-04-02T02:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-03-30T02:00Z",
-          "pointsFor": 93.0,
-          "pointsAgainst": 116.0,
-          "win": false,
+          "date": "2026-10-27T02:00Z",
+          "pointsFor": 134.0,
+          "pointsAgainst": 114.0,
+          "win": true,
           "opponent": "Denver Nuggets",
           "opponentId": "7"
         },
         {
-          "date": "2026-03-28T02:00Z",
-          "pointsFor": 131.0,
-          "pointsAgainst": 126.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
+          "date": "2026-10-25T02:00Z",
+          "pointsFor": 122.0,
+          "pointsAgainst": 131.0,
+          "win": false,
+          "opponent": "Phoenix Suns",
+          "opponentId": "21"
         },
         {
-          "date": "2026-03-26T02:00Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 106.0,
-          "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 108.0,
+          "pointsAgainst": 111.0,
+          "win": false,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29"
+        },
+        {
+          "date": "2026-10-22T02:00Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 127.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13"
         }
       ]
     },
@@ -878,84 +526,52 @@
       "abbreviation": "HOU",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 132.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
-        },
-        {
-          "date": "2026-04-11T01:30Z",
-          "pointsFor": 132.0,
-          "pointsAgainst": 136.0,
-          "win": false,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-04-10T00:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-04-08T03:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 105.0,
-          "win": true,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-04-06T02:00Z",
-          "pointsFor": 117.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 111.0,
           "pointsAgainst": 116.0,
-          "win": true,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
+          "win": false,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6"
         },
         {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 140.0,
-          "pointsAgainst": 106.0,
-          "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 113.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 100.0,
           "win": true,
           "opponent": "Milwaukee Bucks",
           "opponentId": "15"
         },
         {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 94.0,
+          "date": "2026-10-27T00:30Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 110.0,
           "win": true,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1"
         },
         {
-          "date": "2026-03-29T23:00Z",
-          "pointsFor": 134.0,
-          "pointsAgainst": 102.0,
+          "date": "2026-10-25T00:30Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 114.0,
           "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1"
         },
         {
-          "date": "2026-03-28T00:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 109.0,
+          "date": "2026-10-24T01:30Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 110.0,
           "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24"
+        },
+        {
+          "date": "2026-10-22T00:30Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 110.0,
+          "win": true,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6"
         }
       ]
     },
@@ -965,84 +581,52 @@
       "abbreviation": "IND",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 121.0,
-          "pointsAgainst": 133.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 145.0,
           "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
+          "opponent": "Miami Heat",
+          "opponentId": "14"
         },
         {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 94.0,
-          "pointsAgainst": 105.0,
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 114.0,
           "win": false,
           "opponent": "Philadelphia 76ers",
           "opponentId": "20"
         },
         {
-          "date": "2026-04-09T23:30Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 94.0,
+          "date": "2026-10-27T00:00Z",
+          "pointsFor": 102.0,
+          "pointsAgainst": 110.0,
+          "win": false,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15"
+        },
+        {
+          "date": "2026-10-25T22:00Z",
+          "pointsFor": 136.0,
+          "pointsAgainst": 109.0,
           "win": true,
           "opponent": "Brooklyn Nets",
           "opponentId": "17"
         },
         {
-          "date": "2026-04-07T23:00Z",
-          "pointsFor": 104.0,
-          "pointsAgainst": 124.0,
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 121.0,
           "win": false,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6"
         },
         {
-          "date": "2026-04-05T22:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 117.0,
-          "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-04-03T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 129.0,
-          "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 145.0,
-          "pointsAgainst": 126.0,
+          "date": "2026-10-22T00:00Z",
+          "pointsFor": 123.0,
+          "pointsAgainst": 120.0,
           "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
-        },
-        {
-          "date": "2026-03-29T21:00Z",
-          "pointsFor": 135.0,
-          "pointsAgainst": 118.0,
-          "win": true,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-03-27T23:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 114.0,
-          "win": false,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-03-25T23:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 137.0,
-          "win": false,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3"
         }
       ]
     },
@@ -1052,84 +636,44 @@
       "abbreviation": "LAC",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 110.0,
-          "win": true,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
-        },
-        {
-          "date": "2026-04-11T02:00Z",
-          "pointsFor": 97.0,
-          "pointsAgainst": 116.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 101.0,
+          "pointsAgainst": 127.0,
           "win": false,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
         },
         {
-          "date": "2026-04-09T02:00Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 128.0,
+          "date": "2026-10-29T02:30Z",
+          "pointsFor": 87.0,
+          "pointsAgainst": 103.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13"
+        },
+        {
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 101.0,
+          "pointsAgainst": 108.0,
           "win": false,
           "opponent": "Oklahoma City Thunder",
           "opponentId": "25"
         },
         {
-          "date": "2026-04-08T02:30Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 103.0,
-          "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 125.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13"
         },
         {
-          "date": "2026-04-06T01:00Z",
-          "pointsFor": 138.0,
-          "pointsAgainst": 109.0,
+          "date": "2026-10-22T02:30Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 96.0,
           "win": true,
           "opponent": "Sacramento Kings",
           "opponentId": "23"
-        },
-        {
-          "date": "2026-04-03T02:30Z",
-          "pointsFor": 99.0,
-          "pointsAgainst": 118.0,
-          "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-04-01T03:00Z",
-          "pointsFor": 104.0,
-          "pointsAgainst": 114.0,
-          "win": false,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
-        },
-        {
-          "date": "2026-03-29T19:30Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-03-27T23:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
-        },
-        {
-          "date": "2026-03-26T02:30Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 94.0,
-          "win": true,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
         }
       ]
     },
@@ -1139,84 +683,52 @@
       "abbreviation": "LAL",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 131.0,
-          "pointsAgainst": 107.0,
+          "date": "2026-10-31T02:00Z",
+          "pointsFor": 95.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "Golden State Warriors",
+          "opponentId": "9"
+        },
+        {
+          "date": "2026-10-29T02:30Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 87.0,
+          "win": true,
+          "opponent": "LA Clippers",
+          "opponentId": "12"
+        },
+        {
+          "date": "2026-10-28T03:00Z",
+          "pointsFor": 129.0,
+          "pointsAgainst": 136.0,
+          "win": false,
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22"
+        },
+        {
+          "date": "2026-10-25T21:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 123.0,
           "win": true,
           "opponent": "Utah Jazz",
           "opponentId": "26"
         },
         {
-          "date": "2026-04-11T02:30Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 73.0,
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 117.0,
           "win": true,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
+          "opponent": "LA Clippers",
+          "opponentId": "12"
         },
         {
-          "date": "2026-04-10T02:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 103.0,
+          "date": "2026-10-22T02:00Z",
+          "pointsFor": 127.0,
+          "pointsAgainst": 105.0,
           "win": true,
           "opponent": "Golden State Warriors",
           "opponentId": "9"
-        },
-        {
-          "date": "2026-04-08T02:30Z",
-          "pointsFor": 87.0,
-          "pointsAgainst": 123.0,
-          "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
-        },
-        {
-          "date": "2026-04-05T23:30Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 134.0,
-          "win": false,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
-        },
-        {
-          "date": "2026-04-03T01:30Z",
-          "pointsFor": 96.0,
-          "pointsAgainst": 139.0,
-          "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
-        },
-        {
-          "date": "2026-04-01T02:30Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-03-31T02:00Z",
-          "pointsFor": 120.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-03-28T02:30Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-03-25T23:00Z",
-          "pointsFor": 137.0,
-          "pointsAgainst": 130.0,
-          "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
         }
       ]
     },
@@ -1226,84 +738,44 @@
       "abbreviation": "MEM",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 132.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
+          "date": "2026-10-30T02:00Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22"
         },
         {
-          "date": "2026-04-11T01:30Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 147.0,
-          "win": false,
+          "date": "2026-10-27T01:00Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 105.0,
+          "win": true,
           "opponent": "Utah Jazz",
           "opponentId": "26"
         },
         {
-          "date": "2026-04-09T01:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 136.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-04-07T00:00Z",
-          "pointsFor": 126.0,
-          "pointsAgainst": 142.0,
-          "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 131.0,
-          "win": false,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 96.0,
-          "pointsAgainst": 128.0,
-          "win": false,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 130.0,
-          "win": false,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
-        },
-        {
-          "date": "2026-03-31T00:00Z",
-          "pointsFor": 105.0,
-          "pointsAgainst": 131.0,
-          "win": false,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-03-29T00:00Z",
-          "pointsFor": 125.0,
-          "pointsAgainst": 124.0,
+          "date": "2026-10-26T01:00Z",
+          "pointsFor": 123.0,
+          "pointsAgainst": 112.0,
           "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
+          "opponent": "Sacramento Kings",
+          "opponentId": "23"
         },
         {
-          "date": "2026-03-28T00:00Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 119.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 108.0,
+          "win": true,
+          "opponent": "Golden State Warriors",
+          "opponentId": "9"
+        },
+        {
+          "date": "2026-10-22T00:00Z",
+          "pointsFor": 123.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Utah Jazz",
+          "opponentId": "26"
         }
       ]
     },
@@ -1313,84 +785,52 @@
       "abbreviation": "MIA",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 143.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 145.0,
+          "pointsAgainst": 125.0,
+          "win": true,
+          "opponent": "Indiana Pacers",
+          "opponentId": "11"
+        },
+        {
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 129.0,
           "pointsAgainst": 117.0,
           "win": true,
           "opponent": "Atlanta Hawks",
           "opponentId": "1"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 140.0,
-          "pointsAgainst": 117.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
+          "date": "2026-10-26T23:30Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 113.0,
+          "win": false,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6"
         },
         {
-          "date": "2026-04-09T23:00Z",
-          "pointsFor": 114.0,
+          "date": "2026-10-24T22:00Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 115.0,
+          "win": false,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30"
+        },
+        {
+          "date": "2026-10-24T00:00Z",
+          "pointsFor": 111.0,
           "pointsAgainst": 128.0,
           "win": false,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
+          "opponent": "Detroit Pistons",
+          "opponentId": "8"
         },
         {
-          "date": "2026-04-07T23:30Z",
-          "pointsFor": 95.0,
-          "pointsAgainst": 121.0,
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 106.0,
+          "pointsAgainst": 131.0,
           "win": false,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-04-04T19:00Z",
-          "pointsFor": 152.0,
-          "pointsAgainst": 136.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-04-01T23:30Z",
-          "pointsFor": 129.0,
-          "pointsAgainst": 147.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-03-30T23:00Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 109.0,
-          "win": true,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-03-29T21:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 135.0,
-          "win": false,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
-        },
-        {
-          "date": "2026-03-27T23:30Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 149.0,
-          "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-03-25T23:30Z",
-          "pointsFor": 120.0,
-          "pointsAgainst": 103.0,
-          "win": true,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
         }
       ]
     },
@@ -1400,84 +840,44 @@
       "abbreviation": "MIL",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 126.0,
-          "win": false,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-04-11T00:00Z",
-          "pointsFor": 125.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 137.0,
-          "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-04-07T23:30Z",
-          "pointsFor": 90.0,
-          "pointsAgainst": 96.0,
-          "win": false,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 131.0,
-          "pointsAgainst": 115.0,
-          "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
-        },
-        {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 133.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 119.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 132.0,
           "win": false,
           "opponent": "Houston Rockets",
           "opponentId": "10"
         },
         {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 99.0,
+          "date": "2026-10-27T00:00Z",
+          "pointsFor": 110.0,
+          "pointsAgainst": 102.0,
           "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
+          "opponent": "Indiana Pacers",
+          "opponentId": "11"
         },
         {
-          "date": "2026-03-29T19:30Z",
-          "pointsFor": 113.0,
+          "date": "2026-10-24T23:30Z",
+          "pointsFor": 116.0,
           "pointsAgainst": 127.0,
           "win": false,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20"
         },
         {
-          "date": "2026-03-28T19:00Z",
-          "pointsFor": 95.0,
-          "pointsAgainst": 127.0,
+          "date": "2026-10-23T20:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 132.0,
           "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
+          "opponent": "Chicago Bulls",
+          "opponentId": "4"
+        },
+        {
+          "date": "2026-10-21T23:00Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 128.0,
+          "win": false,
+          "opponent": "Washington Wizards",
+          "opponentId": "27"
         }
       ]
     },
@@ -1487,84 +887,52 @@
       "abbreviation": "MIN",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 132.0,
-          "pointsAgainst": 126.0,
+          "date": "2026-10-31T00:00Z",
+          "pointsFor": 127.0,
+          "pointsAgainst": 101.0,
           "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "opponent": "LA Clippers",
+          "opponentId": "12"
         },
         {
-          "date": "2026-04-11T01:30Z",
-          "pointsFor": 136.0,
-          "pointsAgainst": 132.0,
-          "win": true,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
-        },
-        {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 120.0,
-          "pointsAgainst": 132.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 119.0,
           "win": false,
+          "opponent": "Golden State Warriors",
+          "opponentId": "9"
+        },
+        {
+          "date": "2026-10-26T23:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 127.0,
+          "win": false,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5"
+        },
+        {
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 94.0,
+          "win": true,
+          "opponent": "Toronto Raptors",
+          "opponentId": "28"
+        },
+        {
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 115.0,
+          "pointsAgainst": 93.0,
+          "win": true,
           "opponent": "Orlando Magic",
           "opponentId": "19"
         },
         {
-          "date": "2026-04-07T23:00Z",
-          "pointsFor": 124.0,
-          "pointsAgainst": 104.0,
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 131.0,
+          "pointsAgainst": 106.0,
           "win": true,
-          "opponent": "Indiana Pacers",
-          "opponentId": "11"
-        },
-        {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 122.0,
-          "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-04-03T23:00Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 115.0,
-          "win": false,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-04-02T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 113.0,
-          "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-03-31T00:30Z",
-          "pointsFor": 124.0,
-          "pointsAgainst": 94.0,
-          "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
-        },
-        {
-          "date": "2026-03-28T21:30Z",
-          "pointsFor": 87.0,
-          "pointsAgainst": 109.0,
-          "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-03-26T01:42Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
+          "opponent": "Miami Heat",
+          "opponentId": "14"
         }
       ]
     },
@@ -1574,84 +942,44 @@
       "abbreviation": "NO",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 126.0,
-          "pointsAgainst": 132.0,
-          "win": false,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 144.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-04-08T00:00Z",
-          "pointsFor": 156.0,
-          "pointsAgainst": 137.0,
+          "date": "2026-10-30T00:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 120.0,
           "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 112.0,
-          "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
-        },
-        {
-          "date": "2026-04-04T02:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 117.0,
-          "win": false,
           "opponent": "Sacramento Kings",
           "opponentId": "23"
         },
         {
-          "date": "2026-04-03T02:00Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 118.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 91.0,
+          "pointsAgainst": 104.0,
           "win": false,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
+          "opponent": "Denver Nuggets",
+          "opponentId": "7"
         },
         {
-          "date": "2026-03-29T23:00Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 134.0,
+          "date": "2026-10-25T01:00Z",
+          "pointsFor": 135.0,
+          "pointsAgainst": 141.0,
           "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
+          "opponent": "Denver Nuggets",
+          "opponentId": "7"
         },
         {
-          "date": "2026-03-28T00:30Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 119.0,
+          "date": "2026-10-24T01:30Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 120.0,
           "win": false,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
+          "opponent": "Utah Jazz",
+          "opponentId": "26"
         },
         {
-          "date": "2026-03-26T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 129.0,
+          "date": "2026-10-22T00:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 123.0,
           "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-03-24T23:30Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 121.0,
-          "win": false,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
+          "opponent": "Indiana Pacers",
+          "opponentId": "11"
         }
       ]
     },
@@ -1661,84 +989,52 @@
       "abbreviation": "NY",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 96.0,
-          "pointsAgainst": 110.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 93.0,
+          "pointsAgainst": 98.0,
           "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20"
         },
         {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 95.0,
-          "win": true,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-04-09T23:30Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 106.0,
-          "win": true,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-04-06T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 105.0,
-          "win": true,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-04-03T23:30Z",
-          "pointsFor": 136.0,
-          "pointsAgainst": 96.0,
+          "date": "2026-10-29T00:00Z",
+          "pointsFor": 133.0,
+          "pointsAgainst": 127.0,
           "win": true,
           "opponent": "Chicago Bulls",
           "opponentId": "4"
         },
         {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 119.0,
+          "date": "2026-10-28T00:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 97.0,
           "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "opponent": "Detroit Pistons",
+          "opponentId": "8"
         },
         {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 94.0,
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 102.0,
           "pointsAgainst": 111.0,
           "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
+          "opponent": "Orlando Magic",
+          "opponentId": "19"
         },
         {
-          "date": "2026-03-29T23:30Z",
-          "pointsFor": 100.0,
-          "pointsAgainst": 111.0,
-          "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
-        },
-        {
-          "date": "2026-03-26T23:00Z",
+          "date": "2026-10-23T23:00Z",
           "pointsFor": 103.0,
-          "pointsAgainst": 114.0,
+          "pointsAgainst": 107.0,
           "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
+          "opponent": "Boston Celtics",
+          "opponentId": "2"
         },
         {
-          "date": "2026-03-24T23:30Z",
-          "pointsFor": 121.0,
-          "pointsAgainst": 116.0,
-          "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "date": "2026-10-20T23:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 106.0,
+          "win": false,
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20"
         }
       ]
     },
@@ -1748,84 +1044,44 @@
       "abbreviation": "OKC",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 103.0,
-          "pointsAgainst": 135.0,
+          "date": "2026-10-29T01:30Z",
+          "pointsFor": 96.0,
+          "pointsAgainst": 120.0,
           "win": false,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6"
+        },
+        {
+          "date": "2026-10-27T00:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 114.0,
+          "win": true,
           "opponent": "Phoenix Suns",
           "opponentId": "21"
         },
         {
-          "date": "2026-04-11T01:00Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-04-09T02:00Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 110.0,
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 108.0,
+          "pointsAgainst": 101.0,
           "win": true,
           "opponent": "LA Clippers",
           "opponentId": "12"
         },
         {
-          "date": "2026-04-08T02:30Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 87.0,
+          "date": "2026-10-23T01:30Z",
+          "pointsFor": 96.0,
+          "pointsAgainst": 84.0,
           "win": true,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
+          "opponent": "Denver Nuggets",
+          "opponentId": "7"
         },
         {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 146.0,
-          "pointsAgainst": 111.0,
+          "date": "2026-10-21T01:50Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 104.0,
           "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-04-03T01:30Z",
-          "pointsFor": 139.0,
-          "pointsAgainst": 96.0,
-          "win": true,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
-        },
-        {
-          "date": "2026-03-31T01:30Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 110.0,
-          "win": true,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-03-29T23:30Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 100.0,
-          "win": true,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
-        },
-        {
-          "date": "2026-03-28T00:00Z",
-          "pointsFor": 131.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
-        },
-        {
-          "date": "2026-03-25T23:30Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 119.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24"
         }
       ]
     },
@@ -1835,84 +1091,44 @@
       "abbreviation": "ORL",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 113.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-04-11T00:00Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 103.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 114.0,
           "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
+          "opponent": "Toronto Raptors",
+          "opponentId": "28"
         },
         {
-          "date": "2026-04-08T23:00Z",
-          "pointsFor": 132.0,
-          "pointsAgainst": 120.0,
-          "win": true,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
-        },
-        {
-          "date": "2026-04-06T23:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 107.0,
-          "win": true,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 108.0,
-          "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
-        },
-        {
-          "date": "2026-04-04T00:30Z",
-          "pointsFor": 138.0,
-          "pointsAgainst": 127.0,
-          "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
-        },
-        {
-          "date": "2026-04-01T23:00Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 130.0,
-          "win": false,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-03-31T23:00Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 111.0,
-          "win": true,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 87.0,
-          "pointsAgainst": 139.0,
+          "date": "2026-10-28T23:30Z",
+          "pointsFor": 99.0,
+          "pointsAgainst": 129.0,
           "win": false,
           "opponent": "Toronto Raptors",
           "opponentId": "28"
         },
         {
-          "date": "2026-03-26T23:00Z",
-          "pointsFor": 121.0,
-          "pointsAgainst": 117.0,
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 102.0,
           "win": true,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
+          "opponent": "New York Knicks",
+          "opponentId": "18"
+        },
+        {
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 93.0,
+          "pointsAgainst": 115.0,
+          "win": false,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
+        },
+        {
+          "date": "2026-10-21T23:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 132.0,
+          "win": false,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1"
         }
       ]
     },
@@ -1922,84 +1138,52 @@
       "abbreviation": "PHI",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 126.0,
-          "pointsAgainst": 106.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 98.0,
+          "pointsAgainst": 93.0,
           "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
+          "opponent": "New York Knicks",
+          "opponentId": "18"
         },
         {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 105.0,
-          "pointsAgainst": 94.0,
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 109.0,
           "win": true,
           "opponent": "Indiana Pacers",
           "opponentId": "11"
         },
         {
-          "date": "2026-04-10T00:00Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 113.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
-        },
-        {
-          "date": "2026-04-07T00:00Z",
-          "pointsFor": 102.0,
-          "pointsAgainst": 115.0,
-          "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-04-04T23:00Z",
+          "date": "2026-10-25T23:30Z",
           "pointsFor": 93.0,
-          "pointsAgainst": 116.0,
+          "pointsAgainst": 106.0,
           "win": false,
           "opponent": "Detroit Pistons",
           "opponentId": "8"
         },
         {
-          "date": "2026-04-03T23:00Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 103.0,
+          "date": "2026-10-24T23:30Z",
+          "pointsFor": 127.0,
+          "pointsAgainst": 116.0,
           "win": true,
-          "opponent": "Minnesota Timberwolves",
-          "opponentId": "16"
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15"
         },
         {
-          "date": "2026-04-01T23:00Z",
-          "pointsFor": 153.0,
-          "pointsAgainst": 131.0,
+          "date": "2026-10-22T23:00Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 106.0,
           "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5"
         },
         {
-          "date": "2026-03-30T23:00Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 119.0,
-          "win": false,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-03-28T22:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 114.0,
+          "date": "2026-10-20T23:00Z",
+          "pointsFor": 106.0,
+          "pointsAgainst": 100.0,
           "win": true,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-03-25T23:00Z",
-          "pointsFor": 157.0,
-          "pointsAgainst": 137.0,
-          "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
+          "opponent": "New York Knicks",
+          "opponentId": "18"
         }
       ]
     },
@@ -2009,84 +1193,36 @@
       "abbreviation": "PHX",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 135.0,
-          "pointsAgainst": 103.0,
-          "win": true,
+          "date": "2026-10-31T02:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 127.0,
+          "win": false,
+          "opponent": "Denver Nuggets",
+          "opponentId": "7"
+        },
+        {
+          "date": "2026-10-27T00:00Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 125.0,
+          "win": false,
           "opponent": "Oklahoma City Thunder",
           "opponentId": "25"
         },
         {
-          "date": "2026-04-11T02:30Z",
-          "pointsFor": 73.0,
-          "pointsAgainst": 101.0,
-          "win": false,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
-        },
-        {
-          "date": "2026-04-09T02:00Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 107.0,
-          "win": true,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
-        },
-        {
-          "date": "2026-04-08T03:00Z",
-          "pointsFor": 105.0,
-          "pointsAgainst": 119.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 120.0,
-          "pointsAgainst": 110.0,
-          "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
-        },
-        {
-          "date": "2026-04-02T23:00Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
-        },
-        {
-          "date": "2026-03-31T23:00Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 115.0,
-          "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
-        },
-        {
-          "date": "2026-03-31T00:00Z",
+          "date": "2026-10-25T02:00Z",
           "pointsFor": 131.0,
-          "pointsAgainst": 105.0,
+          "pointsAgainst": 122.0,
           "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "opponent": "Golden State Warriors",
+          "opponentId": "9"
         },
         {
-          "date": "2026-03-29T02:00Z",
-          "pointsFor": 134.0,
-          "pointsAgainst": 109.0,
-          "win": true,
-          "opponent": "Utah Jazz",
-          "opponentId": "26"
-        },
-        {
-          "date": "2026-03-25T03:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 125.0,
+          "date": "2026-10-22T02:00Z",
+          "pointsFor": 83.0,
+          "pointsAgainst": 124.0,
           "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22"
         }
       ]
     },
@@ -2096,84 +1232,36 @@
       "abbreviation": "POR",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 122.0,
-          "pointsAgainst": 110.0,
+          "date": "2026-10-30T02:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 124.0,
+          "win": false,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29"
+        },
+        {
+          "date": "2026-10-28T03:00Z",
+          "pointsFor": 136.0,
+          "pointsAgainst": 129.0,
+          "win": true,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13"
+        },
+        {
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 120.0,
           "win": true,
           "opponent": "Sacramento Kings",
           "opponentId": "23"
         },
         {
-          "date": "2026-04-11T02:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 97.0,
+          "date": "2026-10-22T02:00Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 83.0,
           "win": true,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-04-09T01:30Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 112.0,
-          "win": false,
-          "opponent": "San Antonio Spurs",
-          "opponentId": "24"
-        },
-        {
-          "date": "2026-04-07T01:00Z",
-          "pointsFor": 132.0,
-          "pointsAgainst": 137.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-04-03T02:00Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 106.0,
-          "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
-        },
-        {
-          "date": "2026-04-01T03:00Z",
-          "pointsFor": 114.0,
-          "pointsAgainst": 104.0,
-          "win": true,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 88.0,
-          "win": true,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
-        },
-        {
-          "date": "2026-03-28T02:00Z",
-          "pointsFor": 93.0,
-          "pointsAgainst": 100.0,
-          "win": false,
-          "opponent": "Dallas Mavericks",
-          "opponentId": "6"
-        },
-        {
-          "date": "2026-03-26T02:00Z",
-          "pointsFor": 130.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-03-24T02:00Z",
-          "pointsFor": 134.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
+          "opponent": "Phoenix Suns",
+          "opponentId": "21"
         }
       ]
     },
@@ -2183,84 +1271,44 @@
       "abbreviation": "SAC",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 122.0,
+          "date": "2026-10-30T00:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 132.0,
+          "win": false,
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3"
+        },
+        {
+          "date": "2026-10-28T00:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 130.0,
+          "win": false,
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24"
+        },
+        {
+          "date": "2026-10-26T01:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 123.0,
+          "win": false,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29"
+        },
+        {
+          "date": "2026-10-24T02:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 128.0,
           "win": false,
           "opponent": "Portland Trail Blazers",
           "opponentId": "22"
         },
         {
-          "date": "2026-04-11T02:00Z",
-          "pointsFor": 124.0,
-          "pointsAgainst": 118.0,
-          "win": true,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
-        },
-        {
-          "date": "2026-04-08T02:00Z",
-          "pointsFor": 105.0,
-          "pointsAgainst": 110.0,
-          "win": false,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
-        },
-        {
-          "date": "2026-04-06T01:00Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 138.0,
+          "date": "2026-10-22T02:30Z",
+          "pointsFor": 96.0,
+          "pointsAgainst": 121.0,
           "win": false,
           "opponent": "LA Clippers",
           "opponentId": "12"
-        },
-        {
-          "date": "2026-04-04T02:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 115.0,
-          "win": true,
-          "opponent": "Toronto Raptors",
-          "opponentId": "28"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 99.0,
-          "pointsAgainst": 116.0,
-          "win": false,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-03-28T23:30Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 123.0,
-          "win": false,
-          "opponent": "Atlanta Hawks",
-          "opponentId": "1"
-        },
-        {
-          "date": "2026-03-26T23:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 121.0,
-          "win": false,
-          "opponent": "Orlando Magic",
-          "opponentId": "19"
-        },
-        {
-          "date": "2026-03-24T23:00Z",
-          "pointsFor": 90.0,
-          "pointsAgainst": 134.0,
-          "win": false,
-          "opponent": "Charlotte Hornets",
-          "opponentId": "30"
         }
       ]
     },
@@ -2270,84 +1318,44 @@
       "abbreviation": "SA",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 128.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
+          "date": "2026-10-29T01:00Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 111.0,
+          "win": true,
+          "opponent": "Utah Jazz",
+          "opponentId": "26"
         },
         {
-          "date": "2026-04-11T00:00Z",
-          "pointsFor": 139.0,
-          "pointsAgainst": 120.0,
+          "date": "2026-10-28T00:00Z",
+          "pointsFor": 130.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Sacramento Kings",
+          "opponentId": "23"
+        },
+        {
+          "date": "2026-10-25T00:00Z",
+          "pointsFor": 122.0,
+          "pointsAgainst": 106.0,
           "win": true,
           "opponent": "Dallas Mavericks",
           "opponentId": "6"
         },
         {
-          "date": "2026-04-09T01:30Z",
-          "pointsFor": 112.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
-        },
-        {
-          "date": "2026-04-07T00:00Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 102.0,
-          "win": true,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-04-04T19:00Z",
-          "pointsFor": 134.0,
-          "pointsAgainst": 136.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-04-03T02:30Z",
-          "pointsFor": 118.0,
-          "pointsAgainst": 99.0,
-          "win": true,
-          "opponent": "LA Clippers",
-          "opponentId": "12"
-        },
-        {
-          "date": "2026-04-02T02:00Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 113.0,
-          "win": true,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
-        },
-        {
-          "date": "2026-03-31T00:00Z",
-          "pointsFor": 129.0,
+          "date": "2026-10-24T01:30Z",
+          "pointsFor": 110.0,
           "pointsAgainst": 114.0,
-          "win": true,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
+          "win": false,
+          "opponent": "Houston Rockets",
+          "opponentId": "10"
         },
         {
-          "date": "2026-03-28T19:00Z",
-          "pointsFor": 127.0,
-          "pointsAgainst": 95.0,
-          "win": true,
-          "opponent": "Milwaukee Bucks",
-          "opponentId": "15"
-        },
-        {
-          "date": "2026-03-26T00:00Z",
-          "pointsFor": 123.0,
-          "pointsAgainst": 98.0,
-          "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
+          "date": "2026-10-21T01:50Z",
+          "pointsFor": 104.0,
+          "pointsAgainst": 116.0,
+          "win": false,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25"
         }
       ]
     },
@@ -2357,84 +1365,44 @@
       "abbreviation": "TOR",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 136.0,
-          "pointsAgainst": 101.0,
-          "win": true,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-04-10T23:30Z",
-          "pointsFor": 95.0,
-          "pointsAgainst": 112.0,
+          "date": "2026-10-30T23:30Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 121.0,
           "win": false,
-          "opponent": "New York Knicks",
-          "opponentId": "18"
+          "opponent": "Orlando Magic",
+          "opponentId": "19"
         },
         {
-          "date": "2026-04-09T23:00Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 114.0,
-          "win": true,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-04-07T23:30Z",
-          "pointsFor": 121.0,
-          "pointsAgainst": 95.0,
-          "win": true,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 101.0,
-          "pointsAgainst": 115.0,
-          "win": false,
-          "opponent": "Boston Celtics",
-          "opponentId": "2"
-        },
-        {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 128.0,
-          "pointsAgainst": 96.0,
-          "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
-        },
-        {
-          "date": "2026-04-02T00:00Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 123.0,
-          "win": false,
-          "opponent": "Sacramento Kings",
-          "opponentId": "23"
-        },
-        {
-          "date": "2026-04-01T00:00Z",
-          "pointsFor": 116.0,
-          "pointsAgainst": 127.0,
-          "win": false,
-          "opponent": "Detroit Pistons",
-          "opponentId": "8"
-        },
-        {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 139.0,
-          "pointsAgainst": 87.0,
+          "date": "2026-10-28T23:30Z",
+          "pointsFor": 129.0,
+          "pointsAgainst": 99.0,
           "win": true,
           "opponent": "Orlando Magic",
           "opponentId": "19"
         },
         {
-          "date": "2026-03-28T00:30Z",
-          "pointsFor": 119.0,
-          "pointsAgainst": 106.0,
+          "date": "2026-10-25T23:00Z",
+          "pointsFor": 94.0,
+          "pointsAgainst": 117.0,
+          "win": false,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16"
+        },
+        {
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 102.0,
           "win": true,
-          "opponent": "New Orleans Pelicans",
-          "opponentId": "3"
+          "opponent": "Washington Wizards",
+          "opponentId": "27"
+        },
+        {
+          "date": "2026-10-21T23:30Z",
+          "pointsFor": 135.0,
+          "pointsAgainst": 92.0,
+          "win": true,
+          "opponent": "Chicago Bulls",
+          "opponentId": "4"
         }
       ]
     },
@@ -2444,84 +1412,44 @@
       "abbreviation": "UTAH",
       "last10": [
         {
-          "date": "2026-04-13T00:30Z",
-          "pointsFor": 107.0,
-          "pointsAgainst": 131.0,
+          "date": "2026-10-29T01:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 117.0,
+          "win": false,
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24"
+        },
+        {
+          "date": "2026-10-27T01:00Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 110.0,
+          "win": false,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29"
+        },
+        {
+          "date": "2026-10-25T21:00Z",
+          "pointsFor": 123.0,
+          "pointsAgainst": 132.0,
           "win": false,
           "opponent": "Los Angeles Lakers",
           "opponentId": "13"
         },
         {
-          "date": "2026-04-11T01:30Z",
-          "pointsFor": 147.0,
-          "pointsAgainst": 101.0,
+          "date": "2026-10-24T01:30Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 119.0,
           "win": true,
-          "opponent": "Memphis Grizzlies",
-          "opponentId": "29"
-        },
-        {
-          "date": "2026-04-08T00:00Z",
-          "pointsFor": 137.0,
-          "pointsAgainst": 156.0,
-          "win": false,
           "opponent": "New Orleans Pelicans",
           "opponentId": "3"
         },
         {
-          "date": "2026-04-05T23:00Z",
-          "pointsFor": 111.0,
-          "pointsAgainst": 146.0,
+          "date": "2026-10-22T00:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 123.0,
           "win": false,
-          "opponent": "Oklahoma City Thunder",
-          "opponentId": "25"
-        },
-        {
-          "date": "2026-04-04T00:00Z",
-          "pointsFor": 106.0,
-          "pointsAgainst": 140.0,
-          "win": false,
-          "opponent": "Houston Rockets",
-          "opponentId": "10"
-        },
-        {
-          "date": "2026-04-02T01:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 130.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-03-31T01:00Z",
-          "pointsFor": 113.0,
-          "pointsAgainst": 122.0,
-          "win": false,
-          "opponent": "Cleveland Cavaliers",
-          "opponentId": "5"
-        },
-        {
-          "date": "2026-03-29T02:00Z",
-          "pointsFor": 109.0,
-          "pointsAgainst": 134.0,
-          "win": false,
-          "opponent": "Phoenix Suns",
-          "opponentId": "21"
-        },
-        {
-          "date": "2026-03-28T01:00Z",
-          "pointsFor": 129.0,
-          "pointsAgainst": 135.0,
-          "win": false,
-          "opponent": "Denver Nuggets",
-          "opponentId": "7"
-        },
-        {
-          "date": "2026-03-26T01:00Z",
-          "pointsFor": 110.0,
-          "pointsAgainst": 133.0,
-          "win": false,
-          "opponent": "Washington Wizards",
-          "opponentId": "27"
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29"
         }
       ]
     },
@@ -2531,84 +1459,52 @@
       "abbreviation": "WSH",
       "last10": [
         {
-          "date": "2026-04-12T22:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 130.0,
+          "date": "2026-10-30T23:00Z",
+          "pointsFor": 95.0,
+          "pointsAgainst": 79.0,
+          "win": true,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30"
+        },
+        {
+          "date": "2026-10-28T23:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 121.0,
           "win": false,
           "opponent": "Cleveland Cavaliers",
           "opponentId": "5"
         },
         {
-          "date": "2026-04-10T23:00Z",
-          "pointsFor": 117.0,
-          "pointsAgainst": 140.0,
+          "date": "2026-10-26T23:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 110.0,
           "win": false,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30"
         },
         {
-          "date": "2026-04-09T23:00Z",
-          "pointsFor": 108.0,
-          "pointsAgainst": 119.0,
-          "win": false,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
-        },
-        {
-          "date": "2026-04-07T23:00Z",
-          "pointsFor": 98.0,
-          "pointsAgainst": 129.0,
-          "win": false,
-          "opponent": "Chicago Bulls",
-          "opponentId": "4"
-        },
-        {
-          "date": "2026-04-05T19:30Z",
-          "pointsFor": 115.0,
-          "pointsAgainst": 121.0,
-          "win": false,
-          "opponent": "Brooklyn Nets",
-          "opponentId": "17"
-        },
-        {
-          "date": "2026-04-04T19:00Z",
-          "pointsFor": 136.0,
-          "pointsAgainst": 152.0,
-          "win": false,
-          "opponent": "Miami Heat",
-          "opponentId": "14"
-        },
-        {
-          "date": "2026-04-01T23:00Z",
-          "pointsFor": 131.0,
-          "pointsAgainst": 153.0,
-          "win": false,
-          "opponent": "Philadelphia 76ers",
-          "opponentId": "20"
-        },
-        {
-          "date": "2026-03-31T02:00Z",
-          "pointsFor": 101.0,
+          "date": "2026-10-25T00:00Z",
+          "pointsFor": 124.0,
           "pointsAgainst": 120.0,
-          "win": false,
-          "opponent": "Los Angeles Lakers",
-          "opponentId": "13"
+          "win": true,
+          "opponent": "Chicago Bulls",
+          "opponentId": "4"
         },
         {
-          "date": "2026-03-29T22:00Z",
-          "pointsFor": 88.0,
-          "pointsAgainst": 123.0,
+          "date": "2026-10-23T23:00Z",
+          "pointsFor": 102.0,
+          "pointsAgainst": 112.0,
           "win": false,
-          "opponent": "Portland Trail Blazers",
-          "opponentId": "22"
+          "opponent": "Toronto Raptors",
+          "opponentId": "28"
         },
         {
-          "date": "2026-03-28T02:00Z",
-          "pointsFor": 126.0,
-          "pointsAgainst": 131.0,
-          "win": false,
-          "opponent": "Golden State Warriors",
-          "opponentId": "9"
+          "date": "2026-10-21T23:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 116.0,
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15"
         }
       ]
     }
