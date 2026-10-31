@@ -35,11 +35,11 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const homeRestDays=rest(hs),awayRestDays=rest(as),homeBackToBack=homeRestDays===0,awayBackToBack=awayRestDays===0
  const restAdjustment=homeRestDays===null||awayRestDays===null?0:Math.max(-2,Math.min(2,homeRestDays-awayRestDays))*0.45
  const b2bAdjustment=(homeBackToBack?-1.3:0)+(awayBackToBack?1.3:0)
+ const homeSOS=scheduleStrength(hs,form!),awaySOS=scheduleStrength(as,form!)
+ const sosAdjustment=homeSOS===null||awaySOS===null?0:(homeSOS-awaySOS)*0.18
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment
  const projectedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
- const homeSOS=scheduleStrength(hs,form!),awaySOS=scheduleStrength(as,form!)
- const sosAdjustment=homeSOS===null||awaySOS===null?0:(homeSOS-awaySOS)*0.18
  const sample=Math.min(hs.length,as.length),injuryCount=hi.length+ai.length
  const injuryRisk=injuries?.status!=='available'?'待確認':injuryCount>=4?'偏高':injuryCount>0?'一般':'一般'
  // Confidence is intentionally capped at medium until historical calibration is complete.
