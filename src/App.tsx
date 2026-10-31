@@ -27,13 +27,13 @@ function App() {
     catch (e) { setError(e instanceof Error ? e.message : '讀取失敗') }
     finally { setLoading(false) }
   }
+  const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
   useEffect(() => { void load() }, [date])
   useEffect(() => {
     if (teamForm) capturePregamePredictions(games, teamForm, injuryData, probabilityCalibrator)
     settleCompletedPredictions(games)
     setPredictionRecords(getPredictionRecords())
   }, [games, teamForm, injuryData, probabilityCalibrator])
-  const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
   const predictionStats = summarizePredictions(predictionRecords)
   const upcoming = useMemo(() => games.filter(g => !g.status.toLowerCase().includes('final')), [games])
   const completed = games.filter(g => g.status.toLowerCase().includes('final'))
