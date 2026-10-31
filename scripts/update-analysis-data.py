@@ -266,29 +266,13 @@ for player in injuries:
         stats = overview.get('statistics') or overview.get('stats') or {}
         labels = stats.get('labels') or stats.get('names') or []
         values = stats.get('displayValues') or stats.get('values') or []
-        def find_stat(pattern):
+        def find_stat(names):
             for index, label in enumerate(labels):
-                if re.search(pattern, str(label), re.I) and index < len(values):
+                if str(label).strip().lower() in names and index < len(values):
                     return numeric_stat(values[index])
             return None
-        player['pointsPerGame'] = find_stat(r'^(PTS|avgPoints|points)
-    'updatedAt': now.isoformat(),
-    'source': injury_source,
-    'sourceUrl': injury_url,
-    'players': injuries,
-    'status': 'available' if injuries else 'unavailable'
-})
-print('Saved team form for', len(forms), 'teams;', games_found, 'completed team results; injury rows:', len(injuries), 'source:', injury_source)
-)
-        player['minutesPerGame'] = find_stat(r'^(MIN|avgMinutes|minutes)
-    'updatedAt': now.isoformat(),
-    'source': injury_source,
-    'sourceUrl': injury_url,
-    'players': injuries,
-    'status': 'available' if injuries else 'unavailable'
-})
-print('Saved team form for', len(forms), 'teams;', games_found, 'completed team results; injury rows:', len(injuries), 'source:', injury_source)
-)
+        player['pointsPerGame'] = find_stat({'pts', 'avgpoints', 'points'})
+        player['minutesPerGame'] = find_stat({'min', 'avgminutes', 'minutes'})
     except Exception as error:
         print('player stats skipped', player.get('player'), str(error)[:100])
 
