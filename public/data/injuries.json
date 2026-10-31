@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T20:57:10.614902+00:00",
+  "updatedAt": "2026-10-31T21:23:25.596567+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -36,6 +36,15 @@
       "status": "Out",
       "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4433188",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BKN",
+      "player": "Mikel Brown Jr.",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-02",
+      "athleteId": "5101761",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -304,6 +313,25 @@
     },
     {
       "team": "IND",
+      "player": "Ivica Zubac",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
+      "athleteId": "4017837",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 2
+    },
+    {
+      "team": "IND",
+      "player": "Aaron Nesmith",
+      "status": "Day-To-Day",
+      "detail": "Hamstring · Leg · Strain · Left · 2026-11-01",
+      "athleteId": "4396909",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
       "player": "Obi Toppin",
       "status": "Day-To-Day",
       "detail": "Back · Torso · Soreness · 2026-11-01",
@@ -329,16 +357,6 @@
       "athleteId": "5157066",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Ivica Zubac",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-01",
-      "athleteId": "4017837",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2
     },
     {
       "team": "IND",
