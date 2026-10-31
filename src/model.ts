@@ -17,7 +17,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const h=form?.teams?.[String(game.home.id)],a=form?.teams?.[String(game.away.id)]
  const hi=(injuries?.players??[]).filter(x=>x.team===game.home.abbreviation), ai=(injuries?.players??[]).filter(x=>x.team===game.away.abbreviation)
  const empty={homeRecord:'—',awayRecord:'—',homePpg:0,homeOppPpg:0,awayPpg:0,awayOppPpg:0,projectedHome:0,projectedAway:0,projectedMargin:0,projectedTotal:0,homeWin:0.5,awayWin:0.5,homeInjuries:hi,awayInjuries:ai,confidence:'低' as const,sample:0,homeRestDays:null,awayRestDays:null}
- if(!h?.last10?.length||!a?.last10?.length)return {...empty,available:false,reason:'尚未取得兩隊足夠的近期賽事數據，暫不產生勝率。'}
+ if(!h?.last10||!a?.last10||h.last10.length<3||a.last10.length<3)return {...empty,available:false,reason:'每隊至少需要 3 場已完賽數據；樣本不足時暫不產生勝率。'}
  const hs=h.last10.slice(0,10),as=a.last10.slice(0,10),hw=hs.filter(x=>x.win).length,aw=as.filter(x=>x.win).length
  const hpf=avg(hs.map(x=>x.pointsFor)),hpa=avg(hs.map(x=>x.pointsAgainst)),apf=avg(as.map(x=>x.pointsFor)),apa=avg(as.map(x=>x.pointsAgainst))
  // Blend each team's recent scoring and opponent concession; apply modest home-court edge.
