@@ -7,7 +7,7 @@ import type { TeamFormData, InjuryData } from './model'
 import { capturePregamePredictions, getPredictionRecords, settleCompletedPredictions, summarizePredictions, type PredictionRecord } from './predictionLedger'
 
 type Tab = 'games' | 'analysis' | 'performance' | 'parlay'
-type BacktestData = { updatedAt: string; season: string; sampleSize: number; metrics: { winnerAccuracy: number; brierScore: number; marginMAE: number; totalMAE: number }; limitations: string[] }
+type BacktestData = { updatedAt: string; season: string; method?: string; sampleSize: number; metrics: { winnerAccuracy: number; brierScore: number; marginMAE: number; totalMAE: number }; limitations: string[] }
 function App() {
   const [date, setDate] = useState(taiwanDate())
   const [games, setGames] = useState<Game[]>([])
