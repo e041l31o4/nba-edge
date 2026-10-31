@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Fetch authorized Taiwan Sports Lottery feed and preserve snapshots
+      - name: Fetch authorized official feed and preserve timestamped snapshots
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
           SPORTSLOTTERY_API_TOKEN: ${{ secrets.SPORTSLOTTERY_API_TOKEN }}
@@ -22,47 +22,39 @@ jobs:
           import os, json, urllib.request, datetime, pathlib, sys
           feed = os.getenv('SPORTSLOTTERY_FEED_URL', '').strip()
           if not feed:
-              print('No documented/authorized official feed configured. Skipping fetch; never scraping private or protected endpoints.')
+              print('No documented/authorized official feed configured; safely skipping.')
               sys.exit(0)
           headers = {'Accept': 'application/json', 'User-Agent': 'NBA-EDGE-data-client/1.0'}
           token = os.getenv('SPORTSLOTTERY_API_TOKEN', '').strip()
-          if token:
-              headers['Authorization'] = 'Bearer ' + token
+          if token: headers['Authorization'] = 'Bearer ' + token
           req = urllib.request.Request(feed, headers=headers)
-          with urllib.request.urlopen(req, timeout=30) as response:
-              payload = json.load(response)
+          with urllib.request.urlopen(req, timeout=30) as response: payload = json.load(response)
           if not isinstance(payload, dict) or not isinstance(payload.get('games'), list):
-              raise SystemExit('Feed schema invalid: expected object with games[]')
+              raise SystemExit('Invalid feed: expected JSON object with games[]')
           now = datetime.datetime.now(datetime.timezone.utc)
-          normalized = []
-          snapshots = []
-          for game in payload['games']:
-              required = ['home_team', 'away_team', 'commence_time']
-              if not all(game.get(k) for k in required):
-                  continue
-              game['bookmakers'] = game.get('bookmakers') or []
-              game['id'] = str(game.get('id') or (game['away_team'] + '-' + game['home_team'] + '-' + game['commence_time']))
-              normalized.append(game)
-              snapshots.append({
-                  'capturedAt': now.isoformat(),
-                  'source': 'Taiwan Sports Lottery - authorized feed',
-                  'gameId': game['id'],
-                  'home_team': game['home_team'],
-                  'away_team': game['away_team'],
-                  'commence_time': game['commence_time'],
-                  'bookmakers': game['bookmakers']
-              })
-          if not normalized:
-              raise SystemExit('No valid NBA games in official feed; retaining previous data.')
-          out = {'updatedAt': now.isoformat(), 'source': 'Taiwan Sports Lottery - authorized feed', 'games': normalized}
-          pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
-          with open('public/data/odds.json', 'w', encoding='utf-8') as f:
-              json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
+          out_games, snapshots = [], []
           hist = pathlib.Path('public/data/odds-history.jsonl')
-          with hist.open('a', encoding='utf-8') as f:
-              for row in snapshots:
-                  f.write(json.dumps(row, ensure_ascii=False, separators=(',', ':')) + '\\n')
-          print('Saved', len(normalized), 'official NBA games and', len(snapshots), 'snapshots.')
+          seen = set()
+          if hist.exists():
+              for line in hist.read_text(encoding='utf-8').splitlines():
+                  try: seen.add(json.loads(line).get('gameId'))
+                  except Exception: pass
+          for game in payload['games']:
+              if not all(game.get(k) for k in ('home_team','away_team','commence_time')): continue
+              game['bookmakers'] = game.get('bookmakers') or []
+              game['id'] = str(game.get('id') or (game['away_team']+'-'+game['home_team']+'-'+game['commence_time']))
+              out_games.append(game)
+              start = datetime.datetime.fromisoformat(game['commence_time'].replace('Z','+00:00'))
+              mins = (start-now).total_seconds()/60
+              phase = 'first_observed' if game['id'] not in seen else ('live' if mins <= 0 else ('pregame' if mins <= 90 else 'pregame_tracking'))
+              snapshots.append({'capturedAt':now.isoformat(),'phase':phase,'source':'Taiwan Sports Lottery - authorized feed','gameId':game['id'],'home_team':game['home_team'],'away_team':game['away_team'],'commence_time':game['commence_time'],'bookmakers':game['bookmakers']})
+          if not out_games: raise SystemExit('No valid NBA games in official feed; retaining previous data.')
+          pathlib.Path('public/data').mkdir(parents=True,exist_ok=True)
+          with open('public/data/odds.json','w',encoding='utf-8') as f:
+              json.dump({'updatedAt':now.isoformat(),'source':'Taiwan Sports Lottery - authorized feed','games':out_games},f,ensure_ascii=False,separators=(',',':'))
+          with hist.open('a',encoding='utf-8') as f:
+              for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\\n')
+          print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
       - name: Commit refreshed data
         run: |
