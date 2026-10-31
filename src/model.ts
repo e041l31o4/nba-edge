@@ -1,7 +1,7 @@
 export type RecentGame = { date?: string; pointsFor: number; pointsAgainst: number; win: boolean; opponent?: string }
 export type TeamFormRow = { teamId: string; team: string; abbreviation: string; last10: RecentGame[] }
 export type TeamFormData = { updatedAt: string; source: string; teams: Record<string, TeamFormRow> }
-export type InjuryRow = { team: string; player: string; status: string; sourceUrl?: string }
+export type InjuryRow = { team: string; player: string; status: string; detail?: string; sourceUrl?: string }
 export type InjuryData = { updatedAt: string; source: string; sourceUrl: string; players: InjuryRow[]; status: string }
 export type ModelResult = {
   available: boolean; reason?: string; homeRecord: string; awayRecord: string;
