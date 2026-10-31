@@ -64,6 +64,7 @@ league = get(BASE + '/teams?limit=40')
 teams = league.get('sports', [{}])[0].get('leagues', [{}])[0].get('teams', [])
 forms = {}
 roster_map = {}
+rosters_by_team = {}
 
 for item in teams:
     team = item.get('team', {})
@@ -98,6 +99,8 @@ for item in teams:
         }
         try:
             roster = get(f'{BASE}/teams/{team_id}/roster')
+            team_roster = []
+            seen_roster_ids = set()
             def walk_roster(node):
                 if isinstance(node, list):
                     for value in node:
@@ -107,15 +110,23 @@ for item in teams:
                     athlete_id = node.get('id')
                     if isinstance(name, str) and athlete_id:
                         position = node.get('position') or {}
-                        roster_map[name.strip().lower()] = {
+                        roster_entry = {
                             'team': team.get('abbreviation', ''),
+                            'player': name.strip(),
                             'athleteId': str(athlete_id),
-                            'position': position.get('abbreviation', '') if isinstance(position, dict) else str(position or '')
+                            'position': position.get('abbreviation', '') if isinstance(position, dict) else str(position or ''),
+                            'jersey': node.get('jersey')
                         }
+                        roster_map[name.strip().lower()] = roster_entry
+                        if str(athlete_id) not in seen_roster_ids:
+                            team_roster.append(roster_entry)
+                            seen_roster_ids.add(str(athlete_id))
                     for key, value in node.items():
                         if key not in ('statistics', 'stats'):
                             walk_roster(value)
             walk_roster(roster)
+            if team_roster:
+                rosters_by_team[team.get('abbreviation', '')] = team_roster
         except Exception as error:
             print('roster skipped', team_id, str(error)[:100])
     except Exception as error:
@@ -335,6 +346,13 @@ for player in injuries:
         player.update({key: value for key, value in averages.items() if value is not None})
     except Exception as error:
         print('player stats skipped', player.get('player'), str(error)[:100])
+
+save('public/data/rosters.json', {
+    'updatedAt': now.isoformat(),
+    'source': 'ESPN public team roster',
+    'teams': rosters_by_team,
+    'status': 'available' if rosters_by_team else 'unavailable'
+})
 
 save('public/data/injuries.json', {
     'updatedAt': now.isoformat(),
