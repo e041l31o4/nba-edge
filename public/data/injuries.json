@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T20:19:49.402072+00:00",
+  "updatedAt": "2026-10-31T20:57:10.614902+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -18,6 +18,15 @@
       "status": "Out",
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
+      "player": "Mitchell Robinson",
+      "status": "Day-To-Day",
+      "detail": "Rest · Other · 2026-11-01",
+      "athleteId": "4351852",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
