@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Activity, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, Target, TrendingUp, Trophy } from 'lucide-react'
+import { Activity, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, type OddsRecord } from './lib'
 import ParlayLab from './ParlayLab'
 import MatchAnalysis from './MatchAnalysis'
