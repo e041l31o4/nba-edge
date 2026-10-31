@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, Clock3, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
+import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, type OddsRecord } from './lib'
 
 type Tab = 'games' | 'analysis' | 'performance'
-const fmt = (n: number) => n.toFixed(1)
 function App() {
   const [date, setDate] = useState(taiwanDate())
   const [games, setGames] = useState<Game[]>([])
@@ -22,7 +21,6 @@ function App() {
   useEffect(() => { void load() }, [date])
   const upcoming = useMemo(() => games.filter(g => !g.status.toLowerCase().includes('final')), [games])
   const completed = games.filter(g => g.status.toLowerCase().includes('final'))
-  const featured = upcoming.filter(g => marketFor(g, odds)?.spread.length || marketFor(g, odds)?.total.length)
   const moveDate = (delta: number) => { const d = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00'); d.setDate(d.getDate()+delta); setDate(taiwanDate(d)) }
   const active = games.find(g => g.id === selected)
   return <div className="app-shell">
@@ -49,7 +47,7 @@ function GameCard({game, odds, onClick}:{game:Game;odds:OddsRecord|null;onClick:
 function TeamLine({team}:{team:Game['home']}) { return <div className="team-line">{team.logo?<img src={team.logo} alt="" />:<span className="team-placeholder">{team.abbreviation}</span>}<div><b>{team.abbreviation}</b><small>{team.displayName}</small></div></div> }
 function Analysis({game,odds,onBack}:{game:Game;odds:OddsRecord|null;onBack:()=>void}) {
  const m=marketFor(game,odds)
- return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button><div className="matchup-head"><div><span>{game.detail || '賽前資料'}</span><h3>{game.away.displayName} <em>@</em> {game.home.displayName}</h3><small>{new Date(game.date).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}（台灣時間）</small></div></div><div className="analysis-panels"><div className="analysis-panel"><div className="panel-title"><ArrowUpRight size={17}/> 讓分盤分析</div>{m?.spread.length ? m.spread.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{x.point>0?'+':''}{x.point}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div><div className="analysis-panel"><div className="panel-title"><ArrowDownRight size={17}/> 大小分分析</div>{m?.total.length ? m.total.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{x.point}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div></div><div className="notice"><CircleAlert size={17}/>模型預測與傷兵影響評估尚未完成資料驗證；本場暫不產生推薦。待取得可靠球隊數據、傷兵狀態與有效盤口後，才會計算預測機率及優勢值。</div><div className="data-check"><b>本場資料檢查</b><span><i className="ok"/> 賽程：已取得</span><span><i className={m?'ok':'warn'}/> 盤口：{m?'已取得':'尚未取得'}</span><span><i className="warn"/> 傷兵：尚未完成來源同步</span><span><i className="warn"/> 近期效率數據：待建置</span></div></div>
+ return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button><div className="matchup-head"><div><span>{game.detail || '賽前資料'}</span><h3>{game.away.displayName} <em>@</em> {game.home.displayName}</h3><small>{new Date(game.date).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}（台灣時間）</small></div></div><div className="analysis-panels"><div className="analysis-panel"><div className="panel-title"><ArrowUpRight size={17}/> 讓分盤分析</div>{m?.spread.length ? m.spread.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{(x.point ?? 0)>0?'+':''}{x.point ?? '—'}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div><div className="analysis-panel"><div className="panel-title"><ArrowDownRight size={17}/> 大小分分析</div>{m?.total.length ? m.total.slice(0,8).map((x,i)=><div className="odds-line" key={i}><span>{x.book} · {x.name}</span><b>{x.point}</b><small>{x.price>0?'+' : ''}{x.price}</small></div>) : <Missing/>}</div></div><div className="notice"><CircleAlert size={17}/>模型預測與傷兵影響評估尚未完成資料驗證；本場暫不產生推薦。待取得可靠球隊數據、傷兵狀態與有效盤口後，才會計算預測機率及優勢值。</div><div className="data-check"><b>本場資料檢查</b><span><i className="ok"/> 賽程：已取得</span><span><i className={m?'ok':'warn'}/> 盤口：{m?'已取得':'尚未取得'}</span><span><i className="warn"/> 傷兵：尚未完成來源同步</span><span><i className="warn"/> 近期效率數據：待建置</span></div></div>
 }
 function Missing(){return <div className="missing"><CircleAlert size={18}/><b>目前沒有可驗證的盤口</b><span>不以估算值或假盤口代替真實市場資料。</span></div>}
 export default App
