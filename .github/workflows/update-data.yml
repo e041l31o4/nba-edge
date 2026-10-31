@@ -1,5 +1,10 @@
 name: Refresh Taiwan Sports Lottery NBA odds
 on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'src/**'
+      - '.github/workflows/update-data.yml'
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
@@ -57,8 +62,7 @@ jobs:
           with open('public/data/odds.json','w',encoding='utf-8') as f:
               json.dump({'updatedAt':now.isoformat(),'source':'Taiwan Sports Lottery - authorized feed','games':out_games},f,ensure_ascii=False,separators=(',',':'))
           with hist.open('a',encoding='utf-8') as f:
-              for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\
-')
+              for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
       - name: Commit refreshed data
