@@ -250,7 +250,7 @@ if not injuries:
     except Exception as error:
         print('ESPN injury fallback unavailable:', str(error)[:160])
 
-# Enrich listed players with season PPG / MPG so the match model can estimate role-weighted absence cost.
+# Enrich listed players with per-game box-score rates and usage where the public source provides them. The model only uses PPG/MPG for its current conservative absence estimate; other rates are shown as context until independently validated.
 def numeric_stat(value):
     try:
         return float(str(value).replace(',', '').strip())
@@ -258,10 +258,23 @@ def numeric_stat(value):
         return None
 
 def extract_player_averages(payload):
-    found = {'pointsPerGame': None, 'minutesPerGame': None}
+    found = {
+        'pointsPerGame': None, 'minutesPerGame': None,
+        'reboundsPerGame': None, 'assistsPerGame': None,
+        'stealsPerGame': None, 'blocksPerGame': None,
+        'turnoversPerGame': None, 'usageRate': None,
+        'gamesPlayed': None
+    }
     keys = {
         'pointsPerGame': {'pts', 'avgpoints', 'points', 'pointspergame'},
-        'minutesPerGame': {'min', 'avgminutes', 'minutes', 'minutespergame'}
+        'minutesPerGame': {'min', 'avgminutes', 'minutes', 'minutespergame'},
+        'reboundsPerGame': {'reb', 'trb', 'avgrebounds', 'rebounds', 'reboundspergame'},
+        'assistsPerGame': {'ast', 'avgassists', 'assists', 'assistspergame'},
+        'stealsPerGame': {'stl', 'avgsteals', 'steals', 'stealspergame'},
+        'blocksPerGame': {'blk', 'avgblocks', 'blocks', 'blockspergame'},
+        'turnoversPerGame': {'to', 'tov', 'avgturnovers', 'turnovers', 'turnoverspergame'},
+        'usageRate': {'usg%', 'usg', 'usage', 'usagerate', 'usage%'},
+        'gamesPlayed': {'gp', 'games', 'gamesplayed'}
     }
     def visit(node):
         if isinstance(node, list):
@@ -273,13 +286,13 @@ def extract_player_averages(payload):
             if isinstance(labels, list) and isinstance(values, list):
                 for index, label in enumerate(labels):
                     if index < len(values):
-                        normalized = str(label).strip().lower()
+                        normalized = re.sub(r'[^a-z0-9%]', '', str(label).strip().lower())
                         for target, accepted in keys.items():
                             if normalized in accepted and found[target] is None:
                                 found[target] = numeric_stat(values[index])
             label = next((node.get(k) for k in ('name', 'abbreviation', 'displayName', 'shortDisplayName') if node.get(k)), None)
             if label is not None:
-                normalized = str(label).strip().lower()
+                normalized = re.sub(r'[^a-z0-9%]', '', str(label).strip().lower())
                 for target, accepted in keys.items():
                     if normalized in accepted and found[target] is None:
                         for value_key in ('value', 'displayValue', 'displayvalue'):
