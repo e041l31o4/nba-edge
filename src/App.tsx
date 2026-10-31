@@ -74,7 +74,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, onClick}:{game:
    {favorite?<><b>{favorite.displayName}</b><strong>{(favoriteProbability!*100).toFixed(1)}%</strong><small>預測 {report!.projectedAway.toFixed(0)} : {report!.projectedHome.toFixed(0)}</small></>:<b>資料累積中，暫不提供勝方</b>}
   </div>}
   <div className="market-strip">
-   <div><small>讓分盤</small><b>{spreadLine?spreadLine.name+' '+(spreadLine.point!>0?'+':'')+spreadLine.point:(m?'尚無讓分資料':'來源未接通')}</b></div>
+   <div><small>市場讓分／模型估算</small><b>{spreadLine?spreadLine.name+' '+(spreadLine.point!>0?'+':'')+spreadLine.point:report?.available?'模型主隊 '+(-report.projectedMargin>0?'+':'')+(-report.projectedMargin).toFixed(1):'市場盤口未接通'}</b></div>
    <div><small>大小分</small><b>{totalLine?'總分 '+totalLine.point:(m?'尚無大小分資料':'來源未接通')}</b></div>
    <span className="card-arrow"><ChevronRight size={16}/></span>
   </div>
