@@ -36,6 +36,12 @@ Repository → Settings → Pages → Source 選擇 **GitHub Actions**。推送 
 - https://member2.sportslottery.com.tw/zh-tw/about-us/135
 
 因此目前採用「授權 feed adapter」設計，不抓取登入後資料、不繞過驗證、不把非官方盤口混入官方資料。若台灣運彩或合法資料供應方提供正式 API／資料授權，請在 Repository → Settings → Secrets and variables → Actions 設定：
+
+另提供 **JBot 第三方台灣運彩賠率資料 adapter** 作為可選備援（不是台灣運彩官方 API，也不代表官方直接供應）。若要啟用，請在 Repository → Settings → Secrets and variables → Actions 設定：
+- `JBOT_API_TOKEN`：JBot 專屬 API token。
+- `JBOT_POLL_INTERVAL_MINUTES`：可選 Repository Variable；預設 120 分鐘。若使用 300 次／日方案，可調整為 15；試用額度每日 20 次且為共用額度，建議維持 120 分鐘或更長。
+
+若已設定 `SPORTSLOTTERY_FEED_URL`，系統優先使用授權 feed 並略過 JBot。JBot 資料只會在隊名可明確配對、且回傳有有效讓分／大小分市場時寫入；未配對或缺盤不會自行補值。JBot 回傳頻率約 10–20 分鐘，實際輪詢頻率仍由上述變數控制。
 - `SPORTSLOTTERY_FEED_URL`：官方授權 JSON feed URL
 - `SPORTSLOTTERY_API_TOKEN`：若供應方要求，填入 API token
 
