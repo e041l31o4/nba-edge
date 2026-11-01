@@ -62,7 +62,7 @@ function GameCard({game, teamForm, injuryData, calibrator, savedPrediction, onCl
  const done=game.status.toLowerCase().includes('final')
  const report=teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
  const available=!!report?.available
- const useSaved=!!savedPrediction && savedPrediction.stage!=='draft'
+ const useSaved=!!savedPrediction && savedPrediction.stage==='official'
  const homeWin=useSaved?savedPrediction.homeWin:(!done&&available?report!.homeWin:undefined)
  const awayWin=useSaved?savedPrediction.awayWin:(!done&&available?report!.awayWin:undefined)
  const projectedTotal=useSaved?savedPrediction.projectedTotal:(!done&&available?report!.projectedTotal:undefined)
@@ -80,7 +80,7 @@ function GameCard({game, teamForm, injuryData, calibrator, savedPrediction, onCl
   <div className="game-top"><span className={done?'game-state done':'game-state'}>{done?'FINAL':game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<div className="final-score"><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')+(unverified?' prediction-unverified':'')}>
-   <div><small>不讓分</small><b>{hasPrediction?pickedTeam!.displayName:'資料不足'}</b><strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong></div>
+   <div><small>不讓分</small><b>{unverified?'無正式紀錄':hasPrediction?pickedTeam!.displayName:'資料不足'}</b><strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong></div>
    <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{unverified?'無正式賽前紀錄':useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
    
   </div>
