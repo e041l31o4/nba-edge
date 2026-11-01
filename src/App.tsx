@@ -4,7 +4,7 @@ import { dateLabel, getOdds, getScoreboard, marketFor, taiwanDate, type Game, ty
 import ParlayLab from './ParlayLab'
 import MatchAnalysis from './MatchAnalysis'
 import { analyzeMatch, type TeamFormData, type InjuryData, type RosterData, type TeamMetricsData, type ProbabilityCalibrator } from './model'
-import { capturePregamePredictions, getPredictionRecords, settleCompletedPredictions, summarizePredictions, type PredictionRecord } from './predictionLedger'
+import { getPredictionRecords, summarizePredictions, type PredictionRecord } from './predictionLedger'
 
 type Tab = 'games' | 'analysis' | 'performance' | 'parlay'
 type BacktestData = { updatedAt: string; season?: string; seasons?: string[]; method?: string; sampleSize: number; metrics: { winnerAccuracy: number; brierScore: number; marginMAE: number; totalMAE: number }; seasonResults?: { season: string; completedGames: number; metrics: { sampleSize: number; winnerAccuracy: number; brierScore: number; marginMAE: number; totalMAE: number }; calibrationTrainingSamples?: number; calibrator?: { a: number; b: number; trainingSamples: number } | null; calibratedMetrics?: { sampleSize: number; winnerAccuracy: number; brierScore: number; logLoss: number } | null }[]; calibration?: { range: string; sampleSize: number; predictedHomeWin: number; actualHomeWin: number }[]; calibrationEvaluation?: { method: string; trainingPolicy: string; sampleSize: number; rawMetrics: { sampleSize: number; winnerAccuracy: number; brierScore: number; logLoss: number } | null; calibratedMetrics: { sampleSize: number; winnerAccuracy: number; brierScore: number; logLoss: number } | null; improvedBrier: boolean | null }; limitations: string[] }
