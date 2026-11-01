@@ -62,7 +62,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const m=marketFor(game,odds), done=game.status.toLowerCase().includes('final')
  const report=teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
  const available=!!report?.available
- const useSaved=!!savedPrediction
+ const useSaved=!!savedPrediction && savedPrediction.stage!=='draft'
  const homeWin=useSaved?savedPrediction.homeWin:available?report!.homeWin:undefined
  const awayWin=useSaved?savedPrediction.awayWin:available?report!.awayWin:undefined
  const projectedTotal=useSaved?savedPrediction.projectedTotal:available?report!.projectedTotal:undefined
@@ -87,7 +87,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')}>
    <div><small>不讓分</small><b>{hasPrediction?pickedTeam!.displayName:'資料不足'}</b><strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong></div>
    <div className={totalCorrect===true?'total-correct':totalCorrect===false?'total-wrong':''}><small>大小分</small><b>{projectedTotal===undefined?'尚無預測':(recordedLine!==undefined?(savedPrediction?.totalPick==='OVER'?'大分':'小分')+' '+recordedLine:totalLine?.point!==undefined?(isBig?'大分':'小分')+' '+totalLine.point:'模型 '+projectedTotal.toFixed(1))}</b><em>{totalCorrect===true?'命中':totalCorrect===false?'未命中':projectedTotal!==undefined&&recordedLine!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分':projectedTotal!==undefined&&totalLine?.point!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分': '等待有效盤口'}</em></div>
-   <div><small>預估比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'賽前封存':'模型預測'}</em></div>
+   <div><small>預估比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
   </div>
  </button>
 }
