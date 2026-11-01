@@ -1,0 +1,32 @@
+name: NBA EDGE prediction ledger
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nba-edge-prediction-ledger
+  cancel-in-progress: false
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Capture pregame predictions and settle final scores
+        run: npx --yes tsx scripts/record-predictions.mts
+      - name: Commit immutable prediction ledger
+        run: |
+          if git diff --quiet -- public/data/prediction-ledger.json; then
+            echo "No ledger changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/prediction-ledger.json
+          git commit -m "chore: update verified NBA prediction ledger"
+          git pull --rebase -X theirs origin main
+          git push
