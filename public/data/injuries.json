@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T20:10:48.318571+00:00",
+  "updatedAt": "2026-11-01T20:40:30.509913+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -321,6 +321,16 @@
     },
     {
       "team": "IND",
+      "player": "Obi Toppin",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "athleteId": "4278355",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 16
+    },
+    {
+      "team": "IND",
       "player": "T.J. McConnell",
       "status": "Out",
       "detail": "Hamstring · Leg · Strain · Right · 2026-11-02",
@@ -346,16 +356,6 @@
       "athleteId": "4396909",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Obi Toppin",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-01",
-      "athleteId": "4278355",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
     },
     {
       "team": "IND",
@@ -385,6 +385,24 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 24
+    },
+    {
+      "team": "LAC",
+      "player": "Yanic Konan Niederhauser",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "5108024",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Brandon Ingram",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "3913176",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "LAC",
@@ -492,8 +510,17 @@
     },
     {
       "team": "NO",
-      "player": "Jordan Poole",
+      "player": "Trey Murphy III",
       "status": "Day-To-Day",
+      "detail": "Knee · Leg · Not Specified · Not Specified · 2026-11-02",
+      "athleteId": "4397688",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NO",
+      "player": "Jordan Poole",
+      "status": "Out",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
       "athleteId": "4277956",
       "position": "G",
