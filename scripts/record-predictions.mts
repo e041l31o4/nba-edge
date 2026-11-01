@@ -48,5 +48,5 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   rows.push(row); byId.set(id,row); added++
 }
 const output=rows.slice(-1500)
-await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
-console.log(`Taiwan date ${twNoDash}; ESPN date ${espnDate}; captured ${added}; settled ${settled}; total ${output.length}`)
+if (added || settled || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${espnDate}, ${priorDate}; captured ${added}; settled ${settled}; total ${output.length}`)
