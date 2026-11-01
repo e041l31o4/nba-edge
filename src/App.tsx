@@ -76,7 +76,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const recordedLine=useSaved?savedPrediction.totalLine:undefined
  const gradingLine=recordedLine
  const actualTotal=done?Number(game.home.score)+Number(game.away.score):undefined
- const totalCorrect=done&&useSaved&&gradingLine!==undefined&&actualTotal!==undefined&&actualTotal!==gradingLine ? ((savedPrediction.totalPick==='OVER'&&actualTotal>gradingLine)||(savedPrediction.totalPick==='UNDER'&&actualTotal<gradingLine)) : null
+ const totalCorrect=done&&useSaved&&gradingLine!==undefined&&actualTotal!==undefined&&actualTotal!==gradingLine ? ((savedPrediction?.totalPick==='OVER'&&actualTotal>gradingLine)||(savedPrediction.totalPick==='UNDER'&&actualTotal<gradingLine)) : null
  const pickProbability=hasPrediction?Math.max(homeWin!,awayWin!):undefined
  const totalLine=m?.total.find(x=>x.point!==undefined)
  const isBig=projectedTotal!==undefined && totalLine?.point!==undefined ? projectedTotal>totalLine.point : null
