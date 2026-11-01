@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T22:44:13.996890+00:00",
+  "updatedAt": "2026-11-01T23:14:36.389962+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -161,6 +161,33 @@
     },
     {
       "team": "DAL",
+      "player": "Dereck Lively II",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-12",
+      "athleteId": "4683688",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Kyrie Irving",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Left · 2026-11-02",
+      "athleteId": "6442",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Santi Aldama",
+      "status": "Out",
+      "detail": "Knee · Leg · Surgery · Right · 2026-11-04",
+      "athleteId": "4593125",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
       "player": "Sergio de Larrea",
       "status": "Out",
       "detail": "Knee · Leg · Strain · Right · 2026-11-04",
@@ -171,29 +198,11 @@
     },
     {
       "team": "DAL",
-      "player": "Santi Aldama",
-      "status": "Out",
-      "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
-      "athleteId": "4593125",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
       "player": "Tarik Biberovic",
       "status": "Out",
-      "detail": "Heel · Leg · Inflammation · Right · 2026-11-02",
+      "detail": "Heel · Leg · Inflammation · Right · 2026-11-12",
       "athleteId": "5148538",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
-      "player": "Dereck Lively II",
-      "status": "Out",
-      "detail": "Foot · Leg · Surgery · Right · 2026-11-02",
-      "athleteId": "4683688",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -468,25 +477,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
-    },
-    {
-      "team": "MEM",
-      "player": "Ty Jerome",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-02",
-      "athleteId": "4065733",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 31
-    },
-    {
-      "team": "MIN",
-      "player": "Rudy Gobert",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Spasms · 2026-11-02",
-      "athleteId": "3032976",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",

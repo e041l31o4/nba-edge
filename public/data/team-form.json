@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T22:44:13.996890+00:00",
+  "updatedAt": "2026-11-01T23:14:36.389962+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -77,6 +77,15 @@
       "team": "Boston Celtics",
       "abbreviation": "BOS",
       "last10": [
+        {
+          "date": "2026-11-01T20:30Z",
+          "pointsFor": 108.0,
+          "pointsAgainst": 97.0,
+          "win": true,
+          "opponent": "Orlando Magic",
+          "opponentId": "19",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 125.0,
@@ -1288,6 +1297,15 @@
       "team": "Orlando Magic",
       "abbreviation": "ORL",
       "last10": [
+        {
+          "date": "2026-11-01T20:30Z",
+          "pointsFor": 97.0,
+          "pointsAgainst": 108.0,
+          "win": false,
+          "opponent": "Boston Celtics",
+          "opponentId": "2",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 121.0,
