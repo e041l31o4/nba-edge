@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T14:57:43.011231+00:00",
+  "updatedAt": "2026-11-01T15:23:55.089783+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -42,8 +42,8 @@
     {
       "team": "BOS",
       "player": "Mitchell Robinson",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-01",
+      "status": "Out",
+      "detail": "Rest · Other · Not Specified · Not Specified · 2026-11-02",
       "athleteId": "4351852",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -433,6 +433,15 @@
     },
     {
       "team": "LAL",
+      "player": "Adou Thiero",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-09",
+      "athleteId": "5060631",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAL",
       "player": "Ziaire Williams",
       "status": "Day-To-Day",
       "detail": "Foot · Leg · Left · 2026-11-01",
@@ -440,15 +449,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 11.3
-    },
-    {
-      "team": "LAL",
-      "player": "Adou Thiero",
-      "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Left · 2026-11-01",
-      "athleteId": "5060631",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MEM",
