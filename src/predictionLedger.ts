@@ -1,5 +1,4 @@
 import type { Game } from './lib'
-import { analyzeMatch, type TeamFormData, type InjuryData, type ProbabilityCalibrator } from './model'
 
 export type PredictionRecord = {
   gameId: string
@@ -15,65 +14,14 @@ export type PredictionRecord = {
   actualAway?: number
   settledAt?: string
 }
-const KEY = 'nba-edge-prediction-ledger-v1'
 
-export function getPredictionRecords(): PredictionRecord[] {
+export async function getPredictionRecords(): Promise<PredictionRecord[]> {
   try {
-    const value = JSON.parse(localStorage.getItem(KEY) || '[]')
-    return Array.isArray(value) ? value.filter(x => x && typeof x.gameId === 'string') : []
-  } catch {
-    return []
-  }
-}
-function save(records: PredictionRecord[]) {
-  try { localStorage.setItem(KEY, JSON.stringify(records.slice(-1500))) } catch { /* browser storage may be unavailable */ }
-}
-
-/** Save the first available odds-blind forecast before tipoff. Never overwrite it later. */
-export function capturePregamePredictions(games: Game[], form: TeamFormData | null, injuries: InjuryData | null, calibrator?: ProbabilityCalibrator | null) {
-  if (!form || typeof localStorage === 'undefined') return
-  const records = getPredictionRecords()
-  const known = new Set(records.map(x => x.gameId))
-  let changed = false
-  for (const game of games) {
-    if (known.has(game.id) || game.status.toLowerCase().includes('final')) continue
-    const tipoff = new Date(game.date).getTime()
-    if (!Number.isFinite(tipoff) || tipoff <= Date.now()) continue
-    const report = analyzeMatch(game, form, injuries, calibrator)
-    if (!report.available) continue
-    records.push({
-      gameId: game.id,
-      date: game.date,
-      home: game.home.abbreviation,
-      away: game.away.abbreviation,
-      homeWin: report.homeWin,
-      awayWin: report.awayWin,
-      projectedMargin: report.projectedMargin,
-      projectedTotal: report.projectedTotal,
-      capturedAt: new Date().toISOString()
-    })
-    known.add(game.id)
-    changed = true
-  }
-  if (changed) save(records)
-}
-
-/** Settle only a previously captured forecast; never create a prediction after the result. */
-export function settleCompletedPredictions(games: Game[]) {
-  if (typeof localStorage === 'undefined') return
-  const records = getPredictionRecords()
-  let changed = false
-  const byId = new Map(games.map(g => [g.id, g]))
-  const next = records.map(record => {
-    if (record.settledAt) return record
-    const game = byId.get(record.gameId)
-    if (!game || !game.status.toLowerCase().includes('final')) return record
-    const home = Number(game.home.score), away = Number(game.away.score)
-    if (!Number.isFinite(home) || !Number.isFinite(away)) return record
-    changed = true
-    return { ...record, actualHome: home, actualAway: away, settledAt: new Date().toISOString() }
-  })
-  if (changed) save(next)
+    const response = await fetch(`${import.meta.env.BASE_URL}data/prediction-ledger.json?t=${Date.now()}`)
+    if (!response.ok) return []
+    const payload = await response.json()
+    return Array.isArray(payload.records) ? payload.records.filter((x:PredictionRecord)=>x && typeof x.gameId==='string') : []
+  } catch { return [] }
 }
 
 export function summarizePredictions(records: PredictionRecord[]) {
