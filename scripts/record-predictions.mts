@@ -21,7 +21,7 @@ const scoreboards = await Promise.all(scoreboardRes.map(r=>r.json())) as any[]
 const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 const byId = new Map(rows.map(x=>[x.gameId,x]))
-let added=0, settled=0
+let added=0, settled=0, refreshed=0
 for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
@@ -52,7 +52,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       if (rolling.available) {
         existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
         existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
-        existing.capturedAt=now.toISOString()
+        existing.capturedAt=now.toISOString(); refreshed++
       }
     }
     continue
@@ -72,5 +72,5 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
 }
 for (const row of rows) { delete (row as any).totalLine; delete (row as any).totalPick }
 const output=rows.slice(-1500)
-if (added || settled || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; captured ${added}; settled ${settled}; total ${output.length}`)
+if (added || settled || refreshed || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; locked ${added}; refreshed ${refreshed}; settled ${settled}; total ${output.length}`)
