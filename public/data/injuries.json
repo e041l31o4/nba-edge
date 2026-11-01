@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T20:40:30.509913+00:00",
+  "updatedAt": "2026-11-01T21:13:28.302913+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -291,13 +291,12 @@
     },
     {
       "team": "HOU",
-      "player": "Fred VanVleet",
+      "player": "Clint Capela",
       "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-02",
-      "athleteId": "2991230",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 13
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
+      "athleteId": "3102529",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "HOU",
@@ -347,15 +346,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 2
-    },
-    {
-      "team": "IND",
-      "player": "Aaron Nesmith",
-      "status": "Day-To-Day",
-      "detail": "Hamstring · Leg · Strain · Left · 2026-11-01",
-      "athleteId": "4396909",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -433,22 +423,22 @@
     },
     {
       "team": "LAL",
+      "player": "Ziaire Williams",
+      "status": "Out",
+      "detail": "Foot · Leg · Left · 2026-11-02",
+      "athleteId": "4433137",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 11.3
+    },
+    {
+      "team": "LAL",
       "player": "Adou Thiero",
       "status": "Out",
       "detail": "Knee · Leg · Inflammation · Left · 2026-11-09",
       "athleteId": "5060631",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAL",
-      "player": "Ziaire Williams",
-      "status": "Day-To-Day",
-      "detail": "Foot · Leg · Left · 2026-11-01",
-      "athleteId": "4433137",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 11.3
     },
     {
       "team": "MEM",
@@ -526,15 +516,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
-    },
-    {
-      "team": "NO",
-      "player": "Dejounte Murray",
-      "status": "Day-To-Day",
-      "detail": "Personal · Other · 2026-11-02",
-      "athleteId": "3907497",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NO",
