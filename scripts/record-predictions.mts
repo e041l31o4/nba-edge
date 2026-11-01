@@ -31,7 +31,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const status=String(event.status?.type?.name ?? '').toLowerCase()
   const tipoff=new Date(event.date).getTime()
   if (!Number.isFinite(tipoff)) continue
-  if (existing) {
+  if (existing && existing.stage!=='draft') {
     if (!existing.settledAt && status.includes('final')) {
       const hs=Number(h.score), as=Number(a.score)
       if (Number.isFinite(hs)&&Number.isFinite(as)) {
@@ -49,7 +49,12 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const totalLine=totalOutcomes.find(o=>typeof o.point==='number')?.point
   const stage:Row['stage']=tipoff-now.getTime()<=60*60*1000?'official':'draft'
   const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...(totalLine!==undefined&&prediction.projectedTotal!==totalLine?{totalLine,totalPick:prediction.projectedTotal>totalLine?'OVER' as const:'UNDER' as const}:{}),stage,capturedAt:now.toISOString()}
-  rows.push(row); byId.set(id,row); added++
+  if (existing) {
+    Object.assign(existing,row)
+    if (stage==='official') added++
+  } else {
+    rows.push(row); byId.set(id,row); added++
+  }
 }
 const output=rows.slice(-1500)
 if (added || settled || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
