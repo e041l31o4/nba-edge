@@ -56,3 +56,12 @@
 .game-prediction-summary em{font-style:normal;font-size:9px;color:#8fa2b7}
 .game-prediction-summary.prediction-pending b{color:#9eafc2}
 @media(max-width:600px){.game-prediction-summary{gap:5px;padding:10px 8px}.game-prediction-summary>div+div{padding-left:6px}.game-prediction-summary b{font-size:10px}.game-prediction-summary strong{font-size:12px}.game-prediction-summary em{font-size:8px}}
+
+/* Clear horizontal final score and settled pick result */
+.final-score{display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.final-score b{display:inline-block!important;font:700 15px 'DM Mono';color:#edf4fb}
+.final-score small{font:10px 'DM Mono';color:#8293a8}
+.game-prediction-summary.pick-correct{border-color:rgba(70,205,120,.65);background:rgba(27,105,63,.2);box-shadow:inset 3px 0 0 #39c879}
+.game-prediction-summary.pick-correct>div:first-child b,.game-prediction-summary.pick-correct>div:first-child strong{color:#6ee7a0}
+.game-prediction-summary.pick-wrong{border-color:rgba(235,92,92,.65);background:rgba(120,36,42,.2);box-shadow:inset 3px 0 0 #ef6262}
+.game-prediction-summary.pick-wrong>div:first-child b,.game-prediction-summary.pick-wrong>div:first-child strong{color:#ff8585}
