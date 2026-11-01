@@ -67,8 +67,6 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const pickProbability=available?Math.max(report!.homeWin,report!.awayWin):null
  const totalLine=m?.total.find(x=>x.point!==undefined)
  const projectedTotal=available?report!.projectedTotal:savedPrediction?.projectedTotal
- const projectedHomeWin=available?report!.homeWin:savedPrediction?.homeWin
- const projectedAwayWin=available?report!.awayWin:savedPrediction?.awayWin
  const isBig=projectedTotal!==undefined && totalLine?.point!==undefined ? projectedTotal>totalLine.point : null
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
  const historicalPick=savedPrediction ? (savedPrediction.homeWin>=0.5?game.home:game.away) : null
