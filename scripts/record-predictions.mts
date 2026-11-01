@@ -14,7 +14,7 @@ const [form, injuries, backtest, previousPayload, oddsPayload, scoreboardRes] = 
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
   readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
-  readJson<{games?:{home_team:string;away_team:string;bookmakers?:{markets?:{key:string;outcomes?:{name:string;point?:number}[]}[]}[]}[]>('public/data/odds.json'),
+  readJson<any>('public/data/odds.json'),
   Promise.all(dateKeys.map(date=>fetch(`${base}/scoreboard?dates=${date}`)))
 ])
 if (!form || scoreboardRes.some(r=>!r.ok)) throw new Error('Missing team-form data or ESPN scoreboard unavailable; keep existing ledger unchanged.')
