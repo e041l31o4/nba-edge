@@ -236,3 +236,10 @@ footer .footer-brand b{color:var(--court)}footer span:last-child{margin-left:aut
  .pick-strip{padding:10px}.pick-strip>b{font-size:11px}.pick-strip>strong{font-size:17px}
  .calibration-row{gap:7px}
 }
+
+
+/* Winner pick: logo-first, no English team name */
+.game-prediction-summary .pick-team-cell{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:96px}
+.game-prediction-summary .pick-team-logo{width:44px;height:44px;object-fit:contain;display:block;margin:2px 0 3px;filter:drop-shadow(0 2px 2px #202a3510)}
+.game-prediction-summary .pick-team-fallback{font:800 15px 'DM Mono';color:#35404a;padding:8px 0}
+.game-prediction-summary .pick-unverified{font-size:10px;color:#89929a;padding:10px 0 5px}
