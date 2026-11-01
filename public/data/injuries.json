@@ -1,8 +1,17 @@
 {
-  "updatedAt": "2026-11-01T04:34:57.641309+00:00",
+  "updatedAt": "2026-11-01T05:25:43.686412+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
+    {
+      "team": "ATL",
+      "player": "Jock Landale",
+      "status": "Day-To-Day",
+      "detail": "Hip · Torso · Left · 2026-11-02",
+      "athleteId": "3146557",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
     {
       "team": "ATL",
       "player": "Jalen Johnson",
@@ -10,15 +19,6 @@
       "detail": "Ankle · Leg · Left · 2026-11-02",
       "athleteId": "4701230",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "ATL",
-      "player": "Jock Landale",
-      "status": "Out",
-      "detail": "Hip · Torso · Left · 2026-11-02",
-      "athleteId": "3146557",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -143,7 +143,7 @@
     {
       "team": "CLE",
       "player": "Jaylon Tyson",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
       "athleteId": "4683747",
       "position": "G",
@@ -291,23 +291,23 @@
     },
     {
       "team": "HOU",
-      "player": "Reed Sheppard",
-      "status": "Out",
-      "detail": "Back · Torso · 2026-11-02",
-      "athleteId": "4711272",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 10.5
-    },
-    {
-      "team": "HOU",
       "player": "Fred VanVleet",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Knee · Leg · Right · 2026-11-02",
       "athleteId": "2991230",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13
+    },
+    {
+      "team": "HOU",
+      "player": "Reed Sheppard",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · 2026-11-02",
+      "athleteId": "4711272",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 10.5
     },
     {
       "team": "HOU",
@@ -452,18 +452,18 @@
     },
     {
       "team": "MEM",
-      "player": "Ty Jerome",
-      "status": "Out",
-      "detail": "Back · Torso · Soreness · 2026-11-02",
-      "athleteId": "4065733",
-      "position": "G",
+      "player": "Quinten Post",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
+      "athleteId": "4593016",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 31
+      "pointsPerGame": 7
     },
     {
       "team": "MEM",
       "player": "Scotty Pippen Jr.",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Back · Torso · Soreness · 2026-11-02",
       "athleteId": "4431785",
       "position": "G",
@@ -472,18 +472,18 @@
     },
     {
       "team": "MEM",
-      "player": "Quinten Post",
-      "status": "Out",
-      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
-      "athleteId": "4593016",
-      "position": "C",
+      "player": "Ty Jerome",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "athleteId": "4065733",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7
+      "pointsPerGame": 31
     },
     {
       "team": "MIN",
       "player": "Rudy Gobert",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Back · Torso · Spasms · 2026-11-02",
       "athleteId": "3032976",
       "position": "C",
@@ -510,8 +510,18 @@
     },
     {
       "team": "NO",
+      "player": "Jordan Poole",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
+      "athleteId": "4277956",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 6
+    },
+    {
+      "team": "NO",
       "player": "Dejounte Murray",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Personal · Other · 2026-11-02",
       "athleteId": "3907497",
       "position": "G",
@@ -526,16 +536,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 9.5
-    },
-    {
-      "team": "NO",
-      "player": "Jordan Poole",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
-      "athleteId": "4277956",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6
     },
     {
       "team": "NY",
@@ -654,23 +654,23 @@
     },
     {
       "team": "PHI",
-      "player": "LeBron James",
-      "status": "Out",
-      "detail": "Back · Torso · 2026-11-02",
-      "athleteId": "1966",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.4
-    },
-    {
-      "team": "PHI",
       "player": "Joel Embiid",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Foot · Leg · Right · 2026-11-02",
       "athleteId": "3059318",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 19.2
+    },
+    {
+      "team": "PHI",
+      "player": "LeBron James",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · 2026-11-02",
+      "athleteId": "1966",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 16.4
     },
     {
       "team": "PHI",
