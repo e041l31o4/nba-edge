@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T21:13:28.302913+00:00",
+  "updatedAt": "2026-11-01T21:42:50.684748+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -119,6 +119,24 @@
       "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
       "athleteId": "4684269",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
+      "player": "Jalen Smith",
+      "status": "Day-To-Day",
+      "detail": "Finger · Arm · Sprain · Left · 2026-11-02",
+      "athleteId": "4397189",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
+      "player": "Tobe Awaka",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
+      "athleteId": "5105555",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
