@@ -1,8 +1,17 @@
 {
-  "updatedAt": "2026-10-31T23:53:44.723670+00:00",
+  "updatedAt": "2026-11-01T00:20:32.999682+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
+    {
+      "team": "ATL",
+      "player": "Jock Landale",
+      "status": "Out",
+      "detail": "Hip · Torso · Left · 2026-11-02",
+      "athleteId": "3146557",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
     {
       "team": "ATL",
       "player": "Mouhamed Gueye",
