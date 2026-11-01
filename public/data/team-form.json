@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T02:26:37.978350+00:00",
+  "updatedAt": "2026-11-01T02:53:35.035955+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -609,6 +609,15 @@
       "abbreviation": "HOU",
       "last10": [
         {
+          "date": "2026-11-01T00:30Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 98.0,
+          "win": true,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-10-31T00:00Z",
           "pointsFor": 111.0,
           "pointsAgainst": 116.0,
@@ -844,6 +853,15 @@
       "abbreviation": "MEM",
       "last10": [
         {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 136.0,
+          "pointsAgainst": 105.0,
+          "win": true,
+          "opponent": "Sacramento Kings",
+          "opponentId": "23",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-10-30T02:00Z",
           "pointsFor": 124.0,
           "pointsAgainst": 103.0,
@@ -1017,6 +1035,15 @@
       "team": "Minnesota Timberwolves",
       "abbreviation": "MIN",
       "last10": [
+        {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 121.0,
+          "win": false,
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-31T00:00Z",
           "pointsFor": 127.0,
@@ -1200,6 +1227,15 @@
       "team": "Oklahoma City Thunder",
       "abbreviation": "OKC",
       "last10": [
+        {
+          "date": "2026-11-01T00:30Z",
+          "pointsFor": 98.0,
+          "pointsAgainst": 119.0,
+          "win": false,
+          "opponent": "Houston Rockets",
+          "opponentId": "10",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-29T01:30Z",
           "pointsFor": 96.0,
@@ -1470,6 +1506,15 @@
       "abbreviation": "SAC",
       "last10": [
         {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 136.0,
+          "win": false,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-10-30T00:00Z",
           "pointsFor": 120.0,
           "pointsAgainst": 132.0,
@@ -1521,6 +1566,15 @@
       "team": "San Antonio Spurs",
       "abbreviation": "SA",
       "last10": [
+        {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 111.0,
+          "win": true,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-29T01:00Z",
           "pointsFor": 117.0,
