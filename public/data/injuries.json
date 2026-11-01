@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T16:22:49.215379+00:00",
+  "updatedAt": "2026-11-01T16:57:28.612392+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -321,6 +321,15 @@
     },
     {
       "team": "IND",
+      "player": "T.J. McConnell",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-02",
+      "athleteId": "2530530",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
       "player": "Ivica Zubac",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
@@ -347,15 +356,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 16
-    },
-    {
-      "team": "IND",
-      "player": "T.J. McConnell",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Strain · Right · 2026-11-02",
-      "athleteId": "2530530",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
