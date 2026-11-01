@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T00:20:32.999682+00:00",
+  "updatedAt": "2026-11-01T01:34:25.063041+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -172,6 +172,15 @@
       "team": "Charlotte Hornets",
       "abbreviation": "CHA",
       "last10": [
+        {
+          "date": "2026-10-31T22:00Z",
+          "pointsFor": 104.0,
+          "pointsAgainst": 109.0,
+          "win": false,
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-30T23:00Z",
           "pointsFor": 79.0,
@@ -1259,6 +1268,15 @@
       "team": "Philadelphia 76ers",
       "abbreviation": "PHI",
       "last10": [
+        {
+          "date": "2026-10-31T22:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 104.0,
+          "win": true,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 98.0,
