@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T15:23:55.089783+00:00",
+  "updatedAt": "2026-11-01T15:55:20.590663+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -313,7 +313,7 @@
       "team": "HOU",
       "player": "Steven Adams",
       "status": "Out",
-      "detail": "Calf · Leg · Strain · Right · 2026-11-02",
+      "detail": "Calf · Leg · Strain · Right · 2026-11-09",
       "athleteId": "2991235",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
