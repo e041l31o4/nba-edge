@@ -243,3 +243,178 @@ footer .footer-brand b{color:var(--court)}footer span:last-child{margin-left:aut
 .game-prediction-summary .pick-team-logo{width:44px;height:44px;object-fit:contain;display:block;margin:2px 0 3px;filter:drop-shadow(0 2px 2px #202a3510)}
 .game-prediction-summary .pick-team-fallback{font:800 15px 'DM Mono';color:#35404a;padding:8px 0}
 .game-prediction-summary .pick-unverified{font-size:10px;color:#89929a;padding:10px 0 5px}
+
+
+/* =========================================================
+   NBA EDGE — ALL-STAR VISUAL UPGRADE
+   Brighter broadcast energy, while keeping a light canvas.
+   ========================================================= */
+:root{
+  --court:#f0782f;
+  --court-deep:#d95c1d;
+  --court-pale:#fff0e5;
+}
+body{
+  background:
+    radial-gradient(ellipse at 7% 16%,rgba(255,166,94,.16),transparent 27rem),
+    radial-gradient(ellipse at 94% 34%,rgba(93,155,199,.10),transparent 25rem),
+    linear-gradient(135deg,#fbfaf7 0%,#f2f4f1 52%,#fff8f1 100%);
+}
+.topbar{
+  background:rgba(255,255,255,.82);
+  border-bottom:1px solid rgba(226,229,225,.8);
+  box-shadow:0 8px 28px rgba(36,45,54,.045);
+}
+.brand-mark{
+  background:linear-gradient(145deg,#ff9b50,#e45e20);
+  box-shadow:0 7px 18px rgba(233,120,50,.28),inset 0 1px 0 rgba(255,255,255,.35);
+  transform:rotate(-4deg);
+}
+.hero{
+  padding-top:55px;
+  padding-bottom:40px;
+}
+.hero:before{
+  content:"";
+  position:absolute;right:0;top:10px;width:190px;height:190px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,151,78,.16),rgba(255,151,78,0) 68%);
+  pointer-events:none;
+}
+.hero:after{
+  right:110px;top:-115px;width:340px;height:340px;
+  border:1px solid rgba(233,120,50,.20);
+  box-shadow:0 0 0 22px rgba(233,120,50,.035),0 0 0 48px rgba(233,120,50,.025),0 0 0 76px rgba(233,120,50,.018);
+}
+.hero h1{
+  text-shadow:0 2px 0 rgba(255,255,255,.8);
+}
+.hero h1 em{
+  background:linear-gradient(100deg,#f28a43,#d95b1e);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-stat{
+  border-left:0;padding:13px 18px 13px 22px;
+  border-radius:15px;
+  background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,243,232,.9));
+  box-shadow:0 8px 25px rgba(201,100,40,.08);
+}
+.hero-stat strong{
+  background:linear-gradient(120deg,#f28b43,#d85b20);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.ticker{
+  border-color:#f0e2d6;
+  background:linear-gradient(100deg,#fff 0%,#fffaf5 58%,#f7fbff 100%);
+  box-shadow:0 7px 22px rgba(38,49,59,.055);
+}
+.ticker-label{
+  color:#c65d26;
+}
+.tabs{
+  background:linear-gradient(100deg,#e9ece8,#f2eae3);
+  box-shadow:inset 0 1px 2px rgba(35,45,55,.05);
+}
+.tabs button.active{
+  background:linear-gradient(120deg,#f28b43,#df6427);
+  box-shadow:0 5px 13px rgba(223,100,39,.25),inset 0 1px 0 rgba(255,255,255,.22);
+}
+.section-heading{
+  position:relative;
+}
+.section-heading:before{
+  content:"";width:4px;height:31px;border-radius:5px;
+  background:linear-gradient(180deg,#ffad69,#df6427);
+  margin-right:12px;align-self:center;
+}
+.section-heading>div:first-child{flex:1}
+.game-card{
+  border-color:#e7e8e2;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,252,248,.96));
+  box-shadow:0 7px 22px rgba(39,49,58,.055),inset 0 1px 0 #fff;
+}
+.game-card:before{
+  height:4px;
+  background:linear-gradient(90deg,#e96828 0%,#ffb16b 48%,#76a9cf 100%);
+  opacity:.9;
+}
+.game-card:hover{
+  border-color:#efb28b;
+  transform:translateY(-5px);
+  box-shadow:0 16px 34px rgba(50,60,68,.11),0 4px 12px rgba(233,120,50,.08);
+}
+.game-prediction-summary>div:first-child{
+  background:linear-gradient(145deg,#fff7f0,#fff);
+  border-color:#f2e2d5;
+}
+.game-prediction-summary strong{
+  background:linear-gradient(100deg,#f18a43,#d95d20);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.game-prediction-summary.pick-correct>div:first-child{
+  background:linear-gradient(145deg,#eaf8f0,#f8fffb);
+}
+.game-prediction-summary.pick-wrong>div:first-child{
+  background:linear-gradient(145deg,#fff0ed,#fffaf9);
+}
+.analysis-detail,.analysis-list,.analysis-panel,.perf-card,.source-panel,.import-panel{
+  box-shadow:0 8px 24px rgba(39,49,58,.05);
+}
+.analysis-panel,.perf-card{
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.analysis-panel:hover,.perf-card:hover{
+  transform:translateY(-3px);
+  border-color:#edc3a7;
+  box-shadow:0 12px 26px rgba(39,49,58,.085);
+}
+.perf-card{
+  background:linear-gradient(145deg,#fff,#fffaf5);
+  position:relative;overflow:hidden;
+}
+.perf-card:after{
+  content:"";position:absolute;right:-25px;top:-28px;width:85px;height:85px;
+  border-radius:50%;background:rgba(240,120,47,.07);
+}
+.perf-card strong{
+  background:linear-gradient(100deg,#34414d,#e16c2c);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.primary-btn{
+  background:linear-gradient(110deg,#f28b43,#df6427);
+  box-shadow:0 5px 13px rgba(223,100,39,.2);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.primary-btn:hover{
+  background:linear-gradient(110deg,#f59a55,#cf541b);
+  transform:translateY(-1px);
+  box-shadow:0 8px 17px rgba(223,100,39,.25);
+}
+.pick-strip{
+  background:linear-gradient(105deg,#fff0e5,#fffaf5 65%,#f5faff);
+  border-color:#f0d4c0;
+}
+.pick-strip>strong{
+  background:linear-gradient(100deg,#f18a43,#d95d20);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+footer{
+  position:relative;
+}
+footer:before{
+  content:"";position:absolute;top:-1px;left:0;width:120px;height:2px;
+  background:linear-gradient(90deg,#f28b43,transparent);
+}
+button,.game-card,.tabs button{
+  -webkit-tap-highlight-color:transparent;
+}
+@media(prefers-reduced-motion:no-preference){
+  .live-dot{animation:livePulse 1.8s ease-in-out infinite}
+  @keyframes livePulse{0%,100%{box-shadow:0 0 0 4px rgba(42,155,106,.12)}50%{box-shadow:0 0 0 7px rgba(42,155,106,.04)}}
+}
+@media(max-width:620px){
+  .hero{padding-top:38px}
+  .hero-stat{padding:10px 12px;min-width:82px}
+  .hero:after{right:-35px;top:-65px;width:210px;height:210px}
+  .section-heading:before{height:26px;margin-right:9px}
+}
