@@ -65,3 +65,8 @@
 .game-prediction-summary.pick-correct>div:first-child b,.game-prediction-summary.pick-correct>div:first-child strong{color:#6ee7a0}
 .game-prediction-summary.pick-wrong{border-color:rgba(235,92,92,.65);background:rgba(120,36,42,.2);box-shadow:inset 3px 0 0 #ef6262}
 .game-prediction-summary.pick-wrong>div:first-child b,.game-prediction-summary.pick-wrong>div:first-child strong{color:#ff8585}
+
+.game-prediction-summary .total-correct{border-radius:7px;background:rgba(27,105,63,.2);box-shadow:inset 3px 0 0 #39c879;padding:5px 7px;margin:-5px -7px}
+.game-prediction-summary .total-correct b,.game-prediction-summary .total-correct em{color:#6ee7a0}
+.game-prediction-summary .total-wrong{border-radius:7px;background:rgba(120,36,42,.2);box-shadow:inset 3px 0 0 #ef6262;padding:5px 7px;margin:-5px -7px}
+.game-prediction-summary .total-wrong b,.game-prediction-summary .total-wrong em{color:#ff8585}
