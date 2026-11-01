@@ -7,8 +7,6 @@ export type PredictionRecord = {
   awayWin: number
   projectedMargin: number
   projectedTotal: number
-  totalLine?: number
-  totalPick?: 'OVER' | 'UNDER'
   stage?: 'draft' | 'official'
   capturedAt: string
   actualHome?: number
@@ -26,7 +24,7 @@ export async function getPredictionRecords(): Promise<PredictionRecord[]> {
 }
 
 export function summarizePredictions(records: PredictionRecord[]) {
-  const official = records.filter(x => x.stage !== 'draft')
+  const official = records.filter(x => x.stage === 'official')
   const settled = official.filter(x => x.settledAt && Number.isFinite(x.actualHome) && Number.isFinite(x.actualAway))
   if (!settled.length) return { total: official.length, settled: 0, accuracy: null as number | null, brier: null as number | null, marginError: null as number | null }
   const correct = settled.filter(x => (x.homeWin >= 0.5) === ((x.actualHome as number) > (x.actualAway as number))).length
