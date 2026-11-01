@@ -60,7 +60,7 @@ function App() {
 }
 function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction, onClick}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;onClick:()=>void}) {
  const m=marketFor(game,odds), done=game.status.toLowerCase().includes('final')
- const report=teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
+ const report=!done && teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
  const available=!!report?.available
  const pickHome=available && report!.homeWin>=0.5
  const pickedTeam=pickHome?game.home:game.away
