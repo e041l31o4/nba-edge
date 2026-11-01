@@ -36,3 +36,11 @@
 
 
 .calibration-evaluation{margin:14px 0 18px}.calibration-compare{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.calibration-compare>div{display:flex;flex-direction:column;gap:6px;padding:14px;background:#0b1624;border:1px solid #2a3b50;border-radius:8px}.calibration-compare small{font-size:10px;color:#91a3b8}.calibration-compare strong{font:26px 'DM Mono';color:#eef5fc}.calibration-compare span{font-size:10px;color:#8da0b6}@media(max-width:620px){.calibration-compare{grid-template-columns:1fr}}
+
+/* Compact prediction summary shown above every matchup card */
+.prediction-market-strip{align-items:stretch}
+.prediction-market-strip>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.prediction-market-strip>div>b{font-size:13px;line-height:1.35;color:#eaf2fb}
+.prediction-market-strip>div>small:last-child{font-size:9px;color:#8ea2b8;line-height:1.45}
+.prediction-market-strip>div:first-child>b{color:#b9ef83}
+@media(max-width:620px){.prediction-market-strip>div>b{font-size:12px}}
