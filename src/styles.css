@@ -47,7 +47,7 @@
 
 
 /* Clean, single-row prediction summary */
-.game-prediction-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:0 0 12px;padding:11px 12px;border:1px solid rgba(145,170,195,.2);border-radius:9px;background:rgba(12,25,39,.72)}
+.game-prediction-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px;padding:11px 12px;border:1px solid rgba(145,170,195,.2);border-radius:9px;background:rgba(12,25,39,.72)}
 .game-prediction-summary>div{display:flex;flex-direction:column;gap:4px;min-width:0}
 .game-prediction-summary>div+div{padding-left:10px;border-left:1px solid rgba(145,170,195,.16)}
 .game-prediction-summary small{font-size:9px;color:#8fa2b7}
@@ -70,3 +70,6 @@
 .game-prediction-summary .total-correct b,.game-prediction-summary .total-correct em{color:#6ee7a0}
 .game-prediction-summary .total-wrong{border-radius:7px;background:rgba(120,36,42,.2);box-shadow:inset 3px 0 0 #ef6262;padding:5px 7px;margin:-5px -7px}
 .game-prediction-summary .total-wrong b,.game-prediction-summary .total-wrong em{color:#ff8585}
+
+.game-prediction-summary.prediction-unverified{border-style:dashed;border-color:rgba(145,170,195,.35);background:rgba(12,25,39,.42)}
+.game-prediction-summary.prediction-unverified em{color:#d0a86d}
