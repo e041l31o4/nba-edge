@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T15:55:20.590663+00:00",
+  "updatedAt": "2026-11-01T16:22:49.215379+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -388,29 +388,11 @@
     },
     {
       "team": "LAC",
-      "player": "Yanic Konan Niederhauser",
-      "status": "Out",
-      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
-      "athleteId": "5108024",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
       "player": "Max Strus",
       "status": "Out",
       "detail": "Foot · Leg · Plantar Fasciitis · Right · 2026-11-08",
       "athleteId": "4065778",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Brandon Ingram",
-      "status": "Out",
-      "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
-      "athleteId": "3913176",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
