@@ -1,17 +1,8 @@
 {
-  "updatedAt": "2026-11-01T22:14:20.906190+00:00",
+  "updatedAt": "2026-11-01T22:44:13.996890+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
-    {
-      "team": "ATL",
-      "player": "Jock Landale",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Left · 2026-11-02",
-      "athleteId": "3146557",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
     {
       "team": "ATL",
       "player": "Jalen Johnson",
@@ -19,6 +10,15 @@
       "detail": "Ankle · Leg · Left · 2026-11-02",
       "athleteId": "4701230",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ATL",
+      "player": "Jock Landale",
+      "status": "Out",
+      "detail": "Hip · Torso · Left · 2026-11-04",
+      "athleteId": "3146557",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -87,37 +87,19 @@
     },
     {
       "team": "CHA",
-      "player": "Kon Knueppel",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Left · 2026-11-02",
-      "athleteId": "5061575",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHA",
-      "player": "Coby White",
-      "status": "Out",
-      "detail": "Calf · Leg · Strain · Left · 2026-11-02",
-      "athleteId": "4395651",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHA",
       "player": "Grant Williams",
       "status": "Out",
-      "detail": "Hamstring · Leg · Right · 2026-11-02",
+      "detail": "Hamstring · Leg · Right · 2026-11-09",
       "athleteId": "4066218",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "CHA",
-      "player": "Kylan Boswell",
+      "player": "Kon Knueppel",
       "status": "Out",
-      "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
-      "athleteId": "4684269",
+      "detail": "Hamstring · Leg · Left · 2026-11-09",
+      "athleteId": "5061575",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -558,7 +540,7 @@
       "team": "NY",
       "player": "Jose Alvarado",
       "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
       "athleteId": "4277869",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -678,16 +660,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 19.2
-    },
-    {
-      "team": "PHI",
-      "player": "LeBron James",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · 2026-11-02",
-      "athleteId": "1966",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16.4
     },
     {
       "team": "PHI",
