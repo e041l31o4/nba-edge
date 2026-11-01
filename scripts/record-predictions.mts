@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, type TeamFormData, type InjuryData, type ProbabilityCalibrator } from '../src/model'
 
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; totalLine?:number; totalPick?:'OVER'|'UNDER'; stage?:'draft'|'official'; capturedAt:string; actualHome?:number; actualAway?:number; settledAt?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -9,12 +9,11 @@ const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric
 const twNoDash = tw.replace(/-/g,'')
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
-const [form, injuries, backtest, previousPayload, oddsPayload, scoreboardRes] = await Promise.all([
+const [form, injuries, backtest, previousPayload, scoreboardRes] = await Promise.all([
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
   readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
-  readJson<any>('public/data/odds.json'),
   Promise.all(dateKeys.map(date=>fetch(`${base}/scoreboard?dates=${date}`)))
 ])
 if (!form || scoreboardRes.some(r=>!r.ok)) throw new Error('Missing team-form data or ESPN scoreboard unavailable; keep existing ledger unchanged.')
@@ -31,7 +30,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const status=String(event.status?.type?.name ?? '').toLowerCase()
   const tipoff=new Date(event.date).getTime()
   if (!Number.isFinite(tipoff)) continue
-  if (existing && existing.stage!=='draft') {
+  if (existing && existing.stage==='official') {
     if (!existing.settledAt && status.includes('final')) {
       const hs=Number(h.score), as=Number(a.score)
       if (Number.isFinite(hs)&&Number.isFinite(as)) {
@@ -40,22 +39,38 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     }
     continue
   }
-  if (tipoff<=now.getTime()||status.includes('final')) continue
+  if (status.includes('final') || tipoff<=now.getTime()) continue
+  if (existing?.stage==='draft') {
+    if (tipoff-now.getTime()<=60*60*1000) {
+      existing.stage='official'
+      existing.lockedAt=now.toISOString()
+      delete (existing as any).totalLine
+      delete (existing as any).totalPick
+      added++
+    } else {
+      const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator)
+      if (rolling.available) {
+        existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
+        existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
+        existing.capturedAt=now.toISOString()
+      }
+    }
+    continue
+  }
   const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
   const prediction=analyzeMatch(game,form,injuries,calibrator)
   if (!prediction.available) continue
-  const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===String(h.team?.displayName??h.team?.name??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.displayName??a.team?.name??'').toLowerCase())
-  const totalOutcomes=oddsGame?.bookmakers?.flatMap(b=>b.markets?.filter(m=>m.key==='totals').flatMap(m=>m.outcomes??[]))??[]
-  const totalLine=totalOutcomes.find(o=>typeof o.point==='number')?.point
   const stage:Row['stage']=tipoff-now.getTime()<=60*60*1000?'official':'draft'
-  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...(totalLine!==undefined&&prediction.projectedTotal!==totalLine?{totalLine,totalPick:prediction.projectedTotal>totalLine?'OVER' as const:'UNDER' as const}:{}),stage,capturedAt:now.toISOString()}
+  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
+    delete (existing as any).totalLine; delete (existing as any).totalPick
     if (stage==='official') added++
   } else {
     rows.push(row); byId.set(id,row); added++
   }
 }
+for (const row of rows) { delete (row as any).totalLine; delete (row as any).totalPick }
 const output=rows.slice(-1500)
 if (added || settled || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; captured ${added}; settled ${settled}; total ${output.length}`)
