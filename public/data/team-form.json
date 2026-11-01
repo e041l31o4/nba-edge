@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T01:34:25.063041+00:00",
+  "updatedAt": "2026-11-01T02:26:37.978350+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -7,6 +7,15 @@
       "team": "Atlanta Hawks",
       "abbreviation": "ATL",
       "last10": [
+        {
+          "date": "2026-10-31T23:00Z",
+          "pointsFor": 99.0,
+          "pointsAgainst": 121.0,
+          "win": false,
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T00:00Z",
           "pointsFor": 114.0,
@@ -303,6 +312,15 @@
       "team": "Cleveland Cavaliers",
       "abbreviation": "CLE",
       "last10": [
+        {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 136.0,
+          "pointsAgainst": 111.0,
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T00:00Z",
           "pointsFor": 111.0,
@@ -939,6 +957,15 @@
       "abbreviation": "MIL",
       "last10": [
         {
+          "date": "2026-11-01T00:00Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 136.0,
+          "win": false,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-10-29T00:00Z",
           "pointsFor": 100.0,
           "pointsAgainst": 132.0,
@@ -1051,6 +1078,15 @@
       "team": "New Orleans Pelicans",
       "abbreviation": "NO",
       "last10": [
+        {
+          "date": "2026-10-31T23:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 99.0,
+          "win": true,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-30T00:00Z",
           "pointsFor": 132.0,
