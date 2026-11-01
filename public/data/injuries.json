@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T23:14:36.389962+00:00",
+  "updatedAt": "2026-11-01T23:42:04.373013+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -161,6 +161,15 @@
     },
     {
       "team": "DAL",
+      "player": "Tarik Biberovic",
+      "status": "Out",
+      "detail": "Heel · Leg · Inflammation · Right · 2026-11-12",
+      "athleteId": "5148538",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
       "player": "Dereck Lively II",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-12",
@@ -195,15 +204,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 5.3
-    },
-    {
-      "team": "DAL",
-      "player": "Tarik Biberovic",
-      "status": "Out",
-      "detail": "Heel · Leg · Inflammation · Right · 2026-11-12",
-      "athleteId": "5148538",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DEN",
@@ -460,16 +460,6 @@
     },
     {
       "team": "MEM",
-      "player": "Quinten Post",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
-      "athleteId": "4593016",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7
-    },
-    {
-      "team": "MEM",
       "player": "Scotty Pippen Jr.",
       "status": "Day-To-Day",
       "detail": "Back · Torso · Soreness · 2026-11-02",
@@ -477,6 +467,16 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
+    },
+    {
+      "team": "MEM",
+      "player": "Quinten Post",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
+      "athleteId": "4593016",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 7
     },
     {
       "team": "MIN",
@@ -701,9 +701,18 @@
       "team": "SAC",
       "player": "Dylan Cardwell",
       "status": "Out",
-      "detail": "Calf · Leg · Strain · Left · 2026-11-06",
+      "detail": "Calf · Leg · Strain · Left · 2026-11-02",
       "athleteId": "4433174",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "Zach LaVine",
+      "status": "Day-To-Day",
+      "detail": "Elbow · Arm · Soreness · Right · 2026-11-02",
+      "athleteId": "3064440",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
