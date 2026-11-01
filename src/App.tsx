@@ -60,7 +60,7 @@ function App() {
 }
 function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction, onClick}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;onClick:()=>void}) {
  const m=marketFor(game,odds), done=game.status.toLowerCase().includes('final')
- const report=!done && teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
+ const report=teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
  const available=!!report?.available
  const useSaved=!!savedPrediction
  const homeWin=useSaved?savedPrediction.homeWin:available?report!.homeWin:undefined
@@ -71,14 +71,16 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const projectedAway=useSaved?(projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal-projectedMargin)/2:undefined):available?report!.projectedAway:undefined
  const hasPrediction=homeWin!==undefined
  const pickedTeam=hasPrediction?(homeWin!>=0.5?game.home:game.away):null
+ const actualWinner=done?((Number(game.home.score)>Number(game.away.score))?game.home:(Number(game.away.score)>Number(game.home.score)?game.away:null)):null
+ const pickCorrect=done&&useSaved&&actualWinner? pickedTeam?.id===actualWinner.id : null
  const pickProbability=hasPrediction?Math.max(homeWin!,awayWin!):undefined
  const totalLine=m?.total.find(x=>x.point!==undefined)
  const isBig=projectedTotal!==undefined && totalLine?.point!==undefined ? projectedTotal>totalLine.point : null
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
  return <button className="game-card" onClick={onClick}>
   <div className="game-top"><span className={done?'game-state done':'game-state'}>{done?'FINAL':game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
-  <div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<><b>{game.away.score}</b><small>FINAL</small><b>{game.home.score}</b></>:'VS'}</div><TeamLine team={game.home}/></div>
-  <div className={hasPrediction?'game-prediction-summary':'game-prediction-summary prediction-pending'}>
+  <div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<div className="final-score"><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
+  <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')}>
    <div><small>不讓分</small><b>{hasPrediction?pickedTeam!.displayName:'資料不足'}</b><strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong></div>
    <div><small>大小分</small><b>{projectedTotal===undefined?'尚無預測':totalLine?.point!==undefined?(isBig?'大分':'小分')+' '+totalLine.point:'模型 '+projectedTotal.toFixed(1)}</b><em>{projectedTotal!==undefined&&totalLine?.point!==undefined?'預測 '+projectedTotal.toFixed(1):'模型總分'}</em></div>
    <div><small>預估比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'賽前封存':'模型預測'}</em></div>
