@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T21:42:50.684748+00:00",
+  "updatedAt": "2026-11-01T22:14:20.906190+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -160,9 +160,18 @@
     },
     {
       "team": "CLE",
-      "player": "Jaylon Tyson",
+      "player": "Peyton Watson",
       "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
+      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-02",
+      "athleteId": "4576087",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Jaylon Tyson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-04",
       "athleteId": "4683747",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -830,6 +839,33 @@
     },
     {
       "team": "WSH",
+      "player": "Tristan Vukcevic",
+      "status": "Out",
+      "detail": "Hip · Torso · Pinched Nerve · Left · 2026-11-09",
+      "athleteId": "4997537",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Alex Sarr",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Soreness · Left · 2026-11-02",
+      "athleteId": "5160992",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Anthony Gill",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Spasms · 2026-11-02",
+      "athleteId": "2581184",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
       "player": "Justin Champagnie",
       "status": "Out",
       "detail": "Foot · Leg · Not Specified · Right · 2027-02-25",
@@ -837,15 +873,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7.3
-    },
-    {
-      "team": "WSH",
-      "player": "Tristan Vukcevic",
-      "status": "Out",
-      "detail": "Hip · Torso · Pinched Nerve · Left · 2026-11-02",
-      "athleteId": "4997537",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "WSH",
