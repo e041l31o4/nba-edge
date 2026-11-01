@@ -44,3 +44,15 @@
 .prediction-market-strip>div>small:last-child{font-size:9px;color:#8ea2b8;line-height:1.45}
 .prediction-market-strip>div:first-child>b{color:#b9ef83}
 @media(max-width:620px){.prediction-market-strip>div>b{font-size:12px}}
+
+
+/* Clean, single-row prediction summary */
+.game-prediction-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:0 0 12px;padding:11px 12px;border:1px solid rgba(145,170,195,.2);border-radius:9px;background:rgba(12,25,39,.72)}
+.game-prediction-summary>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.game-prediction-summary>div+div{padding-left:10px;border-left:1px solid rgba(145,170,195,.16)}
+.game-prediction-summary small{font-size:9px;color:#8fa2b7}
+.game-prediction-summary b{font-size:12px;line-height:1.35;color:#edf4fb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-prediction-summary strong{font:700 14px 'DM Mono';color:#b9ef83}
+.game-prediction-summary em{font-style:normal;font-size:9px;color:#8fa2b7}
+.game-prediction-summary.prediction-pending b{color:#9eafc2}
+@media(max-width:600px){.game-prediction-summary{gap:5px;padding:10px 8px}.game-prediction-summary>div+div{padding-left:6px}.game-prediction-summary b{font-size:10px}.game-prediction-summary strong{font-size:12px}.game-prediction-summary em{font-size:8px}}
