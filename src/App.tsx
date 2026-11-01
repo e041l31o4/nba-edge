@@ -76,7 +76,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const recordedLine=useSaved?savedPrediction?.totalLine:undefined
  const gradingLine=recordedLine
  const actualTotal=done?Number(game.home.score)+Number(game.away.score):undefined
- const totalCorrect=done&&useSaved&&gradingLine!==undefined&&actualTotal!==undefined&&actualTotal!==gradingLine ? ((savedPrediction?.totalPick==='OVER'&&actualTotal>gradingLine)||(savedPrediction.totalPick==='UNDER'&&actualTotal<gradingLine)) : null
+ const totalCorrect=done&&useSaved&&gradingLine!==undefined&&actualTotal!==undefined&&actualTotal!==gradingLine ? ((savedPrediction?.totalPick==='OVER'&&actualTotal>gradingLine)||(savedPrediction?.totalPick==='UNDER'&&actualTotal<gradingLine)) : null
  const pickProbability=hasPrediction?Math.max(homeWin!,awayWin!):undefined
  const totalLine=m?.total.find(x=>x.point!==undefined)
  const isBig=projectedTotal!==undefined && totalLine?.point!==undefined ? projectedTotal>totalLine.point : null
@@ -86,7 +86,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<div className="final-score"><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')}>
    <div><small>不讓分</small><b>{hasPrediction?pickedTeam!.displayName:'資料不足'}</b><strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong></div>
-   <div className={totalCorrect===true?'total-correct':totalCorrect===false?'total-wrong':''}><small>大小分</small><b>{projectedTotal===undefined?'尚無預測':(recordedLine!==undefined?(savedPrediction.totalPick==='OVER'?'大分':'小分')+' '+recordedLine:totalLine?.point!==undefined?(isBig?'大分':'小分')+' '+totalLine.point:'模型 '+projectedTotal.toFixed(1))}</b><em>{totalCorrect===true?'命中':totalCorrect===false?'未命中':projectedTotal!==undefined&&recordedLine!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分':projectedTotal!==undefined&&totalLine?.point!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分': '等待有效盤口'}</em></div>
+   <div className={totalCorrect===true?'total-correct':totalCorrect===false?'total-wrong':''}><small>大小分</small><b>{projectedTotal===undefined?'尚無預測':(recordedLine!==undefined?(savedPrediction?.totalPick==='OVER'?'大分':'小分')+' '+recordedLine:totalLine?.point!==undefined?(isBig?'大分':'小分')+' '+totalLine.point:'模型 '+projectedTotal.toFixed(1))}</b><em>{totalCorrect===true?'命中':totalCorrect===false?'未命中':projectedTotal!==undefined&&recordedLine!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分':projectedTotal!==undefined&&totalLine?.point!==undefined?'模型 '+projectedTotal.toFixed(1)+' 分': '等待有效盤口'}</em></div>
    <div><small>預估比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'賽前封存':'模型預測'}</em></div>
   </div>
  </button>
