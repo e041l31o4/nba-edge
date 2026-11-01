@@ -1,5 +1,15 @@
 name: NBA EDGE prediction ledger
 on:
+  push:
+    branches: [main, master]
+    paths:
+      - '.github/workflows/prediction-ledger.yml'
+      - 'scripts/record-predictions.mts'
+      - 'src/model.ts'
+      - 'public/data/team-form.json'
+      - 'public/data/injuries.json'
+      - 'public/data/backtest.json'
+      - 'public/data/odds.json'
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
