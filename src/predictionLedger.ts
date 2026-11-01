@@ -7,6 +7,8 @@ export type PredictionRecord = {
   awayWin: number
   projectedMargin: number
   projectedTotal: number
+  totalLine?: number
+  totalPick?: 'OVER' | 'UNDER'
   capturedAt: string
   actualHome?: number
   actualAway?: number
