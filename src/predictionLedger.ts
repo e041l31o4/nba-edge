@@ -1,5 +1,3 @@
-import type { Game } from './lib'
-
 export type PredictionRecord = {
   gameId: string
   date: string
