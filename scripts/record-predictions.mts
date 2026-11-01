@@ -10,20 +10,21 @@ const twNoDash = tw.replace(/-/g,'')
 const twDate = new Date(tw+'T12:00:00+08:00')
 twDate.setDate(twDate.getDate()-1)
 const espnDate = twDate.toISOString().slice(0,10).replace(/-/g,'')
+const priorDate = new Date(twDate.getTime()-86400000).toISOString().slice(0,10).replace(/-/g,'')
 const [form, injuries, backtest, previousPayload, scoreboardRes] = await Promise.all([
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
   readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
-  fetch(`${base}/scoreboard?dates=${espnDate}`)
+  Promise.all([fetch(`${base}/scoreboard?dates=${espnDate}`),fetch(`${base}/scoreboard?dates=${priorDate}`)])
 ])
-if (!form || !scoreboardRes.ok) throw new Error('Missing team-form data or ESPN scoreboard unavailable; keep existing ledger unchanged.')
-const scoreboard = await scoreboardRes.json() as any
+if (!form || scoreboardRes.some(r=>!r.ok)) throw new Error('Missing team-form data or ESPN scoreboard unavailable; keep existing ledger unchanged.')
+const scoreboards = await Promise.all(scoreboardRes.map(r=>r.json())) as any[]
 const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 let added=0, settled=0
-for (const event of scoreboard.events ?? []) {
+for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
   if (!h || !a || !event.id) continue
