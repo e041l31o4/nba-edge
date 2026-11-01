@@ -9,6 +9,7 @@ export type PredictionRecord = {
   projectedTotal: number
   totalLine?: number
   totalPick?: 'OVER' | 'UNDER'
+  stage?: 'draft' | 'official'
   capturedAt: string
   actualHome?: number
   actualAway?: number
@@ -25,10 +26,11 @@ export async function getPredictionRecords(): Promise<PredictionRecord[]> {
 }
 
 export function summarizePredictions(records: PredictionRecord[]) {
-  const settled = records.filter(x => x.settledAt && Number.isFinite(x.actualHome) && Number.isFinite(x.actualAway))
-  if (!settled.length) return { total: records.length, settled: 0, accuracy: null as number | null, brier: null as number | null, marginError: null as number | null }
+  const official = records.filter(x => x.stage !== 'draft')
+  const settled = official.filter(x => x.settledAt && Number.isFinite(x.actualHome) && Number.isFinite(x.actualAway))
+  if (!settled.length) return { total: official.length, settled: 0, accuracy: null as number | null, brier: null as number | null, marginError: null as number | null }
   const correct = settled.filter(x => (x.homeWin >= 0.5) === ((x.actualHome as number) > (x.actualAway as number))).length
   const brier = settled.reduce((sum, x) => sum + ((x.homeWin - ((x.actualHome as number) > (x.actualAway as number) ? 1 : 0)) ** 2 + (x.awayWin - ((x.actualAway as number) > (x.actualHome as number) ? 1 : 0)) ** 2) / 2, 0) / settled.length
   const marginError = settled.reduce((sum, x) => sum + Math.abs(x.projectedMargin - ((x.actualHome as number) - (x.actualAway as number))), 0) / settled.length
-  return { total: records.length, settled: settled.length, accuracy: correct / settled.length, brier, marginError }
+  return { total: official.length, settled: settled.length, accuracy: correct / settled.length, brier, marginError }
 }
