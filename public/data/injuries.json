@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T19:20:30.162621+00:00",
+  "updatedAt": "2026-11-02T20:08:43.174284+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -55,15 +55,6 @@
       "detail": "Rest · Other · 2026-11-04",
       "athleteId": "4251",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Mitchell Robinson",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · Not Specified · Not Specified · 2026-11-02",
-      "athleteId": "4351852",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -521,15 +512,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7
-    },
-    {
-      "team": "MIA",
-      "player": "Tim Hardaway Jr.",
-      "status": "Day-To-Day",
-      "detail": "Personal · Other · 2026-11-02",
-      "athleteId": "2528210",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
