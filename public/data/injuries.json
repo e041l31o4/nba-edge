@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T23:25:10.491166+00:00",
+  "updatedAt": "2026-11-02T23:54:47.415624+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -488,8 +488,8 @@
     {
       "team": "MIN",
       "player": "Terrence Shannon Jr.",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Left · 2026-11-02",
+      "status": "Out",
+      "detail": "Hip · Torso · Bruise · Left · 2026-11-04",
       "athleteId": "4432847",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -725,7 +725,7 @@
       "team": "SAC",
       "player": "Dylan Cardwell",
       "status": "Out",
-      "detail": "Calf · Leg · Strain · Left · 2026-11-02",
+      "detail": "Calf · Leg · Strain · Left · 2026-11-04",
       "athleteId": "4433174",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
