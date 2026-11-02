@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T04:36:32.570775+00:00",
+  "updatedAt": "2026-11-02T05:35:59.938064+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -265,7 +265,7 @@
     {
       "team": "GS",
       "player": "Gui Santos",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Knee · Leg · 2026-11-05",
       "athleteId": "4997536",
       "position": "F",
@@ -791,7 +791,7 @@
     {
       "team": "TOR",
       "player": "Jakob Poeltl",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-02",
       "athleteId": "3134908",
       "position": "C",
