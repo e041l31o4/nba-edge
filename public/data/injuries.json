@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T23:42:04.373013+00:00",
+  "updatedAt": "2026-11-02T00:09:38.241042+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -207,22 +207,22 @@
     },
     {
       "team": "DEN",
+      "player": "Spencer Jones",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-04",
+      "athleteId": "4592427",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
       "player": "Alpha Diallo",
       "status": "Out",
-      "detail": "Personal · Other · Right · 2026-11-02",
+      "detail": "Wrist · Arm · Sprain · Right · 2026-11-02",
       "athleteId": "4065813",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 4
-    },
-    {
-      "team": "DEN",
-      "player": "Spencer Jones",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-02",
-      "athleteId": "4592427",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DEN",
