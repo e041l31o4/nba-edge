@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T16:38:37.280200+00:00",
+  "updatedAt": "2026-11-02T17:29:53.171162+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -608,6 +608,15 @@
       "status": "Out",
       "detail": "Back · Torso · 2026-11-04",
       "athleteId": "5159925",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ORL",
+      "player": "Anthony Black",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-05",
+      "athleteId": "4712849",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
