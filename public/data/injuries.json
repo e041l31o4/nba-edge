@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T14:36:47.842956+00:00",
+  "updatedAt": "2026-11-02T15:30:56.154979+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -189,7 +189,7 @@
       "team": "DAL",
       "player": "Santi Aldama",
       "status": "Out",
-      "detail": "Knee · Leg · Surgery · Right · 2026-11-04",
+      "detail": "Knee · Leg · Surgery · Right · 2026-11-02",
       "athleteId": "4593125",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
