@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T15:30:56.154979+00:00",
+  "updatedAt": "2026-11-02T16:38:37.280200+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -395,10 +395,19 @@
     },
     {
       "team": "LAC",
-      "player": "Derrick Jones Jr.",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-02",
-      "athleteId": "3936099",
+      "player": "Yanic Konan Niederhauser",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "5108024",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Brandon Ingram",
+      "status": "Out",
+      "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "3913176",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -413,19 +422,10 @@
     },
     {
       "team": "LAC",
-      "player": "Yanic Konan Niederhauser",
-      "status": "Out",
-      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
-      "athleteId": "5108024",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Brandon Ingram",
-      "status": "Out",
-      "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
-      "athleteId": "3913176",
+      "player": "Derrick Jones Jr.",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Right · 2026-11-02",
+      "athleteId": "3936099",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -745,7 +745,7 @@
       "team": "SAC",
       "player": "Keegan Murray",
       "status": "Out",
-      "detail": "Ankle · Leg · 2026-11-06",
+      "detail": "Ankle · Leg · 2026-11-10",
       "athleteId": "4594327",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
