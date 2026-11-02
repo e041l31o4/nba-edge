@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T03:38:09.744511+00:00",
+  "updatedAt": "2026-11-02T04:36:32.570775+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -264,6 +264,15 @@
     },
     {
       "team": "GS",
+      "player": "Gui Santos",
+      "status": "Out",
+      "detail": "Knee · Leg · 2026-11-05",
+      "athleteId": "4997536",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
       "player": "Draymond Green",
       "status": "Out",
       "detail": "Rest · Other · 2026-11-02",
@@ -393,6 +402,15 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 24
+    },
+    {
+      "team": "LAC",
+      "player": "Derrick Jones Jr.",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Right · 2026-11-02",
+      "athleteId": "3936099",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "LAC",
