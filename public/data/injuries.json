@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T20:08:43.174284+00:00",
+  "updatedAt": "2026-11-02T20:48:51.222727+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -834,6 +834,15 @@
     },
     {
       "team": "TOR",
+      "player": "Nate Bittle",
+      "status": "Out",
+      "detail": "Foot · Leg · Fracture · Right · 2026-11-09",
+      "athleteId": "4432586",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
       "player": "Kawhi Leonard",
       "status": "Out",
       "detail": "Knee · Leg · Inflammation · Left · 2026-11-23",
@@ -841,15 +850,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 19.5
-    },
-    {
-      "team": "TOR",
-      "player": "Nate Bittle",
-      "status": "Out",
-      "detail": "Foot · Leg · Fracture · Right · 2026-11-02",
-      "athleteId": "4432586",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "UTAH",
