@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T00:09:38.241042+00:00",
+  "updatedAt": "2026-11-02T01:05:38.306947+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -255,15 +255,6 @@
     },
     {
       "team": "GS",
-      "player": "Gui Santos",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Left · 2026-11-01",
-      "athleteId": "4997536",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
       "player": "Draymond Green",
       "status": "Out",
       "detail": "Rest · Other · 2026-11-02",
@@ -396,6 +387,15 @@
     },
     {
       "team": "LAC",
+      "player": "Max Strus",
+      "status": "Out",
+      "detail": "Foot · Leg · Plantar Fasciitis · Right · 2026-11-08",
+      "athleteId": "4065778",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
       "player": "Yanic Konan Niederhauser",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
@@ -410,15 +410,6 @@
       "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
       "athleteId": "3913176",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Max Strus",
-      "status": "Out",
-      "detail": "Foot · Leg · Plantar Fasciitis · Right · 2026-11-08",
-      "athleteId": "4065778",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -477,6 +468,15 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7
+    },
+    {
+      "team": "MIA",
+      "player": "Tim Hardaway Jr.",
+      "status": "Day-To-Day",
+      "detail": "Personal · Other · 2026-11-02",
+      "athleteId": "2528210",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
@@ -538,6 +538,15 @@
     },
     {
       "team": "OKC",
+      "player": "Thomas Sorber",
+      "status": "Out",
+      "detail": "Knee · Leg · 2026-11-04",
+      "athleteId": "5061603",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
       "player": "Cason Wallace",
       "status": "Out",
       "detail": "Shoulder · Arm · Surgery · Left · 2027-03-02",
@@ -575,15 +584,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 9.3
-    },
-    {
-      "team": "OKC",
-      "player": "Thomas Sorber",
-      "status": "Out",
-      "detail": "Knee · Leg · 2026-11-04",
-      "athleteId": "5061603",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "OKC",

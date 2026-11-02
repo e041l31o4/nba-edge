@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T00:09:38.241042+00:00",
+  "updatedAt": "2026-11-02T01:05:38.306947+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -138,6 +138,15 @@
       "team": "Brooklyn Nets",
       "abbreviation": "BKN",
       "last10": [
+        {
+          "date": "2026-11-01T22:00Z",
+          "pointsFor": 98.0,
+          "pointsAgainst": 90.0,
+          "win": true,
+          "opponent": "Indiana Pacers",
+          "opponentId": "11",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 94.0,
@@ -687,6 +696,15 @@
       "team": "Indiana Pacers",
       "abbreviation": "IND",
       "last10": [
+        {
+          "date": "2026-11-01T22:00Z",
+          "pointsFor": 90.0,
+          "pointsAgainst": 98.0,
+          "win": false,
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-31T00:00Z",
           "pointsFor": 125.0,
