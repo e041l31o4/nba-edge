@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T17:29:53.171162+00:00",
+  "updatedAt": "2026-11-02T18:18:39.099898+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -63,15 +63,6 @@
       "status": "Out",
       "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4433188",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BKN",
-      "player": "Mikel Brown Jr.",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-02",
-      "athleteId": "5101761",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -236,7 +227,7 @@
       "team": "DET",
       "player": "Isaiah Joe",
       "status": "Out",
-      "detail": "Hip · Torso · Bruise · Right · 2026-11-02",
+      "detail": "Hip · Torso · Bruise · Right · 2026-11-04",
       "athleteId": "4395702",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -349,7 +340,7 @@
       "team": "IND",
       "player": "T.J. McConnell",
       "status": "Out",
-      "detail": "Hamstring · Leg · Strain · Right · 2026-11-02",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
       "athleteId": "2530530",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -845,6 +836,15 @@
     },
     {
       "team": "WSH",
+      "player": "Alex Sarr",
+      "status": "Out",
+      "detail": "Knee · Leg · Soreness · Left · 2026-11-04",
+      "athleteId": "5160992",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
       "player": "Tristan Vukcevic",
       "status": "Out",
       "detail": "Hip · Torso · Pinched Nerve · Left · 2026-11-09",
@@ -854,18 +854,9 @@
     },
     {
       "team": "WSH",
-      "player": "Alex Sarr",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Soreness · Left · 2026-11-02",
-      "athleteId": "5160992",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "WSH",
       "player": "Anthony Gill",
       "status": "Day-To-Day",
-      "detail": "Back · Torso · Spasms · 2026-11-02",
+      "detail": "Back · Torso · Spasms · 2026-11-04",
       "athleteId": "2581184",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
