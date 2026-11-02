@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T20:48:51.222727+00:00",
+  "updatedAt": "2026-11-02T21:28:43.532263+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -245,29 +245,29 @@
     },
     {
       "team": "GS",
+      "player": "Brandon Williams",
+      "status": "Day-To-Day",
+      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-02",
+      "athleteId": "4397040",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
+      "player": "Al Horford",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-05",
+      "athleteId": "3213",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
       "player": "Gui Santos",
       "status": "Out",
       "detail": "Knee · Leg · 2026-11-05",
       "athleteId": "4997536",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
-      "player": "Draymond Green",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-02",
-      "athleteId": "6589",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
-      "player": "Stephen Curry",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-02",
-      "athleteId": "3975",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -422,6 +422,24 @@
     },
     {
       "team": "LAC",
+      "player": "Rui Hachimura",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-04",
+      "athleteId": "4066648",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Derrick Jones Jr.",
+      "status": "Out",
+      "detail": "Knee · Leg · Soreness · Right · 2026-11-04",
+      "athleteId": "3936099",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
       "player": "Yanic Konan Niederhauser",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
@@ -435,24 +453,6 @@
       "status": "Out",
       "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
       "athleteId": "3913176",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Max Strus",
-      "status": "Out",
-      "detail": "Foot · Leg · Plantar Fasciitis · Right · 2026-11-08",
-      "athleteId": "4065778",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Derrick Jones Jr.",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-02",
-      "athleteId": "3936099",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -473,16 +473,6 @@
       "athleteId": "4396818",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAL",
-      "player": "Ziaire Williams",
-      "status": "Out",
-      "detail": "Foot · Leg · Left · 2026-11-02",
-      "athleteId": "4433137",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 11.3
     },
     {
       "team": "LAL",
