@@ -1,8 +1,17 @@
 {
-  "updatedAt": "2026-11-02T01:05:38.306947+00:00",
+  "updatedAt": "2026-11-02T02:07:17.249611+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
+    {
+      "team": "ATL",
+      "player": "Kingston Flemings",
+      "status": "Suspension",
+      "detail": "Suspension · Other · 2026-11-04",
+      "athleteId": "5149077",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
     {
       "team": "ATL",
       "player": "Jalen Johnson",
@@ -60,7 +69,7 @@
     {
       "team": "BKN",
       "player": "Mikel Brown Jr.",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Rest · Other · 2026-11-02",
       "athleteId": "5101761",
       "position": "G",
@@ -330,7 +339,7 @@
     {
       "team": "IND",
       "player": "Obi Toppin",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Back · Torso · Soreness · 2026-11-02",
       "athleteId": "4278355",
       "position": "F",
@@ -759,6 +768,15 @@
       "detail": "Knee · Leg · Surgery · Right · 2026-12-03",
       "athleteId": "5101845",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Jakob Poeltl",
+      "status": "Out",
+      "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-02",
+      "athleteId": "3134908",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
