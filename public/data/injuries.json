@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T13:36:02.522011+00:00",
+  "updatedAt": "2026-11-02T14:36:47.842956+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -51,7 +51,7 @@
     {
       "team": "BOS",
       "player": "Mitchell Robinson",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Rest · Other · Not Specified · Not Specified · 2026-11-02",
       "athleteId": "4351852",
       "position": "C",
@@ -134,20 +134,10 @@
       "team": "CHI",
       "player": "Nic Claxton",
       "status": "Out",
-      "detail": "Hamstring · Leg · Not Specified · 2026-11-04",
+      "detail": "Hamstring · Leg · Not Specified · 2026-11-02",
       "athleteId": "4278067",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHI",
-      "player": "Dailyn Swain",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-02",
-      "athleteId": "4848625",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2
     },
     {
       "team": "CLE",
@@ -265,7 +255,7 @@
     {
       "team": "GS",
       "player": "Gui Santos",
-      "status": "Day-To-Day",
+      "status": "Out",
       "detail": "Knee · Leg · 2026-11-05",
       "athleteId": "4997536",
       "position": "F",
@@ -274,7 +264,7 @@
     {
       "team": "GS",
       "player": "Draymond Green",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Rest · Other · 2026-11-02",
       "athleteId": "6589",
       "position": "F",
@@ -283,7 +273,7 @@
     {
       "team": "GS",
       "player": "Stephen Curry",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Rest · Other · 2026-11-02",
       "athleteId": "3975",
       "position": "G",
