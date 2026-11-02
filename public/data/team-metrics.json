@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+  "updatedAt": "2026-11-02T12:18:31.172829+00:00",
   "season": "2027",
   "source": "ESPN public Core API team season statistics",
   "status": "available",
@@ -7,37 +7,37 @@
     "ATL": {
       "gamesPlayed": 7.0,
       "trueShootingPct": 55.78,
-      "pace": 97.877,
+      "pace": 105.477,
       "teamId": "1",
       "abbreviation": "ATL",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "BOS": {
-      "gamesPlayed": 5.0,
-      "trueShootingPct": 59.641,
-      "pace": 102.622,
+      "gamesPlayed": 6.0,
+      "trueShootingPct": 59.156,
+      "pace": 93.546,
       "teamId": "2",
       "abbreviation": "BOS",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "BKN": {
-      "gamesPlayed": 5.0,
-      "trueShootingPct": 55.29,
-      "pace": 105.142,
+      "gamesPlayed": 6.0,
+      "trueShootingPct": 55.478,
+      "pace": 95.915,
       "teamId": "17",
       "abbreviation": "BKN",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "CHA": {
       "gamesPlayed": 7.0,
       "trueShootingPct": 51.804,
-      "pace": 91.894,
+      "pace": 98.403,
       "teamId": "30",
       "abbreviation": "CHA",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "CHI": {
@@ -46,16 +46,16 @@
       "pace": 109.807,
       "teamId": "4",
       "abbreviation": "CHI",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "CLE": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 58.975,
-      "pace": 95.6,
+      "pace": 104.276,
       "teamId": "5",
       "abbreviation": "CLE",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "DAL": {
@@ -64,7 +64,7 @@
       "pace": 102.727,
       "teamId": "6",
       "abbreviation": "DAL",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "DEN": {
@@ -73,7 +73,7 @@
       "pace": 99.981,
       "teamId": "7",
       "abbreviation": "DEN",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "DET": {
@@ -82,61 +82,61 @@
       "pace": 100.863,
       "teamId": "8",
       "abbreviation": "DET",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "GS": {
-      "gamesPlayed": 6.0,
-      "trueShootingPct": 58.263,
-      "pace": 102.127,
+      "gamesPlayed": 7.0,
+      "trueShootingPct": 59.462,
+      "pace": 94.406,
       "teamId": "9",
       "abbreviation": "GS",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "HOU": {
       "gamesPlayed": 7.0,
       "trueShootingPct": 61.15,
-      "pace": 94.76,
+      "pace": 101.589,
       "teamId": "10",
       "abbreviation": "HOU",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "IND": {
-      "gamesPlayed": 6.0,
-      "trueShootingPct": 57.664,
-      "pace": 104.713,
+      "gamesPlayed": 7.0,
+      "trueShootingPct": 57.233,
+      "pace": 96.126,
       "teamId": "11",
       "abbreviation": "IND",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "LAC": {
-      "gamesPlayed": 5.0,
-      "trueShootingPct": 57.558,
-      "pace": 102.396,
+      "gamesPlayed": 6.0,
+      "trueShootingPct": 57.344,
+      "pace": 93.61,
       "teamId": "12",
       "abbreviation": "LAC",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "LAL": {
-      "gamesPlayed": 6.0,
-      "trueShootingPct": 63.383,
-      "pace": 101.92,
+      "gamesPlayed": 7.0,
+      "trueShootingPct": 64.279,
+      "pace": 95.151,
       "teamId": "13",
       "abbreviation": "LAL",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "MEM": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 59.814,
-      "pace": 94.51,
+      "pace": 103.49,
       "teamId": "29",
       "abbreviation": "MEM",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "MIA": {
@@ -145,34 +145,34 @@
       "pace": 106.313,
       "teamId": "14",
       "abbreviation": "MIA",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "MIL": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 54.681,
-      "pace": 97.377,
+      "pace": 106.203,
       "teamId": "15",
       "abbreviation": "MIL",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "MIN": {
       "gamesPlayed": 7.0,
       "trueShootingPct": 57.673,
-      "pace": 96.8,
+      "pace": 103.883,
       "teamId": "16",
       "abbreviation": "MIN",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "NO": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 59.981,
-      "pace": 97.484,
+      "pace": 106.177,
       "teamId": "3",
       "abbreviation": "NO",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "NY": {
@@ -181,34 +181,34 @@
       "pace": 100.993,
       "teamId": "18",
       "abbreviation": "NY",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "OKC": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 53.795,
-      "pace": 92.983,
+      "pace": 101.077,
       "teamId": "25",
       "abbreviation": "OKC",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "ORL": {
-      "gamesPlayed": 5.0,
-      "trueShootingPct": 58.246,
-      "pace": 103.412,
+      "gamesPlayed": 6.0,
+      "trueShootingPct": 57.613,
+      "pace": 94.04,
       "teamId": "19",
       "abbreviation": "ORL",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "PHI": {
       "gamesPlayed": 7.0,
       "trueShootingPct": 54.758,
-      "pace": 95.783,
+      "pace": 102.357,
       "teamId": "20",
       "abbreviation": "PHI",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "PHX": {
@@ -217,52 +217,52 @@
       "pace": 101.325,
       "teamId": "21",
       "abbreviation": "PHX",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "POR": {
       "gamesPlayed": 5.0,
       "trueShootingPct": 59.864,
-      "pace": 93.244,
+      "pace": 103.488,
       "teamId": "22",
       "abbreviation": "POR",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "SAC": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 54.623,
-      "pace": 97.053,
+      "pace": 106.043,
       "teamId": "23",
       "abbreviation": "SAC",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "SA": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 56.84,
-      "pace": 93.815,
+      "pace": 102.451,
       "teamId": "24",
       "abbreviation": "SA",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "TOR": {
-      "gamesPlayed": 5.0,
-      "trueShootingPct": 55.307,
-      "pace": 104.756,
+      "gamesPlayed": 6.0,
+      "trueShootingPct": 55.05,
+      "pace": 96.38,
       "teamId": "28",
       "abbreviation": "TOR",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "UTAH": {
       "gamesPlayed": 6.0,
       "trueShootingPct": 55.469,
-      "pace": 93.67,
+      "pace": 102.192,
       "teamId": "26",
       "abbreviation": "UTAH",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     },
     "WSH": {
@@ -271,7 +271,7 @@
       "pace": 102.353,
       "teamId": "27",
       "abbreviation": "WSH",
-      "updatedAt": "2026-11-02T11:28:49.315808+00:00",
+      "updatedAt": "2026-11-02T12:18:31.172829+00:00",
       "stale": false
     }
   }
