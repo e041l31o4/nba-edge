@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T18:18:39.099898+00:00",
+  "updatedAt": "2026-11-02T19:20:30.162621+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -46,6 +46,15 @@
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
+      "player": "Paul George",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-04",
+      "athleteId": "4251",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -151,6 +160,15 @@
     },
     {
       "team": "DAL",
+      "player": "Kyrie Irving",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Left · 2026-11-04",
+      "athleteId": "6442",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
       "player": "Tarik Biberovic",
       "status": "Out",
       "detail": "Heel · Leg · Inflammation · Right · 2026-11-12",
@@ -165,15 +183,6 @@
       "detail": "Foot · Leg · Surgery · Right · 2026-11-12",
       "athleteId": "4683688",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
-      "player": "Kyrie Irving",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Left · 2026-11-02",
-      "athleteId": "6442",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -300,8 +309,8 @@
     {
       "team": "HOU",
       "player": "Clint Capela",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-02",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-04",
       "athleteId": "3102529",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -328,16 +337,6 @@
     },
     {
       "team": "IND",
-      "player": "Obi Toppin",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-02",
-      "athleteId": "4278355",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
-    },
-    {
-      "team": "IND",
       "player": "T.J. McConnell",
       "status": "Out",
       "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
@@ -349,11 +348,57 @@
       "team": "IND",
       "player": "Ivica Zubac",
       "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-02",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-09",
       "athleteId": "4017837",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 2
+    },
+    {
+      "team": "IND",
+      "player": "Larry Nance Jr.",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-02",
+      "athleteId": "2580365",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Obi Toppin",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "athleteId": "4278355",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 16
+    },
+    {
+      "team": "IND",
+      "player": "Aaron Nesmith",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-04",
+      "athleteId": "4396909",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Andrew Nembhard",
+      "status": "Out",
+      "detail": "Neck · Head · 2026-11-04",
+      "athleteId": "4395712",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "IND",
+      "player": "Pascal Siakam",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-04",
+      "athleteId": "3149673",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -488,6 +533,24 @@
     },
     {
       "team": "MIN",
+      "player": "Terrence Shannon Jr.",
+      "status": "Day-To-Day",
+      "detail": "Hip · Torso · Left · 2026-11-02",
+      "athleteId": "4432847",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIN",
+      "player": "LaMelo Ball",
+      "status": "Day-To-Day",
+      "detail": "Wrist · Arm · Left · 2026-11-02",
+      "athleteId": "4432816",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIN",
       "player": "Anthony Edwards",
       "status": "Out",
       "detail": "Knee · Leg · Surgery · Right · 2026-12-21",
@@ -507,11 +570,11 @@
     },
     {
       "team": "NO",
-      "player": "Trey Murphy III",
+      "player": "Dejounte Murray",
       "status": "Day-To-Day",
-      "detail": "Knee · Leg · Not Specified · Not Specified · 2026-11-02",
-      "athleteId": "4397688",
-      "position": "F",
+      "detail": "Personal · Other · 2026-11-02",
+      "athleteId": "3907497",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -836,6 +899,24 @@
     },
     {
       "team": "WSH",
+      "player": "Reece Beekman",
+      "status": "Out",
+      "detail": "Shoulder · Arm · 2026-12-03",
+      "athleteId": "4432187",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Anthony Gill",
+      "status": "Out",
+      "detail": "Back · Torso · Spasms · 2026-11-04",
+      "athleteId": "2581184",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
       "player": "Alex Sarr",
       "status": "Out",
       "detail": "Knee · Leg · Soreness · Left · 2026-11-04",
@@ -849,15 +930,6 @@
       "status": "Out",
       "detail": "Hip · Torso · Pinched Nerve · Left · 2026-11-09",
       "athleteId": "4997537",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "WSH",
-      "player": "Anthony Gill",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Spasms · 2026-11-04",
-      "athleteId": "2581184",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
