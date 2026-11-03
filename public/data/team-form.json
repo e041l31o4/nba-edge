@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T05:30:34.812433+00:00",
+  "updatedAt": "2026-11-03T06:32:36.702533+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -647,6 +647,15 @@
       "abbreviation": "GS",
       "last10": [
         {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 113.0,
+          "win": true,
+          "opponent": "Phoenix Suns",
+          "opponentId": "21",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-02T01:30Z",
           "pointsFor": 124.0,
           "pointsAgainst": 112.0,
@@ -875,6 +884,15 @@
       "abbreviation": "LAC",
       "last10": [
         {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 118.0,
+          "pointsAgainst": 125.0,
+          "win": false,
+          "opponent": "Toronto Raptors",
+          "opponentId": "28",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-02T01:30Z",
           "pointsFor": 112.0,
           "pointsAgainst": 124.0,
@@ -935,6 +953,15 @@
       "team": "Los Angeles Lakers",
       "abbreviation": "LAL",
       "last10": [
+        {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 138.0,
+          "pointsAgainst": 117.0,
+          "win": true,
+          "opponent": "Miami Heat",
+          "opponentId": "14",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-02T02:00Z",
           "pointsFor": 131.0,
@@ -1075,6 +1102,15 @@
       "team": "Miami Heat",
       "abbreviation": "MIA",
       "last10": [
+        {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 138.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-31T00:00Z",
           "pointsFor": 145.0,
@@ -1645,6 +1681,15 @@
       "abbreviation": "PHX",
       "last10": [
         {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 113.0,
+          "pointsAgainst": 116.0,
+          "win": false,
+          "opponent": "Golden State Warriors",
+          "opponentId": "9",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-10-31T02:00Z",
           "pointsFor": 120.0,
           "pointsAgainst": 127.0,
@@ -1888,6 +1933,15 @@
       "team": "Toronto Raptors",
       "abbreviation": "TOR",
       "last10": [
+        {
+          "date": "2026-11-03T03:00Z",
+          "pointsFor": 125.0,
+          "pointsAgainst": 118.0,
+          "win": true,
+          "opponent": "LA Clippers",
+          "opponentId": "12",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-02T02:00Z",
           "pointsFor": 125.0,
