@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-11-03T21:49:59.067782+00:00",
+  "updatedAt": "2026-11-03T22:26:44.866733+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
     {
       "team": "ATL",
       "player": "Jock Landale",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Left · 2026-11-04",
+      "status": "Out",
+      "detail": "Hip · Torso · Left · 2026-11-06",
       "athleteId": "3146557",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -87,20 +87,29 @@
     },
     {
       "team": "CHA",
-      "player": "Grant Williams",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Right · 2026-11-09",
-      "athleteId": "4066218",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHA",
       "player": "Kon Knueppel",
       "status": "Out",
       "detail": "Hamstring · Leg · Left · 2026-11-09",
       "athleteId": "5061575",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
+      "player": "Coby White",
+      "status": "Day-To-Day",
+      "detail": "Calf · Leg · Left · 2026-11-04",
+      "athleteId": "4395651",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
+      "player": "Grant Williams",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Right · 2026-11-09",
+      "athleteId": "4066218",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -123,37 +132,28 @@
     },
     {
       "team": "CLE",
-      "player": "Peyton Watson",
-      "status": "Day-To-Day",
-      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-04",
-      "athleteId": "4576087",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
       "player": "Jaylon Tyson",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-04",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-06",
       "athleteId": "4683747",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7.8
     },
     {
-      "team": "DAL",
-      "player": "Kyrie Irving",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Left · 2026-11-04",
-      "athleteId": "6442",
+      "team": "CLE",
+      "player": "Peyton Watson",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-06",
+      "athleteId": "4576087",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
       "player": "Max Christie",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Not Specified · Right · 2026-11-04",
+      "status": "Out",
+      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
       "athleteId": "4432582",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -550,6 +550,15 @@
       "pointsPerGame": 9.5
     },
     {
+      "team": "NY",
+      "player": "Josh Hart",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · 2026-11-04",
+      "athleteId": "3062679",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
       "team": "OKC",
       "player": "Thomas Sorber",
       "status": "Out",
@@ -667,7 +676,7 @@
       "team": "PHI",
       "player": "Dominick Barlow",
       "status": "Out",
-      "detail": "Back · Torso · Fracture · Not Specified · 2026-11-04",
+      "detail": "Back · Torso · Fracture · Not Specified · 2026-11-12",
       "athleteId": "4870562",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -831,20 +840,20 @@
     },
     {
       "team": "WSH",
-      "player": "Alex Sarr",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Soreness · Left · 2026-11-04",
-      "athleteId": "5160992",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "WSH",
       "player": "Anthony Gill",
       "status": "Day-To-Day",
       "detail": "Back · Torso · Spasms · 2026-11-04",
       "athleteId": "2581184",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Alex Sarr",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Soreness · Left · 2026-11-04",
+      "athleteId": "5160992",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
