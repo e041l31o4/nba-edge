@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T00:24:10.591950+00:00",
+  "updatedAt": "2026-11-03T01:30:17.513437+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -188,16 +188,6 @@
     },
     {
       "team": "DEN",
-      "player": "Alpha Diallo",
-      "status": "Out",
-      "detail": "Wrist · Arm · Sprain · Right · 2026-11-02",
-      "athleteId": "4065813",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 4
-    },
-    {
-      "team": "DEN",
       "player": "Julian Strawther",
       "status": "Out",
       "detail": "Knee · Leg · Sprain · Left · 2026-11-29",
@@ -297,6 +287,15 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 4
+    },
+    {
+      "team": "IND",
+      "player": "Kelly Oubre Jr.",
+      "status": "Out",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-04",
+      "athleteId": "3133603",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -481,15 +480,6 @@
       "status": "Out",
       "detail": "Hip · Torso · Bruise · Left · 2026-11-04",
       "athleteId": "4432847",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "MIN",
-      "player": "LaMelo Ball",
-      "status": "Day-To-Day",
-      "detail": "Wrist · Arm · Right · 2026-11-02",
-      "athleteId": "4432816",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
