@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T20:27:00.062859+00:00",
+  "updatedAt": "2026-11-03T21:12:02.646494+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -43,7 +43,7 @@
       "team": "BOS",
       "player": "Paul George",
       "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-04",
+      "detail": "There's no injury to report and this appears to be a planned maintenance day for the veteran. With George on the shelf, the Celtics will need guys like Payton Pritchard and Baylor Scheierman to absorb more minutes.",
       "athleteId": "4251",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -92,6 +92,15 @@
       "detail": "Hamstring · Leg · Left · 2026-11-09",
       "athleteId": "5061575",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
+      "player": "Jalen Smith",
+      "status": "Day-To-Day",
+      "detail": "Finger · Arm · 2026-11-04",
+      "athleteId": "4397189",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
