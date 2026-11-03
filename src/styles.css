@@ -548,3 +548,11 @@ footer{margin-top:60px;padding:30px 0;border-top:1px solid #dfe5e2}
  .team-line small{font-size:9px;max-width:90px}
  .game-prediction-summary>div{padding:10px}
 }
+
+
+/* Live scoreboard */
+.game-state.live{color:#c84f3d;display:inline-flex;align-items:center;gap:6px}
+.game-state.live:before{content:"";width:7px;height:7px;border-radius:50%;background:#d84e3f;box-shadow:0 0 0 4px #d84e3f18;animation:livePulse 1.6s ease-in-out infinite}
+.live-score{color:#c84f3d}
+.live-score b{font-weight:900}
+@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 0 3px #d84e3f18}50%{opacity:.65;box-shadow:0 0 0 6px #d84e3f08}}
