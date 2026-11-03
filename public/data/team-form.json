@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T03:12:38.067681+00:00",
+  "updatedAt": "2026-11-03T03:56:18.898237+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -436,6 +436,15 @@
       "team": "Dallas Mavericks",
       "abbreviation": "DAL",
       "last10": [
+        {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 115.0,
+          "win": false,
+          "opponent": "Sacramento Kings",
+          "opponentId": "23",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-31T00:00Z",
           "pointsFor": 116.0,
@@ -970,6 +979,15 @@
       "abbreviation": "MEM",
       "last10": [
         {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 134.0,
+          "pointsAgainst": 135.0,
+          "win": false,
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-01T00:00Z",
           "pointsFor": 136.0,
           "pointsAgainst": 105.0,
@@ -1092,6 +1110,15 @@
       "abbreviation": "MIL",
       "last10": [
         {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-01T00:00Z",
           "pointsFor": 111.0,
           "pointsAgainst": 136.0,
@@ -1152,6 +1179,15 @@
       "team": "Minnesota Timberwolves",
       "abbreviation": "MIN",
       "last10": [
+        {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 100.0,
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-01T00:00Z",
           "pointsFor": 111.0,
@@ -1222,6 +1258,15 @@
       "team": "New Orleans Pelicans",
       "abbreviation": "NO",
       "last10": [
+        {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 135.0,
+          "pointsAgainst": 134.0,
+          "win": true,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-31T23:00Z",
           "pointsFor": 121.0,
@@ -1667,6 +1712,15 @@
       "team": "Sacramento Kings",
       "abbreviation": "SAC",
       "last10": [
+        {
+          "date": "2026-11-03T01:00Z",
+          "pointsFor": 115.0,
+          "pointsAgainst": 100.0,
+          "win": true,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-01T00:00Z",
           "pointsFor": 105.0,
