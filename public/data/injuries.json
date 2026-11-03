@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T23:08:58.402643+00:00",
+  "updatedAt": "2026-11-03T23:43:18.885917+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -308,30 +308,13 @@
     },
     {
       "team": "IND",
-      "player": "Pascal Siakam",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-04",
-      "athleteId": "3149673",
+      "player": "Obi Toppin",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-04",
+      "athleteId": "4278355",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Aaron Nesmith",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-04",
-      "athleteId": "4396909",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Andrew Nembhard",
-      "status": "Day-To-Day",
-      "detail": "Neck · Head · 2026-11-04",
-      "athleteId": "4395712",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 16
     },
     {
       "team": "IND",
@@ -341,25 +324,6 @@
       "athleteId": "3133603",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Larry Nance Jr.",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-04",
-      "athleteId": "2580365",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Obi Toppin",
-      "status": "Out",
-      "detail": "Coach's Decision · Other · Soreness · 2026-11-04",
-      "athleteId": "4278355",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
     },
     {
       "team": "IND",
@@ -485,8 +449,8 @@
     {
       "team": "MEM",
       "player": "Scotty Pippen Jr.",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-04",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-06",
       "athleteId": "4431785",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -522,15 +486,6 @@
     },
     {
       "team": "NO",
-      "player": "Trey Murphy III",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · 2026-11-04",
-      "athleteId": "4397688",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "NO",
       "player": "Jordan Poole",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
@@ -538,6 +493,15 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
+    },
+    {
+      "team": "NO",
+      "player": "Trey Murphy III",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · 2026-11-04",
+      "athleteId": "4397688",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NO",
@@ -811,6 +775,24 @@
     },
     {
       "team": "UTAH",
+      "player": "Jusuf Nurkic",
+      "status": "Out",
+      "detail": "Foot · Leg · Strain · Right · 2026-11-13",
+      "athleteId": "3102530",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
+      "player": "Mo Bamba",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Right · 2026-11-04",
+      "athleteId": "4277919",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "UTAH",
       "player": "Jaren Jackson Jr.",
       "status": "Out",
       "detail": "Knee · Leg · Not Specified · Right · 2026-12-14",
@@ -826,15 +808,6 @@
       "detail": "Knee · Leg · Bruise · Left · 2026-11-06",
       "athleteId": "4433268",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "UTAH",
-      "player": "Jusuf Nurkic",
-      "status": "Out",
-      "detail": "Foot · Leg · Strain · Right · 2026-11-04",
-      "athleteId": "3102530",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
