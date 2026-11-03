@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T14:17:36.077222+00:00",
+  "updatedAt": "2026-11-03T15:10:38.531365+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -272,7 +272,7 @@
     {
       "team": "HOU",
       "player": "Clint Capela",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-04",
       "athleteId": "3102529",
       "position": "C",
@@ -584,7 +584,7 @@
       "team": "OKC",
       "player": "Nikola Topic",
       "status": "Out",
-      "detail": "Back · Torso · 2026-11-06",
+      "detail": "Back · Torso · 2026-11-04",
       "athleteId": "5159925",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -741,7 +741,7 @@
       "team": "SA",
       "player": "Tobias Harris",
       "status": "Out",
-      "detail": "Calf · Leg · Strain · Left · 2026-11-06",
+      "detail": "Calf · Leg · Strain · Left · 2026-11-09",
       "athleteId": "6440",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
