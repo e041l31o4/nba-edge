@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T23:54:47.415624+00:00",
+  "updatedAt": "2026-11-03T00:24:10.591950+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -290,16 +290,6 @@
     },
     {
       "team": "HOU",
-      "player": "Reed Sheppard",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · 2026-11-02",
-      "athleteId": "4711272",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 10.5
-    },
-    {
-      "team": "HOU",
       "player": "Steven Adams",
       "status": "Out",
       "detail": "Calf · Leg · Strain · Right · 2026-11-09",
@@ -468,8 +458,8 @@
     {
       "team": "MEM",
       "player": "Scotty Pippen Jr.",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Soreness · 2026-11-02",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-04",
       "athleteId": "4431785",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -478,8 +468,8 @@
     {
       "team": "MEM",
       "player": "Quinten Post",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-02",
+      "status": "Out",
+      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-04",
       "athleteId": "4593016",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -676,16 +666,6 @@
     },
     {
       "team": "PHI",
-      "player": "Joel Embiid",
-      "status": "Day-To-Day",
-      "detail": "Foot · Leg · Right · 2026-11-02",
-      "athleteId": "3059318",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 19.2
-    },
-    {
-      "team": "PHI",
       "player": "Ariel Hukporti",
       "status": "Out",
       "detail": "Achilles · Leg · Surgery · Right · 2027-10-01",
@@ -728,15 +708,6 @@
       "detail": "Calf · Leg · Strain · Left · 2026-11-04",
       "athleteId": "4433174",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "SAC",
-      "player": "Zach LaVine",
-      "status": "Day-To-Day",
-      "detail": "Elbow · Arm · Soreness · Right · 2026-11-02",
-      "athleteId": "3064440",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
