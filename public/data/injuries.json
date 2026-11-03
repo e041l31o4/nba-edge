@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T01:30:17.513437+00:00",
+  "updatedAt": "2026-11-03T02:20:09.374276+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -45,6 +45,15 @@
       "status": "Out",
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
+      "player": "Mitchell Robinson",
+      "status": "Day-To-Day",
+      "detail": "Undisclosed · Other · 2026-11-02",
+      "athleteId": "4351852",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -218,8 +227,8 @@
     {
       "team": "GS",
       "player": "Brandon Williams",
-      "status": "Day-To-Day",
-      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-02",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-05",
       "athleteId": "4397040",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -449,7 +458,7 @@
       "team": "LAL",
       "player": "Adou Thiero",
       "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Left · 2026-11-09",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-06",
       "athleteId": "5060631",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
