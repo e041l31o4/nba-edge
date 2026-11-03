@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T22:26:44.866733+00:00",
+  "updatedAt": "2026-11-03T23:08:58.402643+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -89,7 +89,7 @@
       "team": "CHA",
       "player": "Kon Knueppel",
       "status": "Out",
-      "detail": "Hamstring · Leg · Left · 2026-11-09",
+      "detail": "Hamstring · Leg · Left · 2026-11-04",
       "athleteId": "5061575",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -189,7 +189,7 @@
       "team": "DAL",
       "player": "Sergio de Larrea",
       "status": "Out",
-      "detail": "Knee · Leg · Strain · Right · 2026-11-04",
+      "detail": "Knee · Leg · Strain · Right · 2026-11-06",
       "athleteId": "5279129",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -522,11 +522,11 @@
     },
     {
       "team": "NO",
-      "player": "Dejounte Murray",
-      "status": "Out",
-      "detail": "Personal · Other · 2026-11-04",
-      "athleteId": "3907497",
-      "position": "G",
+      "player": "Trey Murphy III",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · 2026-11-04",
+      "athleteId": "4397688",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -560,11 +560,29 @@
     },
     {
       "team": "OKC",
+      "player": "Nikola Topic",
+      "status": "Out",
+      "detail": "Back · Torso · 2026-11-13",
+      "athleteId": "5159925",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
       "player": "Thomas Sorber",
       "status": "Out",
-      "detail": "Knee · Leg · 2026-11-04",
+      "detail": "Knee · Leg · 2026-11-13",
       "athleteId": "5061603",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "OKC",
+      "player": "Jaylin Williams",
+      "status": "Day-To-Day",
+      "detail": "Back · Torso · Spasms · 2026-11-04",
+      "athleteId": "4432823",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -596,25 +614,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13.7
-    },
-    {
-      "team": "OKC",
-      "player": "Alex Caruso",
-      "status": "Out",
-      "detail": "Ankle · Leg · Right · 2026-11-04",
-      "athleteId": "2991350",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 9.3
-    },
-    {
-      "team": "OKC",
-      "player": "Nikola Topic",
-      "status": "Out",
-      "detail": "Back · Torso · 2026-11-04",
-      "athleteId": "5159925",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "ORL",
