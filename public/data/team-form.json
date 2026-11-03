@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T02:24:36.300986+00:00",
+  "updatedAt": "2026-11-03T03:12:38.067681+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -7,6 +7,15 @@
       "team": "Atlanta Hawks",
       "abbreviation": "ATL",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 108.0,
+          "pointsAgainst": 104.0,
+          "win": true,
+          "opponent": "Indiana Pacers",
+          "opponentId": "11",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-31T23:00Z",
           "pointsFor": 99.0,
@@ -139,6 +148,15 @@
       "abbreviation": "BKN",
       "last10": [
         {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 90.0,
+          "pointsAgainst": 103.0,
+          "win": false,
+          "opponent": "New York Knicks",
+          "opponentId": "18",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-01T22:00Z",
           "pointsFor": 98.0,
           "pointsAgainst": 90.0,
@@ -199,6 +217,15 @@
       "team": "Charlotte Hornets",
       "abbreviation": "CHA",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 91.0,
+          "pointsAgainst": 124.0,
+          "win": false,
+          "opponent": "Detroit Pistons",
+          "opponentId": "8",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-31T22:00Z",
           "pointsFor": 104.0,
@@ -270,6 +297,15 @@
       "abbreviation": "CHI",
       "last10": [
         {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 107.0,
+          "pointsAgainst": 126.0,
+          "win": false,
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 111.0,
           "pointsAgainst": 125.0,
@@ -330,6 +366,15 @@
       "team": "Cleveland Cavaliers",
       "abbreviation": "CLE",
       "last10": [
+        {
+          "date": "2026-11-03T00:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 117.0,
+          "win": false,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-01T00:00Z",
           "pointsFor": 136.0,
@@ -504,6 +549,15 @@
       "team": "Detroit Pistons",
       "abbreviation": "DET",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 91.0,
+          "win": true,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 110.0,
@@ -705,6 +759,15 @@
       "team": "Indiana Pacers",
       "abbreviation": "IND",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 104.0,
+          "pointsAgainst": 108.0,
+          "win": false,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-01T22:00Z",
           "pointsFor": 90.0,
@@ -1221,6 +1284,15 @@
       "abbreviation": "NY",
       "last10": [
         {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 90.0,
+          "win": true,
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-10-30T23:30Z",
           "pointsFor": 93.0,
           "pointsAgainst": 98.0,
@@ -1281,6 +1353,15 @@
       "team": "Oklahoma City Thunder",
       "abbreviation": "OKC",
       "last10": [
+        {
+          "date": "2026-11-03T00:00Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 112.0,
+          "win": true,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-01T00:30Z",
           "pointsFor": 98.0,
@@ -1343,6 +1424,15 @@
       "abbreviation": "ORL",
       "last10": [
         {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 94.0,
+          "pointsAgainst": 103.0,
+          "win": false,
+          "opponent": "Washington Wizards",
+          "opponentId": "27",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-01T20:30Z",
           "pointsFor": 97.0,
           "pointsAgainst": 108.0,
@@ -1403,6 +1493,15 @@
       "team": "Philadelphia 76ers",
       "abbreviation": "PHI",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 126.0,
+          "pointsAgainst": 107.0,
+          "win": true,
+          "opponent": "Chicago Bulls",
+          "opponentId": "4",
+          "homeAway": "home"
+        },
         {
           "date": "2026-10-31T22:00Z",
           "pointsFor": 109.0,
@@ -1812,6 +1911,15 @@
       "team": "Washington Wizards",
       "abbreviation": "WSH",
       "last10": [
+        {
+          "date": "2026-11-03T00:30Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 94.0,
+          "win": true,
+          "opponent": "Orlando Magic",
+          "opponentId": "19",
+          "homeAway": "away"
+        },
         {
           "date": "2026-10-30T23:00Z",
           "pointsFor": 95.0,

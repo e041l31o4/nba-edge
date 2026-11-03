@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T02:24:36.300986+00:00",
+  "updatedAt": "2026-11-03T03:12:38.067681+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -45,15 +45,6 @@
       "status": "Out",
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Mitchell Robinson",
-      "status": "Day-To-Day",
-      "detail": "Undisclosed · Other · 2026-11-02",
-      "athleteId": "4351852",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -139,6 +130,15 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7.8
+    },
+    {
+      "team": "DAL",
+      "player": "Max Christie",
+      "status": "Day-To-Day",
+      "detail": "Hip · Torso · Not Specified · Right · 2026-11-04",
+      "athleteId": "4432582",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -757,18 +757,9 @@
     },
     {
       "team": "TOR",
-      "player": "Scottie Barnes",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Soreness · Left · 2026-11-02",
-      "athleteId": "4433134",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "TOR",
       "player": "Jakob Poeltl",
-      "status": "Day-To-Day",
-      "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-02",
+      "status": "Out",
+      "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-04",
       "athleteId": "3134908",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
