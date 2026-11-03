@@ -31,6 +31,21 @@ function App() {
   }
   const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
   useEffect(() => { void load() }, [date])
+  // 場中比分每 30 秒同步一次；只更新賽程比分，不重新計算或覆寫已封存的賽前預測。
+  useEffect(() => {
+    let active = true
+    const timer = window.setInterval(async () => {
+      try {
+        const latest = await getScoreboard(date)
+        if (!active) return
+        setGames(latest)
+        setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' }))
+      } catch {
+        // 即時來源短暫中斷時保留最後一次成功比分。
+      }
+    }, 30000)
+    return () => { active = false; window.clearInterval(timer) }
+  }, [date])
   useEffect(() => {
     let active = true
     void getPredictionRecords().then(records => { if (active) setPredictionRecords(records) })
@@ -73,6 +88,8 @@ function App() {
 }
 function GameCard({game, teamForm, injuryData, calibrator, savedPrediction, onClick}:{game:Game;teamForm:TeamFormData|null;injuryData:InjuryData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;onClick:()=>void}) {
  const done=game.status.toLowerCase().includes('final')
+ const hasScore=game.home.score!==undefined&&game.away.score!==undefined&&game.home.score!==''&&game.away.score!==''
+ const live=!done&&hasScore
  const report=teamForm ? analyzeMatch(game,teamForm,injuryData,calibrator) : null
  const available=!!report?.available
  const useSaved=!!savedPrediction && savedPrediction.stage==='official'
@@ -90,8 +107,8 @@ function GameCard({game, teamForm, injuryData, calibrator, savedPrediction, onCl
  const unverified=done&&!useSaved
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
  return <button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
-  <div className="game-top"><span className={done?'game-state done':'game-state'}>{done?'FINAL':game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
-  <div className="teams"><TeamLine team={game.away}/><div className="versus">{done?<div className="final-score"><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
+  <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
+  <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')+(unverified?' prediction-unverified':'')}>
    <div className="pick-team-cell"><small>預測勝方</small>{unverified?<b className="pick-unverified">未留存賽前預測</b>:hasPrediction?(pickedTeam!.logo?<img className="pick-team-logo" src={pickedTeam!.logo} alt={pickedTeam!.displayName} title={pickedTeam!.displayName}/>:<b className="pick-team-fallback">{pickedTeam!.abbreviation}</b>):<b className="pick-unverified">資料不足</b>}<strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong><em>{pickCorrect===true?'預測命中':pickCorrect===false?'預測未中':unverified?'不補算命中率':useSaved?'正式封存':'每日初估'}</em></div>
    <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{unverified?'未留存賽前預測':useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
