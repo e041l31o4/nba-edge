@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T19:50:19.396290+00:00",
+  "updatedAt": "2026-11-04T20:37:26.764426+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -384,6 +384,15 @@
     },
     {
       "team": "LAC",
+      "player": "Isaiah Jackson",
+      "status": "Day-To-Day",
+      "detail": "Groin · Groin · 2026-11-04",
+      "athleteId": "4432170",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
       "player": "Yanic Konan Niederhauser",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
@@ -655,20 +664,20 @@
     },
     {
       "team": "PHX",
+      "player": "Rasheer Fleming",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-05",
+      "athleteId": "5105977",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHX",
       "player": "Jordan Goodwin",
       "status": "Day-To-Day",
       "detail": "Calf · Leg · Not Specified · Left · 2026-11-04",
       "athleteId": "4278402",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "PHX",
-      "player": "Rasheer Fleming",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
-      "athleteId": "5105977",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
