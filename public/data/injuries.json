@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T23:43:18.885917+00:00",
+  "updatedAt": "2026-11-04T00:16:50.902511+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -197,9 +197,27 @@
     },
     {
       "team": "DEN",
+      "player": "Cameron Johnson",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · 2026-11-04",
+      "athleteId": "3138196",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
+      "player": "Alpha Diallo",
+      "status": "Day-To-Day",
+      "detail": "Wrist · Arm · Right · 2026-11-04",
+      "athleteId": "4065813",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DEN",
       "player": "Spencer Jones",
       "status": "Out",
-      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-04",
+      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-11",
       "athleteId": "4592427",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -308,13 +326,13 @@
     },
     {
       "team": "IND",
-      "player": "Obi Toppin",
+      "player": "Ivica Zubac",
       "status": "Out",
-      "detail": "Back · Torso · Soreness · 2026-11-04",
-      "athleteId": "4278355",
-      "position": "F",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
+      "athleteId": "4017837",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
+      "pointsPerGame": 2
     },
     {
       "team": "IND",
@@ -327,22 +345,22 @@
     },
     {
       "team": "IND",
+      "player": "Obi Toppin",
+      "status": "Out",
+      "detail": "Back · Torso · Soreness · 2026-11-04",
+      "athleteId": "4278355",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 16
+    },
+    {
+      "team": "IND",
       "player": "T.J. McConnell",
       "status": "Out",
       "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
       "athleteId": "2530530",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "IND",
-      "player": "Ivica Zubac",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-09",
-      "athleteId": "4017837",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2
     },
     {
       "team": "IND",
