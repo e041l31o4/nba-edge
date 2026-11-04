@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T00:16:50.902511+00:00",
+  "updatedAt": "2026-11-04T01:29:54.937619+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -393,24 +393,6 @@
     },
     {
       "team": "LAC",
-      "player": "Derrick Jones Jr.",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Soreness · Right · 2026-11-04",
-      "athleteId": "3936099",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
-      "player": "Rui Hachimura",
-      "status": "Day-To-Day",
-      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-04",
-      "athleteId": "4066648",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
       "player": "Yanic Konan Niederhauser",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
@@ -473,6 +455,24 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
+    },
+    {
+      "team": "MIA",
+      "player": "Myron Gardner",
+      "status": "Day-To-Day",
+      "detail": "Quadriceps · Leg · Bruise · Right · 2026-11-04",
+      "athleteId": "4431772",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIA",
+      "player": "Giannis Antetokounmpo",
+      "status": "Day-To-Day",
+      "detail": "Wrist · Arm · Sprain · Right · 2026-11-04",
+      "athleteId": "3032977",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
@@ -682,6 +682,15 @@
     },
     {
       "team": "PHX",
+      "player": "Rasheer Fleming",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
+      "athleteId": "5105977",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHX",
       "player": "Mark Williams",
       "status": "Out",
       "detail": "Shoulder · Arm · Surgery · Left · 2027-02-03",
@@ -710,11 +719,11 @@
     },
     {
       "team": "SAC",
-      "player": "Dylan Cardwell",
-      "status": "Out",
-      "detail": "Calf · Leg · Strain · Left · 2026-11-04",
-      "athleteId": "4433174",
-      "position": "C",
+      "player": "Precious Achiuwa",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Soreness · Left · 2026-11-04",
+      "athleteId": "4431679",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -765,6 +774,16 @@
     },
     {
       "team": "TOR",
+      "player": "Kawhi Leonard",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-23",
+      "athleteId": "6450",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 19.5
+    },
+    {
+      "team": "TOR",
       "player": "Jakob Poeltl",
       "status": "Day-To-Day",
       "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-04",
@@ -780,16 +799,6 @@
       "athleteId": "4432586",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "TOR",
-      "player": "Kawhi Leonard",
-      "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Left · 2026-11-23",
-      "athleteId": "6450",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 19.5
     },
     {
       "team": "UTAH",
