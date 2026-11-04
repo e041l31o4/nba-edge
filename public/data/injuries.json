@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T19:00:02.614930+00:00",
+  "updatedAt": "2026-11-04T19:50:19.396290+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -449,15 +449,6 @@
     },
     {
       "team": "MIA",
-      "player": "Myron Gardner",
-      "status": "Day-To-Day",
-      "detail": "Quadriceps · Leg · Bruise · Right · 2026-11-04",
-      "athleteId": "4431772",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "MIA",
       "player": "Giannis Antetokounmpo",
       "status": "Day-To-Day",
       "detail": "Wrist · Arm · Sprain · Right · 2026-11-04",
@@ -596,15 +587,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13.7
-    },
-    {
-      "team": "ORL",
-      "player": "Anthony Black",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-05",
-      "athleteId": "4712849",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "ORL",
