@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T17:17:50.886122+00:00",
+  "updatedAt": "2026-11-04T18:12:10.490456+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -41,20 +41,20 @@
     },
     {
       "team": "BOS",
+      "player": "Jayson Tatum",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-06",
+      "athleteId": "4065648",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
       "player": "Payton Pritchard",
       "status": "Day-To-Day",
       "detail": "Shoulder · Arm · Right · 2026-11-04",
       "athleteId": "4066354",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Jayson Tatum",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-04",
-      "athleteId": "4065648",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -87,11 +87,11 @@
     },
     {
       "team": "CHA",
-      "player": "Kon Knueppel",
+      "player": "Grant Williams",
       "status": "Out",
-      "detail": "Hamstring · Leg · Left · 2026-11-04",
-      "athleteId": "5061575",
-      "position": "G",
+      "detail": "Hamstring · Leg · Right · 2026-11-09",
+      "athleteId": "4066218",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -101,15 +101,6 @@
       "detail": "Calf · Leg · Left · 2026-11-04",
       "athleteId": "4395651",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHA",
-      "player": "Grant Williams",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Right · 2026-11-09",
-      "athleteId": "4066218",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -475,6 +466,15 @@
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
+      "team": "MIL",
+      "player": "Kam Jones",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Right · 2026-11-04",
+      "athleteId": "4697268",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
       "team": "MIN",
       "player": "Terrence Shannon Jr.",
       "status": "Day-To-Day",
@@ -535,7 +535,7 @@
       "team": "NY",
       "player": "Josh Hart",
       "status": "Day-To-Day",
-      "detail": "Ankle · Leg · 2026-11-04",
+      "detail": "Ankle · Leg · 2026-11-07",
       "athleteId": "3062679",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -834,6 +834,15 @@
       "status": "Out",
       "detail": "Knee · Leg · Bruise · Left · 2026-11-06",
       "athleteId": "4433268",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Bilal Coulibaly",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-04",
+      "athleteId": "5104155",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
