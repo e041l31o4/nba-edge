@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T18:12:10.490456+00:00",
+  "updatedAt": "2026-11-04T19:00:02.614930+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -299,8 +299,8 @@
     {
       "team": "HOU",
       "player": "Clint Capela",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-04",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
       "athleteId": "3102529",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -477,8 +477,8 @@
     {
       "team": "MIN",
       "player": "Terrence Shannon Jr.",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Bruise · Left · 2026-11-04",
+      "status": "Out",
+      "detail": "Hip · Torso · Bruise · Left · 2026-11-06",
       "athleteId": "4432847",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -504,6 +504,15 @@
     },
     {
       "team": "NO",
+      "player": "Trey Murphy III",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · 2026-11-04",
+      "athleteId": "4397688",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "NO",
       "player": "Jordan Poole",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
@@ -511,15 +520,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
-    },
-    {
-      "team": "NO",
-      "player": "Trey Murphy III",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · 2026-11-04",
-      "athleteId": "4397688",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NO",
@@ -534,7 +534,7 @@
     {
       "team": "NY",
       "player": "Josh Hart",
-      "status": "Day-To-Day",
+      "status": "Out",
       "detail": "Ankle · Leg · 2026-11-07",
       "athleteId": "3062679",
       "position": "G",
@@ -802,19 +802,19 @@
     },
     {
       "team": "UTAH",
-      "player": "Jusuf Nurkic",
-      "status": "Out",
-      "detail": "Foot · Leg · Strain · Right · 2026-11-13",
-      "athleteId": "3102530",
+      "player": "Mo Bamba",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Right · 2026-11-04",
+      "athleteId": "4277919",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "UTAH",
-      "player": "Mo Bamba",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Right · 2026-11-04",
-      "athleteId": "4277919",
+      "player": "Jusuf Nurkic",
+      "status": "Out",
+      "detail": "Foot · Leg · Strain · Right · 2026-11-13",
+      "athleteId": "3102530",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
