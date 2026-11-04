@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T15:28:30.109006+00:00",
+  "updatedAt": "2026-11-04T16:19:44.151837+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -2569,6 +2569,13 @@
         "athleteId": "5241364",
         "position": "G",
         "jersey": "14"
+      },
+      {
+        "team": "OKC",
+        "player": "Dalen Terry",
+        "athleteId": "4433159",
+        "position": "G",
+        "jersey": null
       },
       {
         "team": "OKC",
