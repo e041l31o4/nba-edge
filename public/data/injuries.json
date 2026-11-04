@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T16:19:44.151837+00:00",
+  "updatedAt": "2026-11-04T17:17:50.886122+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -151,20 +151,20 @@
     },
     {
       "team": "DAL",
-      "player": "Max Christie",
-      "status": "Out",
-      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
-      "athleteId": "4432582",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
       "player": "Santi Aldama",
       "status": "Out",
       "detail": "Knee · Leg · Surgery · Right · 2026-11-04",
       "athleteId": "4593125",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Max Christie",
+      "status": "Out",
+      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
+      "athleteId": "4432582",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -253,6 +253,15 @@
     },
     {
       "team": "GS",
+      "player": "Kristaps Porzingis",
+      "status": "Out",
+      "detail": "Illness · Other · 2026-12-01",
+      "athleteId": "3102531",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
       "player": "Brandon Williams",
       "status": "Day-To-Day",
       "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-05",
@@ -275,15 +284,6 @@
       "status": "Day-To-Day",
       "detail": "Rest · Other · 2026-11-05",
       "athleteId": "3213",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
-      "player": "Kristaps Porzingis",
-      "status": "Out",
-      "detail": "Illness · Other · 2026-12-01",
-      "athleteId": "3102531",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
