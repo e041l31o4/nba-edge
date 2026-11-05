@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T02:57:47.823144+00:00",
+  "updatedAt": "2026-11-05T03:43:06.802891+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -52,7 +52,7 @@
       "team": "BOS",
       "player": "Payton Pritchard",
       "status": "Day-To-Day",
-      "detail": "Eye · Head · Abrasion · Right · 2026-11-04",
+      "detail": "Eye · Head · Abrasion · Right · 2026-11-06",
       "athleteId": "4066354",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -132,6 +132,15 @@
     },
     {
       "team": "CHI",
+      "player": "Zach Collins",
+      "status": "Day-To-Day",
+      "detail": "Undisclosed · Other · 2026-11-08",
+      "athleteId": "4066650",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
       "player": "Jalen Smith",
       "status": "Day-To-Day",
       "detail": "Hand · Arm · Left · 2026-11-08",
@@ -150,9 +159,18 @@
     },
     {
       "team": "CLE",
+      "player": "Tyrese Proctor",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · 2026-11-06",
+      "athleteId": "5023693",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
       "player": "Jarrett Allen",
       "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-04",
+      "detail": "Knee · Leg · Right · 2026-11-06",
       "athleteId": "4066328",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -608,7 +626,7 @@
       "team": "PHI",
       "player": "Adem Bona",
       "status": "Day-To-Day",
-      "detail": "Head · Head · 2026-11-04",
+      "detail": "Head · Head · 2026-11-06",
       "athleteId": "5105637",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"

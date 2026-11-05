@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T02:57:47.823144+00:00",
+  "updatedAt": "2026-11-05T03:43:06.802891+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -175,6 +175,15 @@
       "abbreviation": "BKN",
       "last10": [
         {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 114.0,
+          "pointsAgainst": 104.0,
+          "win": true,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 90.0,
           "pointsAgainst": 103.0,
@@ -244,6 +253,15 @@
       "team": "Charlotte Hornets",
       "abbreviation": "CHA",
       "last10": [
+        {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 104.0,
+          "pointsAgainst": 114.0,
+          "win": false,
+          "opponent": "Brooklyn Nets",
+          "opponentId": "17",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 91.0,
@@ -324,6 +342,15 @@
       "abbreviation": "CHI",
       "last10": [
         {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 135.0,
+          "win": false,
+          "opponent": "New York Knicks",
+          "opponentId": "18",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 107.0,
           "pointsAgainst": 126.0,
@@ -393,6 +420,15 @@
       "team": "Cleveland Cavaliers",
       "abbreviation": "CLE",
       "last10": [
+        {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 124.0,
+          "win": false,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T00:00Z",
           "pointsFor": 112.0,
@@ -832,6 +868,15 @@
       "abbreviation": "IND",
       "last10": [
         {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 107.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 104.0,
           "pointsAgainst": 108.0,
@@ -1059,6 +1104,15 @@
       "team": "Memphis Grizzlies",
       "abbreviation": "MEM",
       "last10": [
+        {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 107.0,
+          "win": false,
+          "opponent": "Indiana Pacers",
+          "opponentId": "11",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 134.0,
@@ -1428,6 +1482,15 @@
       "abbreviation": "NY",
       "last10": [
         {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 135.0,
+          "pointsAgainst": 105.0,
+          "win": true,
+          "opponent": "Chicago Bulls",
+          "opponentId": "4",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 103.0,
           "pointsAgainst": 90.0,
@@ -1497,6 +1560,15 @@
       "team": "Oklahoma City Thunder",
       "abbreviation": "OKC",
       "last10": [
+        {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 116.0,
+          "win": true,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T00:00Z",
           "pointsFor": 117.0,
