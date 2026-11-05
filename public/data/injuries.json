@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T21:29:16.914808+00:00",
+  "updatedAt": "2026-11-05T22:15:15.135125+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -107,7 +107,7 @@
       "team": "CHA",
       "player": "Kon Knueppel",
       "status": "Day-To-Day",
-      "detail": "Leg · Leg · Soreness · Left · 2026-11-06",
+      "detail": "Hamstring · Leg · Strain · Left · 2026-11-09",
       "athleteId": "5061575",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
