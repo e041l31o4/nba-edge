@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T18:19:14.438509+00:00",
+  "updatedAt": "2026-11-05T19:21:56.072156+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
