@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T23:06:44.860409+00:00",
+  "updatedAt": "2026-11-05T23:47:51.186352+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -465,7 +465,7 @@
       "team": "MEM",
       "player": "Scotty Pippen Jr.",
       "status": "Out",
-      "detail": "Back · Torso · Soreness · 2026-11-06",
+      "detail": "Back · Torso · Soreness · 2026-11-09",
       "athleteId": "4431785",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -474,8 +474,8 @@
     {
       "team": "MIL",
       "player": "Kam Jones",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Right · 2026-11-06",
+      "status": "Out",
+      "detail": "Ankle · Leg · Right · 2026-11-08",
       "athleteId": "4697268",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -539,8 +539,8 @@
     {
       "team": "OKC",
       "player": "Jaylin Williams",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Spasms · 2026-11-06",
+      "status": "Out",
+      "detail": "Back · Torso · Spasms · 2026-11-07",
       "athleteId": "4432823",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
