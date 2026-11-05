@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T20:54:36.524554+00:00",
+  "updatedAt": "2026-11-05T21:29:16.914808+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -46,15 +46,6 @@
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Jayson Tatum",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-06",
-      "athleteId": "4065648",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
