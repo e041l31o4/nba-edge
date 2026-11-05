@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T02:13:25.499696+00:00",
+  "updatedAt": "2026-11-05T02:57:47.823144+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -7,6 +7,15 @@
       "team": "Atlanta Hawks",
       "abbreviation": "ATL",
       "last10": [
+        {
+          "date": "2026-11-05T00:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 105.0,
+          "win": true,
+          "opponent": "Washington Wizards",
+          "opponentId": "27",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 108.0,
@@ -86,6 +95,15 @@
       "team": "Boston Celtics",
       "abbreviation": "BOS",
       "last10": [
+        {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 102.0,
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:30Z",
           "pointsFor": 93.0,
@@ -576,6 +594,15 @@
       "team": "Detroit Pistons",
       "abbreviation": "DET",
       "last10": [
+        {
+          "date": "2026-11-05T00:00Z",
+          "pointsFor": 106.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 124.0,
@@ -1173,6 +1200,15 @@
       "abbreviation": "MIL",
       "last10": [
         {
+          "date": "2026-11-05T00:30Z",
+          "pointsFor": 102.0,
+          "pointsAgainst": 109.0,
+          "win": false,
+          "opponent": "Boston Celtics",
+          "opponentId": "2",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 100.0,
           "pointsAgainst": 112.0,
@@ -1601,6 +1637,15 @@
       "team": "Philadelphia 76ers",
       "abbreviation": "PHI",
       "last10": [
+        {
+          "date": "2026-11-05T00:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 106.0,
+          "win": true,
+          "opponent": "Detroit Pistons",
+          "opponentId": "8",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 126.0,
@@ -2073,6 +2118,15 @@
       "team": "Washington Wizards",
       "abbreviation": "WSH",
       "last10": [
+        {
+          "date": "2026-11-05T00:00Z",
+          "pointsFor": 105.0,
+          "pointsAgainst": 120.0,
+          "win": false,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T00:30Z",
           "pointsFor": 103.0,
