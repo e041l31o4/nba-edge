@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T00:02:14.564732+00:00",
+  "updatedAt": "2026-11-05T01:06:52.245748+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -41,20 +41,20 @@
     },
     {
       "team": "BOS",
-      "player": "Jayson Tatum",
-      "status": "Out",
-      "detail": "Rest · Other · 2026-11-06",
-      "athleteId": "4065648",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
       "player": "Devin Carter",
       "status": "Out",
       "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4433188",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
+      "player": "Jayson Tatum",
+      "status": "Out",
+      "detail": "Rest · Other · 2026-11-06",
+      "athleteId": "4065648",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -217,37 +217,19 @@
     },
     {
       "team": "GS",
-      "player": "Kristaps Porzingis",
-      "status": "Out",
-      "detail": "Illness · Other · 2026-12-01",
-      "athleteId": "3102531",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
-      "player": "Brandon Williams",
-      "status": "Day-To-Day",
-      "detail": "Quadriceps · Leg · Bruise · Left · 2026-11-05",
-      "athleteId": "4397040",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
       "player": "Gui Santos",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · 2026-11-05",
+      "status": "Out",
+      "detail": "Knee · Leg · 2026-11-07",
       "athleteId": "4997536",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "GS",
-      "player": "Al Horford",
-      "status": "Day-To-Day",
-      "detail": "Rest · Other · 2026-11-05",
-      "athleteId": "3213",
+      "player": "Kristaps Porzingis",
+      "status": "Out",
+      "detail": "Illness · Other · 2026-12-01",
+      "athleteId": "3102531",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -271,15 +253,6 @@
     },
     {
       "team": "HOU",
-      "player": "Clint Capela",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
-      "athleteId": "3102529",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "HOU",
       "player": "Steven Adams",
       "status": "Out",
       "detail": "Calf · Leg · Strain · Right · 2026-11-09",
@@ -289,33 +262,22 @@
       "pointsPerGame": 4
     },
     {
-      "team": "IND",
-      "player": "Ivica Zubac",
+      "team": "HOU",
+      "player": "Clint Capela",
       "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
-      "athleteId": "4017837",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
+      "athleteId": "3102529",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 2
-    },
-    {
-      "team": "IND",
-      "player": "Kelly Oubre Jr.",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Bruise · Left · 2026-11-04",
-      "athleteId": "3133603",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
-      "player": "Obi Toppin",
+      "player": "Kelly Oubre Jr.",
       "status": "Out",
-      "detail": "Back · Torso · Soreness · 2026-11-04",
-      "athleteId": "4278355",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 16
+      "detail": "Calf · Leg · Bruise · Left · 2026-11-07",
+      "athleteId": "3133603",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
@@ -411,16 +373,6 @@
     },
     {
       "team": "MEM",
-      "player": "Quinten Post",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Not Specified · Right · 2026-11-04",
-      "athleteId": "4593016",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7
-    },
-    {
-      "team": "MEM",
       "player": "Scotty Pippen Jr.",
       "status": "Out",
       "detail": "Back · Torso · Soreness · 2026-11-06",
@@ -441,8 +393,8 @@
     {
       "team": "MIL",
       "player": "Kam Jones",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Right · 2026-11-04",
+      "status": "Out",
+      "detail": "Ankle · Leg · Right · 2026-11-06",
       "athleteId": "4697268",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -483,16 +435,6 @@
       "athleteId": "4397688",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "NO",
-      "player": "Jordan Poole",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-04",
-      "athleteId": "4277956",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 6
     },
     {
       "team": "NO",
@@ -761,15 +703,6 @@
       "status": "Out",
       "detail": "Foot · Leg · Fracture · Right · 2026-11-09",
       "athleteId": "4432586",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "UTAH",
-      "player": "Mo Bamba",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Right · 2026-11-04",
-      "athleteId": "4277919",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
