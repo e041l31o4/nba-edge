@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T05:37:07.738826+00:00",
+  "updatedAt": "2026-11-05T06:36:39.844103+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -983,6 +983,15 @@
       "abbreviation": "LAC",
       "last10": [
         {
+          "date": "2026-11-05T03:30Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 117.0,
+          "win": false,
+          "opponent": "Miami Heat",
+          "opponentId": "14",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 118.0,
           "pointsAgainst": 125.0,
@@ -1052,6 +1061,15 @@
       "team": "Los Angeles Lakers",
       "abbreviation": "LAL",
       "last10": [
+        {
+          "date": "2026-11-05T03:00Z",
+          "pointsFor": 116.0,
+          "pointsAgainst": 103.0,
+          "win": true,
+          "opponent": "Sacramento Kings",
+          "opponentId": "23",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 138.0,
@@ -1210,6 +1228,15 @@
       "team": "Miami Heat",
       "abbreviation": "MIA",
       "last10": [
+        {
+          "date": "2026-11-05T03:30Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 116.0,
+          "win": true,
+          "opponent": "LA Clippers",
+          "opponentId": "12",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 117.0,
@@ -1973,6 +2000,15 @@
       "team": "Sacramento Kings",
       "abbreviation": "SAC",
       "last10": [
+        {
+          "date": "2026-11-05T03:00Z",
+          "pointsFor": 103.0,
+          "pointsAgainst": 116.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 115.0,
