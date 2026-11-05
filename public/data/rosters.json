@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T20:11:55.758660+00:00",
+  "updatedAt": "2026-11-05T20:54:36.524554+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -3409,6 +3409,13 @@
         "athleteId": "4702656",
         "position": "G",
         "jersey": "55"
+      },
+      {
+        "team": "TOR",
+        "player": "Kevin McCullar Jr.",
+        "athleteId": "4411057",
+        "position": "G",
+        "jersey": null
       },
       {
         "team": "TOR",
