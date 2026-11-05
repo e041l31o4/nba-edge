@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T16:40:49.684048+00:00",
+  "updatedAt": "2026-11-05T17:36:51.636035+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -115,7 +115,7 @@
     {
       "team": "CHA",
       "player": "Kon Knueppel",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Leg · Leg · Soreness · Left · 2026-11-06",
       "athleteId": "5061575",
       "position": "G",
@@ -128,6 +128,15 @@
       "detail": "Hamstring · Leg · Right · 2026-11-09",
       "athleteId": "4066218",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
+      "player": "Nic Claxton",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Left · 2026-11-08",
+      "athleteId": "4278067",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -146,15 +155,6 @@
       "detail": "Hand · Arm · Left · 2026-11-08",
       "athleteId": "4397189",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CHI",
-      "player": "Nic Claxton",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Strain · Left · 2026-11-08",
-      "athleteId": "4278067",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
