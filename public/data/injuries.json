@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T04:38:37.335082+00:00",
+  "updatedAt": "2026-11-05T05:37:07.738826+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -680,7 +680,7 @@
       "team": "POR",
       "player": "Vit Krejci",
       "status": "Out",
-      "detail": "Ankle · Leg · Left · 2026-11-06",
+      "detail": "Ankle · Leg · Left · 2027-01-02",
       "athleteId": "4578893",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"

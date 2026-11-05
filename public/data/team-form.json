@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T04:38:37.335082+00:00",
+  "updatedAt": "2026-11-05T05:37:07.738826+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -499,6 +499,15 @@
       "team": "Dallas Mavericks",
       "abbreviation": "DAL",
       "last10": [
+        {
+          "date": "2026-11-05T02:30Z",
+          "pointsFor": 111.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 100.0,
@@ -1834,6 +1843,15 @@
       "abbreviation": "PHX",
       "last10": [
         {
+          "date": "2026-11-05T02:00Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 132.0,
+          "win": false,
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 113.0,
           "pointsAgainst": 116.0,
@@ -1885,6 +1903,15 @@
       "team": "Portland Trail Blazers",
       "abbreviation": "POR",
       "last10": [
+        {
+          "date": "2026-11-05T02:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 119.0,
+          "win": true,
+          "opponent": "Phoenix Suns",
+          "opponentId": "21",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T02:00Z",
           "pointsFor": 118.0,
@@ -2016,6 +2043,15 @@
       "team": "San Antonio Spurs",
       "abbreviation": "SA",
       "last10": [
+        {
+          "date": "2026-11-05T02:30Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 111.0,
+          "win": true,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:30Z",
           "pointsFor": 119.0,
