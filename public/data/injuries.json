@@ -1,13 +1,31 @@
 {
-  "updatedAt": "2026-11-05T22:15:15.135125+00:00",
+  "updatedAt": "2026-11-05T23:06:44.860409+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
     {
       "team": "ATL",
+      "player": "Keshon Gilbert",
+      "status": "Out",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-08",
+      "athleteId": "4585618",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ATL",
+      "player": "Asa Newell",
+      "status": "Out",
+      "detail": "Toe · Leg · Left · 2026-11-07",
+      "athleteId": "4873201",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "ATL",
       "player": "Jock Landale",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Left · 2026-11-06",
+      "status": "Out",
+      "detail": "Hip · Torso · Left · 2026-11-07",
       "athleteId": "3146557",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -18,15 +36,6 @@
       "status": "Day-To-Day",
       "detail": "Ankle · Leg · Left · 2026-11-06",
       "athleteId": "4701230",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "ATL",
-      "player": "Asa Newell",
-      "status": "Day-To-Day",
-      "detail": "Toe · Leg · Left · 2026-11-06",
-      "athleteId": "4873201",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -105,8 +114,26 @@
     },
     {
       "team": "CHA",
-      "player": "Kon Knueppel",
+      "player": "Dennis Schroder",
       "status": "Day-To-Day",
+      "detail": "Thigh · Leg · 2026-11-06",
+      "athleteId": "3032979",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
+      "player": "Moussa Diabate",
+      "status": "Day-To-Day",
+      "detail": "Quadriceps · Leg · 2026-11-06",
+      "athleteId": "4433249",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
+      "player": "Kon Knueppel",
+      "status": "Out",
       "detail": "Hamstring · Leg · Strain · Left · 2026-11-09",
       "athleteId": "5061575",
       "position": "G",
@@ -150,6 +177,25 @@
     },
     {
       "team": "CLE",
+      "player": "Tyrese Proctor",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-06",
+      "athleteId": "5023693",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Jaylon Tyson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
+      "athleteId": "4683747",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 7.8
+    },
+    {
+      "team": "CLE",
       "player": "Peyton Watson",
       "status": "Day-To-Day",
       "detail": "Hamstring · Leg · Soreness · Right · 2026-11-06",
@@ -167,32 +213,14 @@
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "CLE",
-      "player": "Tyrese Proctor",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · 2026-11-06",
-      "athleteId": "5023693",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
-      "player": "Jaylon Tyson",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-06",
-      "athleteId": "4683747",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 7.8
-    },
-    {
       "team": "DAL",
-      "player": "Max Christie",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
-      "athleteId": "4432582",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+      "player": "Sergio de Larrea",
+      "status": "Out",
+      "detail": "Knee · Leg · Strain · Right · 2026-11-12",
+      "athleteId": "5279129",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
+      "pointsPerGame": 5.3
     },
     {
       "team": "DAL",
@@ -201,6 +229,15 @@
       "detail": "Knee · Leg · Surgery · Right · 2026-11-06",
       "athleteId": "4593125",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Max Christie",
+      "status": "Day-To-Day",
+      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
+      "athleteId": "4432582",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -220,16 +257,6 @@
       "athleteId": "4683688",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
-      "player": "Sergio de Larrea",
-      "status": "Out",
-      "detail": "Knee · Leg · Strain · Right · 2026-11-06",
-      "athleteId": "5279129",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
-      "pointsPerGame": 5.3
     },
     {
       "team": "DEN",
@@ -428,8 +455,8 @@
     {
       "team": "MEM",
       "player": "Isaiah Stewart",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-06",
+      "status": "Out",
+      "detail": "Knee · Leg · Bruise · Right · 2026-11-09",
       "athleteId": "4432810",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -617,7 +644,7 @@
       "team": "PHI",
       "player": "Adem Bona",
       "status": "Day-To-Day",
-      "detail": "Head · Head · 2026-11-06",
+      "detail": "Back · Torso · Sprain · 2026-11-06",
       "athleteId": "5105637",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -792,9 +819,18 @@
       "team": "UTAH",
       "player": "Trey Alexander",
       "status": "Out",
-      "detail": "Knee · Leg · Bruise · Left · 2026-11-06",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
       "athleteId": "4433268",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "WSH",
+      "player": "Anthony Davis",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-06",
+      "athleteId": "6583",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
