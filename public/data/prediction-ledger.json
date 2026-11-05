@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T01:59:14.016Z",
+  "updatedAt": "2026-11-05T02:53:03.557Z",
   "source": "NBA EDGE pregame model + ESPN final scores",
   "records": [
     {
@@ -330,7 +330,10 @@
       "projectedTotal": 218.59714285714284,
       "stage": "official",
       "capturedAt": "2026-11-04T22:20:19.774Z",
-      "lockedAt": "2026-11-04T23:12:17.926Z"
+      "lockedAt": "2026-11-04T23:12:17.926Z",
+      "actualHome": 105,
+      "actualAway": 120,
+      "settledAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909924",
@@ -471,8 +474,9 @@
       "awayWin": 0.7906049760433597,
       "projectedMargin": -7.180104591836738,
       "projectedTotal": 235.36357142857145,
-      "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "stage": "official",
+      "capturedAt": "2026-11-05T01:59:14.016Z",
+      "lockedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909935",
@@ -483,8 +487,9 @@
       "awayWin": 0.5544650890203633,
       "projectedMargin": -0.6740816326530596,
       "projectedTotal": 234.8314285714286,
-      "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "stage": "official",
+      "capturedAt": "2026-11-05T01:59:14.016Z",
+      "lockedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909936",
@@ -496,7 +501,7 @@
       "projectedMargin": 9.865606122448975,
       "projectedTotal": 218.94857142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909937",
@@ -508,7 +513,7 @@
       "projectedMargin": 5.200243622448989,
       "projectedTotal": 239.27749999999997,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909287",
@@ -520,7 +525,7 @@
       "projectedMargin": 3.8664767857142857,
       "projectedTotal": 221.19714285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909288",
@@ -532,7 +537,7 @@
       "projectedMargin": -4.332581632653067,
       "projectedTotal": 216.28285714285715,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909289",
@@ -544,7 +549,7 @@
       "projectedMargin": -0.6969344387755103,
       "projectedTotal": 224.78714285714287,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909290",
@@ -556,7 +561,7 @@
       "projectedMargin": 9.499924489795916,
       "projectedTotal": 218.72857142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909291",
@@ -568,7 +573,7 @@
       "projectedMargin": 14.252187755102057,
       "projectedTotal": 216.63714285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909292",
@@ -580,7 +585,7 @@
       "projectedMargin": 2.8011551020408207,
       "projectedTotal": 227.89214285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909293",
@@ -592,7 +597,7 @@
       "projectedMargin": 5.708889030612253,
       "projectedTotal": 224.22250000000003,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909294",
@@ -604,7 +609,7 @@
       "projectedMargin": 6.639767857142855,
       "projectedTotal": 230.56500000000003,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909295",
@@ -616,7 +621,7 @@
       "projectedMargin": -9.424828571428575,
       "projectedTotal": 230.35571428571433,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909938",
@@ -628,7 +633,7 @@
       "projectedMargin": -10.251742857142858,
       "projectedTotal": 221.6225,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909939",
@@ -640,7 +645,7 @@
       "projectedMargin": 5.381044132653066,
       "projectedTotal": 224.31928571428568,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909940",
@@ -652,7 +657,7 @@
       "projectedMargin": -0.06382653061225119,
       "projectedTotal": 223.69857142857146,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909941",
@@ -664,7 +669,7 @@
       "projectedMargin": -5.776320408163267,
       "projectedTotal": 206.2164285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909942",
@@ -676,7 +681,7 @@
       "projectedMargin": 16.1055150510204,
       "projectedTotal": 217.20607142857142,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909943",
@@ -688,7 +693,7 @@
       "projectedMargin": -6.377157142857142,
       "projectedTotal": 230.30749999999998,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909944",
@@ -700,7 +705,7 @@
       "projectedMargin": -5.452491836734698,
       "projectedTotal": 225.55714285714285,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909945",
@@ -712,7 +717,7 @@
       "projectedMargin": -5.53083443877551,
       "projectedTotal": 230.02857142857144,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909946",
@@ -724,7 +729,7 @@
       "projectedMargin": -3.661255612244898,
       "projectedTotal": 217.4628571428572,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909947",
@@ -736,7 +741,7 @@
       "projectedMargin": 3.601508928571426,
       "projectedTotal": 213.15964285714287,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909948",
@@ -748,7 +753,7 @@
       "projectedMargin": 4.2714346938775565,
       "projectedTotal": 220.06071428571428,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909949",
@@ -760,7 +765,7 @@
       "projectedMargin": -4.872991836734697,
       "projectedTotal": 230.86857142857144,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909950",
@@ -772,7 +777,7 @@
       "projectedMargin": 0.9709857142857028,
       "projectedTotal": 231.26642857142858,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909951",
@@ -784,7 +789,7 @@
       "projectedMargin": -3.76227346938776,
       "projectedTotal": 238.43857142857144,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909952",
@@ -796,7 +801,7 @@
       "projectedMargin": -1.2317624999999917,
       "projectedTotal": 234.54000000000002,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909953",
@@ -808,7 +813,7 @@
       "projectedMargin": -1.6228102040816297,
       "projectedTotal": 219.46714285714287,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909954",
@@ -820,7 +825,7 @@
       "projectedMargin": 1.4369836734693902,
       "projectedTotal": 204.12,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909955",
@@ -832,7 +837,7 @@
       "projectedMargin": -5.869689795918378,
       "projectedTotal": 226.78928571428574,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909956",
@@ -844,7 +849,7 @@
       "projectedMargin": 12.592874489795923,
       "projectedTotal": 214.9989285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909957",
@@ -856,7 +861,7 @@
       "projectedMargin": 6.602164285714283,
       "projectedTotal": 229.2675,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909958",
@@ -868,7 +873,7 @@
       "projectedMargin": -6.702220408163262,
       "projectedTotal": 232.93714285714285,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909959",
@@ -880,7 +885,7 @@
       "projectedMargin": 7.295310969387763,
       "projectedTotal": 235.71250000000003,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909960",
@@ -892,7 +897,7 @@
       "projectedMargin": 7.825046938775506,
       "projectedTotal": 224.69714285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909961",
@@ -904,7 +909,7 @@
       "projectedMargin": 1.4191630102040766,
       "projectedTotal": 221.60285714285715,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909962",
@@ -916,7 +921,7 @@
       "projectedMargin": 1.3504163265306028,
       "projectedTotal": 231.01142857142855,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909963",
@@ -928,7 +933,7 @@
       "projectedMargin": -5.807465306122447,
       "projectedTotal": 230.21214285714282,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909964",
@@ -940,7 +945,7 @@
       "projectedMargin": 7.142997959183674,
       "projectedTotal": 216.36714285714288,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909965",
@@ -952,7 +957,7 @@
       "projectedMargin": 9.382791836734697,
       "projectedTotal": 211.43428571428572,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909966",
@@ -964,7 +969,7 @@
       "projectedMargin": -7.670007142857143,
       "projectedTotal": 210.06464285714287,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909967",
@@ -976,7 +981,7 @@
       "projectedMargin": 3.045826530612256,
       "projectedTotal": 223.69857142857146,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909968",
@@ -988,7 +993,7 @@
       "projectedMargin": -5.958146938775517,
       "projectedTotal": 223.70928571428573,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909969",
@@ -1000,7 +1005,7 @@
       "projectedMargin": -8.038310204081636,
       "projectedTotal": 236.1057142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909970",
@@ -1012,7 +1017,7 @@
       "projectedMargin": 4.628131632653073,
       "projectedTotal": 233.98285714285717,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909971",
@@ -1024,7 +1029,7 @@
       "projectedMargin": -4.838906632653062,
       "projectedTotal": 236.8707142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909972",
@@ -1036,7 +1041,7 @@
       "projectedMargin": 3.2659081632653177,
       "projectedTotal": 227.9792857142857,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909973",
@@ -1048,7 +1053,7 @@
       "projectedMargin": 5.097806122448965,
       "projectedTotal": 208.14071428571427,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909974",
@@ -1060,7 +1065,7 @@
       "projectedMargin": 3.5692482142857114,
       "projectedTotal": 228.565,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909975",
@@ -1072,7 +1077,7 @@
       "projectedMargin": 9.382791836734697,
       "projectedTotal": 211.43428571428572,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909976",
@@ -1084,7 +1089,7 @@
       "projectedMargin": 8.643309948979596,
       "projectedTotal": 218.62642857142856,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909977",
@@ -1096,7 +1101,7 @@
       "projectedMargin": 1.9950163265306147,
       "projectedTotal": 204.12,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909978",
@@ -1108,7 +1113,7 @@
       "projectedMargin": -3.7324155612245002,
       "projectedTotal": 216.3039285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     },
     {
       "gameId": "401909979",
@@ -1120,7 +1125,7 @@
       "projectedMargin": 1.556999999999996,
       "projectedTotal": 221.54,
       "stage": "draft",
-      "capturedAt": "2026-11-05T01:59:14.016Z"
+      "capturedAt": "2026-11-05T02:53:03.557Z"
     }
   ]
 }
