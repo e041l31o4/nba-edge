@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T23:28:46.376951+00:00",
+  "updatedAt": "2026-11-05T00:02:14.564732+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -86,15 +86,6 @@
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "CHA",
-      "player": "Coby White",
-      "status": "Day-To-Day",
-      "detail": "Calf · Leg · Left · 2026-11-04",
-      "athleteId": "4395651",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
       "team": "CHI",
       "player": "Nic Claxton",
       "status": "Out",
@@ -126,7 +117,7 @@
       "team": "DAL",
       "player": "Santi Aldama",
       "status": "Out",
-      "detail": "Knee · Leg · Surgery · Right · 2026-11-04",
+      "detail": "Knee · Leg · Surgery · Right · 2026-11-06",
       "athleteId": "4593125",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
