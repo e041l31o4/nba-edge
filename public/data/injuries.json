@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T03:43:06.802891+00:00",
+  "updatedAt": "2026-11-05T04:38:37.335082+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -159,20 +159,20 @@
     },
     {
       "team": "CLE",
-      "player": "Tyrese Proctor",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · 2026-11-06",
-      "athleteId": "5023693",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
       "player": "Jarrett Allen",
       "status": "Day-To-Day",
       "detail": "Knee · Leg · Right · 2026-11-06",
       "athleteId": "4066328",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Tyrese Proctor",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · 2026-11-06",
+      "athleteId": "5023693",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -438,7 +438,7 @@
       "team": "MEM",
       "player": "Isaiah Stewart",
       "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-04",
+      "detail": "Knee · Leg · Right · 2026-11-06",
       "athleteId": "4432810",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -674,6 +674,15 @@
       "detail": "Shoulder · Arm · Surgery · Left · 2027-02-03",
       "athleteId": "4701232",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "POR",
+      "player": "Vit Krejci",
+      "status": "Out",
+      "detail": "Ankle · Leg · Left · 2026-11-06",
+      "athleteId": "4578893",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {

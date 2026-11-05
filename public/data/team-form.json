@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T03:43:06.802891+00:00",
+  "updatedAt": "2026-11-05T04:38:37.335082+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -570,6 +570,15 @@
       "abbreviation": "DEN",
       "last10": [
         {
+          "date": "2026-11-05T02:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 109.0,
+          "win": true,
+          "opponent": "Toronto Raptors",
+          "opponentId": "28",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T02:00Z",
           "pointsFor": 110.0,
           "pointsAgainst": 118.0,
@@ -788,6 +797,15 @@
       "team": "Houston Rockets",
       "abbreviation": "HOU",
       "last10": [
+        {
+          "date": "2026-11-05T01:30Z",
+          "pointsFor": 107.0,
+          "pointsAgainst": 117.0,
+          "win": false,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:30Z",
           "pointsFor": 109.0,
@@ -1333,6 +1351,15 @@
       "abbreviation": "MIN",
       "last10": [
         {
+          "date": "2026-11-05T01:30Z",
+          "pointsFor": 117.0,
+          "pointsAgainst": 107.0,
+          "win": true,
+          "opponent": "Houston Rockets",
+          "opponentId": "10",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 112.0,
           "pointsAgainst": 100.0,
@@ -1411,6 +1438,15 @@
       "team": "New Orleans Pelicans",
       "abbreviation": "NO",
       "last10": [
+        {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 113.0,
+          "win": true,
+          "opponent": "Utah Jazz",
+          "opponentId": "26",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-03T01:00Z",
           "pointsFor": 135.0,
@@ -2051,6 +2087,15 @@
       "abbreviation": "TOR",
       "last10": [
         {
+          "date": "2026-11-05T02:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 128.0,
+          "win": false,
+          "opponent": "Denver Nuggets",
+          "opponentId": "7",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 125.0,
           "pointsAgainst": 118.0,
@@ -2120,6 +2165,15 @@
       "team": "Utah Jazz",
       "abbreviation": "UTAH",
       "last10": [
+        {
+          "date": "2026-11-05T01:00Z",
+          "pointsFor": 113.0,
+          "pointsAgainst": 120.0,
+          "win": false,
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-03T01:30Z",
           "pointsFor": 97.0,
