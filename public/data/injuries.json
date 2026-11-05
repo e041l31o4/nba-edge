@@ -1,21 +1,21 @@
 {
-  "updatedAt": "2026-11-05T14:43:40.727767+00:00",
+  "updatedAt": "2026-11-05T15:36:44.018998+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
     {
       "team": "ATL",
-      "player": "Asa Newell",
+      "player": "Jock Landale",
       "status": "Day-To-Day",
-      "detail": "Toe · Leg · Left · 2026-11-06",
-      "athleteId": "4873201",
-      "position": "F",
+      "detail": "Hip · Torso · Left · 2026-11-06",
+      "athleteId": "3146557",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "ATL",
       "player": "Jalen Johnson",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · Left · 2026-11-06",
       "athleteId": "4701230",
       "position": "F",
@@ -23,11 +23,11 @@
     },
     {
       "team": "ATL",
-      "player": "Jock Landale",
-      "status": "Out",
-      "detail": "Hip · Torso · Left · 2026-11-06",
-      "athleteId": "3146557",
-      "position": "C",
+      "player": "Asa Newell",
+      "status": "Day-To-Day",
+      "detail": "Toe · Leg · Left · 2026-11-06",
+      "athleteId": "4873201",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -50,6 +50,15 @@
     },
     {
       "team": "BOS",
+      "player": "Jayson Tatum",
+      "status": "Day-To-Day",
+      "detail": "Rest · Other · 2026-11-06",
+      "athleteId": "4065648",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "BOS",
       "player": "Payton Pritchard",
       "status": "Day-To-Day",
       "detail": "Eye · Head · Abrasion · Right · 2026-11-06",
@@ -64,15 +73,6 @@
       "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4433188",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Jayson Tatum",
-      "status": "Out",
-      "detail": "Rest · Other · 2026-11-06",
-      "athleteId": "4065648",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -97,7 +97,7 @@
       "team": "BKN",
       "player": "Egor Demin",
       "status": "Out",
-      "detail": "Leg · Leg · Bruise · Right · 2026-11-07",
+      "detail": "Leg · Leg · Bruise · Right · 2026-11-11",
       "athleteId": "5175643",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
@@ -159,6 +159,15 @@
     },
     {
       "team": "CLE",
+      "player": "Peyton Watson",
+      "status": "Day-To-Day",
+      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-06",
+      "athleteId": "4576087",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
       "player": "Jarrett Allen",
       "status": "Day-To-Day",
       "detail": "Knee · Leg · Right · 2026-11-06",
@@ -186,11 +195,11 @@
       "pointsPerGame": 7.8
     },
     {
-      "team": "CLE",
-      "player": "Peyton Watson",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-06",
-      "athleteId": "4576087",
+      "team": "DAL",
+      "player": "Max Christie",
+      "status": "Day-To-Day",
+      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
+      "athleteId": "4432582",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -201,15 +210,6 @@
       "detail": "Knee · Leg · Surgery · Right · 2026-11-06",
       "athleteId": "4593125",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
-      "player": "Max Christie",
-      "status": "Out",
-      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
-      "athleteId": "4432582",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -243,7 +243,7 @@
     {
       "team": "DEN",
       "player": "DeMar DeRozan",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Back · Torso · Spasms · 2026-11-07",
       "athleteId": "3978",
       "position": "G",
@@ -325,6 +325,15 @@
     },
     {
       "team": "HOU",
+      "player": "Clint Capela",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
+      "athleteId": "3102529",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "HOU",
       "player": "Steven Adams",
       "status": "Out",
       "detail": "Calf · Leg · Strain · Right · 2026-11-09",
@@ -334,18 +343,9 @@
       "pointsPerGame": 4
     },
     {
-      "team": "HOU",
-      "player": "Clint Capela",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
-      "athleteId": "3102529",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
       "team": "IND",
       "player": "Kelly Oubre Jr.",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Calf · Leg · Bruise · Left · 2026-11-07",
       "athleteId": "3133603",
       "position": "G",
@@ -411,7 +411,7 @@
       "team": "LAC",
       "player": "Bradley Beal",
       "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Right · 2026-11-08",
+      "detail": "Knee · Leg · Inflammation · Right · 2026-11-29",
       "athleteId": "6580",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -454,18 +454,18 @@
       "pointsPerGame": 6
     },
     {
-      "team": "MIL",
+      "team": "球隊待確認",
       "player": "Kam Jones",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · Right · 2026-11-06",
-      "athleteId": "4697268",
-      "position": "G",
+      "athleteId": null,
+      "position": null,
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIN",
       "player": "Terrence Shannon Jr.",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Hip · Torso · Bruise · Left · 2026-11-06",
       "athleteId": "4432847",
       "position": "G",
@@ -493,7 +493,7 @@
     {
       "team": "NO",
       "player": "Trey Murphy III",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Knee · Leg · 2026-11-06",
       "athleteId": "4397688",
       "position": "F",
@@ -512,7 +512,7 @@
     {
       "team": "NY",
       "player": "Josh Hart",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · 2026-11-07",
       "athleteId": "3062679",
       "position": "G",
@@ -521,7 +521,7 @@
     {
       "team": "OKC",
       "player": "Jaylin Williams",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Back · Torso · Spasms · 2026-11-06",
       "athleteId": "4432823",
       "position": "F",
@@ -652,7 +652,7 @@
     {
       "team": "PHX",
       "player": "Jordan Goodwin",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Calf · Leg · Not Specified · Left · 2026-11-05",
       "athleteId": "4278402",
       "position": "G",
@@ -661,7 +661,7 @@
     {
       "team": "PHX",
       "player": "Rasheer Fleming",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-05",
       "athleteId": "5105977",
       "position": "F",
@@ -707,7 +707,7 @@
     {
       "team": "SAC",
       "player": "Daeqwon Plowden",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Illness · Other · 2026-11-06",
       "athleteId": "4279318",
       "position": "G",
