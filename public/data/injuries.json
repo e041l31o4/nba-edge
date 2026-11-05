@@ -1,8 +1,17 @@
 {
-  "updatedAt": "2026-11-05T01:06:52.245748+00:00",
+  "updatedAt": "2026-11-05T02:13:25.499696+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
+    {
+      "team": "ATL",
+      "player": "Asa Newell",
+      "status": "Day-To-Day",
+      "detail": "Toe · Leg · Left · 2026-11-06",
+      "athleteId": "4873201",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
     {
       "team": "ATL",
       "player": "Jalen Johnson",
@@ -78,6 +87,15 @@
     },
     {
       "team": "CHA",
+      "player": "Kon Knueppel",
+      "status": "Out",
+      "detail": "Leg · Leg · Soreness · Left · 2026-11-06",
+      "athleteId": "5061575",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
       "player": "Grant Williams",
       "status": "Out",
       "detail": "Hamstring · Leg · Right · 2026-11-09",
@@ -87,10 +105,28 @@
     },
     {
       "team": "CHI",
+      "player": "Jalen Smith",
+      "status": "Day-To-Day",
+      "detail": "Hand · Arm · Left · 2026-11-08",
+      "athleteId": "4397189",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHI",
       "player": "Nic Claxton",
       "status": "Out",
       "detail": "Hamstring · Leg · Strain · Left · 2026-11-08",
       "athleteId": "4278067",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Jarrett Allen",
+      "status": "Day-To-Day",
+      "detail": "Knee · Leg · Right · 2026-11-04",
+      "athleteId": "4066328",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -161,20 +197,11 @@
     },
     {
       "team": "DEN",
-      "player": "Cameron Johnson",
-      "status": "Day-To-Day",
-      "detail": "Lower Body · 2026-11-04",
-      "athleteId": "3138196",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DEN",
-      "player": "Alpha Diallo",
-      "status": "Day-To-Day",
-      "detail": "Wrist · Arm · Right · 2026-11-04",
-      "athleteId": "4065813",
-      "position": "F",
+      "player": "DeMar DeRozan",
+      "status": "Out",
+      "detail": "Back · Torso · Spasms · 2026-11-07",
+      "athleteId": "3978",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -319,15 +346,6 @@
     },
     {
       "team": "LAC",
-      "player": "Isaiah Jackson",
-      "status": "Day-To-Day",
-      "detail": "Groin · Groin · 2026-11-04",
-      "athleteId": "4432170",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
       "player": "Yanic Konan Niederhauser",
       "status": "Out",
       "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
@@ -380,15 +398,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 6
-    },
-    {
-      "team": "MIA",
-      "player": "Giannis Antetokounmpo",
-      "status": "Day-To-Day",
-      "detail": "Wrist · Arm · Sprain · Right · 2026-11-04",
-      "athleteId": "3032977",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "MIL",
@@ -579,20 +588,20 @@
     },
     {
       "team": "PHX",
+      "player": "Jordan Goodwin",
+      "status": "Out",
+      "detail": "Calf · Leg · Not Specified · Left · 2026-11-05",
+      "athleteId": "4278402",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHX",
       "player": "Rasheer Fleming",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-05",
       "athleteId": "5105977",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "PHX",
-      "player": "Jordan Goodwin",
-      "status": "Day-To-Day",
-      "detail": "Calf · Leg · Not Specified · Left · 2026-11-04",
-      "athleteId": "4278402",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -687,15 +696,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 19.5
-    },
-    {
-      "team": "TOR",
-      "player": "Jakob Poeltl",
-      "status": "Day-To-Day",
-      "detail": "Shoulder · Arm · Inflammation · Left · 2026-11-04",
-      "athleteId": "3134908",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "TOR",
