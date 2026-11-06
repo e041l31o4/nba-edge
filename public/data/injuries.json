@@ -1,8 +1,17 @@
 {
-  "updatedAt": "2026-11-06T22:01:43.096266+00:00",
+  "updatedAt": "2026-11-06T22:44:06.881652+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
+    {
+      "team": "ATL",
+      "player": "Jalen Johnson",
+      "status": "Out",
+      "detail": "Ankle · Leg · Left · 2026-11-07",
+      "athleteId": "4701230",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
     {
       "team": "ATL",
       "player": "Keshon Gilbert",
@@ -28,15 +37,6 @@
       "detail": "Hip · Torso · Left · 2026-11-07",
       "athleteId": "3146557",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "ATL",
-      "player": "Jalen Johnson",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Left · 2026-11-06",
-      "athleteId": "4701230",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -295,6 +295,24 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 13
+    },
+    {
+      "team": "GS",
+      "player": "Draymond Green",
+      "status": "Day-To-Day",
+      "detail": "Elbow · Arm · Inflammation · Right · 2026-11-07",
+      "athleteId": "6589",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
+      "player": "Gary Payton II",
+      "status": "Day-To-Day",
+      "detail": "Calf · Leg · Right · 2026-11-07",
+      "athleteId": "3134903",
+      "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "GS",
@@ -837,7 +855,7 @@
       "team": "WSH",
       "player": "Anthony Davis",
       "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-06",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
       "athleteId": "6583",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
