@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T17:37:52.431994+00:00",
+  "updatedAt": "2026-11-06T18:26:33.450947+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -106,8 +106,8 @@
     {
       "team": "CHA",
       "player": "Dennis Schroder",
-      "status": "Day-To-Day",
-      "detail": "Thigh · Leg · 2026-11-06",
+      "status": "Out",
+      "detail": "Thigh · Leg · 2026-11-09",
       "athleteId": "3032979",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -115,8 +115,8 @@
     {
       "team": "CHA",
       "player": "Moussa Diabate",
-      "status": "Day-To-Day",
-      "detail": "Quadriceps · Leg · 2026-11-06",
+      "status": "Out",
+      "detail": "Quadriceps · Leg · 2026-11-09",
       "athleteId": "4433249",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -474,8 +474,8 @@
     {
       "team": "MIN",
       "player": "Terrence Shannon Jr.",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Bruise · Left · 2026-11-06",
+      "status": "Out",
+      "detail": "Hip · Torso · Bruise · Left · 2026-11-08",
       "athleteId": "4432847",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -508,15 +508,6 @@
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 9.5
-    },
-    {
-      "team": "NO",
-      "player": "Trey Murphy III",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · 2026-11-06",
-      "athleteId": "4397688",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "NY",
@@ -761,11 +752,20 @@
     },
     {
       "team": "TOR",
-      "player": "Kyle Anderson",
+      "player": "Jakob Poeltl",
       "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
-      "athleteId": "2993874",
-      "position": "F",
+      "detail": "Shoulder · Arm · Left · 2026-11-06",
+      "athleteId": "3134908",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Immanuel Quickley",
+      "status": "Day-To-Day",
+      "detail": "Hamstring · Leg · Right · 2026-11-06",
+      "athleteId": "4395724",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -774,6 +774,15 @@
       "status": "Day-To-Day",
       "detail": "Groin · Groin · Soreness · Left · 2026-11-06",
       "athleteId": "4433134",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Kyle Anderson",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-06",
+      "athleteId": "2993874",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -800,7 +809,7 @@
       "team": "UTAH",
       "player": "Jusuf Nurkic",
       "status": "Out",
-      "detail": "Foot · Leg · Strain · Right · 2026-11-13",
+      "detail": "Foot · Leg · Strain · Right · 2026-11-20",
       "athleteId": "3102530",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
