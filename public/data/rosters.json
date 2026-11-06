@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T04:23:16.790373+00:00",
+  "updatedAt": "2026-11-06T05:23:18.205338+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -2966,7 +2966,7 @@
         "player": "Drew Timme",
         "athleteId": "4431695",
         "position": "F",
-        "jersey": null
+        "jersey": "2"
       },
       {
         "team": "PHX",
@@ -3373,7 +3373,7 @@
         "player": "Nate Bittle",
         "athleteId": "4432586",
         "position": "C",
-        "jersey": null
+        "jersey": "12"
       },
       {
         "team": "TOR",
@@ -3415,7 +3415,7 @@
         "player": "Kevin McCullar Jr.",
         "athleteId": "4411057",
         "position": "G",
-        "jersey": null
+        "jersey": "9"
       },
       {
         "team": "TOR",

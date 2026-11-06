@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T04:23:16.790373+00:00",
+  "updatedAt": "2026-11-06T05:23:18.205338+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -669,20 +669,20 @@
     },
     {
       "team": "PHX",
-      "player": "Rasheer Fleming",
-      "status": "Out",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-07",
-      "athleteId": "5105977",
-      "position": "F",
+      "player": "Jordan Goodwin",
+      "status": "Day-To-Day",
+      "detail": "Calf · Leg · Not Specified · Left · 2026-11-07",
+      "athleteId": "4278402",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "PHX",
-      "player": "Jordan Goodwin",
-      "status": "Out",
-      "detail": "Calf · Leg · Not Specified · Left · 2026-11-07",
-      "athleteId": "4278402",
-      "position": "G",
+      "player": "Rasheer Fleming",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Sprain · Left · 2026-11-07",
+      "athleteId": "5105977",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
