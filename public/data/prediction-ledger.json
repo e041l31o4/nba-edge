@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T05:41:13.851Z",
+  "updatedAt": "2026-11-06T06:44:45.972Z",
   "source": "NBA EDGE pregame model + ESPN final scores",
   "records": [
     {
@@ -567,24 +567,24 @@
       "date": "2026-11-07T00:00Z",
       "home": "ATL",
       "away": "WSH",
-      "homeWin": 0.7101302423211554,
-      "awayWin": 0.2898697576788446,
-      "projectedMargin": 5.910986111111103,
+      "homeWin": 0.7089317308140881,
+      "awayWin": 0.2910682691859119,
+      "projectedMargin": 5.877374999999992,
       "projectedTotal": 220.4008333333333,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909288",
       "date": "2026-11-07T00:00Z",
       "home": "CHA",
       "away": "BOS",
-      "homeWin": 0.3149684884170332,
-      "awayWin": 0.6850315115829668,
-      "projectedMargin": -3.9843138888888827,
+      "homeWin": 0.31373596043532603,
+      "awayWin": 0.686264039564674,
+      "projectedMargin": -4.017924999999994,
       "projectedTotal": 212.90999999999997,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909289",
@@ -596,31 +596,31 @@
       "projectedMargin": -3.917040277777777,
       "projectedTotal": 223.98916666666665,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909290",
       "date": "2026-11-07T01:00Z",
       "home": "DAL",
       "away": "UTAH",
-      "homeWin": 0.7752516335564626,
-      "awayWin": 0.22474836644353735,
-      "projectedMargin": 7.86614821428572,
+      "homeWin": 0.7740824373591776,
+      "awayWin": 0.2259175626408224,
+      "projectedMargin": 7.8283357142857195,
       "projectedTotal": 216.55749999999995,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909291",
       "date": "2026-11-07T01:00Z",
       "home": "MEM",
       "away": "OKC",
-      "homeWin": 0.9002720289851407,
-      "awayWin": 0.0997279710148593,
-      "projectedMargin": 13.0712875,
+      "homeWin": 0.9010148546258824,
+      "awayWin": 0.09898514537411762,
+      "projectedMargin": 13.1141,
       "projectedTotal": 216.92000000000002,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909292",
@@ -632,31 +632,31 @@
       "projectedMargin": 4.981141071428574,
       "projectedTotal": 225.6825,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909293",
       "date": "2026-11-07T01:00Z",
       "home": "NO",
       "away": "MIN",
-      "homeWin": 0.7636814402867114,
-      "awayWin": 0.23631855971328863,
-      "projectedMargin": 7.497051190476183,
+      "homeWin": 0.7635399941213024,
+      "awayWin": 0.23646000587869764,
+      "projectedMargin": 7.492606746031739,
       "projectedTotal": 219.6575,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909294",
       "date": "2026-11-07T03:00Z",
       "home": "LAL",
       "away": "POR",
-      "homeWin": 0.7442505647803253,
-      "awayWin": 0.25574943521967475,
-      "projectedMargin": 6.90044897959184,
+      "homeWin": 0.7456639813549647,
+      "awayWin": 0.2543360186450353,
+      "projectedMargin": 6.94294897959184,
       "projectedTotal": 229.14142857142858,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909295",
@@ -668,31 +668,31 @@
       "projectedMargin": -8.805585714285709,
       "projectedTotal": 228.83000000000004,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909938",
       "date": "2026-11-07T22:00Z",
       "home": "IND",
       "away": "DEN",
-      "homeWin": 0.12581730310568842,
-      "awayWin": 0.8741826968943116,
-      "projectedMargin": -10.5698827664399,
+      "homeWin": 0.12414785149439131,
+      "awayWin": 0.8758521485056087,
+      "projectedMargin": -10.652422448979582,
       "projectedTotal": 219.7461904761905,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909939",
       "date": "2026-11-08T00:30Z",
       "home": "ATL",
       "away": "BKN",
-      "homeWin": 0.6745860261717176,
-      "awayWin": 0.3254139738282824,
-      "projectedMargin": 4.941173611111109,
+      "homeWin": 0.6733200874155976,
+      "awayWin": 0.32667991258440243,
+      "projectedMargin": 4.907562499999999,
       "projectedTotal": 222.83333333333331,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909940",
@@ -704,7 +704,7 @@
       "projectedMargin": -2.2336749999999905,
       "projectedTotal": 225.52,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909941",
@@ -716,31 +716,31 @@
       "projectedMargin": -4.448023214285718,
       "projectedTotal": 207.91250000000002,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909942",
       "date": "2026-11-08T01:30Z",
       "home": "GS",
       "away": "ORL",
-      "homeWin": 0.9754854397690603,
-      "awayWin": 0.024514560230939675,
-      "projectedMargin": 20.13243928571429,
-      "projectedTotal": 216.2475,
+      "homeWin": 0.9628021772733879,
+      "awayWin": 0.037197822726612095,
+      "projectedMargin": 18.20452460317461,
+      "projectedTotal": 213.4233333333333,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909943",
       "date": "2026-11-08T02:00Z",
       "home": "PHX",
       "away": "HOU",
-      "homeWin": 0.32428919246869964,
-      "awayWin": 0.6757108075313003,
-      "projectedMargin": -3.7321269841269786,
+      "homeWin": 0.32793993997927257,
+      "awayWin": 0.6720600600207274,
+      "projectedMargin": -3.6342698412698353,
       "projectedTotal": 230.5790476190476,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909944",
@@ -752,7 +752,7 @@
       "projectedMargin": -4.518741836734692,
       "projectedTotal": 226.29142857142855,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909945",
@@ -764,43 +764,43 @@
       "projectedMargin": -7.626702777777764,
       "projectedTotal": 230.64166666666665,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909946",
       "date": "2026-11-08T23:00Z",
       "home": "DET",
       "away": "LAL",
-      "homeWin": 0.2818310333283619,
-      "awayWin": 0.7181689666716381,
-      "projectedMargin": -4.912132142857134,
+      "homeWin": 0.27905249018855793,
+      "awayWin": 0.7209475098114421,
+      "projectedMargin": -4.992444642857134,
       "projectedTotal": 215.9775,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909947",
       "date": "2026-11-09T00:00Z",
       "home": "MIN",
       "away": "UTAH",
-      "homeWin": 0.6442444198711519,
-      "awayWin": 0.3557555801288481,
-      "projectedMargin": 4.150077380952377,
+      "homeWin": 0.6444179012828114,
+      "awayWin": 0.3555820987171886,
+      "projectedMargin": 4.154521825396822,
       "projectedTotal": 211.34,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909948",
       "date": "2026-11-09T00:30Z",
       "home": "DAL",
       "away": "BKN",
-      "homeWin": 0.6106275022208183,
-      "awayWin": 0.3893724977791817,
-      "projectedMargin": 3.302800000000004,
+      "homeWin": 0.6091040712180282,
+      "awayWin": 0.39089592878197177,
+      "projectedMargin": 3.2649875000000037,
       "projectedTotal": 218.6575,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909949",
@@ -812,127 +812,127 @@
       "projectedMargin": -3.997124999999987,
       "projectedTotal": 227.305,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909950",
       "date": "2026-11-09T02:00Z",
       "home": "LAC",
       "away": "NO",
-      "homeWin": 0.4987884159892065,
-      "awayWin": 0.5012115840107936,
-      "projectedMargin": 0.6013446428571485,
+      "homeWin": 0.49899807634270377,
+      "awayWin": 0.5010019236572962,
+      "projectedMargin": 0.6063446428571484,
       "projectedTotal": 230.5225,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909951",
       "date": "2026-11-09T02:00Z",
       "home": "SAC",
       "away": "MIA",
-      "homeWin": 0.29719712316383645,
-      "awayWin": 0.7028028768361636,
-      "projectedMargin": -4.475360714285715,
-      "projectedTotal": 237.20250000000004,
+      "homeWin": 0.34427877719646766,
+      "awayWin": 0.6557212228035323,
+      "projectedMargin": -3.2021468253968175,
+      "projectedTotal": 236.42666666666668,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909952",
       "date": "2026-11-10T00:00Z",
       "home": "ATL",
       "away": "LAL",
-      "homeWin": 0.4630424718128778,
-      "awayWin": 0.5369575281871222,
-      "projectedMargin": -0.25294603174604413,
+      "homeWin": 0.45987074185116766,
+      "awayWin": 0.5401292581488324,
+      "projectedMargin": -0.3290571428571552,
       "projectedTotal": 231.73333333333335,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909953",
       "date": "2026-11-10T00:00Z",
       "home": "CHA",
       "away": "CLE",
-      "homeWin": 0.41652696483685414,
-      "awayWin": 0.5834730351631459,
-      "projectedMargin": -1.379026388888874,
+      "homeWin": 0.4151555183078224,
+      "awayWin": 0.5848444816921776,
+      "projectedMargin": -1.4126374999999851,
       "projectedTotal": 219.74250000000004,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909954",
       "date": "2026-11-10T00:00Z",
       "home": "DET",
       "away": "WSH",
-      "homeWin": 0.5448569687932159,
-      "awayWin": 0.4551430312067841,
-      "projectedMargin": 1.7017999999999907,
+      "homeWin": 0.5432801657187377,
+      "awayWin": 0.4567198342812623,
+      "projectedMargin": 1.6639874999999913,
       "projectedTotal": 204.645,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909955",
       "date": "2026-11-10T00:30Z",
       "home": "TOR",
       "away": "MEM",
-      "homeWin": 0.2562885952230861,
-      "awayWin": 0.7437114047769139,
-      "projectedMargin": -5.667730357142858,
+      "homeWin": 0.25488224994342745,
+      "awayWin": 0.7451177500565725,
+      "projectedMargin": -5.710542857142858,
       "projectedTotal": 226.20250000000001,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909956",
       "date": "2026-11-10T01:00Z",
       "home": "DAL",
       "away": "IND",
-      "homeWin": 0.8726259575781564,
-      "awayWin": 0.12737404242184358,
-      "projectedMargin": 11.62732638888889,
+      "homeWin": 0.8725379581036473,
+      "awayWin": 0.12746204189635268,
+      "projectedMargin": 11.623125,
       "projectedTotal": 214.08083333333335,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909957",
       "date": "2026-11-10T01:30Z",
       "home": "HOU",
       "away": "DEN",
-      "homeWin": 0.650910533706398,
-      "awayWin": 0.34908946629360205,
-      "projectedMargin": 4.321461678004548,
+      "homeWin": 0.6490124073394046,
+      "awayWin": 0.3509875926605954,
+      "projectedMargin": 4.2725331065759775,
       "projectedTotal": 227.75619047619048,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909958",
       "date": "2026-11-10T02:00Z",
       "home": "PHX",
       "away": "SA",
-      "homeWin": 0.31955740196647564,
-      "awayWin": 0.6804425980335244,
-      "projectedMargin": -3.8597214285714143,
+      "homeWin": 0.3231835074309266,
+      "awayWin": 0.6768164925690734,
+      "projectedMargin": -3.761864285714272,
       "projectedTotal": 233.1957142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909959",
       "date": "2026-11-10T03:00Z",
       "home": "GS",
       "away": "NO",
-      "homeWin": 0.7751332537116655,
-      "awayWin": 0.22486674628833447,
-      "projectedMargin": 7.862314285714296,
-      "projectedTotal": 233.65500000000003,
+      "homeWin": 0.7403686863567925,
+      "awayWin": 0.25963131364320746,
+      "projectedMargin": 6.784399603174608,
+      "projectedTotal": 232.13083333333333,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909960",
@@ -944,7 +944,7 @@
       "projectedMargin": 8.773512499999999,
       "projectedTotal": 224.6525,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909961",
@@ -956,31 +956,31 @@
       "projectedMargin": 2.9937527777777735,
       "projectedTotal": 221.05666666666667,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909962",
       "date": "2026-11-11T02:00Z",
       "home": "PHX",
       "away": "LAC",
-      "homeWin": 0.5942116400096814,
-      "awayWin": 0.4057883599903186,
-      "projectedMargin": 2.897566071428587,
+      "homeWin": 0.5979900483835335,
+      "awayWin": 0.40200995161646647,
+      "projectedMargin": 2.99042321428573,
       "projectedTotal": 232.8907142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909963",
       "date": "2026-11-11T02:00Z",
       "home": "UTAH",
       "away": "MIA",
-      "homeWin": 0.24352245961402244,
-      "awayWin": 0.7564775403859776,
-      "projectedMargin": -6.061535714285705,
-      "projectedTotal": 229.58249999999998,
+      "homeWin": 0.28614332813966503,
+      "awayWin": 0.713856671860335,
+      "projectedMargin": -4.788321825396819,
+      "projectedTotal": 228.80666666666664,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909964",
@@ -992,7 +992,7 @@
       "projectedMargin": 8.707171428571444,
       "projectedTotal": 215.49,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909965",
@@ -1004,19 +1004,19 @@
       "projectedMargin": 9.30950637755101,
       "projectedTotal": 214.6264285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909966",
       "date": "2026-11-12T00:00Z",
       "home": "IND",
       "away": "WSH",
-      "homeWin": 0.24265559069106088,
-      "awayWin": 0.7573444093089391,
-      "projectedMargin": -6.088713888888888,
+      "homeWin": 0.2415860917835794,
+      "awayWin": 0.7584139082164206,
+      "projectedMargin": -6.122325,
       "projectedTotal": 208.95083333333332,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909967",
@@ -1028,7 +1028,7 @@
       "projectedMargin": 5.665674999999995,
       "projectedTotal": 225.52,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909968",
@@ -1040,7 +1040,7 @@
       "projectedMargin": -5.512266071428569,
       "projectedTotal": 223.6175,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909969",
@@ -1052,31 +1052,31 @@
       "projectedMargin": -8.527375000000006,
       "projectedTotal": 235.58499999999998,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909970",
       "date": "2026-11-12T01:00Z",
       "home": "MEM",
       "away": "DEN",
-      "homeWin": 0.5748912072290658,
-      "awayWin": 0.42510879277093416,
-      "projectedMargin": 2.4260954081632695,
+      "homeWin": 0.5746392147231518,
+      "awayWin": 0.4253607852768482,
+      "projectedMargin": 2.4199793367346984,
       "projectedTotal": 230.89785714285713,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909971",
       "date": "2026-11-12T01:00Z",
       "home": "MIL",
       "away": "LAL",
-      "homeWin": 0.2744903138403012,
-      "awayWin": 0.7255096861596988,
-      "projectedMargin": -5.125257142857134,
+      "homeWin": 0.27303909046395497,
+      "awayWin": 0.726960909536045,
+      "projectedMargin": -5.167757142857134,
       "projectedTotal": 232.21499999999997,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909972",
@@ -1088,7 +1088,7 @@
       "projectedMargin": 2.317780357142864,
       "projectedTotal": 224.7775,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909973",
@@ -1100,19 +1100,19 @@
       "projectedMargin": 6.670996428571441,
       "projectedTotal": 207.86999999999998,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909974",
       "date": "2026-11-12T02:30Z",
       "home": "HOU",
       "away": "GS",
-      "homeWin": 0.5378847634991091,
-      "awayWin": 0.4621152365008909,
-      "projectedMargin": 1.5347234126983982,
-      "projectedTotal": 228.27083333333334,
+      "homeWin": 0.5825611465379039,
+      "awayWin": 0.4174388534620961,
+      "projectedMargin": 2.612638095238109,
+      "projectedTotal": 226.74666666666664,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909975",
@@ -1124,7 +1124,7 @@
       "projectedMargin": 9.30950637755101,
       "projectedTotal": 214.6264285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909976",
@@ -1136,55 +1136,55 @@
       "projectedMargin": 10.672018849206356,
       "projectedTotal": 220.73416666666668,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909977",
       "date": "2026-11-13T00:00Z",
       "home": "WSH",
       "away": "DET",
-      "homeWin": 0.5460407975665607,
-      "awayWin": 0.45395920243343935,
-      "projectedMargin": 1.7302000000000133,
+      "homeWin": 0.5476163335606283,
+      "awayWin": 0.45238366643937167,
+      "projectedMargin": 1.7680125000000135,
       "projectedTotal": 204.645,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909978",
       "date": "2026-11-13T01:00Z",
       "home": "MIN",
       "away": "DAL",
-      "homeWin": 0.3236217998126048,
-      "awayWin": 0.6763782001873953,
-      "projectedMargin": -3.7500708333333295,
+      "homeWin": 0.3251944901129976,
+      "awayWin": 0.6748055098870024,
+      "projectedMargin": -3.707813888888885,
       "projectedTotal": 214.8375,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909979",
       "date": "2026-11-13T02:00Z",
       "home": "PHX",
       "away": "CHA",
-      "homeWin": 0.6391144327759692,
-      "awayWin": 0.36088556722403076,
-      "projectedMargin": 4.019017460317462,
+      "homeWin": 0.6442603598158166,
+      "awayWin": 0.35573964018418336,
+      "projectedMargin": 4.1504857142857166,
       "projectedTotal": 222.7057142857143,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909296",
       "date": "2026-11-14T00:00Z",
       "home": "IND",
       "away": "NY",
-      "homeWin": 0.09887408414679622,
-      "awayWin": 0.9011259158532038,
-      "projectedMargin": -12.018901388888885,
+      "homeWin": 0.09830695372687114,
+      "awayWin": 0.9016930462731289,
+      "projectedMargin": -12.052512499999995,
       "projectedTotal": 212.72083333333336,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909297",
@@ -1196,43 +1196,43 @@
       "projectedMargin": -7.455207142857146,
       "projectedTotal": 216.025,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909298",
       "date": "2026-11-14T01:00Z",
       "home": "MIA",
       "away": "CLE",
-      "homeWin": 0.5642923290195349,
-      "awayWin": 0.43570767098046514,
-      "projectedMargin": 2.169487499999997,
-      "projectedTotal": 238.60500000000002,
+      "homeWin": 0.5111559026136219,
+      "awayWin": 0.48884409738637813,
+      "projectedMargin": 0.8962736111111109,
+      "projectedTotal": 237.82916666666668,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909299",
       "date": "2026-11-14T01:00Z",
       "home": "CHI",
       "away": "ATL",
-      "homeWin": 0.26157033608490277,
-      "awayWin": 0.7384296639150972,
-      "projectedMargin": -5.508136111111093,
+      "homeWin": 0.26269053352489935,
+      "awayWin": 0.7373094664751006,
+      "projectedMargin": -5.474524999999982,
       "projectedTotal": 236.40833333333333,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909300",
       "date": "2026-11-14T01:00Z",
       "home": "NO",
       "away": "MEM",
-      "homeWin": 0.3952647553234416,
-      "awayWin": 0.6047352446765584,
-      "projectedMargin": -1.90367142857143,
+      "homeWin": 0.39354434874569283,
+      "awayWin": 0.6064556512543071,
+      "projectedMargin": -1.9464839285714302,
       "projectedTotal": 231.3525,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909301",
@@ -1244,19 +1244,19 @@
       "projectedMargin": 13.696166269841267,
       "projectedTotal": 218.5933333333333,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909302",
       "date": "2026-11-14T02:30Z",
       "home": "SA",
       "away": "GS",
-      "homeWin": 0.5619241452998521,
-      "awayWin": 0.43807585470014787,
-      "projectedMargin": 2.1123178571428562,
-      "projectedTotal": 230.8875,
+      "homeWin": 0.6060870258405754,
+      "awayWin": 0.3939129741594246,
+      "projectedMargin": 3.1902325396825453,
+      "projectedTotal": 229.36333333333334,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909303",
@@ -1268,19 +1268,19 @@
       "projectedMargin": -2.5708438775510265,
       "projectedTotal": 227.0614285714286,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     },
     {
       "gameId": "401909304",
       "date": "2026-11-14T03:30Z",
       "home": "LAC",
       "away": "OKC",
-      "homeWin": 0.8025679991646081,
-      "awayWin": 0.19743200083539192,
-      "projectedMargin": 8.786960714285714,
+      "homeWin": 0.8027102050449865,
+      "awayWin": 0.19728979495501353,
+      "projectedMargin": 8.791960714285715,
       "projectedTotal": 216.09000000000003,
       "stage": "draft",
-      "capturedAt": "2026-11-06T05:41:13.851Z"
+      "capturedAt": "2026-11-06T06:44:45.972Z"
     }
   ]
 }
