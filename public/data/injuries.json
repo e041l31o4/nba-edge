@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T20:49:55.908446+00:00",
+  "updatedAt": "2026-11-06T21:25:44.701709+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -64,15 +64,6 @@
       "detail": "Illness · Other · 2026-11-06",
       "athleteId": "4433188",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BKN",
-      "player": "Noah Clowney",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Soreness · Right · 2026-11-07",
-      "athleteId": "4712896",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -444,15 +435,6 @@
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
-      "team": "LAL",
-      "player": "Sandro Mamukelashvili",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
-      "athleteId": "4278580",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
       "team": "MEM",
       "player": "Isaiah Stewart",
       "status": "Out",
@@ -711,6 +693,15 @@
       "detail": "Knee · Leg · Surgery · Right · 2027-03-02",
       "athleteId": "4914336",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "SAC",
+      "player": "De'Andre Hunter",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-06",
+      "athleteId": "4065732",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
