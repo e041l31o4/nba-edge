@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T23:20:32.717425+00:00",
+  "updatedAt": "2026-11-06T23:55:59.286373+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -169,15 +169,6 @@
     },
     {
       "team": "CLE",
-      "player": "Peyton Watson",
-      "status": "Day-To-Day",
-      "detail": "Hamstring · Leg · Soreness · Right · 2026-11-06",
-      "athleteId": "4576087",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
       "player": "Jarrett Allen",
       "status": "Day-To-Day",
       "detail": "Knee · Leg · Right · 2026-11-06",
@@ -194,15 +185,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 5.3
-    },
-    {
-      "team": "DAL",
-      "player": "Max Christie",
-      "status": "Day-To-Day",
-      "detail": "Hip · Torso · Not Specified · Right · 2026-11-06",
-      "athleteId": "4432582",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -743,29 +725,29 @@
     },
     {
       "team": "TOR",
-      "player": "Jakob Poeltl",
-      "status": "Day-To-Day",
-      "detail": "Shoulder · Arm · Left · 2026-11-06",
-      "athleteId": "3134908",
-      "position": "C",
+      "player": "Scottie Barnes",
+      "status": "Out",
+      "detail": "Groin · Groin · Soreness · Left · 2026-11-09",
+      "athleteId": "4433134",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "TOR",
       "player": "Immanuel Quickley",
-      "status": "Day-To-Day",
-      "detail": "Hamstring · Leg · Right · 2026-11-06",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Right · 2026-11-09",
       "athleteId": "4395724",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "TOR",
-      "player": "Scottie Barnes",
+      "player": "Jakob Poeltl",
       "status": "Day-To-Day",
-      "detail": "Groin · Groin · Soreness · Left · 2026-11-06",
-      "athleteId": "4433134",
-      "position": "F",
+      "detail": "Poeltl is still a little banged up for Toronto, but he intends to push through it. On Wednesday against Denver, he played 19 minutes off the bench with eight points, five rebounds and one assist.",
+      "athleteId": "3134908",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
