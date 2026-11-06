@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T22:44:06.881652+00:00",
+  "updatedAt": "2026-11-06T23:20:32.717425+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -159,15 +159,6 @@
     },
     {
       "team": "CLE",
-      "player": "Tyrese Proctor",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Left · 2026-11-06",
-      "athleteId": "5023693",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "CLE",
       "player": "Jaylon Tyson",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
@@ -196,15 +187,6 @@
     },
     {
       "team": "DAL",
-      "player": "Kyrie Irving",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
-      "athleteId": "6442",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DAL",
       "player": "Sergio de Larrea",
       "status": "Out",
       "detail": "Knee · Leg · Strain · Right · 2026-11-12",
@@ -212,15 +194,6 @@
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 5.3
-    },
-    {
-      "team": "DAL",
-      "player": "Santi Aldama",
-      "status": "Out",
-      "detail": "Knee · Leg · Surgery · Right · 2026-11-06",
-      "athleteId": "4593125",
-      "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -371,19 +344,19 @@
     },
     {
       "team": "IND",
-      "player": "Kelly Oubre Jr.",
-      "status": "Day-To-Day",
-      "detail": "Calf · Leg · Bruise · Left · 2026-11-07",
-      "athleteId": "3133603",
+      "player": "T.J. McConnell",
+      "status": "Out",
+      "detail": "Hamstring · Leg · Strain · Right · 2026-11-07",
+      "athleteId": "2530530",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "IND",
-      "player": "T.J. McConnell",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Strain · Right · 2026-11-09",
-      "athleteId": "2530530",
+      "player": "Kelly Oubre Jr.",
+      "status": "Day-To-Day",
+      "detail": "Calf · Leg · Bruise · Left · 2026-11-07",
+      "athleteId": "3133603",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -634,8 +607,8 @@
     {
       "team": "PHI",
       "player": "Adem Bona",
-      "status": "Day-To-Day",
-      "detail": "Back · Torso · Sprain · 2026-11-06",
+      "status": "Out",
+      "detail": "Back · Torso · Sprain · 2026-11-08",
       "athleteId": "5105637",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -854,7 +827,7 @@
     {
       "team": "WSH",
       "player": "Anthony Davis",
-      "status": "Day-To-Day",
+      "status": "Out",
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
       "athleteId": "6583",
       "position": "F",
