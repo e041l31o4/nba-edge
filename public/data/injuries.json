@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T05:23:18.205338+00:00",
+  "updatedAt": "2026-11-06T06:21:31.996381+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -308,7 +308,7 @@
     {
       "team": "GS",
       "player": "Gui Santos",
-      "status": "Out",
+      "status": "Day-To-Day",
       "detail": "Knee · Leg · 2026-11-07",
       "athleteId": "4997536",
       "position": "F",

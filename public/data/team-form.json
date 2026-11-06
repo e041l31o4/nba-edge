@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T05:23:18.205338+00:00",
+  "updatedAt": "2026-11-06T06:21:31.996381+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -728,6 +728,15 @@
       "abbreviation": "GS",
       "last10": [
         {
+          "date": "2026-11-06T03:00Z",
+          "pointsFor": 120.0,
+          "pointsAgainst": 100.0,
+          "win": true,
+          "opponent": "Miami Heat",
+          "opponentId": "14",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-03T03:00Z",
           "pointsFor": 116.0,
           "pointsAgainst": 113.0,
@@ -1228,6 +1237,15 @@
       "team": "Miami Heat",
       "abbreviation": "MIA",
       "last10": [
+        {
+          "date": "2026-11-06T03:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 120.0,
+          "win": false,
+          "opponent": "Golden State Warriors",
+          "opponentId": "9",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T03:30Z",
           "pointsFor": 117.0,

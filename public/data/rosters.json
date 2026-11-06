@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T05:23:18.205338+00:00",
+  "updatedAt": "2026-11-06T06:21:31.996381+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -1153,7 +1153,7 @@
         "player": "Graham Ike",
         "athleteId": "4703396",
         "position": "F",
-        "jersey": null
+        "jersey": "45"
       },
       {
         "team": "GS",
@@ -1331,13 +1331,6 @@
         "athleteId": "4684740",
         "position": "G",
         "jersey": "1"
-      },
-      {
-        "team": "HOU",
-        "player": "Bruce Thornton",
-        "athleteId": "5105837",
-        "position": "G",
-        "jersey": "2"
       },
       {
         "team": "HOU",
