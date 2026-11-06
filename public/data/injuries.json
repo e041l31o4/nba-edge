@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T16:11:11.938445+00:00",
+  "updatedAt": "2026-11-06T16:56:13.093857+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -765,6 +765,15 @@
       "status": "Out",
       "detail": "Knee · Leg · Surgery · Right · 2026-12-03",
       "athleteId": "5101845",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Kyle Anderson",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-06",
+      "athleteId": "2993874",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
