@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T21:25:44.701709+00:00",
+  "updatedAt": "2026-11-06T22:01:43.096266+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -298,20 +298,20 @@
     },
     {
       "team": "GS",
+      "player": "Kristaps Porzingis",
+      "status": "Out",
+      "detail": "Illness · Other · 2027-01-02",
+      "athleteId": "3102531",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "GS",
       "player": "Gui Santos",
       "status": "Day-To-Day",
       "detail": "Knee · Leg · 2026-11-07",
       "athleteId": "4997536",
       "position": "F",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "GS",
-      "player": "Kristaps Porzingis",
-      "status": "Out",
-      "detail": "Illness · Other · 2026-12-01",
-      "athleteId": "3102531",
-      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -503,8 +503,8 @@
     {
       "team": "NY",
       "player": "Josh Hart",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · 2026-11-07",
+      "status": "Out",
+      "detail": "Ankle · Leg · 2026-11-10",
       "athleteId": "3062679",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
