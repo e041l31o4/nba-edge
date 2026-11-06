@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T14:33:20.210464+00:00",
+  "updatedAt": "2026-11-06T15:22:56.837385+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -70,7 +70,7 @@
       "team": "BOS",
       "player": "Devin Carter",
       "status": "Out",
-      "detail": "Illness · Other · 2026-11-08",
+      "detail": "Illness · Other · 2026-11-06",
       "athleteId": "4433188",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -474,8 +474,8 @@
     {
       "team": "MIL",
       "player": "Kam Jones",
-      "status": "Out",
-      "detail": "Ankle · Leg · Right · 2026-11-08",
+      "status": "Day-To-Day",
+      "detail": "Ankle · Leg · Right · 2026-11-06",
       "athleteId": "4697268",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -819,7 +819,7 @@
       "team": "UTAH",
       "player": "Trey Alexander",
       "status": "Out",
-      "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-06",
       "athleteId": "4433268",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
