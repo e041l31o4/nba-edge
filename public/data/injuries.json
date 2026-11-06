@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T23:47:51.186352+00:00",
+  "updatedAt": "2026-11-06T00:28:32.265484+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -512,7 +512,7 @@
       "team": "NO",
       "player": "Yves Missi",
       "status": "Out",
-      "detail": "Knee · Leg · Bruise · Left · 2026-11-08",
+      "detail": "Knee · Leg · Bruise · Left · 2026-11-09",
       "athleteId": "5061589",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
