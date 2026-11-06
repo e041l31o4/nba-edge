@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T20:08:10.964877+00:00",
+  "updatedAt": "2026-11-06T20:49:55.908446+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -344,8 +344,8 @@
     {
       "team": "HOU",
       "player": "Clint Capela",
-      "status": "Day-To-Day",
-      "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
+      "status": "Out",
+      "detail": "Ankle · Leg · Sprain · Right · 2026-11-09",
       "athleteId": "3102529",
       "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -409,20 +409,20 @@
     },
     {
       "team": "LAC",
-      "player": "Yanic Konan Niederhauser",
-      "status": "Out",
-      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
-      "athleteId": "5108024",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "LAC",
       "player": "Brandon Ingram",
       "status": "Out",
       "detail": "Achilles · Leg · Surgery · Right · 2026-11-08",
       "athleteId": "3913176",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "LAC",
+      "player": "Yanic Konan Niederhauser",
+      "status": "Out",
+      "detail": "Foot · Leg · Surgery · Right · 2026-11-08",
+      "athleteId": "5108024",
+      "position": "C",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
