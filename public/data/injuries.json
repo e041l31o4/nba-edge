@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T16:56:13.093857+00:00",
+  "updatedAt": "2026-11-06T17:37:52.431994+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -55,15 +55,6 @@
       "detail": "Knee · Leg · Right · 2027-07-01",
       "athleteId": "5105571",
       "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "BOS",
-      "player": "Payton Pritchard",
-      "status": "Day-To-Day",
-      "detail": "Eye · Head · Abrasion · Right · 2026-11-06",
-      "athleteId": "4066354",
-      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
