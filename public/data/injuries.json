@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T18:26:33.450947+00:00",
+  "updatedAt": "2026-11-06T19:23:10.270015+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -152,7 +152,7 @@
       "team": "CHI",
       "player": "Zach Collins",
       "status": "Day-To-Day",
-      "detail": "Undisclosed · Other · 2026-11-08",
+      "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4066650",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -201,6 +201,15 @@
       "detail": "Knee · Leg · Right · 2026-11-06",
       "athleteId": "4066328",
       "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "DAL",
+      "player": "Kyrie Irving",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-06",
+      "athleteId": "6442",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
