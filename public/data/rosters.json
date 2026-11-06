@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T03:28:28.545464+00:00",
+  "updatedAt": "2026-11-06T04:23:16.790373+00:00",
   "source": "ESPN public team roster",
   "teams": {
     "ATL": [
@@ -137,13 +137,6 @@
         "athleteId": "4433188",
         "position": "G",
         "jersey": "99"
-      },
-      {
-        "team": "BOS",
-        "player": "Chris Cenac Jr.",
-        "athleteId": "5142621",
-        "position": "F",
-        "jersey": "12"
       },
       {
         "team": "BOS",
@@ -673,13 +666,6 @@
       },
       {
         "team": "CLE",
-        "player": "Riley Minix",
-        "athleteId": "5177362",
-        "position": "F",
-        "jersey": "12"
-      },
-      {
-        "team": "CLE",
         "player": "Donovan Mitchell",
         "athleteId": "3908809",
         "position": "G",
@@ -691,6 +677,13 @@
         "athleteId": "4432158",
         "position": "C",
         "jersey": "4"
+      },
+      {
+        "team": "CLE",
+        "player": "Norchad Omier",
+        "athleteId": "4702134",
+        "position": "C",
+        "jersey": "15"
       },
       {
         "team": "CLE",
