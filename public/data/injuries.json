@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+  "updatedAt": "2026-11-06T01:42:16.748377+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -7,7 +7,7 @@
       "team": "ATL",
       "player": "Keshon Gilbert",
       "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Left · 2026-11-08",
+      "detail": "Knee · Leg · Inflammation · Left · 2026-11-07",
       "athleteId": "4585618",
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
@@ -445,10 +445,10 @@
     },
     {
       "team": "LAL",
-      "player": "Adou Thiero",
-      "status": "Out",
-      "detail": "Knee · Leg · Inflammation · Left · 2026-11-06",
-      "athleteId": "5060631",
+      "player": "Sandro Mamukelashvili",
+      "status": "Day-To-Day",
+      "detail": "Illness · Other · 2026-11-06",
+      "athleteId": "4278580",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -724,15 +724,6 @@
     },
     {
       "team": "SAC",
-      "player": "Daeqwon Plowden",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
-      "athleteId": "4279318",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "SAC",
       "player": "Maxime Raynaud",
       "status": "Out",
       "detail": "Knee · Leg · Dislocated · Right · 2026-11-10",
@@ -774,6 +765,15 @@
       "status": "Out",
       "detail": "Knee · Leg · Surgery · Right · 2026-12-03",
       "athleteId": "5101845",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "TOR",
+      "player": "Scottie Barnes",
+      "status": "Day-To-Day",
+      "detail": "Groin · Groin · Soreness · Left · 2026-11-06",
+      "athleteId": "4433134",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },

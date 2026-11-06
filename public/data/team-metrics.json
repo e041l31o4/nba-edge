@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+  "updatedAt": "2026-11-06T01:42:16.748377+00:00",
   "season": "2027",
   "source": "ESPN public Core API team season statistics",
   "status": "available",
@@ -10,7 +10,7 @@
       "pace": 105.009,
       "teamId": "1",
       "abbreviation": "ATL",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "BOS": {
@@ -19,7 +19,7 @@
       "pace": 99.534,
       "teamId": "2",
       "abbreviation": "BOS",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "BKN": {
@@ -28,7 +28,7 @@
       "pace": 101.303,
       "teamId": "17",
       "abbreviation": "BKN",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "CHA": {
@@ -37,7 +37,7 @@
       "pace": 98.542,
       "teamId": "30",
       "abbreviation": "CHA",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "CHI": {
@@ -46,7 +46,7 @@
       "pace": 108.203,
       "teamId": "4",
       "abbreviation": "CHI",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "CLE": {
@@ -55,7 +55,7 @@
       "pace": 103.865,
       "teamId": "5",
       "abbreviation": "CLE",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "DAL": {
@@ -64,7 +64,7 @@
       "pace": 102.145,
       "teamId": "6",
       "abbreviation": "DAL",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "DEN": {
@@ -73,7 +73,7 @@
       "pace": 99.195,
       "teamId": "7",
       "abbreviation": "DEN",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "DET": {
@@ -82,7 +82,7 @@
       "pace": 100.86,
       "teamId": "8",
       "abbreviation": "DET",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "GS": {
@@ -91,7 +91,7 @@
       "pace": 101.658,
       "teamId": "9",
       "abbreviation": "GS",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "HOU": {
@@ -100,7 +100,7 @@
       "pace": 100.407,
       "teamId": "10",
       "abbreviation": "HOU",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "IND": {
@@ -109,7 +109,7 @@
       "pace": 103.396,
       "teamId": "11",
       "abbreviation": "IND",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "LAC": {
@@ -118,7 +118,7 @@
       "pace": 95.277,
       "teamId": "12",
       "abbreviation": "LAC",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "LAL": {
@@ -127,7 +127,7 @@
       "pace": 102.84,
       "teamId": "13",
       "abbreviation": "LAL",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "MEM": {
@@ -136,7 +136,7 @@
       "pace": 102.789,
       "teamId": "29",
       "abbreviation": "MEM",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "MIA": {
@@ -145,7 +145,7 @@
       "pace": 98.416,
       "teamId": "14",
       "abbreviation": "MIA",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "MIL": {
@@ -154,7 +154,7 @@
       "pace": 104.22,
       "teamId": "15",
       "abbreviation": "MIL",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "MIN": {
@@ -163,7 +163,7 @@
       "pace": 103.1,
       "teamId": "16",
       "abbreviation": "MIN",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "NO": {
@@ -172,7 +172,7 @@
       "pace": 104.688,
       "teamId": "3",
       "abbreviation": "NO",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "NY": {
@@ -181,7 +181,7 @@
       "pace": 100.073,
       "teamId": "18",
       "abbreviation": "NY",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "OKC": {
@@ -190,7 +190,7 @@
       "pace": 101.46,
       "teamId": "25",
       "abbreviation": "OKC",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "ORL": {
@@ -199,7 +199,7 @@
       "pace": 100.803,
       "teamId": "19",
       "abbreviation": "ORL",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "PHI": {
@@ -208,7 +208,7 @@
       "pace": 102.578,
       "teamId": "20",
       "abbreviation": "PHI",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "PHX": {
@@ -217,7 +217,7 @@
       "pace": 102.147,
       "teamId": "21",
       "abbreviation": "PHX",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "POR": {
@@ -226,7 +226,7 @@
       "pace": 102.554,
       "teamId": "22",
       "abbreviation": "POR",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "SAC": {
@@ -235,7 +235,7 @@
       "pace": 104.535,
       "teamId": "23",
       "abbreviation": "SAC",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "SA": {
@@ -244,7 +244,7 @@
       "pace": 102.493,
       "teamId": "24",
       "abbreviation": "SA",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "TOR": {
@@ -253,7 +253,7 @@
       "pace": 104.7,
       "teamId": "28",
       "abbreviation": "TOR",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "UTAH": {
@@ -262,7 +262,7 @@
       "pace": 102.493,
       "teamId": "26",
       "abbreviation": "UTAH",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     },
     "WSH": {
@@ -271,7 +271,7 @@
       "pace": 101.248,
       "teamId": "27",
       "abbreviation": "WSH",
-      "updatedAt": "2026-11-06T00:28:32.265484+00:00",
+      "updatedAt": "2026-11-06T01:42:16.748377+00:00",
       "stale": false
     }
   }
