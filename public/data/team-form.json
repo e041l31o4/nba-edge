@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T02:16:05.272192+00:00",
+  "updatedAt": "2026-11-07T03:11:32.454172+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -7,6 +7,15 @@
       "team": "Atlanta Hawks",
       "abbreviation": "ATL",
       "last10": [
+        {
+          "date": "2026-11-07T00:00Z",
+          "pointsFor": 139.0,
+          "pointsAgainst": 132.0,
+          "win": true,
+          "opponent": "Washington Wizards",
+          "opponentId": "27",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-05T00:00Z",
           "pointsFor": 120.0,
@@ -95,6 +104,15 @@
       "team": "Boston Celtics",
       "abbreviation": "BOS",
       "last10": [
+        {
+          "date": "2026-11-07T00:00Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 80.0,
+          "win": true,
+          "opponent": "Charlotte Hornets",
+          "opponentId": "30",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T00:30Z",
           "pointsFor": 109.0,
@@ -253,6 +271,15 @@
       "team": "Charlotte Hornets",
       "abbreviation": "CHA",
       "last10": [
+        {
+          "date": "2026-11-07T00:00Z",
+          "pointsFor": 80.0,
+          "pointsAgainst": 119.0,
+          "win": false,
+          "opponent": "Boston Celtics",
+          "opponentId": "2",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-05T00:30Z",
           "pointsFor": 104.0,
@@ -2352,6 +2379,15 @@
       "team": "Washington Wizards",
       "abbreviation": "WSH",
       "last10": [
+        {
+          "date": "2026-11-07T00:00Z",
+          "pointsFor": 132.0,
+          "pointsAgainst": 139.0,
+          "win": false,
+          "opponent": "Atlanta Hawks",
+          "opponentId": "1",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T00:00Z",
           "pointsFor": 105.0,

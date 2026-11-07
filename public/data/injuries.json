@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T02:16:05.272192+00:00",
+  "updatedAt": "2026-11-07T03:11:32.454172+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -164,6 +164,15 @@
       "detail": "Hand · Arm · Left · 2026-11-08",
       "athleteId": "4397189",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
+      "player": "Sam Merrill",
+      "status": "Out",
+      "detail": "Elbow · Arm · Right · 2026-11-07",
+      "athleteId": "4066757",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -433,6 +442,15 @@
       "detail": "Ankle · Leg · Right · 2026-11-06",
       "athleteId": "4697268",
       "position": "G",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "MIN",
+      "player": "Joan Beringer",
+      "status": "Out",
+      "detail": "Fracture · 2026-11-08",
+      "athleteId": "5279133",
+      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
