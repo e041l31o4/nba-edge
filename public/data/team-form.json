@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T03:11:32.454172+00:00",
+  "updatedAt": "2026-11-07T03:53:19.806217+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -448,6 +448,15 @@
       "abbreviation": "CLE",
       "last10": [
         {
+          "date": "2026-11-07T00:30Z",
+          "pointsFor": 119.0,
+          "pointsAgainst": 95.0,
+          "win": true,
+          "opponent": "Philadelphia 76ers",
+          "opponentId": "20",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-05T01:00Z",
           "pointsFor": 116.0,
           "pointsAgainst": 124.0,
@@ -526,6 +535,15 @@
       "team": "Dallas Mavericks",
       "abbreviation": "DAL",
       "last10": [
+        {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 112.0,
+          "pointsAgainst": 100.0,
+          "win": true,
+          "opponent": "Utah Jazz",
+          "opponentId": "26",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-05T02:30Z",
           "pointsFor": 111.0,
@@ -1186,6 +1204,15 @@
       "abbreviation": "MEM",
       "last10": [
         {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 97.0,
+          "pointsAgainst": 128.0,
+          "win": false,
+          "opponent": "Oklahoma City Thunder",
+          "opponentId": "25",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-05T01:00Z",
           "pointsFor": 103.0,
           "pointsAgainst": 107.0,
@@ -1353,6 +1380,15 @@
       "abbreviation": "MIL",
       "last10": [
         {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 107.0,
+          "pointsAgainst": 121.0,
+          "win": false,
+          "opponent": "Toronto Raptors",
+          "opponentId": "28",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-05T00:30Z",
           "pointsFor": 102.0,
           "pointsAgainst": 109.0,
@@ -1431,6 +1467,15 @@
       "team": "Minnesota Timberwolves",
       "abbreviation": "MIN",
       "last10": [
+        {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 115.0,
+          "pointsAgainst": 109.0,
+          "win": true,
+          "opponent": "New Orleans Pelicans",
+          "opponentId": "3",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T01:30Z",
           "pointsFor": 117.0,
@@ -1519,6 +1564,15 @@
       "team": "New Orleans Pelicans",
       "abbreviation": "NO",
       "last10": [
+        {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 115.0,
+          "win": false,
+          "opponent": "Minnesota Timberwolves",
+          "opponentId": "16",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-05T01:00Z",
           "pointsFor": 120.0,
@@ -1678,6 +1732,15 @@
       "abbreviation": "OKC",
       "last10": [
         {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 128.0,
+          "pointsAgainst": 97.0,
+          "win": true,
+          "opponent": "Memphis Grizzlies",
+          "opponentId": "29",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-05T01:00Z",
           "pointsFor": 124.0,
           "pointsAgainst": 116.0,
@@ -1835,6 +1898,15 @@
       "team": "Philadelphia 76ers",
       "abbreviation": "PHI",
       "last10": [
+        {
+          "date": "2026-11-07T00:30Z",
+          "pointsFor": 95.0,
+          "pointsAgainst": 119.0,
+          "win": false,
+          "opponent": "Cleveland Cavaliers",
+          "opponentId": "5",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T00:00Z",
           "pointsFor": 112.0,
@@ -2222,6 +2294,15 @@
       "abbreviation": "TOR",
       "last10": [
         {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 121.0,
+          "pointsAgainst": 107.0,
+          "win": true,
+          "opponent": "Milwaukee Bucks",
+          "opponentId": "15",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-05T02:00Z",
           "pointsFor": 109.0,
           "pointsAgainst": 128.0,
@@ -2300,6 +2381,15 @@
       "team": "Utah Jazz",
       "abbreviation": "UTAH",
       "last10": [
+        {
+          "date": "2026-11-07T01:00Z",
+          "pointsFor": 100.0,
+          "pointsAgainst": 112.0,
+          "win": false,
+          "opponent": "Dallas Mavericks",
+          "opponentId": "6",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T01:00Z",
           "pointsFor": 113.0,
