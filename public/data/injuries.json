@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T23:55:59.286373+00:00",
+  "updatedAt": "2026-11-07T00:28:07.917078+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -159,6 +159,15 @@
     },
     {
       "team": "CLE",
+      "player": "Jarrett Allen",
+      "status": "Out",
+      "detail": "Knee · Leg · Right · 2026-11-07",
+      "athleteId": "4066328",
+      "position": "C",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CLE",
       "player": "Jaylon Tyson",
       "status": "Out",
       "detail": "Ankle · Leg · Sprain · Right · 2026-11-07",
@@ -166,15 +175,6 @@
       "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
       "pointsPerGame": 7.8
-    },
-    {
-      "team": "CLE",
-      "player": "Jarrett Allen",
-      "status": "Day-To-Day",
-      "detail": "Knee · Leg · Right · 2026-11-06",
-      "athleteId": "4066328",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
       "team": "DAL",
@@ -211,15 +211,6 @@
       "detail": "Back · Torso · Spasms · 2026-11-07",
       "athleteId": "3978",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "DEN",
-      "player": "Spencer Jones",
-      "status": "Out",
-      "detail": "Hamstring · Leg · Not Specified · Not Specified · 2026-11-11",
-      "athleteId": "4592427",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -615,20 +606,20 @@
     },
     {
       "team": "PHX",
-      "player": "Jordan Goodwin",
-      "status": "Day-To-Day",
-      "detail": "Calf · Leg · Not Specified · Left · 2026-11-07",
-      "athleteId": "4278402",
-      "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "PHX",
       "player": "Rasheer Fleming",
       "status": "Day-To-Day",
       "detail": "Ankle · Leg · Sprain · Left · 2026-11-07",
       "athleteId": "5105977",
       "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "PHX",
+      "player": "Jordan Goodwin",
+      "status": "Day-To-Day",
+      "detail": "Calf · Leg · Not Specified · Left · 2026-11-07",
+      "athleteId": "4278402",
+      "position": "G",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
@@ -739,24 +730,6 @@
       "detail": "Hamstring · Leg · Right · 2026-11-09",
       "athleteId": "4395724",
       "position": "G",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "TOR",
-      "player": "Jakob Poeltl",
-      "status": "Day-To-Day",
-      "detail": "Poeltl is still a little banged up for Toronto, but he intends to push through it. On Wednesday against Denver, he played 19 minutes off the bench with eight points, five rebounds and one assist.",
-      "athleteId": "3134908",
-      "position": "C",
-      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
-    },
-    {
-      "team": "TOR",
-      "player": "Kyle Anderson",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
-      "athleteId": "2993874",
-      "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
     {
