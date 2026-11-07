@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T05:26:14.668007+00:00",
+  "updatedAt": "2026-11-07T06:08:45.783246+00:00",
   "source": "ESPN public team schedules / scoreboard",
   "teams": {
     "1": {
@@ -1116,6 +1116,15 @@
       "abbreviation": "LAL",
       "last10": [
         {
+          "date": "2026-11-07T03:00Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 118.0,
+          "win": true,
+          "opponent": "Portland Trail Blazers",
+          "opponentId": "22",
+          "homeAway": "home"
+        },
+        {
           "date": "2026-11-05T03:00Z",
           "pointsFor": 116.0,
           "pointsAgainst": 103.0,
@@ -2066,6 +2075,15 @@
       "abbreviation": "POR",
       "last10": [
         {
+          "date": "2026-11-07T03:00Z",
+          "pointsFor": 118.0,
+          "pointsAgainst": 124.0,
+          "win": false,
+          "opponent": "Los Angeles Lakers",
+          "opponentId": "13",
+          "homeAway": "away"
+        },
+        {
           "date": "2026-11-05T02:00Z",
           "pointsFor": 132.0,
           "pointsAgainst": 119.0,
@@ -2135,6 +2153,15 @@
       "team": "Sacramento Kings",
       "abbreviation": "SAC",
       "last10": [
+        {
+          "date": "2026-11-07T03:00Z",
+          "pointsFor": 109.0,
+          "pointsAgainst": 124.0,
+          "win": false,
+          "opponent": "San Antonio Spurs",
+          "opponentId": "24",
+          "homeAway": "home"
+        },
         {
           "date": "2026-11-05T03:00Z",
           "pointsFor": 103.0,
@@ -2214,6 +2241,15 @@
       "team": "San Antonio Spurs",
       "abbreviation": "SA",
       "last10": [
+        {
+          "date": "2026-11-07T03:00Z",
+          "pointsFor": 124.0,
+          "pointsAgainst": 109.0,
+          "win": true,
+          "opponent": "Sacramento Kings",
+          "opponentId": "23",
+          "homeAway": "away"
+        },
         {
           "date": "2026-11-05T02:30Z",
           "pointsFor": 112.0,
