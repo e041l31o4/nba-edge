@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T00:28:07.917078+00:00",
+  "updatedAt": "2026-11-07T01:29:21.530619+00:00",
   "source": "ESPN public injury feed (fallback)",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries",
   "players": [
@@ -91,6 +91,15 @@
       "status": "Out",
       "detail": "Shoulder · Arm · Sprain · Right · 2026-11-06",
       "athleteId": "5105626",
+      "position": "F",
+      "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+    },
+    {
+      "team": "CHA",
+      "player": "Brandon Miller",
+      "status": "Day-To-Day",
+      "detail": "Groin · Groin · Soreness · Right · 2026-11-09",
+      "athleteId": "4433287",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
     },
@@ -662,8 +671,8 @@
     {
       "team": "SAC",
       "player": "De'Andre Hunter",
-      "status": "Day-To-Day",
-      "detail": "Illness · Other · 2026-11-06",
+      "status": "Out",
+      "detail": "Illness · Other · 2026-11-08",
       "athleteId": "4065732",
       "position": "F",
       "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
