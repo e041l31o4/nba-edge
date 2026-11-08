@@ -9,15 +9,38 @@ const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric
 const twNoDash = tw.replace(/-/g,'')
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
-const [form, injuries, backtest, previousPayload, scoreboardRes] = await Promise.all([
+const [form, injuries, backtest, previousPayload] = await Promise.all([
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
-  readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
-  Promise.all(dateKeys.map(date=>fetch(`${base}/scoreboard?dates=${date}`)))
+  readJson<{records:Row[]}>('public/data/prediction-ledger.json')
 ])
-if (!form || scoreboardRes.some(r=>!r.ok)) throw new Error('Missing team-form data or ESPN scoreboard unavailable; keep existing ledger unchanged.')
-const scoreboards = await Promise.all(scoreboardRes.map(r=>r.json())) as any[]
+if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
+
+// Fetch each local-date scoreboard independently. A single transient ESPN error
+// must not cancel capture for every other date in the 9-day window.
+const fetchScoreboard = async (date:string) => {
+  let lastError:unknown
+  for (let attempt=1; attempt<=3; attempt++) {
+    try {
+      const response=await fetch(`${base}/scoreboard?dates=${date}`,{headers:{'accept':'application/json'}})
+      if (!response.ok) throw new Error(`ESPN HTTP ${response.status}`)
+      const payload=await response.json() as any
+      if (!payload || !Array.isArray(payload.events)) throw new Error('ESPN scoreboard response has no events[]')
+      return {date,events:payload.events as any[],ok:true as const}
+    } catch(error) {
+      lastError=error
+      if (attempt<3) await new Promise(resolve=>setTimeout(resolve,attempt*1200))
+    }
+  }
+  console.warn(`Scoreboard date ${date} unavailable after 3 attempts:`,String(lastError))
+  return {date,events:[] as any[],ok:false as const}
+}
+const scoreboardResults=await Promise.all(dateKeys.map(fetchScoreboard))
+const successfulDates=scoreboardResults.filter(x=>x.ok).length
+if (successfulDates===0) throw new Error('All ESPN scoreboard dates failed after retries; existing ledger preserved.')
+const scoreboards=scoreboardResults.filter(x=>x.ok).map(x=>({events:x.events}))
+console.log(`ESPN scoreboard dates available: ${successfulDates}/${dateKeys.length}`)
 const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 const byId = new Map(rows.map(x=>[x.gameId,x]))
@@ -72,5 +95,13 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
 }
 for (const row of rows) { delete (row as any).totalLine; delete (row as any).totalPick }
 const output=rows.slice(-1500)
-if (added || settled || refreshed || !previousPayload) await writeFile('public/data/prediction-ledger.json',JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; locked ${added}; refreshed ${refreshed}; settled ${settled}; total ${output.length}`)
+if (added || settled || refreshed || !previousPayload) {
+  const target='public/data/prediction-ledger.json'
+  const temp=target+'.tmp'
+  await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\\n')
+  const { rename } = await import('node:fs/promises')
+  await rename(temp,target)
+}
+const upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
+const official=output.filter(row=>row.stage==='official').length
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; successful dates ${successfulDates}/${dateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
