@@ -11,7 +11,7 @@ on:
       - 'public/data/backtest.json'
       - 'public/data/odds.json'
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
