@@ -98,7 +98,7 @@ const output=rows.slice(-1500)
 if (added || settled || refreshed || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
-  await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\\n')
+  await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
   const { rename } = await import('node:fs/promises')
   await rename(temp,target)
 }
