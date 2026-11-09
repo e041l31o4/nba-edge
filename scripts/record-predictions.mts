@@ -62,24 +62,28 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     }
     continue
   }
-  if (status.includes('final') || tipoff<=now.getTime()) continue
   if (existing?.stage==='draft') {
+    // Promote an already captured pregame draft even if this workflow runs
+    // just after tipoff. Preserve the original prediction; never recalculate it
+    // after the game has started.
     if (tipoff-now.getTime()<=60*60*1000) {
       existing.stage='official'
-      existing.lockedAt=now.toISOString()
+      existing.lockedAt=existing.capturedAt
       delete (existing as any).totalLine
       delete (existing as any).totalPick
       added++
-    } else {
-      const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator)
-      if (rolling.available) {
-        existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
-        existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
-        existing.capturedAt=now.toISOString(); refreshed++
-      }
+      continue
+    }
+    if (status.includes('final') || tipoff<=now.getTime()) continue
+    const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator)
+    if (rolling.available) {
+      existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
+      existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
+      existing.capturedAt=now.toISOString(); refreshed++
     }
     continue
   }
+  if (status.includes('final') || tipoff<=now.getTime()) continue
   const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
   const prediction=analyzeMatch(game,form,injuries,calibrator)
   if (!prediction.available) continue
