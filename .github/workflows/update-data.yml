@@ -175,6 +175,16 @@ jobs:
                   handle.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
           print('Saved',len(games),'JBot NBA market records.')
           PY
+      - name: Publish private datasets to Supabase
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not configured; private dataset publishing is skipped."
+          else
+            python scripts/publish-private-datasets.py
+          fi
       - name: Commit refreshed data
         run: |
           if git diff --quiet; then echo "No data changes"; exit 0; fi
