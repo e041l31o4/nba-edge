@@ -1,3 +1,4 @@
+import { loadDataset } from './lib/memberData'
 export type Team = { id: string; name: string; abbreviation: string; displayName: string; logo?: string; score?: string }
 export type Game = { id: string; date: string; name: string; shortName: string; status: string; detail: string; home: Team; away: Team; venue?: string }
 export type OddsGame = { id?: string; commence_time: string; home_team: string; away_team: string; bookmakers?: { title: string; markets: { key: string; outcomes: { name: string; price: number; point?: number }[] }[] }[] }
