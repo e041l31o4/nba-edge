@@ -1,0 +1,56 @@
+name: Purge historical public datasets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/purge-public-data-history.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nba-edge-history-purge
+  cancel-in-progress: false
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout complete repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch every branch and tag
+        run: |
+          git fetch --force origin '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
+
+      - name: Remove paid dataset files from every historical commit
+        run: |
+          python -m pip install --quiet git-filter-repo
+          git filter-repo --path public/data --invert-paths --force
+          if git log --all -- public/data | grep -q .; then
+            echo "Historical public/data references remain; refusing to push."
+            exit 1
+          fi
+          if git ls-tree -r --name-only --all | grep -q '^public/data/'; then
+            echo "A branch or tag still contains public/data; refusing to push."
+            exit 1
+          fi
+          echo "Verified: no branch or tag contains public/data in its reachable history."
+
+      - name: Force-push rewritten branches and tags
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          git remote add rewritten-origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force rewritten-origin --all
+          git push --force rewritten-origin --tags
