@@ -12,6 +12,9 @@
 - GitHub Pages 最近一次 Build 與 Deploy 成功。
 - 自動資料流程會在會員模式下從 Supabase 還原資料、更新後再同步，不把付費資料提交至公開 Git。
 
+## 上線前新增的資料庫安全補強
+- 請在 Supabase SQL Editor 執行 `supabase/migrations/202611100004_transfer_approval_hardening.sql`。此補強會阻止管理員在會員尚未提交匯款末五碼前直接核准訂單；可重複執行。
+
 ## 必須由帳戶持有人完成的實際測試
 
 ### A. 管理員帳號
