@@ -22,6 +22,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Restore private datasets from Supabase before refreshing
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            python scripts/restore-private-datasets.py
+          else
+            echo "Public mode; using checked-in datasets."
+          fi
       - name: Install PDF parser for official NBA injury report
         run: pip install pypdf
       - name: Refresh team form and NBA official injury report
@@ -189,7 +199,17 @@ jobs:
       - name: Commit refreshed data
         run: |
           if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
-            echo "Membership mode is enabled; datasets were published to Supabase and will not be committed to the public repository."
+            echo "Membership mode is enabled; removing current public dataset files after successful Supabase publishing."
+            if [ -d public/data ]; then
+              git rm -r public/data
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "chore: remove paid datasets from public repository"
+              git pull --rebase -X theirs origin main
+              git push
+            else
+              echo "Public dataset directory is already absent."
+            fi
             exit 0
           fi
           if git diff --quiet; then echo "No data changes"; exit 0; fi
