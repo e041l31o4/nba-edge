@@ -215,11 +215,11 @@ jobs:
             fi
             exit 0
           fi
-          if git diff --quiet; then echo "No data changes"; exit 0; fi
+          git add -f -A public/data/
+          if git diff --cached --quiet; then echo "No data changes"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A public/data/
-          git commit -m "chore: refresh official Taiwan Sports Lottery odds"
+          git commit -m "chore: restore and refresh NBA EDGE analysis datasets"
           git pull --rebase -X theirs origin main
           for attempt in 1 2 3; do
             if git push; then exit 0; fi
