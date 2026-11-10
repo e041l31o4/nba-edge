@@ -28,9 +28,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Fetch every branch and tag
+      - name: Prepare every branch and tag for rewriting
         run: |
-          git fetch --force origin '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
+          git fetch --force origin '+refs/tags/*:refs/tags/*'
+          while IFS= read -r branch; do
+            [ -z "$branch" ] && continue
+            [ "$branch" = "main" ] && continue
+            git branch "$branch" "refs/remotes/origin/$branch"
+          done < <(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin/)
+          git branch --list
 
       - name: Remove paid dataset files from every historical commit
         run: |
