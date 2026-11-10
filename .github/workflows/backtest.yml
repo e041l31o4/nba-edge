@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'scripts/backtest-model.py'
+      - 'scripts/restore-private-datasets.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '30 8 * * *'
@@ -20,6 +21,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Validate private dataset restore script
+        run: python -m py_compile scripts/restore-private-datasets.py
       - name: Restore private datasets from Supabase before backtest
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
