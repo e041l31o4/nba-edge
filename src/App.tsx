@@ -49,7 +49,8 @@ function App() {
         ])
         if (alive) { setIsAdmin(profile?.role === 'admin'); setMembershipActive(Boolean(active) || profile?.role === 'admin') }
       } else if (alive) { setIsAdmin(false); setMembershipActive(false) }
-      const { data: access } = await supabase.from('public_game_access').select('game_ids').eq('id', true).maybeSingle()
+      const gameDate = date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)
+      const { data: access } = await supabase.from('public_game_access_by_date').select('game_ids').eq('game_date', gameDate).maybeSingle()
       if (alive) { setPublicGameIds(Array.isArray(access?.game_ids) ? access.game_ids : []); setAccessReady(true) }
     }
     void refreshAccess()
@@ -58,7 +59,8 @@ function App() {
       window.setTimeout(() => { if (alive) void refreshAccess() }, 0)
     })
     return () => { alive = false; authListener.subscription.unsubscribe() }
-  }, [])
+  }, [date])
+  useEffect(() => { setAccessReady(false) }, [date])
   useEffect(() => { void load() }, [date, membershipActive])
   // 場中比分每 30 秒同步一次；只更新賽程比分，不重新計算或覆寫已封存的賽前預測。
   useEffect(() => {
