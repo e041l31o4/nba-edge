@@ -34,8 +34,8 @@ GitHub → Settings → Secrets and variables → Actions → New repository sec
 - 測試一般註冊帳號不能讀取 `get_member_dataset()`，管理員可以。
 - 測試一個已開通會員可正常載入賽前分析、賠率、模型績效及預測紀錄。
 - 將 GitHub Actions 的部署設定改為 `VITE_MEMBERSHIP_ENABLED=true`（目前仍是 false），重新部署後，部署流程會從 Pages 公開成品移除 `dist/data`。
-- 由於目前 GitHub repository 是公開的，歷史 commit 也曾包含 JSON 資料；付費正式上線前，應將 repository 改為 Private，避免歷史版本仍可被訪客瀏覽。
+- 公開 Git 歷史清理已完成：main 與備份分支的 public/data 歷史路徑均已清除。GitHub Pages 最近一次 Build 與 Deploy 成功。第三方先前已下載、Fork 或快取的副本仍無法保證撤回。
 
 ## 注意
 
-目前網站會員限制仍關閉，公開資料檔也尚未從 Git 歷史清除。不要對外宣稱付費資料已完成保護。GitHub Actions 若尚未設定 Secret，私有資料同步步驟會明確顯示跳過。
+目前網站會員限制仍關閉（VITE_MEMBERSHIP_ENABLED=false），尚未正式收費。請先依 MEMBERSHIP_GO_LIVE_CHECKLIST.md 完成管理員、未付款帳號、已付款會員、訂單核准及到期拒絕存取等真實驗收，再開啟會員模式。GitHub Actions 若未設定 Secret，私有資料同步步驟會明確顯示跳過。
