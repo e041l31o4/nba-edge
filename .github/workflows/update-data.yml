@@ -188,6 +188,10 @@ jobs:
           fi
       - name: Commit refreshed data
         run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            echo "Membership mode is enabled; datasets were published to Supabase and will not be committed to the public repository."
+            exit 0
+          fi
           if git diff --quiet; then echo "No data changes"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
