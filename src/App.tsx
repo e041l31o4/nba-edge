@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Activity, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, taiwanDate, type Game, type OddsRecord } from './lib'
+import { loadDataset } from './lib/memberData'
 import ParlayLab from './ParlayLab'
 import MatchAnalysis from './MatchAnalysis'
 import { analyzeMatch, type TeamFormData, type InjuryData, type RosterData, type TeamMetricsData, type ProbabilityCalibrator } from './model'
@@ -26,7 +27,7 @@ function App() {
   const [backtest, setBacktest] = useState<BacktestData | null>(null)
   const load = async () => {
     setLoading(true); setError('')
-    try { const [g, o, tf, inj, roster, metrics, bt] = await Promise.all([getScoreboard(date), getOdds(), fetch(`${import.meta.env.BASE_URL}data/team-form.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/injuries.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/rosters.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/team-metrics.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null), fetch(`${import.meta.env.BASE_URL}data/backtest.json?t=${Date.now()}`).then(r=>r.ok?r.json():null).catch(()=>null)]); setGames(g); setOdds(o); setTeamForm(tf); setInjuryData(inj); setRosterData(roster); setTeamMetrics(metrics); setBacktest(bt); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
+    try { const [g, o, tf, inj, roster, metrics, bt] = await Promise.all([getScoreboard(date), getOdds(), loadDataset<TeamFormData>('team-form', 'team-form.json').catch(()=>null), loadDataset<InjuryData>('injuries', 'injuries.json').catch(()=>null), loadDataset<RosterData>('rosters', 'rosters.json').catch(()=>null), loadDataset<TeamMetricsData>('team-metrics', 'team-metrics.json').catch(()=>null), loadDataset<BacktestData>('backtest', 'backtest.json').catch(()=>null)]); setGames(g); setOdds(o); setTeamForm(tf); setInjuryData(inj); setRosterData(roster); setTeamMetrics(metrics); setBacktest(bt); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
     catch (e) { setError(e instanceof Error ? e.message : '讀取失敗') }
     finally { setLoading(false) }
   }
