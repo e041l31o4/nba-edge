@@ -42,11 +42,9 @@ export default function MembershipGate({ children }: { children: ReactNode }) {
     setActive(Boolean(membership) || isAdmin)
     setPlans(pl || [])
     setOrders(ord || [])
-    if (isAdmin) {
-      const { data: s, error: se } = await supabase.from('membership_payment_settings').select('*').eq('id', true).single()
-      if (se) throw se
-      if (s) setSettings({ bank_name:s.bank_name, bank_code:s.bank_code, account_name:s.account_name, account_number:s.account_number, payment_note:s.payment_note })
-    }
+    const { data: s, error: se } = await supabase.from('membership_payment_settings').select('*').eq('id', true).single()
+    if (se) throw se
+    if (s) setSettings({ bank_name:s.bank_name, bank_code:s.bank_code, account_name:s.account_name, account_number:s.account_number, payment_note:s.payment_note })
     setReady(true)
   }, [])
 
