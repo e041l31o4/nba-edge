@@ -49,7 +49,7 @@ for row in rows:
         if not isinstance(payload, list):
             raise SystemExit("Invalid odds-history payload: expected a list")
         path.write_text(
-            "".join(json.dumps(item, ensure_ascii=False, separators=(",", ":")) + "\\n" for item in payload),
+            "".join(json.dumps(item, ensure_ascii=False, separators=(",", ":")) + "\n" for item in payload),
             encoding="utf-8",
         )
     else:
