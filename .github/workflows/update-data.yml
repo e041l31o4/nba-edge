@@ -1,4 +1,5 @@
 name: Refresh Taiwan Sports Lottery NBA odds
+# Trigger a fresh run to verify private Supabase dataset publishing.
 on:
   push:
     paths:
