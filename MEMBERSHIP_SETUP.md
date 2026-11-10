@@ -18,6 +18,8 @@ GitHub Pages 是靜態網站。僅加登入畫面並不能保護目前放在 pub
 2. 依序執行：
    - supabase/migrations/202611100001_membership_core.sql
    - supabase/migrations/202611100002_manual_transfer_workflow.sql
+   - supabase/migrations/202611100003_private_member_datasets.sql
+   - supabase/migrations/202611100004_require_transfer_submission.sql
 3. 在 Authentication 設定 Email provider，並設定正式網站 URL 與 Redirect URLs。
 4. 設定前端環境變數：VITE_SUPABASE_URL、VITE_SUPABASE_ANON_KEY。
 5. 管理員先用自己的 Email 註冊一次，再於 Supabase SQL Editor 執行：
@@ -46,4 +48,6 @@ GitHub Pages 是靜態網站。僅加登入畫面並不能保護目前放在 pub
 - 以一般未付款帳號測試 get_member_dataset() 必須遭拒。
 - 以已付款會員測試八類資料載入、訂單核准及到期後拒絕存取。
 - 完成驗收前不得把 VITE_MEMBERSHIP_ENABLED 改為 true。
+- 最新只讀檢查 SQL：supabase/verify-membership-status.sql。
+- 最新安全補強 migration：supabase/migrations/202611100004_require_transfer_submission.sql（管理員必須等會員提交匯款末五碼後才能核准）。
 - 詳細步驟見 MEMBERSHIP_GO_LIVE_CHECKLIST.md。
