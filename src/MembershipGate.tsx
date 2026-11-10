@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from 'react'
+import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase, supabaseConfigured } from './lib/supabase'
 
@@ -6,7 +6,7 @@ type Plan = { id: string; name: string; price_twd: number; duration_days: number
 type Order = { id: string; user_id: string; plan_name: string; amount_twd: number; duration_days: number; status: string; created_at: string; submitted_at: string | null; transfer_last5: string | null; transfer_note: string | null; expires_at: string | null; profiles?: { email: string } }
 type Settings = { bank_name: string; bank_code: string; account_name: string; account_number: string; payment_note: string }
 
-export default function MembershipGate({ children }: { children: React.ReactNode }) {
+export default function MembershipGate({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [ready, setReady] = useState(false)
   const [profile, setProfile] = useState<{ role: string; email: string } | null>(null)
@@ -28,13 +28,13 @@ export default function MembershipGate({ children }: { children: React.ReactNode
 
   const refresh = useCallback(async (current: Session | null) => {
     if (!supabase || !current) { setProfile(null); setActive(false); setReady(true); return }
-    const [{ data: p, error: pe }, { data: membership, error: me }, { data: pl, error: ple }, { data: ord, error: oe }] = await Promise.all([
+    const [{ data: p, error: pe }, { data: membership, error: me }, { data: pl, error: ple }, { data: ord, error: oe }, { data: pay, error: paye }] = await Promise.all([
       supabase.from('profiles').select('role,email').eq('id', current.user.id).single(),
       supabase.rpc('has_active_membership'),
       supabase.from('membership_plans').select('*').eq('active', true).order('sort_order'),
       supabase.from('membership_orders').select('*').order('created_at', { ascending: false })
     ])
-    if (pe || me || ple || oe) throw pe || me || ple || oe
+    if (pe || me || ple || oe || paye) throw pe || me || ple || oe || paye
     const isAdmin = p?.role === 'admin'
     setProfile(p)
     setActive(Boolean(membership) || isAdmin)
