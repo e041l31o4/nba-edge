@@ -1,3 +1,5 @@
+import { loadDataset } from './lib/memberData'
+
 export type PredictionRecord = {
   gameId: string
   date: string
@@ -15,9 +17,8 @@ export type PredictionRecord = {
 }
 
 export async function getPredictionRecords(): Promise<PredictionRecord[]> {
-  const response = await fetch(`${import.meta.env.BASE_URL}data/prediction-ledger.json?t=${Date.now()}`, { cache: 'no-store' })
-  if (!response.ok) throw new Error(`Prediction ledger HTTP ${response.status}`)
-  const payload = await response.json()
+  const payload = await loadDataset<{ records: PredictionRecord[] }>('prediction-ledger', 'prediction-ledger.json')
+  if (!payload) throw new Error('Prediction ledger is unavailable')
   if (!payload || !Array.isArray(payload.records)) throw new Error('Prediction ledger response is invalid')
   return payload.records.filter((x:PredictionRecord)=>x && typeof x.gameId==='string')
 }
