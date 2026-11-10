@@ -39,22 +39,25 @@ function App() {
   const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
   useEffect(() => {
     let alive = true
-    void (async () => {
-      if (supabase) {
-        const { data: { session } } = await supabase.auth.getSession()
-        if (session) {
-          const [{ data: profile }, { data: active }] = await Promise.all([
-            supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle(),
-            supabase.rpc('has_active_membership')
-          ])
-          if (alive) { setIsAdmin(profile?.role === 'admin'); setMembershipActive(Boolean(active) || profile?.role === 'admin') }
-        }
-        const { data: access } = await supabase.from('public_game_access').select('game_ids').eq('id', true).maybeSingle()
-        if (alive) setPublicGameIds(Array.isArray(access?.game_ids) ? access.game_ids : [])
-      }
-      if (alive) setAccessReady(true)
-    })()
-    return () => { alive = false }
+    const refreshAccess = async () => {
+      if (!supabase) { if (alive) setAccessReady(true); return }
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        const [{ data: profile }, { data: active }] = await Promise.all([
+          supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle(),
+          supabase.rpc('has_active_membership')
+        ])
+        if (alive) { setIsAdmin(profile?.role === 'admin'); setMembershipActive(Boolean(active) || profile?.role === 'admin') }
+      } else if (alive) { setIsAdmin(false); setMembershipActive(false) }
+      const { data: access } = await supabase.from('public_game_access').select('game_ids').eq('id', true).maybeSingle()
+      if (alive) { setPublicGameIds(Array.isArray(access?.game_ids) ? access.game_ids : []); setAccessReady(true) }
+    }
+    void refreshAccess()
+    if (!supabase) return () => { alive = false }
+    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
+      window.setTimeout(() => { if (alive) void refreshAccess() }, 0)
+    })
+    return () => { alive = false; authListener.subscription.unsubscribe() }
   }, [])
   useEffect(() => { void load() }, [date])
   // 場中比分每 30 秒同步一次；只更新賽程比分，不重新計算或覆寫已封存的賽前預測。
