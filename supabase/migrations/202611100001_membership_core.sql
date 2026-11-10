@@ -124,6 +124,7 @@ revoke all on public.membership_plans from anon;
 grant select on public.profiles to authenticated;
 grant select on public.membership_orders to authenticated;
 grant select on public.membership_plans to authenticated;
+grant insert, update, delete on public.membership_plans to authenticated;
 grant execute on function public.is_admin() to authenticated;
 grant execute on function public.has_active_membership() to authenticated;
 
