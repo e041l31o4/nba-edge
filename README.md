@@ -81,3 +81,6 @@ Feed 預期回傳 JSON object，內含 `games` 陣列；每場至少包含 `home
 
 ## 風險聲明
 NBA EDGE 是運動數據研究與賽事分析工具，不提供保證獲利的投注建議。機率估計、EV 與串關結果均受模型校準、盤口變化、相關性及賽事資訊影響。
+
+
+<!-- Trigger Pages deployment after membership admin UI update. -->
