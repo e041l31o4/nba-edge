@@ -1,4 +1,5 @@
-import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react'
+import type { FormEvent, ReactNode } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase, supabaseConfigured } from './lib/supabase'
 
@@ -6,7 +7,8 @@ type Plan = { id: string; name: string; price_twd: number; duration_days: number
 type Order = { id: string; user_id: string; plan_name: string; amount_twd: number; duration_days: number; status: string; created_at: string; submitted_at: string | null; transfer_last5: string | null; transfer_note: string | null; expires_at: string | null; profiles?: { email: string } }
 type Settings = { bank_name: string; bank_code: string; account_name: string; account_number: string; payment_note: string }
 
-export default function MembershipGate({ children }: { children: ReactNode }) {\n  const membershipEnabled = import.meta.env.VITE_MEMBERSHIP_ENABLED === 'true'
+export default function MembershipGate({ children }: { children: ReactNode }) {
+  const membershipEnabled = import.meta.env.VITE_MEMBERSHIP_ENABLED === 'true'
   const [session, setSession] = useState<Session | null>(null)
   const [ready, setReady] = useState(false)
   const [profile, setProfile] = useState<{ role: string; email: string } | null>(null)
@@ -28,13 +30,13 @@ export default function MembershipGate({ children }: { children: ReactNode }) {\
 
   const refresh = useCallback(async (current: Session | null) => {
     if (!supabase || !current) { setProfile(null); setActive(false); setReady(true); return }
-    const [{ data: p, error: pe }, { data: membership, error: me }, { data: pl, error: ple }, { data: ord, error: oe }, { data: pay, error: paye }] = await Promise.all([
+    const [{ data: p, error: pe }, { data: membership, error: me }, { data: pl, error: ple }, { data: ord, error: oe }] = await Promise.all([
       supabase.from('profiles').select('role,email').eq('id', current.user.id).single(),
       supabase.rpc('has_active_membership'),
       supabase.from('membership_plans').select('*').eq('active', true).order('sort_order'),
       supabase.from('membership_orders').select('*').order('created_at', { ascending: false })
     ])
-    if (pe || me || ple || oe || paye) throw pe || me || ple || oe || paye
+    if (pe || me || ple || oe) throw pe || me || ple || oe
     const isAdmin = p?.role === 'admin'
     setProfile(p)
     setActive(Boolean(membership) || isAdmin)
@@ -116,7 +118,8 @@ export default function MembershipGate({ children }: { children: ReactNode }) {\
     })
   }
   const statusText = (s: string) => ({ pending:'待付款／待審核', paid:'已開通', failed:'未通過', refunded:'已退款', expired:'已到期' }[s] || s)
-  if (!membershipEnabled) return <>{children}</>\n  if (!supabaseConfigured || !supabase) return <div className="member-shell"><div className="member-card"><b>NBA EDGE 會員系統尚未設定</b><p>目前尚未設定 Supabase 連線環境變數，會員登入暫不可用。</p></div></div>
+  if (!membershipEnabled) return <>{children}</>
+  if (!supabaseConfigured || !supabase) return <div className="member-shell"><div className="member-card"><b>NBA EDGE 會員系統尚未設定</b><p>目前尚未設定 Supabase 連線環境變數，會員登入暫不可用。</p></div></div>
   if (!ready) return <div className="member-shell"><div className="member-card">正在確認會員資格…</div></div>
   if (!session) return <div className="member-shell"><div className="member-card member-auth"><div className="member-brand">NBA <b>EDGE</b></div><span className="member-kicker">MEMBER ACCESS</span><h1>{mode === 'login' ? '會員登入' : '建立會員帳號'}</h1><p>註冊後選擇方案，完成匯款並由管理員確認，即可使用完整分析功能。</p><form onSubmit={authSubmit}><label>Email<input type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)}/></label><label>密碼<input type="password" minLength={8} autoComplete={mode==='login'?'current-password':'new-password'} required value={password} onChange={e=>setPassword(e.target.value)}/></label><button className="member-primary" disabled={busy}>{busy?'處理中…':mode==='login'?'登入':'註冊帳號'}</button></form><button className="member-link" onClick={()=>{setMode(mode==='login'?'signup':'login');setError('');setMessage('')}}>{mode==='login'?'還沒有帳號？立即註冊':'已有帳號？返回登入'}</button>{message&&<p className="member-message">{message}</p>}{error&&<p className="member-error">{error}</p>}</div></div>
   if (!profile) return <div className="member-shell"><div className="member-card"><b>會員資料尚未建立</b><p>{error || '請確認資料庫 migration 已套用，並重新登入。'}</p><button onClick={reload}>重新讀取</button><button onClick={signOut}>登出</button></div></div>
