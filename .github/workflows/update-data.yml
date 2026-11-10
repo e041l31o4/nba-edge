@@ -29,10 +29,11 @@ jobs:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production || [ ! -f public/data/prediction-ledger.json ] || [ ! -f public/data/backtest.json ] || [ ! -f public/data/odds-history.jsonl ]; then
+            echo "Restoring datasets from Supabase because membership mode is enabled or historical public datasets are missing."
             python scripts/restore-private-datasets.py
           else
-            echo "Public mode; using checked-in datasets."
+            echo "Public mode; existing checked-in datasets are present."
           fi
       - name: Install PDF parser for official NBA injury report
         run: pip install pypdf
