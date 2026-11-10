@@ -9,6 +9,7 @@ Supabase Dashboard → SQL Editor → New query，貼上並執行：
 `supabase/migrations/202611100003_private_member_datasets.sql`
 
 這會建立 `member_datasets` 私有資料表及 `get_member_dataset()` RPC。瀏覽器端不能直接讀取資料表；只有登入且通過 `has_active_membership()` 的會員能透過 RPC 讀取資料。
+另外請執行 `supabase/migrations/202611100004_require_transfer_submission.sql`，避免管理員在會員尚未提交匯款資料時誤開通。
 
 ## 2. 設定 GitHub Actions Secret
 
@@ -28,7 +29,11 @@ GitHub → Settings → Secrets and variables → Actions → New repository sec
 
 確認 workflow 成功，且資料已發布到 Supabase `public.member_datasets`。
 
-## 4. 上線前檢查
+## 4. 資料庫狀態檢查
+
+在 Supabase SQL Editor 執行 `supabase/verify-membership-status.sql`，確認管理員 role、八類資料、資料表權限及 RPC 權限。此檢查為唯讀，不會建立訂單或修改資料。
+
+## 5. 上線前檢查
 
 - 以管理員登入 NBA EDGE，確認管理後台可正常使用。
 - 測試一般註冊帳號不能讀取 `get_member_dataset()`，管理員可以。
