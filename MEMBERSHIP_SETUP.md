@@ -39,5 +39,5 @@ GitHub Pages 是靜態網站。僅加登入畫面並不能保護目前放在 pub
 
 ## 尚待帳戶持有人設定
 - Supabase Project URL 與 anon/publishable key（可公開；不可提供 service_role key）。
-- 管理員登入 Email（用來將本人帳號設為永久免費管理員）。
+- 管理員登入 Email：ruoruo0923@yahoo.com.tw（先完成註冊，再執行 supabase/admin-bootstrap.sql 設為永久免費管理員）。
 - 建立 Supabase 專案並套用兩份 migration。
