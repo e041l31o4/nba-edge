@@ -15,12 +15,11 @@ export type PredictionRecord = {
 }
 
 export async function getPredictionRecords(): Promise<PredictionRecord[]> {
-  try {
-    const response = await fetch(`${import.meta.env.BASE_URL}data/prediction-ledger.json?t=${Date.now()}`)
-    if (!response.ok) return []
-    const payload = await response.json()
-    return Array.isArray(payload.records) ? payload.records.filter((x:PredictionRecord)=>x && typeof x.gameId==='string') : []
-  } catch { return [] }
+  const response = await fetch(`${import.meta.env.BASE_URL}data/prediction-ledger.json?t=${Date.now()}`, { cache: 'no-store' })
+  if (!response.ok) throw new Error(`Prediction ledger HTTP ${response.status}`)
+  const payload = await response.json()
+  if (!payload || !Array.isArray(payload.records)) throw new Error('Prediction ledger response is invalid')
+  return payload.records.filter((x:PredictionRecord)=>x && typeof x.gameId==='string')
 }
 
 export function summarizePredictions(records: PredictionRecord[]) {
