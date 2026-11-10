@@ -34,6 +34,10 @@ jobs:
           fi
       - name: Commit backtest metrics
         run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            echo "Membership mode is enabled; backtest was published to Supabase and will not be committed to the public repository."
+            exit 0
+          fi
           if [ -z "$(git status --porcelain)" ]; then echo "No backtest changes"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
