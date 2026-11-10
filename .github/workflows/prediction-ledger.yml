@@ -28,6 +28,17 @@ jobs:
           node-version: 20
       - name: Capture pregame predictions and settle final scores
         run: npx --yes tsx scripts/record-predictions.mts
+      - name: Publish private prediction ledger
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not configured; private dataset publishing is skipped."
+          else
+            python -m pip install --quiet requests
+            python scripts/publish-private-datasets.py
+          fi
       - name: Commit immutable prediction ledger
         run: |
           if [ -z "$(git status --porcelain -- public/data/prediction-ledger.json)" ]; then
