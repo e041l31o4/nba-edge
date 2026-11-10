@@ -4,9 +4,11 @@ import pathlib
 import urllib.request
 
 base = os.environ.get("SUPABASE_URL", "").rstrip("/")
-service_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+service_key = "".join(os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").split())
 if not base or not service_key:
     raise SystemExit("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required")
+if any(ord(ch) < 33 or ord(ch) > 126 for ch in service_key):
+    raise SystemExit("SUPABASE_SERVICE_ROLE_KEY contains invalid characters; re-copy the key from Supabase API Keys without quotes.")
 
 mapping = {
     "odds": "odds.json",
