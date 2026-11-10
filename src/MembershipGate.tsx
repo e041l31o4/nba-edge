@@ -52,7 +52,7 @@ export default function MembershipGate({ children }: { children: ReactNode }) {
     if (!supabase) { setReady(true); return }
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session)
-      void refresh(data.session).catch(e => setError(e.message || '會員資料讀取失敗'))
+      void refresh(data.session).catch(e => { setError(e.message || '會員資料讀取失敗'); setReady(true) })
     })
     const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next)
