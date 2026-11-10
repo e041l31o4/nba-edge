@@ -59,35 +59,35 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
-create or replace function public.is_admin(check_user uuid default auth.uid())
+create or replace function public.is_admin()
 returns boolean
 language sql
 stable
 security definer
 set search_path = ''
-as $$
+as $
   select exists (
     select 1 from public.profiles p
-    where p.id = check_user and p.role = 'admin'
+    where p.id = (select auth.uid()) and p.role = 'admin'
   );
-$$;
+$;
 
-create or replace function public.has_active_membership(check_user uuid default auth.uid())
+create or replace function public.has_active_membership()
 returns boolean
 language sql
 stable
 security definer
 set search_path = ''
-as $$
+as $
   select
-    public.is_admin(check_user)
+    public.is_admin()
     or exists (
       select 1 from public.membership_orders o
-      where o.user_id = check_user
+      where o.user_id = (select auth.uid())
         and o.status = 'paid'
         and o.expires_at > now()
     );
-$$;
+$;
 
 alter table public.profiles enable row level security;
 alter table public.membership_plans enable row level security;
@@ -124,8 +124,8 @@ revoke all on public.membership_plans from anon;
 grant select on public.profiles to authenticated;
 grant select on public.membership_orders to authenticated;
 grant select on public.membership_plans to authenticated;
-grant execute on function public.is_admin(uuid) to authenticated;
-grant execute on function public.has_active_membership(uuid) to authenticated;
+grant execute on function public.is_admin() to authenticated;
+grant execute on function public.has_active_membership() to authenticated;
 
 -- Admin bootstrap is deliberately manual after the owner's first signup:
 -- update public.profiles set role = 'admin' where lower(email) = lower('YOUR_ADMIN_EMAIL');
