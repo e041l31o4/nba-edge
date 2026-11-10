@@ -26,6 +26,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Restore private datasets from Supabase before prediction
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            python scripts/restore-private-datasets.py
+          else
+            echo "Public mode; using checked-in datasets."
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: 20
