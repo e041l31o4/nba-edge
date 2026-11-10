@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/prediction-ledger.yml'
       - 'scripts/record-predictions.mts'
+      - 'scripts/restore-private-datasets.py'
       - 'src/model.ts'
       - 'public/data/team-form.json'
       - 'public/data/injuries.json'
@@ -26,6 +27,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Validate private dataset restore script
+        run: python -m py_compile scripts/restore-private-datasets.py
       - name: Restore private datasets from Supabase before prediction
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
