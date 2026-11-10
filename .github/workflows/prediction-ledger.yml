@@ -43,6 +43,10 @@ jobs:
           fi
       - name: Commit immutable prediction ledger
         run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            echo "Membership mode is enabled; prediction ledger was published to Supabase and will not be committed to the public repository."
+            exit 0
+          fi
           if [ -z "$(git status --porcelain -- public/data/prediction-ledger.json)" ]; then
             echo "No ledger changes"
             exit 0
