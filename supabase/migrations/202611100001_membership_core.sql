@@ -65,12 +65,12 @@ language sql
 stable
 security definer
 set search_path = ''
-as $
+as $$
   select exists (
     select 1 from public.profiles p
     where p.id = (select auth.uid()) and p.role = 'admin'
   );
-$;
+$$;
 
 create or replace function public.has_active_membership()
 returns boolean
@@ -78,7 +78,7 @@ language sql
 stable
 security definer
 set search_path = ''
-as $
+as $$
   select
     public.is_admin()
     or exists (
@@ -87,7 +87,7 @@ as $
         and o.status = 'paid'
         and o.expires_at > now()
     );
-$;
+$$;
 
 alter table public.profiles enable row level security;
 alter table public.membership_plans enable row level security;
