@@ -32,12 +32,18 @@ GitHub Pages 是靜態網站。僅加登入畫面並不能保護目前放在 pub
 5. 管理員按「確認收款並開通」。資料庫核准函式會把訂單標記 paid 並計算到期日。
 6. 會員登入後由資料庫檢查有效期限；到期後拒絕存取付費內容。
 
-## 目前進度
-- 已提交會員資料表、方案、訂單與 RLS 基礎架構。
-- 已新增人工匯款資料欄位、匯款資訊設定、建立訂單／提交匯款資訊／管理員核准的資料庫函式。
-- 前端註冊登入、會員申請頁、管理後台、Supabase 專案連線及付費資料私有化尚未完成；目前網站尚未啟用會員限制。
+## 目前進度（2026-11-10）
+- 會員資料表、方案、訂單、RLS 與人工匯款 RPC 已建立。
+- 前端註冊／登入、會員中心、管理後台已整合。
+- 八類付費資料已移至 Supabase member_datasets，透過 get_member_dataset() 驗證有效會員。
+- GitHub Actions 已設定私有資料同步及還原流程；service_role key 僅存放 GitHub Actions Secret。
+- 公開 Git 歷史中 public/data 路徑已清理；main 與備份分支均已重寫。
+- GitHub Pages 最近一次 Build 與 Deploy 成功。
+- 目前 VITE_MEMBERSHIP_ENABLED=false，仍未正式啟用會員牆或收費。
 
-## 尚待帳戶持有人設定
-- Supabase Project URL 與 anon/publishable key（可公開；不可提供 service_role key）。
-- 管理員登入 Email：ruoruo0923@yahoo.com.tw（先完成註冊，再執行 supabase/admin-bootstrap.sql 設為永久免費管理員）。
-- 建立 Supabase 專案並套用兩份 migration。
+## 尚待實際驗收
+- 管理員 Email ruoruo0923@yahoo.com.tw 必須已註冊，並確認 profiles.role = 'admin'。
+- 以一般未付款帳號測試 get_member_dataset() 必須遭拒。
+- 以已付款會員測試八類資料載入、訂單核准及到期後拒絕存取。
+- 完成驗收前不得把 VITE_MEMBERSHIP_ENABLED 改為 true。
+- 詳細步驟見 MEMBERSHIP_GO_LIVE_CHECKLIST.md。
