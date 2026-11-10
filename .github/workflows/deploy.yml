@@ -25,6 +25,14 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm run build
+      - name: Remove static paid datasets from published site when membership is enabled
+        run: |
+          if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
+            rm -rf dist/data
+            echo "Removed static datasets from the public Pages artifact."
+          else
+            echo "Membership is disabled; public datasets remain available for current site behavior."
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
