@@ -22,6 +22,16 @@ jobs:
           python-version: '3.12'
       - name: Build leak-free historical backtest
         run: python scripts/backtest-model.py
+      - name: Publish private backtest datasets
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not configured; private dataset publishing is skipped."
+          else
+            python scripts/publish-private-datasets.py
+          fi
       - name: Commit backtest metrics
         run: |
           if [ -z "$(git status --porcelain)" ]; then echo "No backtest changes"; exit 0; fi
