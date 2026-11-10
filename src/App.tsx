@@ -59,7 +59,7 @@ function App() {
     })
     return () => { alive = false; authListener.subscription.unsubscribe() }
   }, [])
-  useEffect(() => { void load() }, [date])
+  useEffect(() => { void load() }, [date, membershipActive])
   // 場中比分每 30 秒同步一次；只更新賽程比分，不重新計算或覆寫已封存的賽前預測。
   useEffect(() => {
     let active = true
