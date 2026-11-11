@@ -1,0 +1,30 @@
+name: Inspect Taiwan Sports Lottery official page
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright browser
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Open official event table in a real browser
+        run: python scripts/inspect-official-sportslottery.py
+      - name: Save page inspection files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sportslottery-official-page-inspection
+          path: |
+            sportslottery-probe.png
+            sportslottery-probe.html
+          if-no-files-found: ignore
+          retention-days: 3
