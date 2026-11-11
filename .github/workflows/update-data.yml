@@ -39,8 +39,6 @@ jobs:
         run: pip install pypdf playwright
       - name: Install Chromium for public Taiwan lottery odds page
         run: playwright install --with-deps chromium
-      - name: Refresh team form and NBA official injury report
-        run: python scripts/update-analysis-data.py
       - name: Fetch authorized official feed and preserve timestamped snapshots
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
@@ -124,6 +122,8 @@ jobs:
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: python scripts/refresh-oddslab-taiwan-odds.py
+      - name: Refresh team form and NBA official injury report
+        run: python scripts/update-analysis-data.py
       - name: Report odds source policy
         run: |
           echo "Official Taiwan Sports Lottery feed is preferred when configured."
