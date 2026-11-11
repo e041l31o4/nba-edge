@@ -50,6 +50,27 @@ async def main():
                     scripts = await page.locator("script[src]").evaluate_all("(els) => els.map(x => x.src)")
                     print("IFRAMES=" + repr(frames))
                     print("SCRIPTS=" + repr(scripts))
+                    # Inspect the public runtime API surface without submitting wagers or bypassing access controls.
+                    if "sportslottery.com.tw/zh-tw" in page.url or page.url.rstrip("/") == "https://article.sportslottery.com.tw":
+                        try:
+                            runtime = await page.evaluate("""() => {
+                              const a = window.tslc && window.tslc.apidata;
+                              if (!a) return {available:false};
+                              const out = {available:true, keys:Object.keys(a)};
+                              for (const group of ['preGame','liveGame','basketball','ticket']) {
+                                if (a[group]) {
+                                  out[group] = {};
+                                  for (const [k,v] of Object.entries(a[group])) {
+                                    if (typeof v === 'function') out[group][k] = String(v).slice(0,5000);
+                                  }
+                                }
+                              }
+                              if (typeof a.download === 'function') out.download = String(a.download).slice(0,7000);
+                              return out;
+                            }""")
+                            print("RUNTIME_APIDATA=" + repr(runtime))
+                        except Exception as runtime_exc:
+                            print(f"RUNTIME_APIDATA_ERROR={type(runtime_exc).__name__}: {runtime_exc}")
                     # Inspect only JavaScript already loaded by the official public homepage.
                     # This is passive source inspection; it does not bypass access controls.
                     if "sportslottery.com.tw/zh-tw" in page.url or page.url.rstrip("/") == "https://article.sportslottery.com.tw":
