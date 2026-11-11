@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Activity, ArrowDownRight, ArrowUpRight, CircleAlert, ShieldCheck } from 'lucide-react'
-import type { Game, OddsRecord } from './lib'
+import type { Game, OddsRecord, OddsSnapshot } from './lib'
 import PlayerInjuryRow from './PlayerInjuryRow'
 import { analyzeMatch, coverProbability, totalProbability, decimalImpliedProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type RosterData, type TeamMetricsData, type ProbabilityCalibrator } from './model'
 
