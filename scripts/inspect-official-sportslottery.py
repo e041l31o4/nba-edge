@@ -89,9 +89,10 @@ async def main():
                         for script_url in scripts:
                             if "sportslottery.com.tw" not in script_url:
                                 continue
-                            # The basketball data methods live in the official Defines bundle.
-                            # Skip unrelated layout, analytics and chat bundles to keep this probe fast.
-                            if "GetAll.min.js" not in script_url and "GetScripts." not in script_url and "shared-layout.min.js" not in script_url:
+                            # Inspect first-party application bundles from the public official homepage.
+                            # Skip common vendor/analytics assets; do not navigate around access controls.
+                            lowered_url = script_url.lower()
+                            if any(name in lowered_url for name in ("jquery", "bootstrap", "gtag", "analytics", "chat", "recaptcha")):
                                 continue
                             try:
                                 script_response = await page.request.get(script_url, timeout=15000)
@@ -116,7 +117,7 @@ async def main():
                                         start = pos + len(needle)
                                         shown += 1
                                 # Locate application call sites to identify official sport IDs and arguments.
-                                for needle in ("getListBySport(", "preGame.get(", "preGame.getListByLeague(", "apidata.preGame"):
+                                for needle in ("getListBySport(", "preGame.get(", "preGame.getListByLeague(", "apidata.preGame", "Pre/ListByLeague/", "Pre/ListBySport/", "NBA", "sportId"):
                                     start = 0
                                     shown = 0
                                     while shown < 8:
