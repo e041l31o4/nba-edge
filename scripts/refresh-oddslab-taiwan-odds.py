@@ -15,29 +15,32 @@ TAIPEI = ZoneInfo("Asia/Taipei")
 TEAM_LABELS = ["公鹿", "尼克", "塞爾提克", "76人", "快艇", "太陽", "熱火", "爵士", "魔術", "國王", "雷霆", "拓荒者"]
 
 def fetch_espn_games(taipei_date: dt.date):
-    us_date = (taipei_date - dt.timedelta(days=1)).strftime("%Y%m%d")
-    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={us_date}"
-    req = urllib.request.Request(url, headers={"User-Agent": "NBA-EDGE/1.0", "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=25) as response:
-        data = json.load(response)
+    # The source page uses Taiwan calendar dates; ESPN indexes games by US event date.
+    # Query adjacent US dates and match by both team abbreviations, not by date alone.
     result = {}
-    for event in data.get("events", []):
-        comp = (event.get("competitions") or [{}])[0]
-        competitors = comp.get("competitors") or []
-        home = next((x for x in competitors if x.get("homeAway") == "home"), None)
-        away = next((x for x in competitors if x.get("homeAway") == "away"), None)
-        if not home or not away:
-            continue
-        hteam, ateam = home.get("team") or {}, away.get("team") or {}
-        habbr, aabbr = hteam.get("abbreviation"), ateam.get("abbreviation")
-        if not habbr or not aabbr:
-            continue
-        result[(aabbr, habbr)] = {
-            "id": str(event.get("id") or ""),
-            "commence_time": event.get("date"),
-            "home_team": hteam.get("name") or hteam.get("displayName"),
-            "away_team": ateam.get("name") or ateam.get("displayName"),
-        }
+    for offset in (-1, 0, 1):
+        us_date = (taipei_date + dt.timedelta(days=offset)).strftime("%Y%m%d")
+        url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates={us_date}"
+        req = urllib.request.Request(url, headers={"User-Agent": "NBA-EDGE/1.0", "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=25) as response:
+            data = json.load(response)
+        for event in data.get("events", []):
+            comp = (event.get("competitions") or [{}])[0]
+            competitors = comp.get("competitors") or []
+            home = next((x for x in competitors if x.get("homeAway") == "home"), None)
+            away = next((x for x in competitors if x.get("homeAway") == "away"), None)
+            if not home or not away:
+                continue
+            hteam, ateam = home.get("team") or {}, away.get("team") or {}
+            habbr, aabbr = hteam.get("abbreviation"), ateam.get("abbreviation")
+            if not habbr or not aabbr:
+                continue
+            result[(aabbr, habbr)] = {
+                "id": str(event.get("id") or ""),
+                "commence_time": event.get("date"),
+                "home_team": hteam.get("name") or hteam.get("displayName"),
+                "away_team": ateam.get("name") or ateam.get("displayName"),
+            }
     return result
 
 async def scrape_page(date_text: str):
