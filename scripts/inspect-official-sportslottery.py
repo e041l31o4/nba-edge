@@ -65,7 +65,11 @@ async def main():
                                   }
                                 }
                               }
-                              if (typeof a.download === 'function') out.download = String(a.download).slice(0,7000);
+                              for (const key of ['download','_download','_apiDownload','_blobDownload','restoreJson']) {
+                                if (typeof a[key] === 'function') out[key] = String(a[key]).slice(0,9000);
+                              }
+                              out.blobUrl = a.blobUrl;
+                              out.jsonDataKeys = a.jsonData && typeof a.jsonData === 'object' ? Object.keys(a.jsonData).slice(0,100) : typeof a.jsonData;
                               return out;
                             }""")
                             print("RUNTIME_APIDATA=" + repr(runtime))
@@ -101,6 +105,19 @@ async def main():
                                         left = max(0, pos - 1800)
                                         right = min(len(script_text), pos + 4200)
                                         print(f"JS_METHOD_CONTEXT {script_url} {needle} @{pos}=" + script_text[left:right])
+                                        start = pos + len(needle)
+                                        shown += 1
+                                # Locate application call sites to identify official sport IDs and arguments.
+                                for needle in ("getListBySport(", "preGame.get(", "preGame.getListByLeague(", "apidata.preGame"):
+                                    start = 0
+                                    shown = 0
+                                    while shown < 8:
+                                        pos = script_text.find(needle, start)
+                                        if pos < 0:
+                                            break
+                                        left = max(0, pos - 1600)
+                                        right = min(len(script_text), pos + 2600)
+                                        print(f"JS_CALLSITE {script_url} {needle} @{pos}=" + script_text[left:right])
                                         start = pos + len(needle)
                                         shown += 1
                             except Exception as script_exc:
