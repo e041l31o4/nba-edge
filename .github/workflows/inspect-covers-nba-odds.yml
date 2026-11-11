@@ -1,0 +1,34 @@
+name: Inspect public NBA odds source
+on:
+  push:
+    paths:
+      - 'scripts/inspect-covers-nba-odds.py'
+      - '.github/workflows/inspect-covers-nba-odds.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright browser
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Inspect publicly rendered NBA odds and data requests
+        run: python scripts/inspect-covers-nba-odds.py
+      - name: Save inspection artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: covers-nba-odds-inspection
+          path: |
+            covers-nba-odds.html
+            covers-nba-odds-inspection.json
+          if-no-files-found: ignore
+          retention-days: 3
