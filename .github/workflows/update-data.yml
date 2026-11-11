@@ -135,15 +135,15 @@ jobs:
         run: |
           if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
             echo "Membership mode is enabled; removing current public dataset files after successful Supabase publishing."
-            if [ -d public/data ]; then
-              git rm -r -f public/data
+            if [ -n "$(git ls-files public/data)" ]; then
+              git rm -r -f --ignore-unmatch public/data
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git commit -m "chore: remove paid datasets from public repository"
               git pull --rebase -X theirs origin main
               git push
             else
-              echo "Public dataset directory is already absent."
+              echo "No tracked public dataset files to remove."
             fi
             exit 0
           fi
