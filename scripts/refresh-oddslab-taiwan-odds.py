@@ -132,10 +132,6 @@ async def main():
     if not cards:
         raise RuntimeError("No game cards found; keeping the last valid odds dataset.")
     espn = fetch_espn_games(today)
-    print(json.dumps({
-        "debug_odds_cards": [{"id": card.get("id"), "teams": [x.get("abbreviation") for x in card.get("teams", [])]} for card in cards],
-        "debug_espn_fixtures": [{"away": pair[0], "home": pair[1], "id": value.get("id"), "start": value.get("commence_time")} for pair, value in espn.items()],
-    }, ensure_ascii=False))
     games, snapshots, unmatched = [], [], []
     now = dt.datetime.now(dt.timezone.utc)
     for card in cards:
