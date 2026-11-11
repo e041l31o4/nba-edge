@@ -78,6 +78,17 @@ async def main():
                                 homePage_nonMember: a.homePage_nonMember,
                                 homePage_member: a.homePage_member
                               };
+                              const decoder = window._0xbfd83e;
+                              out.decoderAvailable = typeof decoder === 'function';
+                              if (typeof decoder === 'function') {
+                                const pairs = [
+                                  [0x49d,'QI5&'],[0x56a,'kN7%'],[0x53c,'Rz]o'],[0x2a2,'qnVd'],[0x419,'Cg(c'],
+                                  [0x20d,'qnVd'],[0x2ee,'TQnK'],[0x4ca,'Ii4a'],[0x3f0,'U]iz'],
+                                  [0x2d8,'9oI4'],[0x300,'8glf'],[0x206,'8Bln'],[0x59f,'wcFC'],
+                                  [0x2f6,'P#kR'],[0x1ce,'2JmO'],[0x1da,'djGT'],[0x597,'cS^8']
+                                ];
+                                out.decodedPreGame = pairs.map(([n,k]) => [n,k,decoder(n,k)]);
+                              }
                               return out;
                             }""")
                             print("RUNTIME_APIDATA=" + repr(runtime))
