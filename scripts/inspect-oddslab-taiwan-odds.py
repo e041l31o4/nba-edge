@@ -46,6 +46,33 @@ async def main():
             })).filter(x => x.text)
           }))
         }))""")
+        parsed_games = await page.locator("a.card").evaluate_all("""cards => cards.map(card => {
+          const rows = [...(card.querySelector("div.space-y-1\\\\.5")?.children || [])];
+          const teams = rows.map(row => ({
+            abbreviation: row.querySelector(".figure-text")?.innerText?.trim() || "",
+            name: row.querySelector("[title]")?.innerText?.trim() || "",
+            fullName: row.querySelector("[title]")?.getAttribute("title") || ""
+          })).filter(x => x.abbreviation && x.name);
+          const markets = {};
+          for (const block of card.querySelectorAll("div.flex.items-start.gap-3")) {
+            const label = block.querySelector("span.w-12")?.innerText?.trim() || "";
+            const key = label.includes("不讓分") ? "h2h" : label.includes("讓分") ? "spreads" : label.includes("大小") ? "totals" : "";
+            if (!key) continue;
+            const options = [...block.querySelectorAll("span.flex.min-w-0.items-baseline.justify-between")].map(option => {
+              const outcome = option.querySelector("span.truncate")?.innerText?.trim() || "";
+              const priceText = option.querySelector(".figure-text")?.innerText?.trim() || "";
+              const price = Number(priceText);
+              return { outcome, price: Number.isFinite(price) && price > 1 ? price : null };
+            }).filter(x => x.outcome && x.price !== null);
+            markets[key] = options;
+          }
+          return {
+            id: (card.getAttribute("href") || "").split("/").pop() || "",
+            teams,
+            markets,
+            text: (card.innerText || "").trim().slice(0, 1200)
+          };
+        })""")
         lines = [x.strip() for x in body.splitlines() if x.strip()]
         checks = {
             "http_200": bool(response and response.status == 200),
@@ -66,13 +93,14 @@ async def main():
             "body_preview": body[:24000],
             "html_preview": html[:12000],
             "card_candidates": card_candidates,
-            "game_cards": game_cards
+            "game_cards": game_cards,
+            "parsed_games": parsed_games
         }
         Path("oddslab-taiwan-odds-inspection.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         print("HTTP_STATUS", result["status"])
         print("TITLE", result["title"])
         print("VALIDATION", json.dumps(checks, ensure_ascii=False))
-        print("GAME_CARDS", json.dumps(game_cards, ensure_ascii=False)[:28000])
+        print("PARSED_GAMES", json.dumps(parsed_games, ensure_ascii=False)[:18000])
         print("PAGE_LINES_BEGIN")
         print("\\n".join(lines[:180]))
         print("PAGE_LINES_END")
