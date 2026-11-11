@@ -58,7 +58,7 @@ async def main():
                                 continue
                             # The basketball data methods live in the official Defines bundle.
                             # Skip unrelated layout, analytics and chat bundles to keep this probe fast.
-                            if "GetAll.min.js" not in script_url and "GetScripts." not in script_url:
+                            if "GetAll.min.js" not in script_url and "GetScripts." not in script_url and "shared-layout.min.js" not in script_url:
                                 continue
                             try:
                                 script_response = await page.request.get(script_url, timeout=15000)
@@ -70,7 +70,7 @@ async def main():
                                 if matches:
                                     print(f"JS_ENDPOINT_CANDIDATES {script_url}=" + repr(matches[:120]))
                                 # Print source context around official basketball data methods.
-                                for needle in (".getBasketballForm", ".getBasketballLi", "GetBasketballForm", "GetBasketballLi", "PreGame.Basketball"):
+                                for needle in (".getBasketballForm", ".getBasketballLi", "GetBasketballForm", "GetBasketballLi", "PreGame.Basketball", "Basketball/Form", "oddsMode"):
                                     start = 0
                                     shown = 0
                                     while shown < 5:
