@@ -70,15 +70,15 @@ async def main():
                                 if matches:
                                     print(f"JS_ENDPOINT_CANDIDATES {script_url}=" + repr(matches[:120]))
                                 # Print source context around official basketball data methods.
-                                for needle in (".getBasketballForm", ".getBasketballLi", "GetBasketballForm", "GetBasketballLi", "PreGame.Basketball", "Basketball/Form", "oddsMode"):
+                                for needle in (".getBasketballForm", ".getBasketballLi", "GetBasketballForm", "GetBasketballLi", "PreGame.Basketball", "Basketball/Form", "oddsMode", "getListBySport", "apidata.download", "preGame", "download:function"):
                                     start = 0
                                     shown = 0
                                     while shown < 5:
                                         pos = script_text.lower().find(needle.lower(), start)
                                         if pos < 0:
                                             break
-                                        left = max(0, pos - 700)
-                                        right = min(len(script_text), pos + 1400)
+                                        left = max(0, pos - 1800)
+                                        right = min(len(script_text), pos + 4200)
                                         print(f"JS_METHOD_CONTEXT {script_url} {needle} @{pos}=" + script_text[left:right])
                                         start = pos + len(needle)
                                         shown += 1
