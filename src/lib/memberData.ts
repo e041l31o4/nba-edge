@@ -12,5 +12,9 @@ export async function loadDataset<T>(key: string, publicFile: string): Promise<T
 
   const response = await fetch(`${import.meta.env.BASE_URL}data/${publicFile}?t=${Date.now()}`, { cache: 'no-store' })
   if (!response.ok) return null
+  if (publicFile.endsWith('.jsonl')) {
+    const raw = await response.text()
+    return raw.split(/\\r?\\n/).filter(line => line.trim()).map(line => JSON.parse(line)) as T
+  }
   return response.json() as Promise<T>
 }
