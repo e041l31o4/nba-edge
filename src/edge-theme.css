@@ -604,3 +604,136 @@ footer:before{background:#2463eb!important}
  .matchup-head:after{animation:none!important}
  .analysis-panel,.odds-line,.model-line{transition:none!important}
 }
+
+
+/* Match center broadcast cards — CSS only */
+.game-grid{align-items:stretch;gap:17px!important}
+.game-card{
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:228px!important;text-align:initial!important;
+  border-radius:15px!important;
+  background:
+    radial-gradient(ellipse at 50% 36%,#f3f7ff 0,transparent 57%),
+    linear-gradient(180deg,#fff 0%,#fff 100%)!important;
+  box-shadow:0 4px 16px #1b35500b!important;
+}
+.game-card:before{
+  height:3px!important;
+  background:linear-gradient(90deg,#2463eb 0%,#6d9af4 48%,#ed8a35 100%)!important;
+  transform-origin:left;transition:transform .35s ease;
+}
+.game-card:hover:before{transform:scaleX(1)}
+.game-card:focus-visible{outline:3px solid #2463eb55!important;outline-offset:3px}
+.game-top{
+  min-height:29px!important;padding-bottom:10px!important;
+  border-bottom:1px solid #edf1f6!important;
+  font-size:10px!important;letter-spacing:.02em;
+}
+.game-top>span:last-child{font-variant-numeric:tabular-nums;color:#8795a7!important}
+.game-state{font-weight:800!important;letter-spacing:.07em!important}
+.game-state.done{background:#f0f3f7!important;color:#7d8a9a!important}
+.game-state.live{background:#fff0ed!important;color:#c94c3d!important}
+.teams{flex:1;align-items:center!important}
+.team-line{min-width:0}
+.team-line>div{min-width:0}
+.team-line small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.versus{font-weight:850!important;letter-spacing:.08em}
+.versus .final-score{
+  padding:7px 9px;border:1px solid #e7edf5;border-radius:9px;
+  background:#fff;box-shadow:0 2px 7px #1b35500a;
+}
+.versus .final-score b{font-size:20px!important}
+.live-score{color:#d65b35!important}
+.game-prediction-summary{
+  margin-top:auto!important;padding-top:12px!important;
+  border-top:1px solid #edf1f6!important;
+}
+.game-prediction-summary>div{
+  min-height:75px;display:flex;flex-direction:column;justify-content:center;
+  gap:4px!important;padding:10px 12px!important;
+  background:#f8fafd!important;border:1px solid #e7edf5!important;
+  border-radius:10px!important;
+}
+.game-prediction-summary .pick-team-cell{
+  background:linear-gradient(145deg,#f0f5ff,#f8faff)!important;
+  border-color:#dfe9fa!important;
+}
+.game-prediction-summary small{
+  font-size:9px!important;font-weight:700;letter-spacing:.045em;
+}
+.game-prediction-summary b{font-size:13px!important}
+.game-prediction-summary strong{
+  font-size:21px!important;line-height:1.1!important;
+  font-variant-numeric:tabular-nums;
+}
+.game-prediction-summary em{font-size:9px!important;font-style:normal}
+.game-card.prediction-unverified .game-prediction-summary{
+  opacity:.9;
+}
+.analysis-list{
+  overflow:hidden;border-radius:14px!important;
+}
+.analysis-row{
+  min-height:76px!important;padding:15px 18px!important;
+  display:grid!important;grid-template-columns:minmax(120px,.75fr) minmax(0,1.4fr) minmax(120px,.8fr);
+  align-items:center;gap:12px!important;
+  transition:background .2s ease,padding .2s ease!important;
+}
+.analysis-row:hover{padding-left:22px!important}
+.analysis-row>span:first-child{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:max-content;min-width:95px;padding:7px 9px;
+  border-radius:7px;background:#edf4ff;color:#315f9f!important;
+  font-size:10px;font-weight:800;letter-spacing:.04em;
+}
+.analysis-row>b{font-size:13px!important}
+.analysis-row>span:last-child{
+  display:flex;align-items:center;justify-content:flex-end;gap:7px;
+  font-size:10px!important;
+}
+.toolbar{
+  position:relative;padding:15px 0 17px!important;
+  border-bottom:1px solid #e5ebf2!important;
+}
+.date-nav{
+  box-shadow:0 2px 8px #1b355008!important;
+}
+.tabs{gap:3px!important}
+.tabs button{font-weight:700!important;letter-spacing:.01em}
+.section-heading{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+  padding:27px 0 15px!important;
+}
+.section-heading h2{letter-spacing:-.035em!important}
+.section-heading .legend{
+  display:flex;flex-wrap:wrap;gap:10px 13px;justify-content:flex-end;
+  font-size:10px!important;
+}
+.ticker{
+  display:flex;align-items:center;gap:13px!important;
+  padding:9px 14px!important;overflow:hidden;
+}
+.ticker-label{font-size:9px!important;font-weight:850;letter-spacing:.09em}
+.ticker>span{font-size:10px!important;white-space:nowrap}
+@media(max-width:760px){
+ .game-grid{gap:12px!important}
+ .game-card{min-height:214px!important}
+ .analysis-row{grid-template-columns:1fr auto!important;gap:6px 10px!important}
+ .analysis-row>b{grid-column:1/-1;grid-row:2}
+ .analysis-row>span:last-child{grid-column:2;grid-row:1}
+}
+@media(max-width:520px){
+ .ticker{gap:8px!important;flex-wrap:wrap;padding:9px 11px!important}
+ .ticker-label{width:100%}
+ .ticker>span{font-size:9px!important}
+ .section-heading{align-items:flex-start!important;flex-direction:column}
+ .section-heading .legend{justify-content:flex-start}
+ .date-nav{flex-wrap:wrap;gap:7px}
+ .tabs{width:100%;overflow-x:auto;white-space:nowrap}
+ .tabs button{flex:0 0 auto}
+ .game-card{min-height:205px!important;padding:14px!important}
+ .game-prediction-summary>div{min-height:69px;padding:9px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .game-card:before,.analysis-row{transition:none!important}
+}
