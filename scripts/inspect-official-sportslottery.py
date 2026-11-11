@@ -65,6 +65,19 @@ async def main():
                                 matches = sorted(set(re.findall(r"""[^"'\\s]{0,100}(?:apidata|sportsbook|coupon|odds|basketball)[^"'\\s]{0,160}""", script_text, re.I)))
                                 if matches:
                                     print(f"JS_ENDPOINT_CANDIDATES {script_url}=" + repr(matches[:120]))
+                                # Print source context around official basketball data methods.
+                                for needle in (".getBasketballForm", ".getBasketballLi", "GetBasketballForm", "GetBasketballLi", "PreGame.Basketball"):
+                                    start = 0
+                                    shown = 0
+                                    while shown < 5:
+                                        pos = script_text.lower().find(needle.lower(), start)
+                                        if pos < 0:
+                                            break
+                                        left = max(0, pos - 700)
+                                        right = min(len(script_text), pos + 1400)
+                                        print(f"JS_METHOD_CONTEXT {script_url} {needle} @{pos}=" + script_text[left:right])
+                                        start = pos + len(needle)
+                                        shown += 1
                             except Exception as script_exc:
                                 print(f"JS_INSPECT_ERROR {script_url}: {type(script_exc).__name__}: {script_exc}")
                     print("NETWORK_REQUESTS=" + repr(requests_seen[-150:]))
