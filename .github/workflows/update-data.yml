@@ -42,17 +42,18 @@ jobs:
       - name: Fetch authorized official feed and preserve timestamped snapshots
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
-          SPORTSLOTTERY_API_TOKEN: ${{ secrets.SPORTSLOTTERY_API_TOKEN }}
         run: |
           python - <<'PY'
-          import os, json, urllib.request, datetime, pathlib, sys
+          import os, json, urllib.request, urllib.parse, datetime, pathlib, sys
           feed = os.getenv('SPORTSLOTTERY_FEED_URL', '').strip()
           if not feed:
               print('No documented/authorized official feed configured; safely skipping.')
               sys.exit(0)
-          headers = {'Accept': 'application/json', 'User-Agent': 'NBA-EDGE-data-client/1.0'}
-          token = os.getenv('SPORTSLOTTERY_API_TOKEN', '').strip()
-          if token: headers['Authorization'] = 'Bearer ' + token
+          parsed = urllib.parse.urlparse(feed)
+          host = (parsed.hostname or '').lower()
+          if parsed.scheme != 'https' or not (host == 'sportslottery.com.tw' or host.endswith('.sportslottery.com.tw')):
+              raise SystemExit('Blocked non-official source: only HTTPS *.sportslottery.com.tw domains are allowed.')
+          headers = {'Accept': 'application/json', 'User-Agent': 'NBA-EDGE-public-official-site-reader/1.0'}
           req = urllib.request.Request(feed, headers=headers)
           with urllib.request.urlopen(req, timeout=30) as response: payload = json.load(response)
           if not isinstance(payload, dict) or not isinstance(payload.get('games'), list):
