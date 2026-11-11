@@ -356,3 +356,77 @@ footer:before{background:#2463eb!important}
 @keyframes intro-exit{to{opacity:0;visibility:hidden;pointer-events:none}}
 @media(max-width:600px){.intro-arena{inset:20% -28%;}.intro-ball{width:60px;height:60px}.intro-skip{right:16px;bottom:18px}}
 @media(prefers-reduced-motion:reduce){.arena-intro{animation:intro-exit .01s linear .01s forwards}.intro-arena,.intro-lights,.intro-ball,.intro-copy{animation:none!important;opacity:1;transform:none}}
+
+
+/* Layout correction: keep the daily game counter on one clean, readable stack */
+.hero .hero-stat{
+  width:178px;min-width:0;min-height:104px;padding:13px 16px 12px!important;
+  display:grid;grid-template-columns:1fr;align-content:center;justify-items:start;
+  gap:2px;right:0;bottom:24px;box-sizing:border-box;overflow:hidden;
+}
+.hero .hero-stat span{font-size:10px;line-height:1.35;white-space:nowrap;letter-spacing:.02em}
+.hero .hero-stat strong{font-size:34px!important;line-height:1.05!important;letter-spacing:-.045em;white-space:nowrap;margin:1px 0 3px!important;font-variant-numeric:tabular-nums}
+.hero .hero-stat small{font-size:8px!important;line-height:1.35;letter-spacing:1px!important;white-space:nowrap;max-width:100%}
+.hero-visual{overflow:visible}
+@media(max-width:760px){
+ .hero .hero-stat{width:142px;min-height:82px;padding:9px 11px!important;right:0;bottom:12px}
+ .hero .hero-stat strong{font-size:27px!important}
+ .hero .hero-stat small{font-size:7px!important;letter-spacing:.55px!important}
+}
+@media(max-width:520px){
+ .hero .hero-stat{width:126px;min-height:75px;right:0;bottom:5px}
+ .hero .hero-stat span{font-size:9px}
+ .hero .hero-stat strong{font-size:25px!important}
+ .hero .hero-stat small{font-size:6.5px!important;letter-spacing:.3px!important}
+}
+
+/* Match center: make every matchup read like a compact broadcast graphic */
+.game-card{isolation:isolate;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s!important}
+.game-card:after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% 34%,#edf4ff 0,transparent 48%);opacity:0;transition:opacity .3s}
+.game-card:hover:after{opacity:.8}
+.game-top{align-items:center;gap:8px;min-height:25px;padding-bottom:12px}
+.game-state{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:5px 9px;font-size:9px;letter-spacing:.035em}
+.game-state.live:before{content:"";width:6px;height:6px;border-radius:50%;background:#e14d43;box-shadow:0 0 0 3px #e14d4320;animation:edge-live-dot 1.5s ease infinite}
+.teams{grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);gap:5px;padding:22px 0 19px}
+.team-line{gap:10px}
+.team-line img,.team-placeholder{width:44px;height:44px;flex:0 0 44px;border-radius:50%;padding:5px;background:linear-gradient(145deg,#f7faff,#eaf0f8);box-shadow:0 3px 9px #243b5b12;transition:transform .3s,box-shadow .3s}
+.team-line b{font-size:15px;letter-spacing:.015em}
+.team-line small{font-size:9px;max-width:112px}
+.game-card:hover .team-line img{transform:scale(1.09) rotate(-5deg);box-shadow:0 5px 13px #2463eb20}
+.versus{position:relative;display:grid;place-items:center;min-height:42px}
+.versus:not(:has(.final-score)){font-size:11px;color:#9aa8ba}
+.versus:not(:has(.final-score)):before{content:"";position:absolute;width:36px;height:36px;border:1px solid #dce6f5;border-radius:50%;background:linear-gradient(145deg,#fff,#f0f5fc);z-index:-1}
+.versus .final-score{display:flex;justify-content:center;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.versus .final-score b{font-size:19px;font-weight:850}
+.game-prediction-summary{gap:9px;padding-top:13px}
+.game-prediction-summary>div{padding:11px 12px;transition:transform .25s,border-color .25s,background .25s}
+.game-card:hover .game-prediction-summary>div{transform:translateY(-2px)}
+.game-prediction-summary small{font-size:9px;letter-spacing:.025em}
+.game-prediction-summary b{font-size:12px}
+.game-prediction-summary strong{font-size:19px!important;letter-spacing:-.025em}
+.game-prediction-summary em{font-size:9px}
+.analysis-panel,.analysis-detail,.source-panel{position:relative;overflow:hidden}
+.analysis-panel:before,.analysis-detail:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#2463eb,#ed8a35)}
+.win-prob-card{overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}
+.win-prob-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px #1b355012}
+.prob-track{height:9px!important;border-radius:20px!important;overflow:hidden}
+.prob-track i{border-radius:20px!important;position:relative}
+.prob-track i:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff65,transparent);transform:translateX(-100%);animation:edge-prob-shine 3.8s ease-in-out infinite}
+@keyframes edge-prob-shine{55%,100%{transform:translateX(110%)}}
+@keyframes edge-live-dot{50%{box-shadow:0 0 0 6px #e14d4310;opacity:.65}}
+@media(max-width:900px){.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){
+ .game-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .game-card{padding:16px!important}
+ .teams{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);padding:18px 0 15px}
+ .team-line img,.team-placeholder{width:39px;height:39px;flex-basis:39px}
+ .team-line{gap:7px}
+ .team-line b{font-size:13px}
+ .team-line small{max-width:90px;font-size:8px}
+ .versus .final-score b{font-size:17px}
+ .game-prediction-summary>div{padding:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .game-card,.team-line img,.game-prediction-summary>div,.win-prob-card{transition:none!important}
+ .game-state.live:before,.prob-track i:after{animation:none!important}
+}
