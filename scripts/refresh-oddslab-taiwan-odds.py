@@ -72,7 +72,7 @@ async def scrape_page(date_text: str):
         await browser.close()
     if "運彩" not in body or not cards:
         raise RuntimeError("OddsLab page did not contain the expected public Taiwan lottery game cards.")
-    updated = re.search(r"賠率更新\\s*(\\d{1,2}/\\d{1,2}\\s+\\d{1,2}:\\d{2})", body)
+    updated = re.search(r"賠率更新\s*(\d{1,2}/\d{1,2}\s+\d{1,2}:\d{2})", body)
     return cards, updated.group(1) if updated else None
 
 def valid_price(value):
@@ -99,7 +99,7 @@ def parse_market_options(card, key, away_name, home_name, away_label, home_label
                 continue
             out.append({"name": name, "price": price})
         elif key == "spreads":
-            m = re.match(r"^(.*?)\\s*([+＋−-])\\s*(\\d+(?:\\.\\d+)?)$", label)
+            m = re.match(r"^(.*?)\s*([+＋−-])\s*(\d+(?:\.\d+)?)$", label)
             if not m:
                 continue
             team_label, sign, number = m.groups()
@@ -112,7 +112,7 @@ def parse_market_options(card, key, away_name, home_name, away_label, home_label
             point = float(number) * (-1 if sign in ("−", "-") else 1)
             out.append({"name": name, "price": price, "point": point})
         elif key == "totals":
-            m = re.match(r"^(大|小)\\s*(\\d+(?:\\.\\d+)?)$", label)
+            m = re.match(r"^(.*?)\s*([+＋−-])\s*(\d+(?:\.\d+)?)$", label)
             if not m:
                 continue
             side, number = m.groups()
@@ -178,7 +178,7 @@ async def main():
     odds_path.write_text(json.dumps(record, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     with history_path.open("a", encoding="utf-8") as f:
         for row in snapshots:
-            f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\\n")
+            f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
     print(json.dumps({
         "source": SOURCE,
         "page_updated_at": source_updated,
