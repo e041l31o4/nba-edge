@@ -1,8 +1,8 @@
-import asyncio, json, re
+import asyncio, json, re\nfrom datetime import datetime\nfrom zoneinfo import ZoneInfo
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-URL = "https://oddslab-taiwan.com/games?date=2026-11-11"
+TAIPEI_DATE = datetime.now(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d")\nURL = f"https://oddslab-taiwan.com/games?date={TAIPEI_DATE}"
 REQUIRED_TEAMS = ["公鹿", "尼克", "塞爾提克", "76人", "快艇", "太陽", "熱火", "爵士", "魔術", "國王", "雷霆", "拓荒者"]
 
 async def main():
