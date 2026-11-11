@@ -1,0 +1,32 @@
+name: Inspect Bookmakers Market NBA odds
+on:
+  push:
+    paths:
+      - 'scripts/inspect-bookmakers-nba-odds.py'
+      - '.github/workflows/inspect-bookmakers-nba-odds.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright browser
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Inspect public NBA moneyline, spread and totals
+        run: python scripts/inspect-bookmakers-nba-odds.py
+      - name: Save inspection result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bookmakers-nba-odds-inspection
+          path: bookmakers-nba-odds-inspection.json
+          if-no-files-found: ignore
+          retention-days: 3
