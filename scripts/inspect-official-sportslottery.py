@@ -22,6 +22,10 @@ async def main():
         )
         try:
             for index, url in enumerate(URLS, start=1):
+                requests_seen = []
+                responses_seen = []
+                page.on("request", lambda req, bucket=requests_seen: bucket.append((req.method, req.url, req.resource_type)))
+                page.on("response", lambda res, bucket=responses_seen: bucket.append((res.status, res.url)))
                 print(f"===== TARGET {index}: {url} =====")
                 try:
                     response = await page.goto(url, wait_until="domcontentloaded", timeout=45000)
@@ -43,7 +47,11 @@ async def main():
                     for item in links:
                         print(f"LINK\t{item['text']}\t{item['href']}")
                     frames = await page.locator("iframe").evaluate_all("(els) => els.map(x => x.src)")
+                    scripts = await page.locator("script[src]").evaluate_all("(els) => els.map(x => x.src)")
                     print("IFRAMES=" + repr(frames))
+                    print("SCRIPTS=" + repr(scripts))
+                    print("NETWORK_REQUESTS=" + repr(requests_seen[-150:]))
+                    print("NETWORK_RESPONSES=" + repr(responses_seen[-150:]))
                     Path(f"sportslottery-probe-{index}.html").write_text(await page.content(), encoding="utf-8")
                     await page.screenshot(path=f"sportslottery-probe-{index}.png", full_page=True)
                     results.append((url, status, title))
