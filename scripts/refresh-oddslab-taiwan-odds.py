@@ -115,7 +115,7 @@ def parse_market_options(card, key, away_name, home_name, away_label, home_label
             point = float(number) * (-1 if sign in ("−", "-") else 1)
             out.append({"name": name, "price": price, "point": point})
         elif key == "totals":
-            m = re.match(r"^(.*?)\s*([+＋−-])\s*(\d+(?:\.\d+)?)$", label)
+            m = re.match(r"^(大|小)\s*(\d+(?:\.\d+)?)$", label)
             if not m:
                 continue
             side, number = m.groups()
