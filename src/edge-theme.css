@@ -141,3 +141,66 @@ footer:before{background:#2463eb!important}
 .data-check{color:#7b8999!important}.data-check b{color:#26384d!important}
 @media(max-width:800px){.hero{padding:28px 24px!important}}
 @media(max-width:540px){main{padding:0 15px}.hero{margin:16px 0 13px!important;padding:24px 18px!important}.game-card{padding:16px 14px!important}}
+
+
+/* Basketball identity + restrained motion */
+.hero-visual{
+  position:relative;isolation:isolate;
+  background:
+    radial-gradient(circle at 52% 48%,transparent 0 66px,#2463eb12 67px 68px,transparent 69px),
+    linear-gradient(90deg,transparent 49.8%,#2463eb10 50%,transparent 50.2%);
+  border-radius:14px;
+}
+.hero-visual:before{
+  content:"";position:absolute;inset:7% 4%;
+  border:1px solid #2463eb12;border-radius:48% 48% 8px 8px;
+  background:
+    radial-gradient(ellipse at 50% 100%,transparent 0 31%,#2463eb10 31.2% 31.6%,transparent 31.8%),
+    linear-gradient(90deg,transparent 49.7%,#2463eb0c 50%,transparent 50.3%);
+  pointer-events:none;z-index:-1;
+}
+.hero-ball{
+  font-size:0!important;opacity:1!important;
+  width:88px;height:88px;display:grid;place-items:center;
+  border-radius:50%;
+  filter:drop-shadow(0 10px 12px #1d4ed822);
+  animation:edge-ball-bounce 3.2s ease-in-out infinite;
+  transform-origin:50% 85%;
+}
+.hero-ball:before{
+  content:"🏀";font-size:72px;line-height:1;
+  display:block;animation:edge-ball-spin 7s linear infinite;
+}
+.hero-orbit{animation:edge-orbit-turn 28s linear infinite}
+.hero-orbit.orbit-two{animation-direction:reverse;animation-duration:36s}
+.game-card{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease!important}
+.game-state.live{
+  animation:edge-live-pulse 1.8s ease-in-out infinite;
+}
+.live-score{animation:edge-score-glow 2.4s ease-in-out infinite}
+.game-prediction-summary>div{transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.game-card:hover .game-prediction-summary>div{transform:translateY(-1px)}
+.prob-track i,.calibration-track i{transition:width 1s cubic-bezier(.2,.75,.25,1)}
+.primary-btn,.tabs button,.icon-btn{transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease}
+.primary-btn:active,.icon-btn:active{transform:scale(.97)}
+@keyframes edge-ball-bounce{
+  0%,100%{transform:translateY(0) rotate(-5deg)}
+  50%{transform:translateY(-13px) rotate(5deg)}
+}
+@keyframes edge-ball-spin{to{transform:rotate(360deg)}}
+@keyframes edge-orbit-turn{to{transform:rotate(360deg)}}
+@keyframes edge-live-pulse{
+  0%,100%{box-shadow:0 0 0 0 #d64b3722}
+  50%{box-shadow:0 0 0 5px #d64b370c}
+}
+@keyframes edge-score-glow{
+  0%,100%{text-shadow:0 0 0 transparent}
+  50%{text-shadow:0 0 12px #ed8a3530}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+@media(max-width:600px){
+  .hero-ball{width:66px;height:66px}
+  .hero-ball:before{font-size:54px}
+}
