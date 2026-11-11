@@ -4,6 +4,8 @@ from playwright.async_api import async_playwright
 
 URLS = [
     "https://www.sportslottery.com.tw/sportsbook/daily-coupons",
+    "https://member2.sportslottery.com.tw/sportsbook/daily-coupons",
+    "https://article.sportslottery.com.tw/sportsbook/daily-coupons",
     "https://member2.sportslottery.com.tw/zh-tw",
     "https://article.sportslottery.com.tw/",
 ]
