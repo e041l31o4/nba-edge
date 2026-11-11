@@ -1,5 +1,9 @@
 name: Inspect Taiwan Sports Lottery official page
 on:
+  push:
+    paths:
+      - 'scripts/inspect-official-sportslottery.py'
+      - '.github/workflows/inspect-sportslottery.yml'
   workflow_dispatch:
 permissions:
   contents: read
