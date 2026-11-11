@@ -7,7 +7,7 @@ on:
       - 'src/**'
       - '.github/workflows/update-data.yml'
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -122,6 +122,17 @@ jobs:
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: python scripts/refresh-oddslab-taiwan-odds.py
+      - name: Publish fresh odds and odds history to Supabase immediately
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DATASET_KEYS: odds,odds-history
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not configured; odds publishing is skipped."
+          else
+            python scripts/publish-private-datasets.py
+          fi
       - name: Refresh team form and NBA official injury report
         run: python scripts/update-analysis-data.py
       - name: Report odds source policy
