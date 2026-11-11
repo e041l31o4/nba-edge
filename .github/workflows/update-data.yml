@@ -135,6 +135,12 @@ jobs:
           fi
       - name: Refresh team form and NBA official injury report
         run: python scripts/update-analysis-data.py
+      - name: Set up Node.js for immutable prediction ledger
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Capture pregame predictions and settle completed games
+        run: npx --yes tsx scripts/record-predictions.mts
       - name: Report odds source policy
         run: |
           echo "Official Taiwan Sports Lottery feed is preferred when configured."
