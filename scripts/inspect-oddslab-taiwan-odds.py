@@ -80,7 +80,10 @@ async def main():
             "moneyline": "不讓分" in body,
             "spread": "讓分" in body,
             "totals": "大小" in body,
-            "all_12_team_names": all(x in body for x in REQUIRED_TEAMS),
+            "structured_game_cards": len(parsed_games) >= 1,
+            "two_teams_per_game": all(len(g["teams"]) == 2 for g in parsed_games),
+            "spread_and_totals_parsed": any(len(g["markets"].get("spreads", [])) == 2 and len(g["markets"].get("totals", [])) == 2 for g in parsed_games),
+            "moneyline_parsed": any(len(g["markets"].get("h2h", [])) == 2 for g in parsed_games),
             "odds_values": len(re.findall(r"(?<!\d)\d+\.\d{2}(?!\d)", body)) >= 12,
             "updated_timestamp": bool(re.search(r"更新\s*\d{1,2}/\d{1,2}\s+\d{1,2}:\d{2}", body))
         }
