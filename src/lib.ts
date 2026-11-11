@@ -3,6 +3,7 @@ export type Team = { id: string; name: string; abbreviation: string; displayName
 export type Game = { id: string; date: string; name: string; shortName: string; status: string; detail: string; home: Team; away: Team; venue?: string }
 export type OddsGame = { id?: string; commence_time: string; home_team: string; away_team: string; bookmakers?: { title: string; markets: { key: string; outcomes: { name: string; price: number; point?: number }[] }[] }[] }
 export type OddsRecord = { updatedAt: string; games: OddsGame[]; source: string }
+export type OddsSnapshot = { capturedAt: string; phase: string; source: string; gameId: string; home_team: string; away_team: string; commence_time: string; bookmakers: NonNullable<OddsGame['bookmakers']>; sourcePageUpdatedAt?: string }
 const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 export function taiwanDate(d = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).replace(/-/g, '') }
 export function dateLabel(d: string) { return new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(d)) }
