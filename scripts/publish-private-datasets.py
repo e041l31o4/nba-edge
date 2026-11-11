@@ -22,7 +22,10 @@ mapping = {
 }
 
 rows = []
+only_keys = {key.strip() for key in os.environ.get("DATASET_KEYS", "").split(",") if key.strip()}
 for key, filename in mapping.items():
+    if only_keys and key not in only_keys:
+        continue
     path = pathlib.Path("public/data") / filename
     if not path.exists():
         print(f"Skipping missing dataset: {filename}")
