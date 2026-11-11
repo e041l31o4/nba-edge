@@ -967,3 +967,57 @@ footer:before{background:#2463eb!important}
   .form-two{grid-template-columns:minmax(0,1fr)!important}
   .metric-row{grid-template-columns:1fr!important}
 }
+
+
+/* Mobile structural fix v2 — stack every analysis sub-grid */
+@media (max-width: 600px) {
+  html, body, #root, .app-shell, main { min-width: 0 !important; }
+  main { overflow-x: clip !important; }
+  .analysis-detail { padding: 13px !important; overflow: hidden !important; }
+  .analysis-panels { display: grid !important; grid-template-columns: minmax(0,1fr) !important; gap: 11px !important; padding: 13px 0 !important; }
+  .analysis-panel, .model-overview, .win-prob-card { min-width: 0 !important; max-width: 100% !important; }
+  .model-overview { padding: 13px !important; overflow: hidden !important; }
+  .model-section-head { align-items: flex-start !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .model-section-head h3 { font-size: 15px !important; }
+  .model-confidence { white-space: normal !important; max-width: 100% !important; }
+  .win-prob-grid { grid-template-columns: minmax(0,1fr) !important; gap: 8px !important; }
+  .win-prob-card { padding: 12px !important; }
+  .win-team { min-width: 0 !important; gap: 8px !important; }
+  .win-team span { min-width: 0 !important; overflow-wrap: anywhere !important; }
+  .win-team b { font-size: 23px !important; flex: 0 0 auto !important; }
+  .projection-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 7px !important; }
+  .projection-grid > div { min-width: 0 !important; padding: 10px !important; }
+  .projection-grid b { font-size: 14px !important; overflow-wrap: anywhere !important; }
+  .form-compare, .injury-columns { grid-template-columns: minmax(0,1fr) !important; gap: 9px !important; }
+  .form-compare > div, .injury-columns > div { min-width: 0 !important; overflow-wrap: anywhere !important; }
+  .form-compare > div { padding: 11px !important; }
+  .injury-row { min-width: 0 !important; flex-wrap: wrap !important; }
+  .injury-row strong, .injury-row span { white-space: normal !important; overflow-wrap: anywhere !important; }
+  .odds-line { grid-template-columns: minmax(0,1fr) auto !important; gap: 5px 8px !important; align-items: start !important; }
+  .odds-line span { min-width: 0 !important; overflow-wrap: anywhere !important; }
+  .odds-line b { min-width: 0 !important; }
+  .odds-line small { grid-column: 1 / -1 !important; text-align: left !important; white-space: normal !important; overflow-wrap: anywhere !important; line-height: 1.55 !important; }
+  .analysis-row { grid-template-columns: minmax(0,1fr) auto !important; gap: 5px 8px !important; }
+  .analysis-row > span:first-child { grid-column: 1 / -1 !important; }
+  .analysis-row > b { grid-column: 1 !important; white-space: normal !important; }
+  .analysis-row > span:last-child { grid-column: 2 !important; white-space: nowrap !important; }
+  .matchup-head h3 { font-size: 19px !important; overflow-wrap: anywhere !important; }
+  .panel-title { min-width: 0 !important; align-items: flex-start !important; line-height: 1.5 !important; }
+  .panel-title svg { flex: 0 0 auto !important; }
+  .data-check { gap: 9px 13px !important; }
+  .recent-results > div { gap: 5px !important; }
+  .recent-results span { min-width: 0 !important; }
+  .calibration-row { display: grid !important; grid-template-columns: 1fr !important; gap: 6px !important; }
+  .calibration-compare { grid-template-columns: minmax(0,1fr) !important; }
+  .season-results { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .analysis-detail *, .analysis-panel *, .model-overview * { max-width: 100%; }
+  .analysis-detail img, .analysis-panel img { max-width: 100%; height: auto; }
+}
+@media (max-width: 380px) {
+  .projection-grid { grid-template-columns: minmax(0,1fr) !important; }
+  .season-results { grid-template-columns: minmax(0,1fr) !important; }
+  .analysis-detail { padding: 10px !important; }
+  .analysis-panel { padding: 11px !important; }
+  .win-team b { font-size: 21px !important; }
+  .odds-line { font-size: 10px !important; }
+}
