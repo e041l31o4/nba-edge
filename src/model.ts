@@ -72,3 +72,6 @@ export function totalProbability(projectedTotal:number,point:number,isOver:boole
 export function americanToDecimal(price:number){return price>0?1+price/100:1+100/Math.abs(price)}
 export function impliedProbability(price:number){const d=americanToDecimal(price);return 1/d}
 export function expectedValue(probability:number,price:number){return probability*americanToDecimal(price)-1}
+// Taiwan Sports Lottery displays decimal odds (e.g. 1.75), not American odds.
+export function decimalImpliedProbability(price:number){return Number.isFinite(price)&&price>1?1/price:NaN}
+export function decimalExpectedValue(probability:number,price:number){return Number.isFinite(price)&&price>1?probability*price-1:NaN}
