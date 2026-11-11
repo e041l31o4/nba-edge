@@ -44,7 +44,7 @@ jobs:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: |
           python - <<'PY'
-          import os, json, urllib.request, urllib.parse, datetime, pathlib, sys
+          import os, json, urllib.request, urllib.parse, datetime, pathlib, sys, math
           feed = os.getenv('SPORTSLOTTERY_FEED_URL', '').strip()
           if not feed:
               print('No documented/authorized official feed configured; safely skipping.')
@@ -68,7 +68,42 @@ jobs:
                   except Exception: pass
           for game in payload['games']:
               if not all(game.get(k) for k in ('home_team','away_team','commence_time')): continue
-              game['bookmakers'] = game.get('bookmakers') or []
+              raw_bookmakers = game.get('bookmakers')
+              if not isinstance(raw_bookmakers, list):
+                  continue
+              valid_bookmakers = []
+              for bookmaker in raw_bookmakers:
+                  if not isinstance(bookmaker, dict) or not bookmaker.get('title') or not isinstance(bookmaker.get('markets'), list):
+                      continue
+                  valid_markets = []
+                  for market in bookmaker['markets']:
+                      if not isinstance(market, dict) or market.get('key') not in ('h2h', 'spreads', 'totals') or not isinstance(market.get('outcomes'), list):
+                          continue
+                      valid_outcomes = []
+                      for outcome in market['outcomes']:
+                          if not isinstance(outcome, dict):
+                              continue
+                          try:
+                              price = float(outcome.get('price'))
+                          except (TypeError, ValueError):
+                              continue
+                          # Taiwan Sports Lottery decimal odds must be finite and greater than 1.
+                          if not math.isfinite(price) or price <= 1:
+                              continue
+                          clean = dict(outcome)
+                          clean['price'] = price
+                          valid_outcomes.append(clean)
+                      if valid_outcomes:
+                          clean_market = dict(market)
+                          clean_market['outcomes'] = valid_outcomes
+                          valid_markets.append(clean_market)
+                  if valid_markets:
+                      clean_bookmaker = dict(bookmaker)
+                      clean_bookmaker['markets'] = valid_markets
+                      valid_bookmakers.append(clean_bookmaker)
+              if not valid_bookmakers:
+                  continue
+              game['bookmakers'] = valid_bookmakers
               game['id'] = str(game.get('id') or (game['away_team']+'-'+game['home_team']+'-'+game['commence_time']))
               out_games.append(game)
               start = datetime.datetime.fromisoformat(game['commence_time'].replace('Z','+00:00'))
