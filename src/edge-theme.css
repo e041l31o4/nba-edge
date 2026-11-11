@@ -204,3 +204,127 @@ footer:before{background:#2463eb!important}
   .hero-ball{width:66px;height:66px}
   .hero-ball:before{font-size:54px}
 }
+
+
+/* Fine motion pass — polished broadcast / live arena feel */
+.hero{overflow:hidden;position:relative}
+.hero-visual{overflow:hidden}
+.hero-visual:after{
+  content:"";position:absolute;inset:-20% auto -20% -35%;width:24%;
+  background:linear-gradient(90deg,transparent,#ffffff80,transparent);
+  transform:skewX(-18deg);animation:edge-court-sweep 8s ease-in-out infinite;
+  pointer-events:none;
+}
+.hero-ball{
+  position:relative;
+  filter:drop-shadow(0 13px 9px #d9770630);
+  animation:edge-ball-bounce 3.2s cubic-bezier(.45,0,.55,1) infinite,edge-ball-float-shadow 3.2s ease-in-out infinite;
+}
+.hero-ball:before{
+  content:""!important;position:absolute;inset:5px;border-radius:50%;
+  background:radial-gradient(circle at 31% 25%,#ffd18a 0,#f99a3c 25%,#ed7d25 63%,#c95616 100%);
+  border:1px solid #bd5b20;box-shadow:inset -7px -9px 14px #8d3b1c45,inset 4px 4px 9px #fff5;
+  animation:edge-ball-spin 7s linear infinite;
+}
+.hero-ball:after{
+  content:"";position:absolute;inset:5px;border-radius:50%;
+  background:
+    linear-gradient(90deg,transparent 47%,#793b1d 48% 49.5%,transparent 50.5%),
+    linear-gradient(0deg,transparent 47%,#793b1d 48% 49.5%,transparent 50.5%),
+    radial-gradient(circle,transparent 57%,#793b1d 58% 59.5%,transparent 60.5%);
+  box-shadow:inset 0 0 0 1px #793b1d30;
+  animation:edge-ball-spin 7s linear infinite;
+}
+.hero-visual:before{
+  animation:edge-court-breathe 5.5s ease-in-out infinite;
+}
+.hero-orbit{transform-origin:center}
+.hero-stat{animation:edge-stat-float 5s ease-in-out infinite}
+.hero-stat:nth-last-child(1){animation-delay:-2.5s}
+.ticker .status-ok i{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#20a56b;box-shadow:0 0 0 0 #20a56b45;
+  animation:edge-status-ping 2.2s ease-out infinite;
+}
+.game-card{
+  position:relative;overflow:hidden;
+  animation:edge-card-arrive .55s cubic-bezier(.2,.75,.25,1) both;
+}
+.game-card:nth-child(2){animation-delay:.06s}
+.game-card:nth-child(3){animation-delay:.12s}
+.game-card:nth-child(4){animation-delay:.18s}
+.game-card:nth-child(5){animation-delay:.24s}
+.game-card:nth-child(6){animation-delay:.30s}
+.game-card:after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(112deg,transparent 20%,#ffffffa0 47%,transparent 70%);
+  transform:translateX(-130%);transition:transform .75s cubic-bezier(.2,.7,.2,1);
+}
+.game-card:hover:after{transform:translateX(130%)}
+.game-card:hover .team-line img{
+  transform:scale(1.08) rotate(-3deg);
+  filter:drop-shadow(0 3px 5px #2463eb22);
+}
+.team-line img{transition:transform .28s ease,filter .28s ease}
+.game-card:hover .versus{color:#2463eb!important;transition:color .2s ease}
+.game-card:focus-visible{outline:3px solid #2463eb66!important;outline-offset:3px}
+.section-heading{animation:edge-section-enter .45s ease both}
+.ticker{animation:edge-section-enter .5s ease both}
+.toolbar{animation:edge-section-enter .55s ease both}
+.analysis-panel,.analysis-list,.perf-card,.source-panel,.import-panel{
+  animation:edge-panel-enter .5s cubic-bezier(.2,.7,.25,1) both;
+}
+.tabs button{position:relative;overflow:hidden}
+.tabs button:after{
+  content:"";position:absolute;left:18%;right:18%;bottom:3px;height:2px;
+  background:#2463eb;border-radius:2px;transform:scaleX(0);transition:transform .22s ease;
+}
+.tabs button.active:after{transform:scaleX(1)}
+.live-score{position:relative}
+.game-state.live:before{
+  content:"";display:inline-block;width:6px;height:6px;margin:0 5px 1px 0;
+  border-radius:50%;background:currentColor;box-shadow:0 0 0 0 currentColor;
+  animation:edge-status-ping 1.7s ease-out infinite;
+}
+.primary-btn{position:relative;overflow:hidden}
+.primary-btn:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 30%,#ffffff55 50%,transparent 70%);
+  transform:translateX(-120%);transition:transform .6s ease;
+}
+.primary-btn:hover:after{transform:translateX(120%)}
+@keyframes edge-court-sweep{
+  0%,15%{left:-35%;opacity:0}
+  28%{opacity:.8}
+  52%{left:120%;opacity:0}
+  100%{left:120%;opacity:0}
+}
+@keyframes edge-court-breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes edge-ball-float-shadow{
+  0%,100%{filter:drop-shadow(0 13px 9px #d9770630)}
+  50%{filter:drop-shadow(0 19px 12px #d9770620)}
+}
+@keyframes edge-stat-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes edge-status-ping{
+  0%{box-shadow:0 0 0 0 #20a56b55}
+  70%,100%{box-shadow:0 0 0 7px #20a56b00}
+}
+@keyframes edge-card-arrive{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes edge-panel-enter{
+  from{opacity:0;transform:translateY(9px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes edge-section-enter{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-ball,.hero-ball:before,.hero-ball:after,.hero-visual:before,.hero-visual:after,
+  .hero-orbit,.hero-stat,.game-card,.ticker,.toolbar,.section-heading,
+  .analysis-panel,.analysis-list,.perf-card,.source-panel,.import-panel,
+  .ticker .status-ok i,.game-state.live:before{animation:none!important}
+  .game-card:after,.primary-btn:after{display:none!important}
+}
