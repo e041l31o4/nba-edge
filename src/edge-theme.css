@@ -866,3 +866,104 @@ footer:before{background:#2463eb!important}
 @media(prefers-reduced-motion:reduce){
  .perf-card,.primary-btn,.combo-row,.leg-row{transition:none!important}
 }
+
+
+/* Mobile layout rescue — prevent horizontal overflow and stacked controls colliding */
+@media(max-width:600px){
+  html,body,#root{width:100%;max-width:100%;overflow-x:hidden!important}
+  *,*::before,*::after{box-sizing:border-box}
+  .app-shell{width:100%;max-width:100%;overflow-x:clip}
+  main{width:100%!important;max-width:100%!important;margin:0 auto!important;padding-left:13px!important;padding-right:13px!important}
+  .topbar{width:100%;height:auto!important;min-height:60px;padding:9px 13px!important;gap:8px}
+  .brand{min-width:0;font-size:13px}
+  .brand small{font-size:7px!important;letter-spacing:1px!important}
+  .top-right{gap:6px!important;font-size:9px!important;white-space:nowrap}
+  .hero{width:100%;min-height:230px!important;padding:22px 16px!important;margin:14px 0 12px!important}
+  .hero-copy{max-width:100%;position:relative;z-index:2}
+  .hero h1{font-size:clamp(27px,8vw,36px)!important;line-height:1.25!important;max-width:100%}
+  .hero p{max-width:100%;font-size:11px!important;line-height:1.65}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:5px!important}
+  .hero-tags span{font-size:7px!important;padding:5px 6px!important}
+  .hero-visual{position:absolute!important;right:0!important;bottom:0!important;width:43%!important;height:100%!important;opacity:.65;pointer-events:none}
+  .hero .hero-stat{right:8px!important;bottom:12px!important;width:112px!important;min-height:68px!important;padding:8px!important}
+  .hero .hero-stat small{font-size:6px!important}
+  .ticker{width:100%;min-width:0;display:flex;flex-wrap:wrap;gap:7px 10px!important;padding:9px 10px!important}
+  .ticker-label{width:100%;font-size:9px!important}
+  .ticker>span{white-space:normal!important;font-size:9px!important}
+  .toolbar{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:12px 0!important}
+  .date-nav{width:100%;min-width:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap!important;gap:5px!important;padding:7px!important}
+  .date-nav>div{min-width:0;flex:1;display:flex;align-items:center;justify-content:center;gap:5px!important}
+  .date-nav>div b{font-size:11px!important;white-space:nowrap}
+  .date-nav>div small{display:none}
+  .date-nav .icon-btn{width:32px;min-width:32px;height:32px}
+  .today-btn{padding:7px 9px!important;font-size:10px!important;white-space:nowrap}
+  .tabs{display:flex!important;width:100%;max-width:100%;overflow-x:auto!important;overscroll-behavior-x:contain;gap:5px!important;padding:2px 0 7px!important}
+  .tabs button{flex:0 0 auto!important;min-height:36px;padding:8px 11px!important;font-size:10px!important;white-space:nowrap}
+  .section-heading{width:100%;padding:20px 0 12px!important;gap:8px!important}
+  .section-heading h2{font-size:22px!important}
+  .game-grid{width:100%;grid-template-columns:minmax(0,1fr)!important}
+  .game-card{width:100%;min-width:0}
+  .analysis-list,.analysis-detail,.analysis-panel,.model-overview{width:100%;min-width:0;max-width:100%}
+  .analysis-row{width:100%;min-width:0;grid-template-columns:minmax(0,1fr) auto!important;padding:13px!important}
+  .analysis-row>b{overflow-wrap:anywhere}
+  .projection-grid,.performance-grid,.season-results,.calibration-compare{width:100%;min-width:0}
+  .performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .perf-card{min-width:0;min-height:112px!important;padding:11px!important}
+  .perf-card>strong{font-size:clamp(21px,7vw,27px)!important;overflow-wrap:anywhere}
+  .season-results{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .season-result{min-width:0;padding:11px!important}
+  .calibration-row{min-width:0}
+  .calibration-row small{display:block;line-height:1.5;white-space:normal}
+  .parlay-lab,.parlay-lab>*{width:100%;min-width:0;max-width:100%}
+  .parlay-lab{gap:11px!important}
+  .source-panel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important;padding:13px!important}
+  .source-panel>div{width:100%;min-width:0}
+  .source-panel h3{font-size:15px!important;overflow-wrap:anywhere}
+  .source-panel p{font-size:10px!important;overflow-wrap:anywhere}
+  .source-panel>a{display:block;width:100%;text-align:center;white-space:normal!important}
+  .parlay-lab .notice{width:100%;min-width:0;overflow-wrap:anywhere}
+  .import-panel{width:100%;min-width:0;padding:12px!important}
+  .import-panel textarea{display:block;width:100%!important;max-width:100%;min-width:0;font-size:10px!important}
+  .parlay-columns{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%;min-width:0;gap:11px!important}
+  .parlay-columns>section{width:100%;min-width:0;padding:13px!important}
+  .parlay-lab label{min-width:0;width:100%}
+  .parlay-lab input,.parlay-lab select{width:100%;max-width:100%;min-width:0}
+  .form-two{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .form-two>*{min-width:0}
+  .strategy-card{min-width:0;padding:12px!important}
+  .metric-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+  .metric-row>div{min-width:0;padding:8px 6px!important}
+  .metric-row b{font-size:clamp(12px,4vw,15px)!important;overflow-wrap:anywhere}
+  .verify-summary{gap:5px!important}
+  .verify-summary span{font-size:8px!important;padding:5px 6px!important}
+  .combo-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:12px 3px!important}
+  .combo-row>div{min-width:0!important;text-align:left!important}
+  .combo-row>div:first-child{grid-column:1/-1}
+  .combo-row>div:last-child{grid-column:auto}
+  .combo-row small{overflow-wrap:anywhere}
+  .leg-row{display:grid!important;grid-template-columns:minmax(0,1fr) 36px!important;gap:7px!important;padding:12px 2px!important}
+  .leg-row>div:first-child{grid-column:1/-1;min-width:0}
+  .leg-row select{grid-column:1;grid-row:2;width:100%;min-width:0}
+  .leg-row .remove-btn{grid-column:2;grid-row:2;width:36px}
+  .verify-footer{flex-wrap:wrap}
+  .method-note{font-size:9px!important;line-height:1.65!important;overflow-wrap:anywhere}
+  footer{display:flex;flex-direction:column;align-items:flex-start;gap:7px!important;padding:20px 0!important}
+}
+@media(max-width:380px){
+  main{padding-left:10px!important;padding-right:10px!important}
+  .hero{padding:19px 13px!important}
+  .hero h1{font-size:27px!important}
+  .hero .hero-stat{width:102px!important;right:5px!important}
+  .game-card{padding:12px!important}
+  .teams{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr)!important;gap:3px!important}
+  .team-line img,.team-placeholder{width:33px!important;height:33px!important;flex-basis:33px!important}
+  .team-line{gap:5px!important}
+  .team-line b{font-size:11px!important}
+  .team-line small{max-width:72px!important}
+  .performance-grid{gap:6px!important}
+  .perf-card{padding:9px!important}
+  .perf-card>span{font-size:9px!important}
+  .perf-card>strong{font-size:21px!important}
+  .form-two{grid-template-columns:minmax(0,1fr)!important}
+  .metric-row{grid-template-columns:1fr!important}
+}
