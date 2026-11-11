@@ -144,7 +144,11 @@ async def main():
             unmatched.append(card.get("id", "unknown"))
             continue
         away, home = teams[0], teams[1]  # OddsLab table explicitly orders teams as away / home.
-        event = espn.get((away["abbreviation"], home["abbreviation"]))
+        # OddsLab and ESPN use different short codes for New York and Utah.
+        espn_alias = {"NYK": "NY", "UTA": "UTAH"}
+        away_code = espn_alias.get(away["abbreviation"], away["abbreviation"])
+        home_code = espn_alias.get(home["abbreviation"], home["abbreviation"])
+        event = espn.get((away_code, home_code))
         if not event or not event.get("commence_time"):
             unmatched.append(f'{away["abbreviation"]}@{home["abbreviation"]}')
             continue
