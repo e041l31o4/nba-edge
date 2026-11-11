@@ -94,7 +94,7 @@ async def main():
                             print("RUNTIME_APIDATA=" + repr(runtime))
                         except Exception as runtime_exc:
                             print(f"RUNTIME_APIDATA_ERROR={type(runtime_exc).__name__}: {runtime_exc}")
-                    # Probe a small range of public sport IDs; read-only and no access-control bypass.
+                    # Probe public sport IDs 1-12 for the official pregame JSON; read-only, no access-control bypass.
                     if index == 2:
                         for sport_id in range(1, 13):
                             candidate_url = f"https://blob.sportslottery.com.tw/apidata/Pre/ListBySport/{sport_id}.json"
