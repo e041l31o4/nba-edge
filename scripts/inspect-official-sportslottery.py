@@ -94,19 +94,24 @@ async def main():
                             print("RUNTIME_APIDATA=" + repr(runtime))
                         except Exception as runtime_exc:
                             print(f"RUNTIME_APIDATA_ERROR={type(runtime_exc).__name__}: {runtime_exc}")
-                    # Probe public sport IDs 1-12 for the official pregame JSON; read-only, no access-control bypass.
+                    # Probe plausible public sport/league identifiers inferred from official UI labels.
+                    # Read-only requests only; no login, CAPTCHA, or access-control bypass.
                     if index == 2:
-                        for sport_id in range(1, 13):
-                            candidate_url = f"https://blob.sportslottery.com.tw/apidata/Pre/ListBySport/{sport_id}.json"
+                        candidates = [
+                            *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02"]),
+                            *(f"Pre/ListByLeague/{value}.json" for value in ["NBA", "nba", "Basketball", "basketball", "USAB", "USA-Basketball"]),
+                        ]
+                        for candidate_path in candidates:
+                            candidate_url = "https://blob.sportslottery.com.tw/apidata/" + candidate_path
                             try:
                                 candidate = await page.request.get(candidate_url, timeout=10000)
                                 candidate_text = await candidate.text()
                                 has_nba = "NBA" in candidate_text or "美國職籃" in candidate_text
-                                print(f"PREGAME_CANDIDATE sport_id={sport_id} url={candidate_url} status={candidate.status} content_type={candidate.headers.get('content-type')} bytes={len(candidate_text)} has_nba={has_nba}")
+                                print(f"PREGAME_PATH_CANDIDATE path={candidate_path} status={candidate.status} content_type={candidate.headers.get('content-type')} bytes={len(candidate_text)} has_nba={has_nba}")
                                 if candidate.status == 200 and ("json" in (candidate.headers.get("content-type") or "").lower()):
-                                    print(f"PREGAME_CANDIDATE_BODY sport_id={sport_id} body={candidate_text[:12000]}")
+                                    print(f"PREGAME_PATH_BODY path={candidate_path} body={candidate_text[:12000]}")
                             except Exception as candidate_exc:
-                                print(f"PREGAME_CANDIDATE_ERROR sport_id={sport_id}: {type(candidate_exc).__name__}: {candidate_exc}")
+                                print(f"PREGAME_PATH_ERROR path={candidate_path}: {type(candidate_exc).__name__}: {candidate_exc}")
                     # Inspect only JavaScript already loaded by the official public homepage.
                     # This is passive source inspection; it does not bypass access controls.
                     if "sportslottery.com.tw/zh-tw" in page.url or page.url.rstrip("/") == "https://article.sportslottery.com.tw":
