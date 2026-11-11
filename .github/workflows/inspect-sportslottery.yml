@@ -28,7 +28,7 @@ jobs:
         with:
           name: sportslottery-official-page-inspection
           path: |
-            sportslottery-probe.png
-            sportslottery-probe.html
+            sportslottery-probe-*.png
+            sportslottery-probe-*.html
           if-no-files-found: ignore
           retention-days: 3
