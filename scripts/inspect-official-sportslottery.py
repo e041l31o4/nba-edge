@@ -68,8 +68,16 @@ async def main():
                               for (const key of ['download','_download','_apiDownload','_blobDownload','restoreJson']) {
                                 if (typeof a[key] === 'function') out[key] = String(a[key]).slice(0,9000);
                               }
-                              out.blobUrl = a.blobUrl;
-                              out.jsonDataKeys = a.jsonData && typeof a.jsonData === 'object' ? Object.keys(a.jsonData).slice(0,100) : typeof a.jsonData;
+                              out.state = {
+                                blobUrl: a.blobUrl,
+                                pos: a.pos,
+                                livePos: a.livePos,
+                                registerPos: a.registerPos,
+                                jsonData: a.jsonData && typeof a.jsonData === 'object' ? Object.fromEntries(Object.entries(a.jsonData).slice(0,30).map(([k,v]) => [k, typeof v === 'function' ? String(v).slice(0,1000) : v])) : a.jsonData,
+                                homePage: a.homePage,
+                                homePage_nonMember: a.homePage_nonMember,
+                                homePage_member: a.homePage_member
+                              };
                               return out;
                             }""")
                             print("RUNTIME_APIDATA=" + repr(runtime))
