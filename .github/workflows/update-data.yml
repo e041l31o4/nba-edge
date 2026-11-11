@@ -136,7 +136,7 @@ jobs:
           if grep -q '^VITE_MEMBERSHIP_ENABLED=true' .env.production; then
             echo "Membership mode is enabled; removing current public dataset files after successful Supabase publishing."
             if [ -d public/data ]; then
-              git rm -r public/data
+              git rm -r -f public/data
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git commit -m "chore: remove paid datasets from public repository"
