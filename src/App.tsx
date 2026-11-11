@@ -22,6 +22,7 @@ function App() {
   const [teamMetrics, setTeamMetrics] = useState<TeamMetricsData | null>(null)
   const [tab, setTab] = useState<Tab>('games')
   const [loading, setLoading] = useState(true)
+  const [introPlaying, setIntroPlaying] = useState(true)
   const [error, setError] = useState('')
   const [updated, setUpdated] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
@@ -38,6 +39,7 @@ function App() {
     catch (e) { setError(e instanceof Error ? e.message : '讀取失敗') }
     finally { setLoading(false) }
   }
+  useEffect(() => { const timer = window.setTimeout(() => setIntroPlaying(false), 3200); return () => window.clearTimeout(timer) }, [])
   const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
   useEffect(() => {
     let alive = true
@@ -103,6 +105,13 @@ function App() {
   const canViewSelectedDate = canSeeAll && (isAdmin || releaseReached)
   const visibleGames = isAdmin || (membershipActive && canViewSelectedDate) ? games : membershipActive ? [] : games.filter(g => publicGameIds.includes(g.id))
   return <div className="app-shell">
+    {introPlaying && <div className="arena-intro" role="status" aria-label="NBA EDGE 開場動畫">
+      <div className="intro-arena"><div className="intro-center-circle"/><div className="intro-key intro-key-left"/><div className="intro-key intro-key-right"/><div className="intro-hoop intro-hoop-left"/><div className="intro-hoop intro-hoop-right"/></div>
+      <div className="intro-lights"/>
+      <div className="intro-ball"><i/><i/><i/></div>
+      <div className="intro-copy"><span>THE GAME STARTS HERE</span><strong>NBA <b>EDGE</b></strong><small>DATA · MATCHUP · INSIGHT</small></div>
+      <button className="intro-skip" onClick={() => setIntroPlaying(false)}>略過動畫 <span>↗</span></button>
+    </div>}
     <header className="topbar"><a className="brand" href="#"><span className="brand-mark">E</span><span>NBA <b>EDGE</b><small>DATA · MATCHUP · INSIGHT</small></span></a><div className="top-right"><span className="live-dot"/> <span>台灣時間 UTC+8</span><button className="icon-btn" onClick={() => void load()} aria-label="重新整理"><RefreshCw size={16}/></button></div></header>
     <main>
       <section className="hero">
