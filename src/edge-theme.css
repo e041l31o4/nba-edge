@@ -1,0 +1,234 @@
+/* NBA EDGE — NEON COURT UI THEME
+   Presentation-only layer. No data, API, auth, or business logic changes. */
+:root {
+  color-scheme: dark;
+  --ink: #eaf4ff;
+  --muted: #8fa8bd;
+  --court: #35d6e8;
+  --court-deep: #149bb8;
+  --court-pale: #123748;
+  --line: rgba(111, 183, 211, .20);
+  --paper: #10283b;
+}
+html { background: #0b1d2d; }
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 12% 5%, rgba(30, 157, 193, .20), transparent 34rem),
+    radial-gradient(ellipse at 90% 18%, rgba(28, 111, 177, .20), transparent 32rem),
+    linear-gradient(145deg, #0d2335 0%, #102b40 52%, #0b2032 100%);
+  background-attachment: fixed;
+}
+body:before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  opacity: .20;
+  background-image: linear-gradient(rgba(110,190,220,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110,190,220,.10) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+.topbar {
+  background: rgba(10, 29, 45, .88);
+  border-bottom: 1px solid rgba(88, 190, 219, .22);
+  box-shadow: 0 12px 34px rgba(0, 8, 18, .22);
+  backdrop-filter: blur(18px);
+}
+.brand { color: #effaff; }
+.brand-mark {
+  color: #072334;
+  background: linear-gradient(145deg, #7af4f2, #20b8d2 58%, #2788cb);
+  box-shadow: 0 0 24px rgba(41, 206, 226, .28);
+  transform: none;
+}
+.brand small { color: #79a9bf; }
+.top-right { color: #9cb6c8; }
+.icon-btn, .date-nav, .tabs, .ticker, .game-card, .analysis-panel,
+.analysis-list, .analysis-detail, .perf-card, .source-panel, .import-panel {
+  border-color: var(--line);
+}
+.icon-btn {
+  color: #b8d4e4; background: rgba(24, 58, 78, .82);
+}
+.icon-btn:hover { color: #eaffff; border-color: rgba(58, 219, 232, .55); }
+.hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: linear-gradient(112deg, rgba(15, 43, 62, .98), rgba(18, 58, 79, .94) 58%, rgba(17, 76, 96, .88));
+  border: 1px solid rgba(77, 203, 221, .26);
+  box-shadow: 0 24px 70px rgba(0, 8, 18, .28), inset 0 1px rgba(218, 250, 255, .06);
+}
+.hero:before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(115deg, transparent 0 48%, rgba(42, 205, 221, .10) 48% 100%);
+}
+.hero:after {
+  border-color: rgba(69, 218, 229, .22);
+  box-shadow: 0 0 0 32px rgba(55, 195, 221, .045), 0 0 0 66px rgba(55, 195, 221, .03), 0 0 0 100px rgba(55, 195, 221, .02);
+}
+.hero .eyebrow, .section-heading .eyebrow { color: #65e5e9; }
+.hero h1 { color: #f1fbff; text-shadow: none; }
+.hero h1 em {
+  background: linear-gradient(95deg, #9af9f0, #40d7ed 52%, #68aaff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p { color: #a9c2d2; }
+.hero-tags span {
+  color: #9fe8ef; border-color: rgba(91, 205, 221, .22);
+  background: rgba(7, 31, 48, .42);
+}
+.hero-orbit { border-color: rgba(92, 225, 232, .28); }
+.hero-ball { color: #60dce8; opacity: .13; }
+.hero-visual-label { color: #77e4ed; }
+.hero .hero-stat {
+  color: #b6d4e2; background: rgba(8, 33, 50, .72);
+  border: 1px solid rgba(83, 209, 224, .26);
+  box-shadow: 0 12px 32px rgba(0, 9, 20, .20);
+  backdrop-filter: blur(12px);
+}
+.hero-stat strong, .hero .hero-stat strong {
+  color: #7df2ed;
+  background: linear-gradient(100deg, #9af9ef, #36d3ed);
+  -webkit-background-clip: text; background-clip: text;
+}
+.hero-stat small { color: #80aabd; }
+.ticker {
+  color: #b9d1df; background: rgba(13, 39, 57, .86);
+  border-color: rgba(86, 190, 214, .20);
+  box-shadow: 0 12px 30px rgba(0, 8, 18, .17);
+}
+.ticker-label { color: #6fe4e9; }
+.ticker-time, .muted, .legend { color: #8daabd; }
+.status-ok { color: #73e5bf; }
+.status-warn { color: #ffd18b; }
+.toolbar { border-color: transparent; }
+.date-nav {
+  color: #d8eaf4; background: rgba(15, 43, 62, .88);
+  box-shadow: 0 8px 24px rgba(0, 8, 18, .16);
+}
+.date-nav small { color: #89aabd; }
+.today-btn {
+  color: #8df0ec; border: 1px solid rgba(79, 208, 221, .28);
+  background: rgba(22, 82, 101, .48); border-radius: 8px;
+}
+.tabs { background: rgba(8, 30, 47, .78); box-shadow: inset 0 1px 4px rgba(0,0,0,.18); }
+.tabs button { color: #9bb8c9; }
+.tabs button.active {
+  color: #062a3a;
+  background: linear-gradient(110deg, #8af4e8, #32cce3 60%, #56a8f2);
+  box-shadow: 0 6px 20px rgba(35, 197, 220, .22);
+}
+.section-heading { color: #edf8ff; }
+.section-heading:before {
+  background: linear-gradient(180deg, #8af6e9, #20b8d7);
+  box-shadow: 0 0 14px rgba(53, 214, 232, .35);
+}
+.section-heading h2 { color: #f0f9ff; }
+.game-grid { gap: 18px; }
+.game-card {
+  position: relative; overflow: hidden;
+  color: #e7f4fb;
+  background: linear-gradient(145deg, rgba(17, 48, 68, .98), rgba(13, 38, 57, .98));
+  border: 1px solid rgba(93, 183, 208, .22);
+  box-shadow: 0 12px 32px rgba(0, 8, 18, .20), inset 0 1px rgba(230, 250, 255, .04);
+}
+.game-card:before {
+  height: 3px; opacity: 1;
+  background: linear-gradient(90deg, #27bfd7, #7cf0e5 48%, #579dff);
+}
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(87, 225, 231, .52);
+  box-shadow: 0 20px 42px rgba(0, 8, 18, .30), 0 0 26px rgba(41, 188, 215, .10);
+}
+.game-top, .game-top small { color: #91adbf; }
+.game-state { background: rgba(42, 173, 126, .16); color: #7ce9bd; }
+.game-state.done { background: rgba(140, 163, 178, .14); color: #9cb1bf; }
+.game-state.live { color: #ff9a8e; }
+.team-line b { color: #eff9ff; }
+.team-line small { color: #8daabd; }
+.versus { color: #6f91a6; }
+.versus .final-score b, .live-score { color: #7ce9ed; }
+.game-prediction-summary>div {
+  color: #d9edf6; background: rgba(7, 29, 46, .66);
+  border: 1px solid rgba(100, 180, 204, .16);
+}
+.game-prediction-summary small, .game-prediction-summary em { color: #8daabd; }
+.game-prediction-summary strong {
+  color: #80eee8;
+  background: linear-gradient(90deg, #9af7eb, #4dcbe6);
+  -webkit-background-clip: text; background-clip: text;
+}
+.game-prediction-summary b { color: #e7f6ff; }
+.game-prediction-summary.pick-correct>div:first-child {
+  background: rgba(22, 113, 83, .22); border-color: rgba(93, 226, 172, .26);
+}
+.game-prediction-summary.pick-wrong>div:first-child {
+  background: rgba(130, 53, 58, .22); border-color: rgba(238, 132, 132, .22);
+}
+.analysis-panel, .analysis-list, .analysis-detail, .source-panel, .import-panel {
+  color: #dcecf5; background: rgba(14, 41, 60, .94);
+  border: 1px solid rgba(93, 183, 208, .20);
+  box-shadow: 0 12px 34px rgba(0, 8, 18, .18);
+}
+.panel-title { color: #e7f5fb; }
+.analysis-row { color: #dcecf5; border-color: rgba(107, 174, 198, .16); }
+.analysis-row:hover { background: rgba(36, 104, 126, .20); }
+.analysis-row b { color: #effaff; }
+.analysis-row span { color: #91afc0; }
+.perf-card {
+  color: #dcecf5; position: relative; overflow: hidden;
+  background: linear-gradient(145deg, rgba(19, 53, 73, .98), rgba(12, 39, 59, .98));
+  border: 1px solid rgba(91, 185, 209, .22);
+}
+.perf-card svg { color: #64dce4; }
+.perf-card span, .perf-card small { color: #92adbf; }
+.perf-card strong {
+  color: #8bf0e8;
+  background: linear-gradient(90deg, #a0f7e8, #49cde8);
+  -webkit-background-clip: text; background-clip: text;
+}
+.perf-card:after { background: rgba(47, 207, 219, .08); }
+.notice, .empty {
+  color: #b8d1df; background: rgba(15, 44, 63, .88);
+  border-color: rgba(93, 183, 208, .20);
+}
+.notice.error { color: #ffb0a8; }
+.method-note, .muted, footer, footer span { color: #8ca8ba; }
+footer { border-color: rgba(93, 183, 208, .18); }
+footer:before { background: linear-gradient(90deg, #48d6df, transparent); }
+button, input, select { font-family: inherit; }
+.primary-btn {
+  color: #062b3b;
+  background: linear-gradient(110deg, #8af3e7, #2dc8e2);
+  box-shadow: 0 8px 22px rgba(35, 193, 218, .20);
+}
+.primary-btn:hover { background: linear-gradient(110deg, #a5fff0, #48d7f0); }
+.pick-strip {
+  color: #d9edf5; background: linear-gradient(105deg, rgba(18, 75, 91, .60), rgba(12, 43, 63, .75));
+  border-color: rgba(81, 205, 218, .26);
+}
+.pick-strip .pick-label { color: #75e7e8; }
+.pick-strip>b { color: #eaf8ff; }
+.pick-strip>strong { color: #8cf2e9; }
+.form-compare>div, .recent-results span, .season-result {
+  color: #d9edf5; background: rgba(6, 29, 46, .58);
+  border: 1px solid rgba(94, 176, 200, .16);
+}
+.form-compare b { color: #78e6dc; }
+.form-compare strong, .season-result>strong { color: #e7f7ff; }
+.form-compare small, .form-compare span, .recent-results> b,
+.season-result>span, .season-result>small { color: #8eabba; }
+.injury-row { border-color: rgba(100, 174, 198, .16); }
+.injury-row strong { color: #e1eff6; }
+.injury-row span { color: #ffd18b; }
+.calibration-track { background: rgba(132, 170, 188, .20); }
+.calibration-track>i { background: linear-gradient(90deg, #26c4d9, #8af2e7); }
+.calibration-track>b { background: #f6c978; }
+@media (max-width: 620px) {
+  .hero { background: linear-gradient(145deg, rgba(15,43,62,.98), rgba(17,67,88,.94)); }
+  .ticker { gap: 10px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-orbit.orbit-one { animation: edgeOrbit 28s linear infinite; }
+  .hero-orbit.orbit-two { animation: edgeOrbit 38s linear infinite reverse; }
+  @keyframes edgeOrbit { to { transform: rotate(336deg); } }
+}
