@@ -16,6 +16,24 @@ async def main():
         await page.wait_for_timeout(3500)
         body = await page.locator("body").inner_text(timeout=15000)
         html = await page.content()
+        card_candidates = await page.locator("body").evaluate("""body => {
+          const teams = ["公鹿","尼克","塞爾提克","76人","快艇","太陽","熱火","爵士","魔術","國王","雷霆","拓荒者"];
+          const nodes = [...body.querySelectorAll("*")].filter(el => {
+            const t = (el.innerText || "").trim();
+            return t.length > 20 && t.length < 5000 &&
+              teams.filter(name => t.includes(name)).length >= 2 &&
+              t.includes("讓分") && t.includes("大小");
+          });
+          return nodes.filter(el => ![...el.children].some(child => {
+            const t = (child.innerText || "").trim();
+            return t.length > 20 && teams.filter(name => t.includes(name)).length >= 2 &&
+              t.includes("讓分") && t.includes("大小");
+          })).slice(0, 12).map(el => ({
+            tag: el.tagName, className: String(el.className || ""),
+            text: (el.innerText || "").trim().slice(0, 1800),
+            html: el.outerHTML.slice(0, 8000)
+          }));
+        }""")
         lines = [x.strip() for x in body.splitlines() if x.strip()]
         checks = {
             "http_200": bool(response and response.status == 200),
@@ -34,12 +52,14 @@ async def main():
             "checks": checks,
             "body_lines": lines[:180],
             "body_preview": body[:24000],
-            "html_preview": html[:12000]
+            "html_preview": html[:12000],
+            "card_candidates": card_candidates
         }
         Path("oddslab-taiwan-odds-inspection.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         print("HTTP_STATUS", result["status"])
         print("TITLE", result["title"])
         print("VALIDATION", json.dumps(checks, ensure_ascii=False))
+        print("CARD_CANDIDATES", json.dumps(card_candidates, ensure_ascii=False)[:18000])
         print("PAGE_LINES_BEGIN")
         print("\\n".join(lines[:180]))
         print("PAGE_LINES_END")
