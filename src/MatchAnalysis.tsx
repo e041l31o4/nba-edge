@@ -5,7 +5,7 @@ import PlayerInjuryRow from './PlayerInjuryRow'
 import { analyzeMatch, coverProbability, totalProbability, type TeamFormData, type InjuryData, type RosterData, type TeamMetricsData, type ProbabilityCalibrator } from './model'
 
 export default function MatchAnalysis({game,odds,teamForm,injuryData,rosterData,teamMetrics,calibrator,onBack}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;rosterData:RosterData|null;teamMetrics:TeamMetricsData|null;calibrator:ProbabilityCalibrator|null;onBack:()=>void}){
- const market=useMemo(()=>{const g=odds?.games.find(x=>x.home_team.toLowerCase()===game.home.name.toLowerCase()&&x.away_team.toLowerCase()===game.away.name.toLowerCase());return g?.bookmakers??[]},[odds,game])
+ const market=useMemo(()=>{if(!odds?.source?.toLowerCase().includes('taiwan sports lottery - authorized feed'))return [];const g=odds?.games.find(x=>x.home_team.toLowerCase()===game.home.name.toLowerCase()&&x.away_team.toLowerCase()===game.away.name.toLowerCase());return g?.bookmakers??[]},[odds,game])
  const spread=market.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
  const totals=market.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
  const report=analyzeMatch(game,teamForm,injuryData,calibrator)
