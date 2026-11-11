@@ -50,6 +50,23 @@ async def main():
                     scripts = await page.locator("script[src]").evaluate_all("(els) => els.map(x => x.src)")
                     print("IFRAMES=" + repr(frames))
                     print("SCRIPTS=" + repr(scripts))
+                    # Inspect only JavaScript already loaded by the official public homepage.
+                    # This is passive source inspection; it does not bypass access controls.
+                    if "sportslottery.com.tw/zh-tw" in page.url or page.url.rstrip("/") == "https://article.sportslottery.com.tw":
+                        for script_url in scripts:
+                            if "sportslottery.com.tw" not in script_url:
+                                continue
+                            try:
+                                script_response = await page.request.get(script_url, timeout=15000)
+                                if not script_response.ok:
+                                    continue
+                                script_text = await script_response.text()
+                                import re
+                                matches = sorted(set(re.findall(r"""[^"'\\s]{0,100}(?:apidata|sportsbook|coupon|odds|basketball)[^"'\\s]{0,160}""", script_text, re.I)))
+                                if matches:
+                                    print(f"JS_ENDPOINT_CANDIDATES {script_url}=" + repr(matches[:120]))
+                            except Exception as script_exc:
+                                print(f"JS_INSPECT_ERROR {script_url}: {type(script_exc).__name__}: {script_exc}")
                     print("NETWORK_REQUESTS=" + repr(requests_seen[-150:]))
                     print("NETWORK_RESPONSES=" + repr(responses_seen[-150:]))
                     Path(f"sportslottery-probe-{index}.html").write_text(await page.content(), encoding="utf-8")
