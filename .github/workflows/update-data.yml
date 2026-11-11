@@ -35,8 +35,10 @@ jobs:
           else
             echo "Public mode; existing checked-in datasets are present."
           fi
-      - name: Install PDF parser for official NBA injury report
-        run: pip install pypdf
+      - name: Install parsers for analysis and Taiwan lottery odds
+        run: pip install pypdf playwright
+      - name: Install Chromium for public Taiwan lottery odds page
+        run: playwright install --with-deps chromium
       - name: Refresh team form and NBA official injury report
         run: python scripts/update-analysis-data.py
       - name: Fetch authorized official feed and preserve timestamped snapshots
@@ -118,9 +120,14 @@ jobs:
               for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
-      - name: Enforce official-only odds policy
+      - name: Refresh public Taiwan lottery odds when official feed is not configured
+        env:
+          SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
+        run: python scripts/refresh-oddslab-taiwan-odds.py
+      - name: Report odds source policy
         run: |
-          echo "Only the authorized Taiwan Sports Lottery feed may publish odds. No third-party fallback is permitted."
+          echo "Official Taiwan Sports Lottery feed is preferred when configured."
+          echo "Otherwise, public OddsLab republication is labeled as third-party and is never represented as an official API feed."
       - name: Publish private datasets to Supabase
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
