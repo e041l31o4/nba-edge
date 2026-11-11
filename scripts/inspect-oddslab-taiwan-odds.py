@@ -34,6 +34,18 @@ async def main():
             html: el.outerHTML.slice(0, 8000)
           }));
         }""")
+        game_cards = await page.locator("a.card").evaluate_all("""cards => cards.map(card => ({
+          href: card.getAttribute("href"),
+          text: (card.innerText || "").trim(),
+          markets: [...card.querySelectorAll("div.flex.items-start.gap-3")].map(el => ({
+            text: (el.innerText || "").trim(),
+            html: el.outerHTML.slice(0, 3500),
+            options: [...el.querySelectorAll("span")].map(s => ({
+              text: (s.innerText || "").trim(),
+              cls: String(s.className || "")
+            })).filter(x => x.text)
+          }))
+        }))""")
         lines = [x.strip() for x in body.splitlines() if x.strip()]
         checks = {
             "http_200": bool(response and response.status == 200),
@@ -53,13 +65,14 @@ async def main():
             "body_lines": lines[:180],
             "body_preview": body[:24000],
             "html_preview": html[:12000],
-            "card_candidates": card_candidates
+            "card_candidates": card_candidates,
+            "game_cards": game_cards
         }
         Path("oddslab-taiwan-odds-inspection.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         print("HTTP_STATUS", result["status"])
         print("TITLE", result["title"])
         print("VALIDATION", json.dumps(checks, ensure_ascii=False))
-        print("CARD_CANDIDATES", json.dumps(card_candidates, ensure_ascii=False)[:18000])
+        print("GAME_CARDS", json.dumps(game_cards, ensure_ascii=False)[:28000])
         print("PAGE_LINES_BEGIN")
         print("\\n".join(lines[:180]))
         print("PAGE_LINES_END")
