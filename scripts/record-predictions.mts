@@ -63,18 +63,27 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     continue
   }
   if (existing?.stage==='draft') {
-    // Promote an already captured pregame draft even if this workflow runs
-    // just after tipoff. Preserve the original prediction; never recalculate it
-    // after the game has started.
-    if (tipoff-now.getTime()<=60*60*1000) {
+    // Any already-captured pregame draft becomes official once tipoff is reached.
+    // Preserve its original probabilities and projected score; never recalculate
+    // a prediction after the game has started. If the game is already final,
+    // settle it in this same pass instead of skipping it forever.
+    if (tipoff<=now.getTime() || status.includes('final')) {
       existing.stage='official'
       existing.lockedAt=existing.capturedAt
       delete (existing as any).totalLine
       delete (existing as any).totalPick
       added++
+      if (status.includes('final')) {
+        const hs=Number(h.score), as=Number(a.score)
+        if (Number.isFinite(hs)&&Number.isFinite(as)) {
+          existing.actualHome=hs
+          existing.actualAway=as
+          existing.settledAt=now.toISOString()
+          settled++
+        }
+      }
       continue
     }
-    if (status.includes('final') || tipoff<=now.getTime()) continue
     const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator)
     if (rolling.available) {
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
@@ -98,7 +107,8 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   }
 }
 for (const row of rows) { delete (row as any).totalLine; delete (row as any).totalPick }
-const output=rows.slice(-1500)
+// Keep the complete ledger; do not silently discard historical predictions.
+const output=rows
 if (added || settled || refreshed || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
