@@ -141,7 +141,7 @@ async def main():
             continue
         away, home = teams[0], teams[1]  # OddsLab table explicitly orders teams as away / home.
         # OddsLab and ESPN use different short codes for New York and Utah.
-        espn_alias = {"NYK": "NY", "UTA": "UTAH"}
+        espn_alias = {"NYK": "NY", "UTA": "UTAH", "WAS": "WSH"}
         away_code = espn_alias.get(away["abbreviation"], away["abbreviation"])
         home_code = espn_alias.get(home["abbreviation"], home["abbreviation"])
         event = espn.get((away_code, home_code))
