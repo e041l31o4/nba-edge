@@ -45,6 +45,7 @@ const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrat
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 let added=0, settled=0, refreshed=0
+const settledGames:Array<{gameId:string;home:string;away:string;actualHome:number;actualAway:number}> = []
 for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
@@ -57,7 +58,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     if (!existing.settledAt && status.includes('final')) {
       const hs=Number(h.score), as=Number(a.score)
       if (Number.isFinite(hs)&&Number.isFinite(as)) {
-        existing.actualHome=hs; existing.actualAway=as; existing.settledAt=now.toISOString(); settled++
+        existing.actualHome=hs; existing.actualAway=as; existing.settledAt=now.toISOString(); settled++; settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
       }
     }
     continue
@@ -80,6 +81,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
           existing.actualAway=as
           existing.settledAt=now.toISOString()
           settled++
+          settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
         }
       }
       continue
@@ -118,4 +120,5 @@ if (added || settled || refreshed || !previousPayload) {
 }
 const upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
 const official=output.filter(row=>row.stage==='official').length
+if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; successful dates ${successfulDates}/${dateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
