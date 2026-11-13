@@ -73,8 +73,9 @@ async def scrape_page(date_text: str):
           return { id: (card.getAttribute("href") || "").split("/").pop() || "", teams, markets };
         })""")
         await browser.close()
-    if "運彩" not in body or not cards:
-        raise RuntimeError("OddsLab page did not contain the expected public Taiwan lottery game cards.")
+    if "運彩" not in body:
+        raise RuntimeError("OddsLab page did not contain the expected public Taiwan lottery page.")
+    # A valid page with zero cards means the date has no published odds yet.
     updated = re.search(r"賠率更新\s*(\d{1,2}/\d{1,2}\s+\d{1,2}:\d{2})", body)
     return cards, updated.group(1) if updated else None
 
@@ -127,72 +128,103 @@ async def main():
         print("Official Taiwan Sports Lottery feed configured; third-party fallback skipped.")
         return
     today = dt.datetime.now(TAIPEI).date()
-    date_text = today.strftime("%Y-%m-%d")
-    cards, source_updated = await scrape_page(date_text)
-    if not cards:
-        raise RuntimeError("No game cards found; keeping the last valid odds dataset.")
-    espn = fetch_espn_games(today)
-    games, snapshots, unmatched = [], [], []
+    # Poll a rolling 7-day Taiwan calendar window so pregame odds are captured
+    # as soon as published. No odds are fabricated for games not yet opened.
+    all_games = {}
+    snapshots = []
+    unmatched = []
     now = dt.datetime.now(dt.timezone.utc)
-    for card in cards:
-        teams = card.get("teams") or []
-        if len(teams) != 2:
-            unmatched.append(card.get("id", "unknown"))
+    for offset in range(7):
+        taiwan_day = today + dt.timedelta(days=offset)
+        date_text = taiwan_day.strftime("%Y-%m-%d")
+        try:
+            cards, source_updated = await scrape_page(date_text)
+        except Exception as error:
+            print("Odds page unavailable for", date_text, "-", str(error)[:180])
             continue
-        away, home = teams[0], teams[1]  # OddsLab table explicitly orders teams as away / home.
-        # OddsLab and ESPN use different short codes for New York and Utah.
-        espn_alias = {"NYK": "NY", "UTA": "UTAH", "WAS": "WSH"}
-        away_code = espn_alias.get(away["abbreviation"], away["abbreviation"])
-        home_code = espn_alias.get(home["abbreviation"], home["abbreviation"])
-        event = espn.get((away_code, home_code))
-        if not event or not event.get("commence_time"):
-            unmatched.append(f'{away["abbreviation"]}@{home["abbreviation"]}')
+        if not cards:
+            print("No Taiwan Sports Lottery odds published yet for", date_text)
             continue
-        markets = []
-        for key in ("h2h", "spreads", "totals"):
-            options = parse_market_options(card, key, event["away_team"], event["home_team"], away["name"], home["name"])
-            if options:
-                markets.append({"key": key, "outcomes": options})
-        if not markets:
-            continue
-        game = {
-            "id": event["id"],
-            "commence_time": event["commence_time"],
-            "home_team": event["home_team"],
-            "away_team": event["away_team"],
-            "bookmakers": [{"title": BOOK, "markets": markets}],
-        }
-        games.append(game)
-        snapshots.append({
-            "capturedAt": now.isoformat(),
-            "phase": "live" if dt.datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00")) <= now else "pregame",
-            "source": SOURCE,
-            "gameId": event["id"],
-            "home_team": event["home_team"],
-            "away_team": event["away_team"],
-            "commence_time": event["commence_time"],
-            "bookmakers": game["bookmakers"],
-            "sourcePageUpdatedAt": source_updated,
-        })
+        espn = fetch_espn_games(taiwan_day)
+        for card in cards:
+            teams = card.get("teams") or []
+            if len(teams) != 2:
+                unmatched.append(card.get("id", "unknown"))
+                continue
+            away, home = teams[0], teams[1]
+            espn_alias = {"NYK": "NY", "UTA": "UTAH", "WAS": "WSH"}
+            away_code = espn_alias.get(away["abbreviation"], away["abbreviation"])
+            home_code = espn_alias.get(home["abbreviation"], home["abbreviation"])
+            event = espn.get((away_code, home_code))
+            if not event or not event.get("commence_time"):
+                unmatched.append(f'{date_text}:{away["abbreviation"]}@{home["abbreviation"]}')
+                continue
+            markets = []
+            for key in ("h2h", "spreads", "totals"):
+                options = parse_market_options(card, key, event["away_team"], event["home_team"], away["name"], home["name"])
+                if options:
+                    markets.append({"key": key, "outcomes": options})
+            if not markets:
+                continue
+            game = {
+                "id": event["id"],
+                "commence_time": event["commence_time"],
+                "home_team": event["home_team"],
+                "away_team": event["away_team"],
+                "bookmakers": [{"title": BOOK, "markets": markets}],
+            }
+            all_games[event["id"]] = game
+            snapshots.append({
+                "capturedAt": now.isoformat(),
+                "phase": "live" if dt.datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00")) <= now else "pregame",
+                "source": SOURCE,
+                "gameId": event["id"],
+                "home_team": event["home_team"],
+                "away_team": event["away_team"],
+                "commence_time": event["commence_time"],
+                "bookmakers": game["bookmakers"],
+                "sourcePageUpdatedAt": source_updated,
+            })
     if unmatched:
-        raise RuntimeError("Could not safely match all OddsLab game cards to ESPN fixtures: " + ", ".join(unmatched))
-    if not games:
-        raise RuntimeError("No complete Taiwan lottery market pairs were parsed; retaining previous odds.")
-    ROOT.mkdir(parents=True, exist_ok=True)
+        print("Unmatched public odds cards (not imported):", ", ".join(unmatched))
     odds_path = ROOT / "odds.json"
     history_path = ROOT / "odds-history.jsonl"
-    record = {"updatedAt": now.isoformat(), "source": SOURCE, "sourcePageUpdatedAt": source_updated, "games": games}
+    previous = {}
+    try:
+        old = json.loads(odds_path.read_text(encoding="utf-8"))
+        for game in old.get('games', []):
+            start_time = game.get("commence_time", "")
+            if game.get('id') and start_time:
+                if dt.datetime.fromisoformat(start_time.replace("Z", "+00:00")) > now:
+                    previous[str(game["id"])] = game
+    except Exception:
+        pass
+    # Keep valid future snapshots for dates where the board has not republished.
+    previous.update(all_games)
+    if not previous:
+        print("No published pregame markets found in the rolling 7-day window; retaining the previous odds dataset.")
+        return
+    ROOT.mkdir(parents=True, exist_ok=True)
+    ordered_games = sorted(previous.values(), key=lambda game: game.get("commence_time", ""))
+    record = {
+        "updatedAt": now.isoformat(),
+        "source": SOURCE,
+        "windowDays": 7,
+        "games": ordered_games,
+    }
     odds_path.write_text(json.dumps(record, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    with history_path.open("a", encoding="utf-8") as f:
-        for row in snapshots:
-            f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
+    if snapshots:
+        with history_path.open("a", encoding="utf-8") as f:
+            for row in snapshots:
+                f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\\n")
     print(json.dumps({
         "source": SOURCE,
-        "page_updated_at": source_updated,
-        "matched_games": len(games),
-        "market_counts": {key: sum(any(m["key"] == key for m in g["bookmakers"][0]["markets"]) for g in games) for key in ("h2h", "spreads", "totals")},
-        "games": [{"away": g["away_team"], "home": g["home_team"], "markets": [m["key"] for m in g["bookmakers"][0]["markets"]]} for g in games],
+        "window_days": 7,
+        "newly_observed_games": len(all_games),
+        "retained_future_games": len(previous),
+        "snapshots": len(snapshots),
+        "market_counts": {key: sum(any(m["key"] == key for b in (g.get("bookmakers") or []) for m in b.get("markets", [])) for g in ordered_games) for key in ("h2h", "spreads", "totals")},
+        "games": [{"away": g["away_team"], "home": g["home_team"], "commence_time": g["commence_time"], "markets": [m["key"] for b in g.get("bookmakers", []) for m in b.get("markets", [])]} for g in ordered_games],
     }, ensure_ascii=False))
-
 if __name__ == "__main__":
     asyncio.run(main())
