@@ -80,6 +80,7 @@ main{max-width:1240px;margin:auto;padding:0 24px}
 .game-prediction-summary b{display:block;font-size:12px;color:#303b45;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .game-prediction-summary strong{display:block;color:var(--court);font:700 17px 'DM Mono';margin-top:3px}
 .game-prediction-summary em{display:block;font-style:normal;color:#89929a;font-size:9px;margin-top:4px}
+.market-pick-cell b{color:#35404a}.market-pick-cell:nth-child(3) b{color:#477da9}.market-pick-cell:nth-child(4) b{color:#c66d32}.market-pick-cell em{white-space:normal;line-height:1.45}
 .game-prediction-summary.pick-correct>div:first-child{background:#eef8f2;border-color:#d5ecdf}
 .game-prediction-summary.pick-correct>div:first-child em{color:#25845d}
 .game-prediction-summary.pick-wrong>div:first-child{background:#fff2ef;border-color:#f3d8d1}
