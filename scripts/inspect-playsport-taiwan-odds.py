@@ -53,8 +53,9 @@ async def main():
                 row["requests"]=requests_seen[-100:]; row["responses"]=responses_seen[-100:]
             results.append(row)
             print("PLAYSPORT_PROBE",json.dumps({"url":url,"status":row.get("status"),"finalUrl":row.get("finalUrl"),
-                "dateVisible":row.get("targetDateVisible"),"taiwanLabel":row.get("hasTaiwanOddsLabel"),
-                "internationalLabel":row.get("hasInternationalLabel"),"error":row.get("error")},ensure_ascii=False))
+                "targetDate":target,"dateVisible":row.get("targetDateVisible"),"taiwanLabel":row.get("hasTaiwanOddsLabel"),
+                "internationalLabel":row.get("hasInternationalLabel"),"marketLines":row.get("marketLines",[])[:30],
+                "modeControls":row.get("modeControls",[])[:20],"error":row.get("error")},ensure_ascii=False))
             await page.wait_for_timeout(900)
         await browser.close()
     Path("playsport-taiwan-probe.json").write_text(json.dumps({"targetTaiwanDate":target,
