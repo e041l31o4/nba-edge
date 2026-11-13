@@ -437,4 +437,8 @@ save('public/data/injuries.json', {
     'players': injuries,
     'status': 'available' if injuries else 'unavailable'
 })
+sample_counts = [len(row.get('last10', [])) for row in forms.values()]
+valid_efficiency = [abbr for abbr, row in team_metrics.items() if not row.get('stale') and isinstance(row.get('offensiveRating'), (int, float)) and isinstance(row.get('defensiveRating'), (int, float))]
+print('TEAM_FORM_DIAGNOSTIC', json.dumps({'teams': len(forms), 'teamsWith3Plus': sum(1 for count in sample_counts if count >= 3), 'teamsWith10': sum(1 for count in sample_counts if count >= 10), 'minRecentGames': min(sample_counts) if sample_counts else 0, 'maxRecentGames': max(sample_counts) if sample_counts else 0}, ensure_ascii=False))
+print('TEAM_METRICS_DIAGNOSTIC', json.dumps({'teams': len(team_metrics), 'validOffDef': len(valid_efficiency), 'validTeams': valid_efficiency[:30]}, ensure_ascii=False))
 print('Saved team form for', len(forms), 'teams;', games_found, 'completed team results; injury rows:', len(injuries), 'source:', injury_source)
