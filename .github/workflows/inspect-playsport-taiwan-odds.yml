@@ -34,6 +34,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playsport-taiwan-odds-probe
-          path: playsport-taiwan-probe.json
+          path: |
+            playsport-taiwan-probe.json
+            playsport-taiwan-dryrun.json
           if-no-files-found: ignore
           retention-days: 5
