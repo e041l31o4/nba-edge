@@ -373,6 +373,12 @@ result = {
     'marketBacktest': current_market_backtest,
     'marketBacktestSeason': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
     'marketBacktestPredictionSample': len(current_season_predictions),
+    'currentSeason': {
+        'season': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
+        'completedGames': len(current_season_games),
+        'predictionSample': len(current_season_predictions),
+        'metrics': metrics(current_season_predictions)
+    },
     'seasonResults': season_results,
     'calibration': calibration(all_predictions),
     'calibrationEvaluation': {
@@ -393,4 +399,5 @@ result = {
 pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
 pathlib.Path('public/data/backtest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
 print('Saved multi-season walk-forward backtest:', len(all_predictions), 'predictions across', len(season_results), 'seasons', json.dumps(result['metrics']))
+print('Current-season winner/score backtest:', json.dumps(result['currentSeason'], ensure_ascii=False))
 print('Separate Taiwan market backtest (h2h / totals / spreads):', json.dumps(result['marketBacktest'], ensure_ascii=False))
