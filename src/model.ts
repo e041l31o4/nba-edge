@@ -28,9 +28,14 @@ const record=(rows:RecentGame[])=>{const wins=rows.filter(x=>x.win).length;retur
 const net=(rows:RecentGame[])=>avg(rows.map(x=>x.pointsFor-x.pointsAgainst))
 const scheduleStrength=(rows:RecentGame[],form:TeamFormData)=>{const values=rows.map(x=>x.opponentId?form.teams[String(x.opponentId)]?.last10:null).filter((x):x is RecentGame[]=>!!x&&x.length>=5).map(net);return values.length>=3?avg(values):null}
 function absenceProbability(status:string){const s=status.toLowerCase();if(/out|inactive|suspended/.test(s))return 1;if(/doubtful/.test(s))return 0.8;if(/questionable|game.time|day.to.day/.test(s))return 0.5;if(/probable/.test(s))return 0.15;if(/available|active/.test(s))return 0;return 0}
+function normalizeInjuryTeamAbbreviation(value:string){
+ const key=(value??'').toUpperCase().trim()
+ const aliases:Record<string,string>={GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'}
+ return aliases[key]??key
+}
 function injuryRiskLevel(injuries:InjuryData|null, rows:InjuryRow[]):ModelResult['injuryRisk']{
  if(!injuries||injuries.status!=='available'||!injuries.source?.includes('NBA Official Injury Report'))return '待確認'
- const keyPlayers=rows.filter(x=>(Number(x.pointsPerGame??0)>=10||Number(x.minutesPerGame??0)>=24)&&absenceProbability(x.status)>=0.5)
+ const keyPlayers=rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&(Number(x.pointsPerGame??0)>=10||Number(x.minutesPerGame??0)>=24)&&absenceProbability(x.status)>=0.5)
  return keyPlayers.length>=3?'偏高':keyPlayers.length>=1?'中等':'低'
 }
 function replacementGap(minutesPerGame?:number){if(typeof minutesPerGame!=='number'||!Number.isFinite(minutesPerGame)||minutesPerGame<=0)return 0.35;return 0.25+0.20*Math.max(0,Math.min(1,minutesPerGame/36))}
@@ -38,7 +43,7 @@ function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>!/g leag
 export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null,teamMetrics?:TeamMetricsData|null):ModelResult{
  const resolveTeam=(id:string,abbr:string)=>form?.teams?.[String(id)] ?? Object.values(form?.teams??{}).find(row=>row.abbreviation?.toUpperCase()===abbr?.toUpperCase())
  const h=resolveTeam(game.home.id,game.home.abbreviation),a=resolveTeam(game.away.id,game.away.abbreviation)
- const hi=(injuries?.players??[]).filter(x=>x.team===game.home.abbreviation), ai=(injuries?.players??[]).filter(x=>x.team===game.away.abbreviation)
+ const hi=(injuries?.players??[]).filter(x=>normalizeInjuryTeamAbbreviation(x.team)===normalizeInjuryTeamAbbreviation(game.home.abbreviation)), ai=(injuries?.players??[]).filter(x=>normalizeInjuryTeamAbbreviation(x.team)===normalizeInjuryTeamAbbreviation(game.away.abbreviation))
  const empty={homeRecord:'—',awayRecord:'—',homePpg:0,homeOppPpg:0,awayPpg:0,awayOppPpg:0,homeLast5:'—',awayLast5:'—',homeNet:0,awayNet:0,projectedHome:0,projectedAway:0,projectedMargin:0,projectedTotal:0,homeWin:0.5,awayWin:0.5,homeInjuries:hi,awayInjuries:ai,confidence:'低' as const,sample:0,homeRestDays:null,awayRestDays:null,homeGamesLast3Days:0,awayGamesLast3Days:0,homeGamesLast5Days:0,awayGamesLast5Days:0,homeGamesLast7Days:0,awayGamesLast7Days:0,homeRoadStreak:0,awayRoadStreak:0,homeBackToBack:false,awayBackToBack:false,injuryRisk:'待確認' as const,homeSOS:null,awaySOS:null,homeInjuryImpact:0,awayInjuryImpact:0,homeImpactPlayers:0,awayImpactPlayers:0,totalTrend:null,totalStdDev:14.2,paceAdjustment:0}
  if(!h?.last10||!a?.last10||h.last10.length<3||a.last10.length<3){
   const hm=teamMetrics?.teams?.[game.home.abbreviation],am=teamMetrics?.teams?.[game.away.abbreviation]
