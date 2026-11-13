@@ -48,7 +48,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
   const pace=paceValues.length?avg(paceValues):99
   const rawHome=((hm!.offensiveRating!+am!.defensiveRating!)/2)*pace/100+2.0
   const rawAway=((am!.offensiveRating!+hm!.defensiveRating!)/2)*pace/100
-  const hiImpact=injuryImpact(hi),aiImpact=injuryImpact(ai)
+  const hiImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?hi:[]),aiImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?ai:[])
   const projectedHome=Math.max(70,rawHome-hiImpact.points),projectedAway=Math.max(70,rawAway-aiImpact.points)
   const projectedMargin=projectedHome-projectedAway,projectedTotal=projectedHome+projectedAway
   const games=Math.min(hm!.gamesPlayed??0,am!.gamesPlayed??0)
@@ -75,7 +75,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const b2bAdjustment=(homeBackToBack?-1.3:0)+(awayBackToBack?1.3:0)
  const homeSOS=scheduleStrength(hs,form!),awaySOS=scheduleStrength(as,form!)
  const sosAdjustment=homeSOS===null||awaySOS===null?0:(homeSOS-awaySOS)*0.18
- const hImpact=injuryImpact(hi),aImpact=injuryImpact(ai)
+ const hImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?hi:[]),aImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?ai:[])
  // Estimate only the un-replaced share of missing production. The replacement gap scales from 25% for low-minute roles to 45% for 36+ MPG roles; missing MPG uses a conservative 35% fallback. Status probability weights the estimate; cap 10 points/team.
  const homeInjuryImpact=hImpact.points,awayInjuryImpact=aImpact.points
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment-homeInjuryImpact+awayInjuryImpact
