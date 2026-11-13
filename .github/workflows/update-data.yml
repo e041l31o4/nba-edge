@@ -118,14 +118,22 @@ jobs:
               for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
-      - name: Refresh public Taiwan lottery odds when official feed is not configured
+      - name: Refresh Taiwan Sports Lottery odds from PlaySport 運彩盤
+        id: playsport_refresh
+        continue-on-error: true
+        env:
+          SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
+          TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
+        run: python scripts/refresh-playsport-taiwan-odds.py
+      - name: Refresh public Taiwan lottery odds when PlaySport source is unavailable
         id: odds_refresh
+        if: steps.playsport_refresh.outcome != 'success'
         continue-on-error: true
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: python scripts/refresh-oddslab-taiwan-odds.py
       - name: Publish fresh odds and odds history to Supabase immediately
-        if: steps.odds_refresh.outcome == 'success'
+        if: steps.playsport_refresh.outcome == 'success' || steps.odds_refresh.outcome == 'success'
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
