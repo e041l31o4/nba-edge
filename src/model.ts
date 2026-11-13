@@ -29,12 +29,29 @@ const scheduleStrength=(rows:RecentGame[],form:TeamFormData)=>{const values=rows
 function absenceProbability(status:string){const s=status.toLowerCase();if(/out|inactive|suspended/.test(s))return 1;if(/doubtful/.test(s))return 0.8;if(/questionable|game.time|day.to.day/.test(s))return 0.5;if(/probable/.test(s))return 0.15;if(/available|active/.test(s))return 0;return 0}
 function replacementGap(minutesPerGame?:number){if(typeof minutesPerGame!=='number'||!Number.isFinite(minutesPerGame)||minutesPerGame<=0)return 0.35;return 0.25+0.20*Math.max(0,Math.min(1,minutesPerGame/36))}
 function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*replacementGap(x.minutesPerGame),0);return {points:Math.min(10,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length}}
-export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null):ModelResult{
+export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null,teamMetrics?:TeamMetricsData|null):ModelResult{
  const resolveTeam=(id:string,abbr:string)=>form?.teams?.[String(id)] ?? Object.values(form?.teams??{}).find(row=>row.abbreviation?.toUpperCase()===abbr?.toUpperCase())
  const h=resolveTeam(game.home.id,game.home.abbreviation),a=resolveTeam(game.away.id,game.away.abbreviation)
  const hi=(injuries?.players??[]).filter(x=>x.team===game.home.abbreviation), ai=(injuries?.players??[]).filter(x=>x.team===game.away.abbreviation)
  const empty={homeRecord:'—',awayRecord:'—',homePpg:0,homeOppPpg:0,awayPpg:0,awayOppPpg:0,homeLast5:'—',awayLast5:'—',homeNet:0,awayNet:0,projectedHome:0,projectedAway:0,projectedMargin:0,projectedTotal:0,homeWin:0.5,awayWin:0.5,homeInjuries:hi,awayInjuries:ai,confidence:'低' as const,sample:0,homeRestDays:null,awayRestDays:null,homeGamesLast3Days:0,awayGamesLast3Days:0,homeGamesLast5Days:0,awayGamesLast5Days:0,homeGamesLast7Days:0,awayGamesLast7Days:0,homeRoadStreak:0,awayRoadStreak:0,homeBackToBack:false,awayBackToBack:false,injuryRisk:'待確認' as const,homeSOS:null,awaySOS:null,homeInjuryImpact:0,awayInjuryImpact:0,homeImpactPlayers:0,awayImpactPlayers:0}
- if(!h?.last10||!a?.last10||h.last10.length<3||a.last10.length<3)return {...empty,available:false,reason:'每隊至少需要 3 場已完賽數據；樣本不足時暫不產生勝率。'}
+ if(!h?.last10||!a?.last10||h.last10.length<3||a.last10.length<3){
+  const hm=teamMetrics?.teams?.[game.home.abbreviation],am=teamMetrics?.teams?.[game.away.abbreviation]
+  const valid=(row?:TeamMetricRow)=>!!row&&!row.stale&&Number.isFinite(row.offensiveRating)&&Number.isFinite(row.defensiveRating)
+  if(!valid(hm)||!valid(am))return {...empty,available:false,reason:'近期賽事不足，且本季攻防效率資料未同時取得；請檢查 team-form.json 與 team-metrics.json。'}
+  const paceValues=[hm?.pace,am?.pace].filter((v):v is number=>typeof v==='number'&&Number.isFinite(v)&&v>0)
+  const pace=paceValues.length?avg(paceValues):99
+  const rawHome=((hm!.offensiveRating!+am!.defensiveRating!)/2)*pace/100+2.0
+  const rawAway=((am!.offensiveRating!+hm!.defensiveRating!)/2)*pace/100
+  const hiImpact=injuryImpact(hi),aiImpact=injuryImpact(ai)
+  const projectedHome=Math.max(70,rawHome-hiImpact.points),projectedAway=Math.max(70,rawAway-aiImpact.points)
+  const projectedMargin=projectedHome-projectedAway,projectedTotal=projectedHome+projectedAway
+  const games=Math.min(hm!.gamesPlayed??0,am!.gamesPlayed??0)
+  const injuryRows=[...hi,...ai],outCount=injuryRows.filter(x=>/out|inactive|suspended/i.test(x.status)).length,uncertainCount=injuryRows.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
+  const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
+  const confidence:ModelResult['confidence']=games>=15&&injuries?.status==='available'&&injuryRisk!=='偏高'?'中':'低'
+  const p=calibrateProbability(cdf(projectedMargin/13),calibrator)
+  return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players}
+ }
  const hs=h.last10.slice(0,10),as=a.last10.slice(0,10),h5=hs.slice(0,5),a5=as.slice(0,5)
  const hpf=avg(hs.map(x=>x.pointsFor)),hpa=avg(hs.map(x=>x.pointsAgainst)),apf=avg(as.map(x=>x.pointsFor)),apa=avg(as.map(x=>x.pointsAgainst))
  const h5pf=avg(h5.map(x=>x.pointsFor)),h5pa=avg(h5.map(x=>x.pointsAgainst)),a5pf=avg(a5.map(x=>x.pointsFor)),a5pa=avg(a5.map(x=>x.pointsAgainst))
