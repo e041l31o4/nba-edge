@@ -1,6 +1,7 @@
 import asyncio
 import datetime as dt
 import json
+import re
 from pathlib import Path
 from playwright.async_api import async_playwright
 
@@ -43,7 +44,7 @@ async def main():
                     "links":await page.locator("a").evaluate_all("(els)=>els.map(a=>({text:(a.innerText||'').trim(),href:a.href})).filter(x=>/運彩|國際|11\\/14|11\\/13/.test(x.text+' '+x.href)).slice(0,80)"),
                     "requests":requests_seen[-100:],"responses":responses_seen[-100:]
                 })
-                row["marketLines"] = [line.strip() for line in body.splitlines() if "運彩" in line or "國際" in line or re.search(r"(客|主)\\s*[+-]?\\s*\\d+(?:\\.\\d+)?\\s*,\\s*\\d+\\.\\d+", line) or re.search(r"(大|小)\\s*\\d+(?:\\.\\d+)?\\s*,\\s*\\d+\\.\\d+", line)][:100]
+                row["marketLines"] = [line.strip() for line in body.splitlines() if "運彩" in line or "國際" in line or re.search(r"(客|主)\s*[+-]?\s*\d+(?:\.\d+)?\s*,\s*\d+\.\d+", line) or re.search(r"(大|小)\s*\d+(?:\.\d+)?\s*,\s*\d+\.\d+", line)][:100]
                 row["modeControls"] = await page.locator("a,button,select,option,li,span").evaluate_all("""els => els.filter(el => el.children.length < 3 && ['運彩','國際'].includes((el.innerText||'').trim())).map(el => ({tag:el.tagName,text:(el.innerText||'').trim(),href:el.href||'',className:String(el.className||''),html:el.outerHTML.slice(0,500)})).slice(0,40)""")
                 marker=body.find("運彩盤")
                 if marker>=0: row["taiwanMarketExcerpt"]=body[max(0,marker-1200):marker+9000]
