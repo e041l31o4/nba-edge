@@ -1,4 +1,4 @@
-import json, re, datetime, urllib.request, pathlib, html, sys, time
+import json, re, datetime, urllib.request, pathlib, html, sys, time, unicodedata
 
 BASE = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 HEAD = {'User-Agent': 'Mozilla/5.0 NBA-EDGE/1.1'}
@@ -67,6 +67,12 @@ forms = {}
 roster_map = {}
 rosters_by_team = {}
 
+def normalize_player_name(value):
+    value = unicodedata.normalize('NFKD', str(value or ''))
+    value = ''.join(ch for ch in value if not unicodedata.combining(ch))
+    return re.sub(r'[^a-z0-9]', '', value.lower())
+
+
 for item in teams:
     team = item.get('team', {})
     team_id = str(team.get('id') or '')
@@ -123,6 +129,7 @@ for item in teams:
                                 'jersey': node.get('jersey')
                             }
                             roster_map[name.strip().lower()] = roster_entry
+                            roster_map[f"{team.get('abbreviation', '').upper()}|{normalize_player_name(name)}"] = roster_entry
                             if str(athlete_id) not in seen_roster_ids:
                                 team_roster.append(roster_entry)
                                 seen_roster_ids.add(str(athlete_id))
@@ -309,7 +316,10 @@ try:
             match = re.search(r'^\s*([A-Z]{2,3})\s+(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$', line, re.I)
             if match:
                 player_name = match.group(2).strip()
-                roster_info = roster_map.get(player_name.lower(), {})
+                roster_info = (
+                    roster_map.get(f"{match.group(1).upper()}|{normalize_player_name(player_name)}")
+                    or roster_map.get(player_name.lower(), {})
+                )
                 injuries.append({
                     'team': match.group(1), 'player': player_name,
                     'status': match.group(3).title(), 'detail': match.group(4).strip(),
@@ -467,6 +477,18 @@ save('public/data/rosters.json', {
     'teams': rosters_by_team,
     'status': 'available' if rosters_by_team else 'unavailable'
 })
+
+enriched_with_ppg = sum(isinstance(x.get('pointsPerGame'), (int, float)) and x.get('pointsPerGame') > 0 for x in injuries)
+enriched_with_mpg = sum(isinstance(x.get('minutesPerGame'), (int, float)) and x.get('minutesPerGame') > 0 for x in injuries)
+matched_athlete_ids = sum(bool(x.get('athleteId')) for x in injuries)
+print('INJURY_ENRICHMENT_DIAGNOSTIC', json.dumps({
+    'injuryRows': len(injuries),
+    'matchedAthleteIds': matched_athlete_ids,
+    'missingAthleteIds': len(injuries) - matched_athlete_ids,
+    'withPPG': enriched_with_ppg,
+    'withMPG': enriched_with_mpg,
+    'source': injury_source
+}, ensure_ascii=False))
 
 save('public/data/injuries.json', {
     'updatedAt': now.isoformat(),
