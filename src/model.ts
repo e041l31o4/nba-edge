@@ -84,9 +84,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  // Totals use their own trend and uncertainty estimate; this is not a simple copy of the score sum.
  // Independent totals signal: blend the matchup score projection with both teams' recent game-total environment.
  const projectedTotal=scoreBasedTotal*0.75+totalTrend*0.25+paceAdjustment
- const allRecentTotals=[...hs,...as].map(x=>x.pointsFor+x.pointsAgainst)
- const totalMean=avg(allRecentTotals),totalVariance=avg(allRecentTotals.map(x=>(x-totalMean)**2))
- const totalStdDev=18.6 // Use the settled forecast-residual baseline; recent game-total dispersion is not forecast error and can overstate market confidence.
+ const totalStdDev=18.6 // Historical settled forecast-residual baseline; not recent game-total dispersion.
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length)
  const allInjuries=[...hi,...ai]
