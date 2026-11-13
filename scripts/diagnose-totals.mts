@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { analyzeMatch, totalProbability, decimalExpectedValue, calibrateProbability, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
+import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 const read = async <T>(p:string):Promise<T> => JSON.parse(await readFile(p,'utf8')) as T
 const [form,injuries,metrics,backtest,odds] = await Promise.all([
@@ -19,7 +19,6 @@ const games=(board.events??[]).map((e:any)=>{
  return {id:String(e.id),date:e.date,home:{id:String(h?.team?.id??''),name:h?.team?.name,abbreviation:h?.team?.abbreviation},away:{id:String(a?.team?.id??''),name:a?.team?.name,abbreviation:a?.team?.abbreviation}}
 })
 const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
-const normalCdf=(z:number)=>{const sign=z<0?-1:1,x=Math.abs(z)/Math.sqrt(2),t=1/(1+0.3275911*x);const erf=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return Math.max(0.001,Math.min(0.999,0.5*(1+sign*erf)))}
 const teamNickname=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'').split(/(?=[0-9])/)[0]
 const output=[]
 for(const game of games){
@@ -51,8 +50,7 @@ for(const game of games){
   const isHome=homeName.endsWith(n)||homeName.includes(n)
   const isAway=awayName.endsWith(n)||awayName.includes(n)
   if(!isHome&&!isAway)return null
-  const teamMargin=isHome?report.projectedMargin:-report.projectedMargin
-  const probability=calibrateProbability(normalCdf((teamMargin+o.point)/12.2),calibrator)
+  const probability=coverProbability(report.projectedMargin,o.point,isHome)
   return {side:o.name,handicap:o.point,price:o.price,probability,ev:decimalExpectedValue(probability,o.price),book:o.book}
  }).filter(Boolean).sort((a:any,b:any)=>b.ev-a.ev)
  const homeForm=form.teams[game.home.id],awayForm=form.teams[game.away.id]
