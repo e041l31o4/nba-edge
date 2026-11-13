@@ -166,7 +166,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  const lotteryBooks=lotteryGame?.bookmakers??[]
  const cardSpread=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({name:o.name,point:o.point,price:o.price}))))
  const cardTotals=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({name:o.name,point:o.point,price:o.price}))))
- const spreadPicks=report?.available&&report.injuryRisk!=='待確認'&&report.injuryRisk!=='偏高'
+ const spreadPicks=report?.available
   ? cardSpread.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{
     const n=x.name.toLowerCase()
     const isHome=n===game.home.name.toLowerCase()||n===game.home.displayName.toLowerCase()||n.includes(game.home.abbreviation.toLowerCase())||n.includes(game.home.displayName.toLowerCase())
@@ -175,7 +175,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
     return {...x,isHome,isAway,probability,ev:decimalExpectedValue(probability,x.price)}
    }).filter(x=>x.isHome||x.isAway)
   : []
- const totalPicks=report?.available&&report.injuryRisk!=='待確認'&&report.injuryRisk!=='偏高'
+ const totalPicks=report?.available
   ? cardTotals.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{
     const isOver=x.name.toLowerCase().includes('over')||x.name.includes('大')
     const probability=totalProbability(report.projectedTotal,x.point!,isOver)
@@ -186,7 +186,7 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
  // EV ranks the alternatives; a negative EV is still shown transparently as a low-edge direction.
  const bestSpread=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
  const bestTotal=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
- const confidenceLabel=(pick:{probability:number;ev:number}|undefined)=>!pick?'':pick.probability>=0.62&&pick.ev>=0.02?'高信心':pick.probability>=0.55?'中信心':'參考方向'
+ const confidenceLabel=(pick:{probability:number;ev:number}|undefined)=>!pick?'':pick.probability>=0.62&&pick.ev>=0.02&&report?.confidence==='高'&&report.injuryRisk==='低'?'高信心':pick.probability>=0.55&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'中信心':'參考方向'
  const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
  const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
  const unverified=done&&!useSaved&&ledgerStatus==='ready'
