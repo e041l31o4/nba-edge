@@ -49,12 +49,12 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
  const injuryUpdated=injuryData?.updatedAt?new Date(injuryData.updatedAt).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'}):'尚無資料'
  const homeSpread=spread.filter(x=>x.point!==undefined).map(x=>({...x,isHome:x.name.toLowerCase().includes(game.home.abbreviation.toLowerCase())||x.name.toLowerCase().includes(game.home.displayName.toLowerCase())||x.name.toLowerCase()===game.home.name.toLowerCase()})).filter(x=>x.isHome||x.name.toLowerCase().includes(game.away.abbreviation.toLowerCase())||x.name.toLowerCase().includes(game.away.displayName.toLowerCase())||x.name.toLowerCase()===game.away.name.toLowerCase())
  const marketPicks=useMemo(()=>{
-  if(!report.available||report.injuryRisk==='待確認'||report.injuryRisk==='偏高')return {spread:null,total:null,blocked:true}
-  const minEdge=report.confidence==='中'?0.03:0.08
-  const minProbability=report.confidence==='中'?0.55:0.60
+  if(!report.available)return {spread:null,total:null,blocked:true}
+  const minEdge=Number.NEGATIVE_INFINITY
+  const minProbability=0
   const spreadCandidates=homeSpread.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{const probability=coverProbability(report.projectedMargin,x.point!,x.isHome);return {...x,probability,ev:decimalExpectedValue(probability,x.price),label:x.name+' '+(x.point!>0?'+':'')+x.point}})
   const totalCandidates=totals.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{const isOver=x.name.toLowerCase().includes('over')||x.name.includes('大');const probability=totalProbability(report.projectedTotal,x.point!,isOver);return {...x,probability,ev:decimalExpectedValue(probability,x.price),label:(isOver?'大分':'小分')+' '+x.point}})
-  const choose=(items:any[])=>items.filter(x=>Number.isFinite(x.ev)&&x.ev>=minEdge&&x.probability>=minProbability).sort((a,b)=>b.ev-a.ev)[0]??null
+  const choose=(items:any[])=>items.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]??null
   return {spread:choose(spreadCandidates),total:choose(totalCandidates),blocked:false,minEdge,minProbability}
  },[report,homeSpread,totals])
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
