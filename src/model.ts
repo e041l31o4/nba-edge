@@ -18,6 +18,7 @@ export type ModelResult = {
   homeGamesLast3Days:number; awayGamesLast3Days:number; homeGamesLast5Days:number; awayGamesLast5Days:number; homeGamesLast7Days:number; awayGamesLast7Days:number; homeRoadStreak:number; awayRoadStreak:number;
   homeBackToBack:boolean; awayBackToBack:boolean; injuryRisk:'待確認'|'偏高'|'中等'|'低'; homeSOS:number|null; awaySOS:number|null;
   homeInjuryImpact:number; awayInjuryImpact:number; homeImpactPlayers:number; awayImpactPlayers:number;
+  totalTrend:number|null; totalStdDev:number; paceAdjustment:number;
 }
 const clamp=(n:number,min=0.01,max=0.99)=>Math.max(min,Math.min(max,n))
 export function calibrateProbability(probability:number, calibrator?:ProbabilityCalibrator|null){if(!calibrator||!Number.isFinite(calibrator.a)||!Number.isFinite(calibrator.b))return clamp(probability);const p=Math.max(0.001,Math.min(0.999,probability));const logit=Math.log(p/(1-p));const z=calibrator.a*logit+calibrator.b;return clamp(z>=0?1/(1+Math.exp(-Math.min(z,40))):Math.exp(Math.max(z,-40))/(1+Math.exp(Math.max(z,-40))))}
@@ -33,7 +34,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const resolveTeam=(id:string,abbr:string)=>form?.teams?.[String(id)] ?? Object.values(form?.teams??{}).find(row=>row.abbreviation?.toUpperCase()===abbr?.toUpperCase())
  const h=resolveTeam(game.home.id,game.home.abbreviation),a=resolveTeam(game.away.id,game.away.abbreviation)
  const hi=(injuries?.players??[]).filter(x=>x.team===game.home.abbreviation), ai=(injuries?.players??[]).filter(x=>x.team===game.away.abbreviation)
- const empty={homeRecord:'—',awayRecord:'—',homePpg:0,homeOppPpg:0,awayPpg:0,awayOppPpg:0,homeLast5:'—',awayLast5:'—',homeNet:0,awayNet:0,projectedHome:0,projectedAway:0,projectedMargin:0,projectedTotal:0,homeWin:0.5,awayWin:0.5,homeInjuries:hi,awayInjuries:ai,confidence:'低' as const,sample:0,homeRestDays:null,awayRestDays:null,homeGamesLast3Days:0,awayGamesLast3Days:0,homeGamesLast5Days:0,awayGamesLast5Days:0,homeGamesLast7Days:0,awayGamesLast7Days:0,homeRoadStreak:0,awayRoadStreak:0,homeBackToBack:false,awayBackToBack:false,injuryRisk:'待確認' as const,homeSOS:null,awaySOS:null,homeInjuryImpact:0,awayInjuryImpact:0,homeImpactPlayers:0,awayImpactPlayers:0}
+ const empty={homeRecord:'—',awayRecord:'—',homePpg:0,homeOppPpg:0,awayPpg:0,awayOppPpg:0,homeLast5:'—',awayLast5:'—',homeNet:0,awayNet:0,projectedHome:0,projectedAway:0,projectedMargin:0,projectedTotal:0,homeWin:0.5,awayWin:0.5,homeInjuries:hi,awayInjuries:ai,confidence:'低' as const,sample:0,homeRestDays:null,awayRestDays:null,homeGamesLast3Days:0,awayGamesLast3Days:0,homeGamesLast5Days:0,awayGamesLast5Days:0,homeGamesLast7Days:0,awayGamesLast7Days:0,homeRoadStreak:0,awayRoadStreak:0,homeBackToBack:false,awayBackToBack:false,injuryRisk:'待確認' as const,homeSOS:null,awaySOS:null,homeInjuryImpact:0,awayInjuryImpact:0,homeImpactPlayers:0,awayImpactPlayers:0,totalTrend:null,totalStdDev:14.2,paceAdjustment:0}
  if(!h?.last10||!a?.last10||h.last10.length<3||a.last10.length<3){
   const hm=teamMetrics?.teams?.[game.home.abbreviation],am=teamMetrics?.teams?.[game.away.abbreviation]
   const valid=(row?:TeamMetricRow)=>!!row&&!row.stale&&Number.isFinite(row.offensiveRating)&&Number.isFinite(row.defensiveRating)
@@ -50,7 +51,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
   const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
   const confidence:ModelResult['confidence']=games>=15&&injuries?.status==='available'&&injuryRisk!=='偏高'?'中':'低'
   const p=calibrateProbability(cdf(projectedMargin/13),calibrator)
-  return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players}
+  return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players,totalTrend:projectedTotal,totalStdDev:16.5,paceAdjustment:0}
  }
  const hs=h.last10.slice(0,10),as=a.last10.slice(0,10),h5=hs.slice(0,5),a5=as.slice(0,5)
  const hpf=avg(hs.map(x=>x.pointsFor)),hpa=avg(hs.map(x=>x.pointsAgainst)),apf=avg(as.map(x=>x.pointsFor)),apa=avg(as.map(x=>x.pointsAgainst))
@@ -74,7 +75,17 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  // Estimate only the un-replaced share of missing production. The replacement gap scales from 25% for low-minute roles to 45% for 36+ MPG roles; missing MPG uses a conservative 35% fallback. Status probability weights the estimate; cap 10 points/team.
  const homeInjuryImpact=hImpact.points,awayInjuryImpact=aImpact.points
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment-homeInjuryImpact+awayInjuryImpact
- const projectedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)-homeInjuryImpact-awayInjuryImpact
+ const scoreBasedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)-homeInjuryImpact-awayInjuryImpact
+ const teamTotalTrend=(rows:RecentGame[])=>{const totals=rows.map(x=>x.pointsFor+x.pointsAgainst);const recent=totals.slice(0,5);return recent.length?0.6*avg(recent)+0.4*avg(totals):scoreBasedTotal}
+ const totalTrend=avg([teamTotalTrend(hs),teamTotalTrend(as)])
+ const paceRows=[teamMetrics?.teams?.[game.home.abbreviation],teamMetrics?.teams?.[game.away.abbreviation]]
+ const usablePaces=paceRows.filter(x=>!!x&&!x.stale&&typeof x.pace==='number'&&Number.isFinite(x.pace)&&x.pace>=80&&x.pace<=110).map(x=>x!.pace!)
+ const paceAdjustment=usablePaces.length===2?Math.max(-6,Math.min(6,(avg(usablePaces)-99)*1.7)):0
+ // Independent totals signal: blend the matchup score projection with both teams' recent game-total environment.
+ const projectedTotal=scoreBasedTotal*0.75+totalTrend*0.25+paceAdjustment
+ const allRecentTotals=[...hs,...as].map(x=>x.pointsFor+x.pointsAgainst)
+ const totalMean=avg(allRecentTotals),totalVariance=avg(allRecentTotals.map(x=>(x-totalMean)**2))
+ const totalStdDev=Math.max(14.2,Math.min(20,Math.sqrt(totalVariance)))
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length)
  const allInjuries=[...hi,...ai]
@@ -82,10 +93,10 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const uncertainCount=allInjuries.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
  const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
  const confidence:ModelResult['confidence']=sample>=8&&injuries?.status==='available'&&injuryRisk!=='偏高'?'高':sample>=5&&injuries?.status==='available'?'中':'低'
- return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players}
+ return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players,totalTrend,totalStdDev,paceAdjustment}
 }
 export function coverProbability(projectedMargin:number,point:number,isHome:boolean){const margin=isHome?projectedMargin:-projectedMargin;return cdf((margin+point)/11.8)}
-export function totalProbability(projectedTotal:number,point:number,isOver:boolean){return isOver?cdf((projectedTotal-point)/14.2):cdf((point-projectedTotal)/14.2)}
+export function totalProbability(projectedTotal:number,point:number,isOver:boolean,stdDev=14.2){const sigma=Math.max(10,Math.min(22,Number.isFinite(stdDev)?stdDev:14.2));return isOver?cdf((projectedTotal-point)/sigma):cdf((point-projectedTotal)/sigma)}
 export function americanToDecimal(price:number){return price>0?1+price/100:1+100/Math.abs(price)}
 export function impliedProbability(price:number){const d=americanToDecimal(price);return 1/d}
 export function expectedValue(probability:number,price:number){return probability*americanToDecimal(price)-1}
