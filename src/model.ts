@@ -59,7 +59,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment-homeInjuryImpact+awayInjuryImpact
  const projectedTotal=rawHome+rawAway-(homeBackToBack?1.3:0)-(awayBackToBack?1.3:0)-homeInjuryImpact-awayInjuryImpact
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
- const sample=Math.min(hs.length,as.length),injuryCount=hi.length+ai.length
+ const sample=Math.min(hs.length,as.length)
  const allInjuries=[...hi,...ai]
  const outCount=allInjuries.filter(x=>/out|inactive|suspended/i.test(x.status)).length
  const uncertainCount=allInjuries.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
