@@ -1,7 +1,7 @@
 export type RecentGame = { date?: string; pointsFor: number; pointsAgainst: number; win: boolean; opponent?: string; opponentId?: string; homeAway?: string }
 export type TeamFormRow = { teamId: string; team: string; abbreviation: string; last10: RecentGame[] }
 export type TeamFormData = { updatedAt: string; source: string; teams: Record<string, TeamFormRow> }
-export type InjuryRow = { team: string; player: string; status: string; detail?: string; position?: string; athleteId?: string; sourceUrl?: string; pointsPerGame?: number; minutesPerGame?: number; reboundsPerGame?: number; assistsPerGame?: number; stealsPerGame?: number; blocksPerGame?: number; turnoversPerGame?: number; usageRate?: number; gamesPlayed?: number }
+export type InjuryRow = { team: string; player: string; status: string; detail?: string; position?: string; athleteId?: string; sourceUrl?: string; pointsPerGame?: number; minutesPerGame?: number; reboundsPerGame?: number; assistsPerGame?: number; stealsPerGame?: number; blocksPerGame?: number; turnoversPerGame?: number; usageRate?: number; gamesPlayed?: number; recentFormPresenceWeight?: number }
 export type InjuryData = { updatedAt: string; source: string; sourceUrl: string; players: InjuryRow[]; status: string }
 export type RosterPlayer = { team: string; player: string; athleteId: string; position?: string; jersey?: string }
 export type RosterData = { updatedAt: string; source: string; teams: Record<string, RosterPlayer[]>; status: string }
@@ -47,7 +47,7 @@ function dynamicInjuryCap(rows:InjuryRow[]){
  const starBonus=keyPlayers.some(x=>Number(x.pointsPerGame??0)>=25)?2:0
  return Math.min(20,10+Math.max(0,keyPlayers.length-1)*2+starBonus)
 }
-function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*replacementGap(x.minutesPerGame),0);const cap=dynamicInjuryCap(rows);return {points:Math.min(cap,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length,cap}}
+function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*replacementGap(x.minutesPerGame)*(typeof x.recentFormPresenceWeight==='number'&&Number.isFinite(x.recentFormPresenceWeight)?Math.max(0,Math.min(1,x.recentFormPresenceWeight)):1),0);const cap=dynamicInjuryCap(rows);return {points:Math.min(cap,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length,cap}}
 export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null,teamMetrics?:TeamMetricsData|null):ModelResult{
  const resolveTeam=(id:string,abbr:string)=>form?.teams?.[String(id)] ?? Object.values(form?.teams??{}).find(row=>row.abbreviation?.toUpperCase()===abbr?.toUpperCase())
  const h=resolveTeam(game.home.id,game.home.abbreviation),a=resolveTeam(game.away.id,game.away.abbreviation)
