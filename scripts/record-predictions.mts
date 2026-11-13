@@ -121,4 +121,6 @@ if (added || settled || refreshed || !previousPayload) {
 const upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
 const official=output.filter(row=>row.stage==='official').length
 if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
+const recentlySettled = output.filter(row => row.settledAt && now.getTime() - new Date(row.settledAt).getTime() < 30*60*1000).map(row => ({gameId:row.gameId, date:row.date, home:row.home, away:row.away, actualHome:row.actualHome, actualAway:row.actualAway, settledAt:row.settledAt}))
+if (recentlySettled.length) console.log('Recently settled games (persisted):', JSON.stringify(recentlySettled))
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; successful dates ${successfulDates}/${dateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
