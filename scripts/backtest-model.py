@@ -105,7 +105,20 @@ def run_walk_forward(games):
             hs, ass = sos(home_rows), sos(away_rows)
             sos_adj = 0 if hs is None or ass is None else (hs - ass) * 0.18
             margin = (raw_home - raw_away) * 0.78 + rest_adj + b2b_adj + sos_adj
-            total = raw_home + raw_away - (1.3 if hb else 0) - (1.3 if ab else 0)
+            score_total = raw_home + raw_away - (1.3 if hb else 0) - (1.3 if ab else 0)
+            # Keep the totals backtest aligned with the live model: 75% matchup
+            # score projection + 25% independent recent game-total environment.
+            h_totals = [x['pointsFor'] + x['pointsAgainst'] for x in home_rows]
+            a_totals = [x['pointsFor'] + x['pointsAgainst'] for x in away_rows]
+            h_recent = h_totals[-5:]
+            a_recent = a_totals[-5:]
+            h_trend = 0.6 * avg(h_recent) + 0.4 * avg(h_totals)
+            a_trend = 0.6 * avg(a_recent) + 0.4 * avg(a_totals)
+            total_trend = avg([h_trend, a_trend])
+            total = score_total * 0.75 + total_trend * 0.25
+            recent_totals = h_totals + a_totals
+            total_mean = avg(recent_totals)
+            total_std_dev = max(14.2, min(20.0, math.sqrt(avg([(x-total_mean)**2 for x in recent_totals]))))
             p_home = min(0.99, max(0.01, cdf(margin / 12.2)))
             predictions.append({
                 'gameId': game['id'], 'date': game['date'],
@@ -115,6 +128,8 @@ def run_walk_forward(games):
                 'predictedMargin': margin,
                 'actualMargin': game['homeScore'] - game['awayScore'],
                 'predictedTotal': total,
+                'totalTrend': total_trend,
+                'totalStdDev': total_std_dev,
                 'actualTotal': game['homeScore'] + game['awayScore']
             })
         history.setdefault(game['homeId'], []).append({
@@ -269,7 +284,7 @@ def market_backtest(predictions):
                             else:
                                 point = float(outcome.get('point'))
                                 is_over = str(outcome.get('name','')).lower() in ('over','大')
-                                prob = cdf((pred['predictedTotal']-point)/14.2) if is_over else cdf((point-pred['predictedTotal'])/14.2)
+                                prob = cdf((pred['predictedTotal']-point)/pred.get('totalStdDev',14.2)) if is_over else cdf((point-pred['predictedTotal'])/pred.get('totalStdDev',14.2))
                                 actual_total = pred['actualTotal']
                                 actual = 1 if (actual_total > point if is_over else actual_total < point) else (0.5 if actual_total == point else 0)
                                 line = point
