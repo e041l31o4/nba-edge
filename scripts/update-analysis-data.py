@@ -494,6 +494,40 @@ def extract_player_averages(payload):
     visit(payload)
     return found
 
+# Estimate how much of a player's production is already represented in the team's recent-form baseline.
+# The production model weights last 10 games at 60% and last 5 at 40%.
+def extract_played_game_dates(payload):
+    labels = payload.get('labels') or payload.get('displayNames') or payload.get('names') or []
+    normalized = [re.sub(r'[^a-z0-9]', '', str(x).lower()) for x in labels]
+    minute_index = next((i for i, value in enumerate(normalized) if value in ('min', 'minutes', 'avgminutes')), None)
+    if minute_index is None:
+        return None
+    events = payload.get('events') or []
+    if isinstance(events, dict):
+        events = list(events.values())
+    if not isinstance(events, list):
+        return None
+    played = set()
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        stats = event.get('stats') or event.get('statistics') or []
+        if not isinstance(stats, list) or minute_index >= len(stats):
+            continue
+        minutes = numeric_stat(stats[minute_index])
+        date = event.get('date') or event.get('gameDate')
+        if minutes is not None and minutes > 0 and isinstance(date, str) and len(date) >= 10:
+            played.add(date[:10])
+    return played
+
+team_form_by_abbr = {}
+for team_form in forms.values():
+    abbr = str(team_form.get('abbreviation') or '').upper()
+    if abbr:
+        team_form_by_abbr[abbr] = team_form
+team_abbr_aliases = {'GS': 'GSW', 'SA': 'SAS', 'NO': 'NOP', 'NY': 'NYK', 'UTAH': 'UTA', 'PHO': 'PHX'}
+recent_presence_enriched = 0
+
 # Keep previously verified player averages when ESPN's athlete overview/stats endpoint is unavailable.
 previous_players = {}
 try:
@@ -540,6 +574,33 @@ for player in injuries:
                 print('player season stats unavailable', player.get('player'), str(error)[:100])
 
     player.update({key: value for key, value in averages.items() if value is not None})
+
+    # Only fetch gamelogs for meaningful current absences. Team last-10 dates let
+    # us discount injury points already reflected in recent team scoring.
+    status = str(player.get('status') or '').lower()
+    is_absent_or_uncertain = any(term in status for term in ('out', 'inactive', 'suspended', 'doubtful', 'questionable', 'game-time', 'day-to-day'))
+    is_rotation_player = float(player.get('pointsPerGame') or 0) >= 10 or float(player.get('minutesPerGame') or 0) >= 24
+    if is_absent_or_uncertain and is_rotation_player:
+        team_abbr = team_abbr_aliases.get(str(player.get('team') or '').upper(), str(player.get('team') or '').upper())
+        team_form = team_form_by_abbr.get(team_abbr)
+        team_games = (team_form or {}).get('last10') or []
+        if len(team_games) >= 5:
+            try:
+                gamelog = get(f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/gamelog?season={season}&seasontype=2')
+                played_dates = extract_played_game_dates(gamelog)
+                if played_dates is not None:
+                    last10_dates = [str(game.get('date') or '')[:10] for game in team_games[:10]]
+                    last5_dates = last10_dates[:5]
+                    played10 = sum(1 for date in last10_dates if date and date in played_dates)
+                    played5 = sum(1 for date in last5_dates if date and date in played_dates)
+                    weight10 = played10 / max(1, len(last10_dates))
+                    weight5 = played5 / max(1, len(last5_dates))
+                    player['recentFormPresenceWeight'] = round(0.6 * weight10 + 0.4 * weight5, 3)
+                    player['recentTeamGamesPlayed'] = played10
+                    player['recentTeamGamesSample'] = len(last10_dates)
+                    recent_presence_enriched += 1
+            except Exception as error:
+                print('player recent gamelog unavailable', player.get('player'), str(error)[:100])
 
 save('public/data/rosters.json', {
     'updatedAt': now.isoformat(),
