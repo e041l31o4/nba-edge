@@ -36,7 +36,7 @@ jobs:
             echo "Public mode; existing checked-in datasets are present."
           fi
       - name: Install parsers for analysis and Taiwan lottery odds
-        run: pip install pypdf playwright
+        run: pip install pypdf pdfplumber playwright
       - name: Install Chromium for public Taiwan lottery odds page
         run: playwright install --with-deps chromium
       - name: Fetch authorized official feed and preserve timestamped snapshots

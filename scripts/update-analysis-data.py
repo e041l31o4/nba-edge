@@ -322,43 +322,49 @@ try:
             'Phoenix Suns':'PHX','Portland Trail Blazers':'POR','Sacramento Kings':'SAC','San Antonio Spurs':'SAS',
             'Toronto Raptors':'TOR','Utah Jazz':'UTA','Washington Wizards':'WAS'
         }
-        ordered_team_names = sorted(team_names, key=len, reverse=True)
-        flat_text = re.sub(r'\s+', ' ', pdf_text)
-        team_hits = []
-        for team_name in ordered_team_names:
-            for team_match in re.finditer(re.escape(team_name), flat_text, re.I):
-                team_hits.append((team_match.start(), team_name))
-        team_hits.sort(key=lambda item: item[0])
+        import pdfplumber
+        current_team = None
         seen_official_rows = set()
-        for team_index, (team_start, team_name) in enumerate(team_hits):
-            segment_end = team_hits[team_index + 1][0] if team_index + 1 < len(team_hits) else len(flat_text)
-            segment = flat_text[team_start + len(team_name):segment_end]
-            player_matches = list(re.finditer(
-                r"""([A-Z][A-Za-zÀ-ÿ.'’\- ]+?,\s*[A-Z][A-Za-zÀ-ÿ.'’\- ]+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b""",
-                segment, re.I
-            ))
-            for player_index, match in enumerate(player_matches):
-                player_name = match.group(1).strip()
-                last, first = [part.strip() for part in player_name.split(',', 1)]
-                reordered_name = f"{first} {last}"
-                next_player_start = player_matches[player_index + 1].start() if player_index + 1 < len(player_matches) else len(segment)
-                detail = segment[match.end():next_player_start].strip()
-                detail = re.sub(r'Injury Report:\s*\d{1,2}/\d{1,2}/\d{2}\s+\d{1,2}:\d{2}\s+[AP]M\s+Page\s+\d+\s+of\s+\d+', '', detail, flags=re.I).strip()
-                row_key = (team_names[team_name], normalize_player_name(reordered_name))
-                if row_key in seen_official_rows:
-                    continue
-                seen_official_rows.add(row_key)
-                roster_info = (
-                    roster_map.get(f"{team_names[team_name]}|{normalize_player_name(reordered_name)}")
-                    or roster_map.get(reordered_name.lower(), {})
-                    or roster_map.get(player_name.lower(), {})
-                )
-                injuries.append({
-                    'team': team_names[team_name], 'player': reordered_name,
-                    'status': match.group(2).title(), 'detail': detail,
-                    'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
-                    'sourceUrl': injury_url
-                })
+        with pdfplumber.open('/tmp/nba-injury.pdf') as pdf_doc:
+            for pdf_page in pdf_doc.pages:
+                page_width = pdf_page.width
+                words = pdf_page.extract_words(x_tolerance=1, y_tolerance=3, keep_blank_chars=False)
+                visual_lines = []
+                for word in sorted(words, key=lambda item: (item['top'], item['x0'])):
+                    if visual_lines and abs(word['top'] - visual_lines[-1]['top']) <= 2.5:
+                        visual_lines[-1]['words'].append(word)
+                    else:
+                        visual_lines.append({'top': word['top'], 'words': [word]})
+                for visual_line in visual_lines:
+                    row_words = visual_line['words']
+                    team_text = ' '.join(w['text'] for w in row_words if 0.31 * page_width <= w['x0'] < 0.50 * page_width).strip()
+                    player_text = ' '.join(w['text'] for w in row_words if 0.50 * page_width <= w['x0'] < 0.69 * page_width).strip()
+                    status_text = ' '.join(w['text'] for w in row_words if 0.69 * page_width <= w['x0'] < 0.79 * page_width).strip()
+                    detail = ' '.join(w['text'] for w in row_words if w['x0'] >= 0.79 * page_width).strip()
+                    matched_team = next((name for name in ordered_team_names if team_text.lower() == name.lower()), None)
+                    if matched_team:
+                        current_team = matched_team
+                    status_match = re.match(r'^(Out|Doubtful|Questionable|Probable|Available)\b', status_text, re.I)
+                    if not current_team or not status_match or ',' not in player_text:
+                        continue
+                    player_name = player_text.strip()
+                    last, first = [part.strip() for part in player_name.split(',', 1)]
+                    reordered_name = f"{first} {last}"
+                    row_key = (team_names[current_team], normalize_player_name(reordered_name))
+                    if row_key in seen_official_rows:
+                        continue
+                    seen_official_rows.add(row_key)
+                    roster_info = (
+                        roster_map.get(f"{team_names[current_team]}|{normalize_player_name(reordered_name)}")
+                        or roster_map.get(reordered_name.lower(), {})
+                        or roster_map.get(player_name.lower(), {})
+                    )
+                    injuries.append({
+                        'team': team_names[current_team], 'player': reordered_name,
+                        'status': status_match.group(1).title(), 'detail': detail,
+                        'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
+                        'sourceUrl': injury_url
+                    })
         print('OFFICIAL_INJURY_PDF_DIAGNOSTIC', json.dumps({
             'url': injury_url, 'pdfCharacters': len(pdf_text),
             'teamMarkers': len(team_hits), 'parsedPlayers': len(injuries),
