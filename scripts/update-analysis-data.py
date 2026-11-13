@@ -215,7 +215,7 @@ for item in teams:
         expanded_payload = expand_espn_refs(payload)
         metrics = extract_team_metrics(expanded_payload)
         if abbreviation == str((teams[0].get('team') or {}).get('abbreviation') or ''):
-            categories = expanded_payload.get('categories', []) if isinstance(expanded_payload, dict) else []
+            categories = ((expanded_payload.get('splits') or {}).get('categories') or expanded_payload.get('categories', [])) if isinstance(expanded_payload, dict) else []
             category_names = [str(x.get('name') or x.get('displayName') or '') for x in categories if isinstance(x, dict)]
             category_stats = []
             for category in categories[:5]:
@@ -223,7 +223,7 @@ for item in teams:
                     for stat in (category.get('stats') or [])[:8]:
                         if isinstance(stat, dict):
                             category_stats.append({'name': stat.get('name'), 'abbreviation': stat.get('abbreviation'), 'displayName': stat.get('displayName'), 'value': stat.get('value'), 'displayValue': stat.get('displayValue')})
-            print('TEAM_METRICS_RAW_DIAGNOSTIC', json.dumps({'topKeys': list(payload.keys())[:20] if isinstance(payload, dict) else str(type(payload)), 'categoryNames': category_names, 'sampleStats': category_stats[:20], 'payloadPreview': expanded_payload if isinstance(expanded_payload, dict) else str(expanded_payload)}, ensure_ascii=False)[:7000])
+            print('TEAM_METRICS_RAW_DIAGNOSTIC', json.dumps({'topKeys': list(expanded_payload.keys())[:20] if isinstance(expanded_payload, dict) else str(type(expanded_payload)), 'categoryNames': category_names, 'allStatNames': [stat.get('name') for category in categories if isinstance(category, dict) for stat in (category.get('stats') or []) if isinstance(stat, dict)], 'sampleStats': category_stats[:20]}, ensure_ascii=False)[:7000])
         if len(metrics) >= 2:
             metrics.update({'teamId': team_id, 'abbreviation': abbreviation, 'updatedAt': now.isoformat(), 'stale': False})
             team_metrics[abbreviation] = metrics
