@@ -323,41 +323,44 @@ try:
             'Toronto Raptors':'TOR','Utah Jazz':'UTA','Washington Wizards':'WAS'
         }
         ordered_team_names = sorted(team_names, key=len, reverse=True)
-        current_team = None
-        for raw_line in pdf_text.splitlines():
-            line = re.sub(r'Injury Report:\s*\d{1,2}/\d{1,2}/\d{2}\s+\d{1,2}:\d{2}\s+[AP]M', '', raw_line, flags=re.I).strip()
-            if not line:
-                continue
-            for team_name in ordered_team_names:
-                team_pos = line.find(team_name)
-                if team_pos >= 0:
-                    current_team = team_names[team_name]
-                    line = line[team_pos + len(team_name):].strip()
-                    break
-            if not current_team:
-                continue
-            match = re.match(r'^(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$', line, re.I)
-            if not match:
-                continue
-            player_name = match.group(1).strip()
-            if not player_name or player_name.lower() in ('not yet submitted',):
-                continue
-            # NBA PDFs use "Last, First"; ESPN roster keys use "First Last".
-            reordered_name = player_name
-            if ',' in player_name:
+        flat_text = re.sub(r'\s+', ' ', pdf_text)
+        team_hits = []
+        for team_name in ordered_team_names:
+            for team_match in re.finditer(re.escape(team_name), flat_text, re.I):
+                team_hits.append((team_match.start(), team_name))
+        team_hits.sort(key=lambda item: item[0])
+        seen_official_rows = set()
+        for team_index, (team_start, team_name) in enumerate(team_hits):
+            segment_end = team_hits[team_index + 1][0] if team_index + 1 < len(team_hits) else len(flat_text)
+            segment = flat_text[team_start + len(team_name):segment_end]
+            player_matches = re.finditer(
+                r"""([A-Z][A-Za-zÀ-ÿ.'’\- ]+,\s*[A-Z][A-Za-zÀ-ÿ.'’\- ]+)\s+(Out|Doubtful|Questionable|Probable|Available)\b""",
+                segment, re.I
+            )
+            for match in player_matches:
+                player_name = match.group(1).strip()
                 last, first = [part.strip() for part in player_name.split(',', 1)]
                 reordered_name = f"{first} {last}"
-            roster_info = (
-                roster_map.get(f"{current_team}|{normalize_player_name(reordered_name)}")
-                or roster_map.get(reordered_name.lower(), {})
-                or roster_map.get(player_name.lower(), {})
-            )
-            injuries.append({
-                'team': current_team, 'player': reordered_name,
-                'status': match.group(2).title(), 'detail': match.group(3).strip(),
-                'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
-                'sourceUrl': injury_url
-            })
+                row_key = (team_names[team_name], normalize_player_name(reordered_name))
+                if row_key in seen_official_rows:
+                    continue
+                seen_official_rows.add(row_key)
+                roster_info = (
+                    roster_map.get(f"{team_names[team_name]}|{normalize_player_name(reordered_name)}")
+                    or roster_map.get(reordered_name.lower(), {})
+                    or roster_map.get(player_name.lower(), {})
+                )
+                injuries.append({
+                    'team': team_names[team_name], 'player': reordered_name,
+                    'status': match.group(2).title(), 'detail': '',
+                    'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
+                    'sourceUrl': injury_url
+                })
+        print('OFFICIAL_INJURY_PDF_DIAGNOSTIC', json.dumps({
+            'url': injury_url, 'pdfCharacters': len(pdf_text),
+            'teamMarkers': len(team_hits), 'parsedPlayers': len(injuries),
+            'preview': flat_text[:350]
+        }, ensure_ascii=False))
         if len(injuries) >= 20:
             injury_source = 'NBA Official Injury Report'
         else:
