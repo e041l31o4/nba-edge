@@ -147,6 +147,9 @@ async def read_page(target_date):
     return title, body
 
 async def main():
+    if __import__("os").environ.get("SPORTSLOTTERY_FEED_URL", "").strip():
+        print("Authorized official feed is configured; skipping PlaySport fallback.")
+        return
     now = dt.datetime.now(TAIPEI)
     target_text = (__import__("os").environ.get("TARGET_TAIWAN_DATE","").strip()
         or (now.date()+dt.timedelta(days=1)).strftime("%Y%m%d"))
