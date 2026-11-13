@@ -296,6 +296,15 @@ def market_backtest(predictions):
 
 now = datetime.datetime.now(datetime.timezone.utc)
 current_season_end_year = now.year if now.month >= 7 else now.year - 1
+# Current-season odds snapshots cannot be joined to completed prior seasons.
+# Reconstruct current-season predictions chronologically and match ESPN event ids.
+current_season_games = fetch_season(current_season_end_year + 1)
+current_season_predictions = run_walk_forward(current_season_games) if current_season_games else []
+current_market_backtest = market_backtest(current_season_predictions)
+print('Current-season market-only backtest:', current_season_end_year,
+      'completed games:', len(current_season_games),
+      'pregame predictions:', len(current_season_predictions),
+      json.dumps(current_market_backtest, ensure_ascii=False))
 # Three most recently completed seasons; season identifiers use the ending year.
 season_years = list(range(current_season_end_year - 2, current_season_end_year + 1))
 season_results = []
@@ -345,7 +354,9 @@ result = {
     'modelVersion': 'odds-blind-v4-walkforward-calibration',
     'sampleSize': len(all_predictions),
     'metrics': metrics(all_predictions),
-    'marketBacktest': market_backtest(all_predictions),
+    'marketBacktest': current_market_backtest,
+    'marketBacktestSeason': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
+    'marketBacktestPredictionSample': len(current_season_predictions),
     'seasonResults': season_results,
     'calibration': calibration(all_predictions),
     'calibrationEvaluation': {
@@ -358,7 +369,7 @@ result = {
     },
     'limitations': [
         'Historical injury reports and player availability are not reconstructed; the injury adjustment is not included in this historical test.',
-        '讓分與大小分只在存在開賽前台灣運彩歷史快照的場次計算；沒有歷史盤口的場次不納入市場回測。',
+        '獨贏三季回測與市場盤口回測分開：讓分及大小分只使用當季可配對的開賽前台灣運彩快照；沒有歷史盤口的往季不補造盤口。',
         'Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.',
         'Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance.'
     ]
