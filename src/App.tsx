@@ -184,7 +184,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const totalPicks=report?.available
   ? cardTotals.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{
     const isOver=x.name.toLowerCase().includes('over')||x.name.includes('大')
-    const probability=totalProbability(report.projectedTotal,x.point!,isOver)
+    const probability=totalProbability(report.projectedTotal,x.point!,isOver,report.totalStdDev)
     return {...x,isOver,probability,ev:decimalExpectedValue(probability,x.price)}
    })
   : []
