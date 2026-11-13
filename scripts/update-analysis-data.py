@@ -140,6 +140,33 @@ for item in teams:
 
 # Current-season team efficiency metrics from ESPN's public Core API.
 # Display as context only until historical backtesting validates use in prediction.
+def expand_espn_refs(node, depth=0, budget=None):
+    # ESPN Core API frequently returns reference-only objects (notably splits).
+    # Resolve a small, bounded number of references instead of treating the
+    # wrapper response as if it already contained the statistics.
+    if budget is None:
+        budget = {'remaining': 12, 'seen': set()}
+    if depth > 4:
+        return node
+    if isinstance(node, list):
+        return [expand_espn_refs(value, depth + 1, budget) for value in node]
+    if not isinstance(node, dict):
+        return node
+    ref = node.get('$ref')
+    if isinstance(ref, str) and ref.startswith('https://') and budget['remaining'] > 0 and ref not in budget['seen']:
+        budget['remaining'] -= 1
+        budget['seen'].add(ref)
+        try:
+            resolved = get(ref)
+            if isinstance(resolved, dict):
+                merged = dict(node)
+                merged.update(resolved)
+                node = merged
+        except Exception as error:
+            print('ESPN reference resolution skipped:', str(error)[:120])
+    return {key: expand_espn_refs(value, depth + 1, budget) if isinstance(value, (dict, list)) else value
+            for key, value in node.items()}
+
 def extract_team_metrics(payload):
     found = {}
     aliases = {
@@ -185,9 +212,10 @@ for item in teams:
     try:
         stats_url = f'https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/{season}/types/2/teams/{team_id}/statistics?lang=en&region=us'
         payload = get(stats_url)
-        metrics = extract_team_metrics(payload)
+        expanded_payload = expand_espn_refs(payload)
+        metrics = extract_team_metrics(expanded_payload)
         if abbreviation == str((teams[0].get('team') or {}).get('abbreviation') or ''):
-            categories = payload.get('categories', []) if isinstance(payload, dict) else []
+            categories = expanded_payload.get('categories', []) if isinstance(expanded_payload, dict) else []
             category_names = [str(x.get('name') or x.get('displayName') or '') for x in categories if isinstance(x, dict)]
             category_stats = []
             for category in categories[:5]:
@@ -195,7 +223,7 @@ for item in teams:
                     for stat in (category.get('stats') or [])[:8]:
                         if isinstance(stat, dict):
                             category_stats.append({'name': stat.get('name'), 'abbreviation': stat.get('abbreviation'), 'displayName': stat.get('displayName'), 'value': stat.get('value'), 'displayValue': stat.get('displayValue')})
-            print('TEAM_METRICS_RAW_DIAGNOSTIC', json.dumps({'topKeys': list(payload.keys())[:20] if isinstance(payload, dict) else str(type(payload)), 'categoryNames': category_names, 'sampleStats': category_stats[:20], 'payloadPreview': payload if isinstance(payload, dict) else str(payload)}, ensure_ascii=False)[:7000])
+            print('TEAM_METRICS_RAW_DIAGNOSTIC', json.dumps({'topKeys': list(payload.keys())[:20] if isinstance(payload, dict) else str(type(payload)), 'categoryNames': category_names, 'sampleStats': category_stats[:20], 'payloadPreview': expanded_payload if isinstance(expanded_payload, dict) else str(expanded_payload)}, ensure_ascii=False)[:7000])
         if len(metrics) >= 2:
             metrics.update({'teamId': team_id, 'abbreviation': abbreviation, 'updatedAt': now.isoformat(), 'stale': False})
             team_metrics[abbreviation] = metrics
