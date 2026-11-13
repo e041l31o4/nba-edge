@@ -21,7 +21,7 @@ TEAM_ALIASES = {
     "尼克":"NYK", "雷霆":"OKC", "魔術":"ORL", "76人":"PHI", "太陽":"PHX",
     "拓荒者":"POR", "國王":"SAC", "馬刺":"SAS", "暴龍":"TOR", "爵士":"UTA", "巫師":"WAS"
 }
-ESPN_ALIASES = {"NYK":"NY", "UTA":"UTAH", "WAS":"WSH"}
+ESPN_ALIASES = {"NYK":"NY", "UTA":"UTAH", "WAS":"WSH", "NOP":"NO", "GSW":"GS", "SAS":"SA"}
 
 def fetch_espn_games(target_date):
     import urllib.request
@@ -49,12 +49,14 @@ def fetch_espn_games(target_date):
                     continue
             except Exception:
                 continue
-            result[(aabbr, habbr)] = {
+            event_row = {
                 "id":str(event.get("id") or ""),
                 "commence_time":event.get("date"),
                 "home_team":hteam.get("name") or hteam.get("displayName"),
                 "away_team":ateam.get("name") or ateam.get("displayName")
             }
+            result[(aabbr, habbr)] = event_row
+            result[(ESPN_ALIASES.get(aabbr, aabbr), ESPN_ALIASES.get(habbr, habbr))] = event_row
     return result
 
 def numeric_line(lines, pattern):
@@ -93,7 +95,7 @@ def parse_blocks(body, espn_games):
             continue
         away_index, away_label, away_abbr = labels[0]
         home_index, home_label, home_abbr = labels[1]
-        event = espn_games.get((ESPN_ALIASES.get(away_abbr, away_abbr), ESPN_ALIASES.get(home_abbr, home_abbr)))
+        event = espn_games.get((away_abbr, home_abbr)) or espn_games.get((ESPN_ALIASES.get(away_abbr, away_abbr), ESPN_ALIASES.get(home_abbr, home_abbr)))
         if not event:
             unmatched.append(f"{away_label}@{home_label}")
             continue
