@@ -618,6 +618,7 @@ print('INJURY_ENRICHMENT_DIAGNOSTIC', json.dumps({
     'missingAthleteIds': len(injuries) - matched_athlete_ids,
     'withPPG': enriched_with_ppg,
     'withMPG': enriched_with_mpg,
+    'recentFormPresenceEnriched': recent_presence_enriched,
     'source': injury_source
 }, ensure_ascii=False))
 
