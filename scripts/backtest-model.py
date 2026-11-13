@@ -110,6 +110,7 @@ def run_walk_forward(games):
             predictions.append({
                 'gameId': game['id'], 'date': game['date'],
                 'homeWin': p_home,
+                'awayWin': 1 - p_home,
                 'actualHomeWin': 1 if game['homeScore'] > game['awayScore'] else 0,
                 'predictedMargin': margin,
                 'actualMargin': game['homeScore'] - game['awayScore'],
