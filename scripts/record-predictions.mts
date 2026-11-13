@@ -36,13 +36,21 @@ const fetchScoreboard = async (date:string) => {
   console.warn(`Scoreboard date ${date} unavailable after 3 attempts:`,String(lastError))
   return {date,events:[] as any[],ok:false as const}
 }
-const scoreboardResults=await Promise.all(dateKeys.map(fetchScoreboard))
+const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
+const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
+// Revisit unresolved official records outside the rolling 9-day capture window.
+const unresolvedHistoricalDates = [...new Set(rows
+  .filter(row => row.stage === 'official' && !row.settledAt && Number.isFinite(new Date(row.date).getTime()))
+  .map(row => row.date.slice(0,10).replace(/-/g,'')))]
+  .filter(date => /^\d{8}$/.test(date) && date < twNoDash)
+  .sort()
+  .slice(-30)
+const allDateKeys = [...new Set([...dateKeys, ...unresolvedHistoricalDates])].sort()
+const scoreboardResults=await Promise.all(allDateKeys.map(fetchScoreboard))
 const successfulDates=scoreboardResults.filter(x=>x.ok).length
 if (successfulDates===0) throw new Error('All ESPN scoreboard dates failed after retries; existing ledger preserved.')
 const scoreboards=scoreboardResults.filter(x=>x.ok).map(x=>({events:x.events}))
-console.log(`ESPN scoreboard dates available: ${successfulDates}/${dateKeys.length}`)
-const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
-const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
+console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.length} (rolling ${dateKeys.length}; unresolved historical ${unresolvedHistoricalDates.length})`)
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 let added=0, settled=0, refreshed=0
 const settledGames:Array<{gameId:string;home:string;away:string;actualHome:number;actualAway:number}> = []
@@ -123,4 +131,4 @@ const official=output.filter(row=>row.stage==='official').length
 if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
 const recentlySettled = output.filter(row => row.settledAt && now.getTime() - new Date(row.settledAt).getTime() < 30*60*1000).map(row => ({gameId:row.gameId, date:row.date, home:row.home, away:row.away, actualHome:row.actualHome, actualAway:row.actualAway, settledAt:row.settledAt}))
 if (recentlySettled.length) console.log('Recently settled games (persisted):', JSON.stringify(recentlySettled))
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${dateKeys[0]}-${dateKeys[dateKeys.length-1]}; successful dates ${successfulDates}/${dateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
