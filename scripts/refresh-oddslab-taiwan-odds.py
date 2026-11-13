@@ -216,7 +216,7 @@ async def main():
     if snapshots:
         with history_path.open("a", encoding="utf-8") as f:
             for row in snapshots:
-                f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\\n")
+                f.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
     print(json.dumps({
         "source": SOURCE,
         "window_days": 7,
