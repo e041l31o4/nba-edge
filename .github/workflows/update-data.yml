@@ -119,10 +119,13 @@ jobs:
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
       - name: Refresh public Taiwan lottery odds when official feed is not configured
+        id: odds_refresh
+        continue-on-error: true
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: python scripts/refresh-oddslab-taiwan-odds.py
       - name: Publish fresh odds and odds history to Supabase immediately
+        if: steps.odds_refresh.outcome == 'success'
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
