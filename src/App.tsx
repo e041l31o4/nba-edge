@@ -165,7 +165,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   : undefined
  const lotteryBooks=lotteryGame?.bookmakers??[]
  const cardSpread=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({name:o.name,point:o.point,price:o.price}))))
- const cardTotals=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({name:o.name,point:o.point,price:o.price}))))
+ const cardTotals=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({book:b.title,name:o.name,point:o.point,price:o.price}))))
  const matchesTeam=(outcome:string,team:Game['home'])=>{
   const normalized=outcome.toLowerCase().replace(/[^a-z0-9]/g,'')
   const aliases=[team.name,team.displayName,team.abbreviation,team.displayName.split(/\\s+/).slice(-1)[0]]
@@ -181,15 +181,27 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
     return {...x,isHome,isAway,probability,ev:decimalExpectedValue(probability,x.price)}
    }).filter(x=>x.isHome!==x.isAway)
   : []
+ const totalGroups=new Map<string,typeof cardTotals>()
+ cardTotals.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).forEach(x=>{
+  const key=String(x.book)+'|'+String(x.point)
+  const list=totalGroups.get(key)??[]
+  list.push(x);totalGroups.set(key,list)
+ })
+ // Never infer a totals edge from a one-sided quote: compare Over and Under
+ // only when both are present at the exact same line and bookmaker.
  const totalPicks=report?.available
-  ? cardTotals.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{
-    const isOver=x.name.toLowerCase().includes('over')||x.name.includes('大')
-    const probability=totalProbability(report.projectedTotal,x.point!,isOver,report.totalStdDev)
-    return {...x,isOver,probability,ev:decimalExpectedValue(probability,x.price)}
+  ? [...totalGroups.values()].flatMap(pair=>{
+    const over=pair.find(x=>/over|大/i.test(x.name))
+    const under=pair.find(x=>/under|小/i.test(x.name))
+    if(!over||!under)return []
+    return [over,under].map(x=>{
+     const isOver=x===over
+     const probability=totalProbability(report.projectedTotal,x.point!,isOver,report.totalStdDev)
+     return {...x,isOver,probability,ev:decimalExpectedValue(probability,x.price)}
+    })
    })
   : []
- // Always return the model's best available market side when valid Taiwan lottery odds exist.
- // EV ranks the alternatives; a negative EV is still shown transparently as a low-edge direction.
+ // EV ranks both directions; negative EV remains visible as a reference, not a value bet.
  const bestSpread=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
  const bestTotal=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
  const confidenceLabel=(pick:{probability:number;ev:number}|undefined)=>!pick?'':pick.probability>=0.62&&pick.ev>=0.02&&report?.confidence==='高'&&report.injuryRisk==='低'?'高信心':pick.probability>=0.55&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'中信心':'參考方向'
