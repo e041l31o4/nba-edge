@@ -182,12 +182,13 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
     return {...x,isOver,probability,ev:decimalExpectedValue(probability,x.price)}
    })
   : []
- const minEdge=report?.confidence==='中'?0.03:0.08
- const minProbability=report?.confidence==='中'?0.55:0.60
- const bestSpread=spreadPicks.filter(x=>Number.isFinite(x.ev)&&x.ev>=minEdge&&x.probability>=minProbability).sort((a,b)=>b.ev-a.ev)[0]
- const bestTotal=totalPicks.filter(x=>Number.isFinite(x.ev)&&x.ev>=minEdge&&x.probability>=minProbability).sort((a,b)=>b.ev-a.ev)[0]
- const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:'觀望'
- const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:'觀望'
+ // Always return the model's best available market side when valid Taiwan lottery odds exist.
+ // EV ranks the alternatives; a negative EV is still shown transparently as a low-edge direction.
+ const bestSpread=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
+ const bestTotal=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
+ const confidenceLabel=(pick:{probability:number;ev:number}|undefined)=>!pick?'':pick.ev>=0.05&&pick.probability>=0.58?'較佳':pick.ev>=0?'一般':'低信心'
+ const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
+ const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
  const unverified=done&&!useSaved&&ledgerStatus==='ready'
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
  return <button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
@@ -196,8 +197,8 @@ function GameCard({game, odds, teamForm, injuryData, calibrator, savedPrediction
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')+(unverified?' prediction-unverified':'')}>
    <div className="pick-team-cell"><small>預測勝方</small>{done&&!useSaved&&ledgerStatus==='loading'?<b className="pick-unverified">賽前紀錄載入中</b>:done&&!useSaved&&ledgerStatus==='error'?<b className="pick-unverified">紀錄暫時無法讀取</b>:unverified?<b className="pick-unverified">未留存賽前預測</b>:hasPrediction?(pickedTeam!.logo?<img className="pick-team-logo" src={pickedTeam!.logo} alt={pickedTeam!.displayName} title={pickedTeam!.displayName}/>:<b className="pick-team-fallback">{pickedTeam!.abbreviation}</b>):<b className="pick-unverified">資料不足</b>}<strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong><em>{pickCorrect===true?'預測命中':pickCorrect===false?'預測未中':unverified?'不補算命中率':useSaved?'正式封存':'每日初估'}</em></div>
    <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{done&&!useSaved&&ledgerStatus==='loading'?'賽前紀錄載入中':done&&!useSaved&&ledgerStatus==='error'?'紀錄暫時無法讀取':unverified?'未留存賽前預測':useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
-   <div className="market-pick-cell"><small>大小分推薦</small><b>{done?'—':bestTotal?totalLabel:lotteryGame?'觀望':'盤口未同步'}</b><em>{done?'賽事已結束':bestTotal?'模型達標 · '+(bestTotal.probability*100).toFixed(1)+'%':lotteryGame?'未達推薦門檻':'等待台灣運彩盤口'}</em></div>
-   <div className="market-pick-cell"><small>讓分推薦</small><b>{done?'—':bestSpread?spreadLabel:lotteryGame?'觀望':'盤口未同步'}</b><em>{done?'賽事已結束':bestSpread?'模型過盤率 · '+(bestSpread.probability*100).toFixed(1)+'%':lotteryGame?'未達推薦門檻':'等待台灣運彩盤口'}</em></div>
+   <div className="market-pick-cell"><small>大小分推薦</small><b>{done?'—':bestTotal?totalLabel:lotteryGame?'模型資料不足':'盤口未同步'}</b><em>{done?'賽事已結束':bestTotal?confidenceLabel(bestTotal)+' · '+(bestTotal.probability*100).toFixed(1)+'% · EV '+(bestTotal.ev*100).toFixed(1)+'%':lotteryGame?'模型資料不足':'等待台灣運彩盤口'}</em></div>
+   <div className="market-pick-cell"><small>讓分推薦</small><b>{done?'—':bestSpread?spreadLabel:lotteryGame?'模型資料不足':'盤口未同步'}</b><em>{done?'賽事已結束':bestSpread?confidenceLabel(bestSpread)+' · '+(bestSpread.probability*100).toFixed(1)+'% · EV '+(bestSpread.ev*100).toFixed(1)+'%':lotteryGame?'模型資料不足':'等待台灣運彩盤口'}</em></div>
   </div>
  </button>
 }
