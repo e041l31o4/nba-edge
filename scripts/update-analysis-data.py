@@ -349,8 +349,13 @@ try:
                     if not current_team or not status_match or ',' not in player_text:
                         continue
                     player_name = player_text.strip()
-                    last, first = [part.strip() for part in player_name.split(',', 1)]
-                    reordered_name = f"{first} {last}"
+                    name_parts = [part.strip() for part in player_name.split(',')]
+                    if len(name_parts) >= 3:
+                        last, suffix, first = name_parts[0], name_parts[1], name_parts[2]
+                        reordered_name = f"{first} {last} {suffix}"
+                    else:
+                        last, first = name_parts[0], name_parts[1]
+                        reordered_name = f"{first} {last}"
                     row_key = (team_names[current_team], normalize_player_name(reordered_name))
                     if row_key in seen_official_rows:
                         continue
@@ -368,8 +373,7 @@ try:
                     })
         print('OFFICIAL_INJURY_PDF_DIAGNOSTIC', json.dumps({
             'url': injury_url, 'pdfCharacters': len(pdf_text),
-            'teamMarkers': len(team_hits), 'parsedPlayers': len(injuries),
-            'preview': flat_text[:350]
+            'parsedPlayers': len(injuries), 'preview': pdf_text[:350]
         }, ensure_ascii=False))
         if len(injuries) >= 20:
             injury_source = 'NBA Official Injury Report'
