@@ -12,7 +12,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: nba-edge-data-refresh
+  group: nba-edge-shared-dataset-writer
   cancel-in-progress: false
 jobs:
   refresh:
