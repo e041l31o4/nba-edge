@@ -18,6 +18,7 @@ const games=(board.events??[]).map((e:any)=>{
  const c=e.competitions?.[0], teams=c?.competitors??[], h=teams.find((x:any)=>x.homeAway==='home'), a=teams.find((x:any)=>x.homeAway==='away')
  return {id:String(e.id),date:e.date,home:{id:String(h?.team?.id??''),name:h?.team?.name,abbreviation:h?.team?.abbreviation},away:{id:String(a?.team?.id??''),name:a?.team?.name,abbreviation:a?.team?.abbreviation}}
 })
+const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
 const output=[]
 for(const game of games){
  const report=analyzeMatch(game,form,injuries,calibrator,metrics)
@@ -44,8 +45,8 @@ for(const game of games){
   totalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(2)),stdDev:Number(report.totalStdDev.toFixed(2)),paceAdj:Number(report.paceAdjustment.toFixed(2)),
   injuryImpact:{
    home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),
-   homePlayers:(injuries.players??[]).filter((x:any)=>x.team===game.home.abbreviation).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null})),
-   awayPlayers:(injuries.players??[]).filter((x:any)=>x.team===game.away.abbreviation).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null}))
+   homePlayers:(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.home.abbreviation)).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null})),
+   awayPlayers:(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.away.abbreviation)).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null}))
   }
  })
 }
