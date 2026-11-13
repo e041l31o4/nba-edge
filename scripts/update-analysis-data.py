@@ -186,6 +186,16 @@ for item in teams:
         stats_url = f'https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/{season}/types/2/teams/{team_id}/statistics?lang=en&region=us'
         payload = get(stats_url)
         metrics = extract_team_metrics(payload)
+        if abbreviation == str((teams[0].get('team') or {}).get('abbreviation') or ''):
+            categories = payload.get('categories', []) if isinstance(payload, dict) else []
+            category_names = [str(x.get('name') or x.get('displayName') or '') for x in categories if isinstance(x, dict)]
+            category_stats = []
+            for category in categories[:5]:
+                if isinstance(category, dict):
+                    for stat in (category.get('stats') or [])[:8]:
+                        if isinstance(stat, dict):
+                            category_stats.append({'name': stat.get('name'), 'abbreviation': stat.get('abbreviation'), 'displayName': stat.get('displayName'), 'value': stat.get('value'), 'displayValue': stat.get('displayValue')})
+            print('TEAM_METRICS_RAW_DIAGNOSTIC', json.dumps({'topKeys': list(payload.keys())[:20] if isinstance(payload, dict) else str(type(payload)), 'categoryNames': category_names, 'sampleStats': category_stats[:20]}, ensure_ascii=False))
         if len(metrics) >= 2:
             metrics.update({'teamId': team_id, 'abbreviation': abbreviation, 'updatedAt': now.isoformat(), 'stale': False})
             team_metrics[abbreviation] = metrics
