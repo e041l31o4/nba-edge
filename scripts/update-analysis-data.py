@@ -417,7 +417,7 @@ def extract_player_averages(payload):
                 visit(value)
         elif isinstance(node, dict):
             labels = node.get('labels') or node.get('names') or []
-            values = node.get('displayValues') or node.get('values') or []
+            values = node.get('displayValues') or node.get('values') or node.get('totals') or []
             if isinstance(labels, list) and isinstance(values, list):
                 for index, label in enumerate(labels):
                     if index < len(values):
@@ -460,16 +460,32 @@ for player in injuries:
     athlete_id = player.get('athleteId')
     if not athlete_id:
         continue
+    averages = extract_player_averages({})
+    overview_error = None
     try:
         overview = get(f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/{athlete_id}/overview')
         averages = extract_player_averages(overview)
-        if any(value is None for value in averages.values()):
-            stats_payload = get(f'{BASE}/athletes/{athlete_id}/stats')
+    except Exception as error:
+        overview_error = str(error)[:100]
+
+    # Correct ESPN Web API v3 season-stat endpoint. The old site-v2
+    # /athletes/{id}/stats route returned 404 for every injury row.
+    if any(value is None for value in averages.values()):
+        try:
+            stats_url = (
+                f'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/'
+                f'athletes/{athlete_id}/stats?season={season}&seasontype=2'
+            )
+            stats_payload = get(stats_url)
             fallback = extract_player_averages(stats_payload)
             averages = {key: averages[key] if averages[key] is not None else fallback[key] for key in averages}
-        player.update({key: value for key, value in averages.items() if value is not None})
-    except Exception as error:
-        print('player stats skipped', player.get('player'), str(error)[:100])
+        except Exception as error:
+            if overview_error:
+                print('player stats unavailable', player.get('player'), 'overview:', overview_error, 'season stats:', str(error)[:100])
+            else:
+                print('player season stats unavailable', player.get('player'), str(error)[:100])
+
+    player.update({key: value for key, value in averages.items() if value is not None})
 
 save('public/data/rosters.json', {
     'updatedAt': now.isoformat(),
