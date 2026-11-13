@@ -322,6 +322,7 @@ try:
             'Phoenix Suns':'PHX','Portland Trail Blazers':'POR','Sacramento Kings':'SAC','San Antonio Spurs':'SAS',
             'Toronto Raptors':'TOR','Utah Jazz':'UTA','Washington Wizards':'WAS'
         }
+        ordered_team_names = sorted(team_names, key=len, reverse=True)
         import pdfplumber
         current_team = None
         seen_official_rows = set()
