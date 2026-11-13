@@ -152,6 +152,8 @@ jobs:
           node-version: 20
       - name: Capture pregame predictions and settle completed games
         run: npx --yes tsx scripts/record-predictions.mts
+      - name: Diagnose every totals market against the independent model
+        run: npx --yes tsx scripts/diagnose-totals.mts
       - name: Report odds source policy
         run: |
           echo "Official Taiwan Sports Lottery feed is preferred when configured."
