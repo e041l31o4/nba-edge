@@ -50,7 +50,21 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
  const homeSpread=spread.filter(x=>x.point!==undefined).map(x=>({...x,isHome:x.name.toLowerCase().includes(game.home.abbreviation.toLowerCase())||x.name.toLowerCase().includes(game.home.displayName.toLowerCase())||x.name.toLowerCase()===game.home.name.toLowerCase()})).filter(x=>x.isHome||x.name.toLowerCase().includes(game.away.abbreviation.toLowerCase())||x.name.toLowerCase().includes(game.away.displayName.toLowerCase())||x.name.toLowerCase()===game.away.name.toLowerCase())
  const marketPicks=useMemo(()=>{
   if(!report.available)return {spread:null,total:null,blocked:true}
-  const spreadCandidates=homeSpread.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).map(x=>{const probability=coverProbability(report.projectedMargin,x.point!,x.isHome);return {...x,probability,ev:decimalExpectedValue(probability,x.price),label:x.name+' '+(x.point!>0?'+':'')+x.point}})
+  const spreadGroups=new Map<string,typeof homeSpread>()
+   homeSpread.filter(x=>typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1).forEach(x=>{
+    const key=String(x.book)+'|'+String(Math.abs(x.point!))
+    const list=spreadGroups.get(key)??[]
+    list.push(x);spreadGroups.set(key,list)
+   })
+   const spreadCandidates=[...spreadGroups.values()].flatMap(pair=>{
+    const home=pair.find(x=>x.isHome)
+    const away=pair.find(x=>!x.isHome)
+    if(!home||!away)return []
+    return [home,away].map(x=>{
+     const probability=coverProbability(report.projectedMargin,x.point!,x.isHome)
+     return {...x,probability,ev:decimalExpectedValue(probability,x.price),label:x.name+' '+(x.point!>0?'+':'')+x.point}
+    })
+   })
   // Require both sides at the same line from the same bookmaker before
   // selecting a totals direction; incomplete one-sided quotes are excluded.
   const totalGroups=new Map<string,any[]>()
@@ -71,7 +85,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   })
   const choose=(items:any[])=>items.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]??null
   const spread=choose(spreadCandidates),total=choose(totalCandidates)
-  const grade=(pick:any)=>!pick?'—':pick.ev>=0.08&&pick.probability>=0.58?'較強':pick.ev>=0.025&&pick.probability>=0.54?'一般':'偏弱'
+  const grade=(pick:any)=>!pick?'—':pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低'?'較強':pick.ev>=0.025&&pick.probability>=0.54&&report.injuryRisk!=='待確認'&&report.injuryRisk!=='偏高'?'一般':pick.ev>=0?'偏弱':'負 EV'
   return {spread,total,spreadGrade:grade(spread),totalGrade:grade(total),blocked:false}
  },[report,homeSpread,totals])
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
