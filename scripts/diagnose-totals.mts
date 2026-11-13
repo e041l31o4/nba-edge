@@ -42,7 +42,11 @@ for(const game of games){
   projectedTotal:Number(report.projectedTotal.toFixed(2)),lineAndPicks:sorted.map((x:any)=>({...x,probability:Number((x.probability*100).toFixed(1)),ev:Number((x.ev*100).toFixed(1))})),
   selected:sorted[0]?{side:sorted[0].side,line:sorted[0].line,book:sorted[0].book,probability:Number((sorted[0].probability*100).toFixed(1)),ev:Number((sorted[0].ev*100).toFixed(1))}:null,
   totalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(2)),stdDev:Number(report.totalStdDev.toFixed(2)),paceAdj:Number(report.paceAdjustment.toFixed(2)),
-  injuryImpact:{home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2))}
+  injuryImpact:{
+   home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),
+   homePlayers:(injuries.players??[]).filter((x:any)=>x.team===game.home.abbreviation).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null})),
+   awayPlayers:(injuries.players??[]).filter((x:any)=>x.team===game.away.abbreviation).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null}))
+  }
  })
 }
 console.log('NBA_EDGE_TOTALS_DIAGNOSTIC '+JSON.stringify({date:'2026-11-14 Taiwan',oddsSource:odds.source,formUpdatedAt:form.updatedAt,injuriesUpdatedAt:injuries.updatedAt,injurySource:injuries.source,teamMetricsUpdatedAt:metrics.updatedAt,teamMetricsWithValidPace:Object.values(metrics.teams??{}).filter((x:any)=>!x.stale&&typeof x.pace==='number'&&x.pace>=80&&x.pace<=110).length,games:output},null,2))
