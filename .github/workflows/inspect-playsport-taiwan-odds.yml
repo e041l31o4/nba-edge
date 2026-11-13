@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'scripts/inspect-playsport-taiwan-odds.py'
+      - 'scripts/refresh-playsport-taiwan-odds.py'
       - '.github/workflows/inspect-playsport-taiwan-odds.yml'
   workflow_dispatch:
 permissions:
@@ -24,6 +25,10 @@ jobs:
         env:
           TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
         run: python scripts/inspect-playsport-taiwan-odds.py
+      - name: Dry-run parser for the Taiwan Sports Lottery column
+        env:
+          TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
+        run: python scripts/refresh-playsport-taiwan-odds.py --dry-run
       - name: Save inspection result
         if: always()
         uses: actions/upload-artifact@v4
