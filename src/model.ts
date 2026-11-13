@@ -64,7 +64,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const outCount=allInjuries.filter(x=>/out|inactive|suspended/i.test(x.status)).length
  const uncertainCount=allInjuries.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
  const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
- const confidence:ModelResult['confidence']=sample>=9&&injuries?.status==='available'&&injuryCount===0&&!homeBackToBack&&!awayBackToBack?'高':sample>=6&&injuries?.status==='available'&&injuryRisk!=='偏高'?'中':'低'
+ const confidence:ModelResult['confidence']=sample>=8&&injuries?.status==='available'&&injuryRisk!=='偏高'?'高':sample>=5&&injuries?.status==='available'?'中':'低'
  return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players}
 }
 export function coverProbability(projectedMargin:number,point:number,isHome:boolean){const margin=isHome?projectedMargin:-projectedMargin;return cdf((margin+point)/11.8)}
