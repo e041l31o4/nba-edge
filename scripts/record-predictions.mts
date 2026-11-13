@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises'
-import { analyzeMatch, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
+import { analyzeMatch, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
@@ -9,12 +9,13 @@ const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric
 const twNoDash = tw.replace(/-/g,'')
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
-const [form, injuries, teamMetrics, backtest, previousPayload] = await Promise.all([
+const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = await Promise.all([
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<TeamMetricsData>('public/data/team-metrics.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
-  readJson<{records:Row[]}>('public/data/prediction-ledger.json')
+  readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
+  readJson<{games?:any[]}>('public/data/odds.json')
 ])
 if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
 
@@ -127,6 +128,26 @@ if (added || settled || refreshed || !previousPayload) {
   const { rename } = await import('node:fs/promises')
   await rename(temp,target)
 }
+// Diagnostic-only audit: expose tomorrow's exact model totals and paired market calculations in Actions logs.
+const targetTaiwanDate = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Date.UTC(year,month-1,day+1,4))).replace(/-/g,'')
+const auditRows:any[]=[]
+for (const event of scoreboards.flatMap(s=>s.events??[])) {
+  const localDate=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(event.date)).replace(/-/g,'')
+  if(localDate!==targetTaiwanDate) continue
+  const comp=event.competitions?.[0], competitors=comp?.competitors??[]
+  const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
+  if(!h||!a) continue
+  const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
+  const report=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
+  const oddsGame=(oddsPayload?.games??[]).find((x:any)=>String(x.home_team).toLowerCase().includes(String(h.team?.name??'').toLowerCase())||String(h.team?.displayName??'').toLowerCase().includes(String(x.home_team).toLowerCase()))
+  const exactOdds=(oddsPayload?.games??[]).find((x:any)=>String(x.home_team).toLowerCase()===String(h.team?.displayName??h.team?.name??'').toLowerCase()&&String(x.away_team).toLowerCase()===String(a.team?.displayName??a.team?.name??'').toLowerCase())??oddsGame
+  const groups=new Map<string,any[]>()
+  for(const book of exactOdds?.bookmakers??[]) for(const market of book.markets??[]) if(market.key==='totals') for(const outcome of market.outcomes??[]) if(typeof outcome.point==='number'&&Number.isFinite(outcome.price)&&outcome.price>1){const key=String(book.title)+'|'+String(outcome.point);const list=groups.get(key)??[];list.push({...outcome,book:book.title});groups.set(key,list)}
+  const markets=[...groups.values()].flatMap(pair=>{const over=pair.find(x=>/over|大/i.test(String(x.name))),under=pair.find(x=>/under|小/i.test(String(x.name)));if(!over||!under)return[];return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(report.projectedTotal,x.point,isOver,report.totalStdDev);return {book:x.book,line:x.point,side:isOver?'大':'小',price:x.price,probability:Number((probability*100).toFixed(1)),ev:Number((decimalExpectedValue(probability,x.price)*100).toFixed(2))}})})
+  const best=[...markets].sort((x,y)=>y.ev-x.ev||y.probability-x.probability)[0]??null
+  auditRows.push({match:String(a.team?.abbreviation)+' @ '+String(h.team?.abbreviation),projectedScore:{away:Number(report.projectedAway.toFixed(1)),home:Number(report.projectedHome.toFixed(1))},projectedTotal:Number(report.projectedTotal.toFixed(1)),recentTotalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(1)),stdDev:Number(report.totalStdDev.toFixed(1)),paceAdjustment:Number(report.paceAdjustment.toFixed(1)),confidence:report.confidence,injuryRisk:report.injuryRisk,marketCount:markets.length,best,markets})
+}
+console.log('NBA_EDGE_TOTALS_AUDIT '+JSON.stringify({targetTaiwanDate,games:auditRows.length,gamesData:auditRows}))
 const upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
 const official=output.filter(row=>row.stage==='official').length
 if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
