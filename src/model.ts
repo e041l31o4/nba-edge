@@ -28,6 +28,11 @@ const record=(rows:RecentGame[])=>{const wins=rows.filter(x=>x.win).length;retur
 const net=(rows:RecentGame[])=>avg(rows.map(x=>x.pointsFor-x.pointsAgainst))
 const scheduleStrength=(rows:RecentGame[],form:TeamFormData)=>{const values=rows.map(x=>x.opponentId?form.teams[String(x.opponentId)]?.last10:null).filter((x):x is RecentGame[]=>!!x&&x.length>=5).map(net);return values.length>=3?avg(values):null}
 function absenceProbability(status:string){const s=status.toLowerCase();if(/out|inactive|suspended/.test(s))return 1;if(/doubtful/.test(s))return 0.8;if(/questionable|game.time|day.to.day/.test(s))return 0.5;if(/probable/.test(s))return 0.15;if(/available|active/.test(s))return 0;return 0}
+function injuryRiskLevel(injuries:InjuryData|null, rows:InjuryRow[]):ModelResult['injuryRisk']{
+ if(!injuries||injuries.status!=='available'||!injuries.source?.includes('NBA Official Injury Report'))return '待確認'
+ const keyPlayers=rows.filter(x=>(Number(x.pointsPerGame??0)>=10||Number(x.minutesPerGame??0)>=24)&&absenceProbability(x.status)>=0.5)
+ return keyPlayers.length>=3?'偏高':keyPlayers.length>=1?'中等':'低'
+}
 function replacementGap(minutesPerGame?:number){if(typeof minutesPerGame!=='number'||!Number.isFinite(minutesPerGame)||minutesPerGame<=0)return 0.35;return 0.25+0.20*Math.max(0,Math.min(1,minutesPerGame/36))}
 function injuryImpact(rows:InjuryRow[]){const quantified=rows.filter(x=>typeof x.pointsPerGame==='number'&&Number.isFinite(x.pointsPerGame)&&x.pointsPerGame!>0);const loss=quantified.reduce((sum,x)=>sum+(x.pointsPerGame??0)*absenceProbability(x.status)*replacementGap(x.minutesPerGame),0);return {points:Math.min(10,loss),players:quantified.filter(x=>absenceProbability(x.status)>0).length}}
 export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:string};away:{id:string;abbreviation:string}},form:TeamFormData|null,injuries:InjuryData|null,calibrator?:ProbabilityCalibrator|null,teamMetrics?:TeamMetricsData|null):ModelResult{
@@ -47,8 +52,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
   const projectedHome=Math.max(70,rawHome-hiImpact.points),projectedAway=Math.max(70,rawAway-aiImpact.points)
   const projectedMargin=projectedHome-projectedAway,projectedTotal=projectedHome+projectedAway
   const games=Math.min(hm!.gamesPlayed??0,am!.gamesPlayed??0)
-  const injuryRows=[...hi,...ai],outCount=injuryRows.filter(x=>/out|inactive|suspended/i.test(x.status)).length,uncertainCount=injuryRows.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
-  const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
+  const injuryRisk=injuryRiskLevel(injuries,[...hi,...ai])
   const confidence:ModelResult['confidence']=games>=15&&injuries?.status==='available'&&injuryRisk!=='偏高'?'中':'低'
   const p=calibrateProbability(cdf(projectedMargin/13),calibrator)
   return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players,totalTrend:projectedTotal,totalStdDev:18.6,paceAdjustment:0}
@@ -88,9 +92,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length)
  const allInjuries=[...hi,...ai]
- const outCount=allInjuries.filter(x=>/out|inactive|suspended/i.test(x.status)).length
- const uncertainCount=allInjuries.filter(x=>/questionable|doubtful|day.to.day|game.time/i.test(x.status)).length
- const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
+ const injuryRisk=injuryRiskLevel(injuries,allInjuries)
  const confidence:ModelResult['confidence']=sample>=8&&injuries?.status==='available'&&injuryRisk!=='偏高'?'高':sample>=5&&injuries?.status==='available'?'中':'低'
  return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players,totalTrend,totalStdDev,paceAdjustment}
 }

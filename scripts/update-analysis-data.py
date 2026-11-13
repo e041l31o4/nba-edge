@@ -312,20 +312,54 @@ try:
         pathlib.Path('/tmp/nba-injury.pdf').write_bytes(pdf)
         import pypdf
         pdf_text = '\n'.join(page.extract_text() or '' for page in pypdf.PdfReader('/tmp/nba-injury.pdf').pages)
-        for line in pdf_text.splitlines():
-            match = re.search(r'^\s*([A-Z]{2,3})\s+(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$', line, re.I)
-            if match:
-                player_name = match.group(2).strip()
-                roster_info = (
-                    roster_map.get(f"{match.group(1).upper()}|{normalize_player_name(player_name)}")
-                    or roster_map.get(player_name.lower(), {})
-                )
-                injuries.append({
-                    'team': match.group(1), 'player': player_name,
-                    'status': match.group(3).title(), 'detail': match.group(4).strip(),
-                    'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
-                    'sourceUrl': injury_url
-                })
+        team_names = {
+            'Atlanta Hawks':'ATL','Boston Celtics':'BOS','Brooklyn Nets':'BKN','Charlotte Hornets':'CHA',
+            'Chicago Bulls':'CHI','Cleveland Cavaliers':'CLE','Dallas Mavericks':'DAL','Denver Nuggets':'DEN',
+            'Detroit Pistons':'DET','Golden State Warriors':'GSW','Houston Rockets':'HOU','Indiana Pacers':'IND',
+            'LA Clippers':'LAC','Los Angeles Clippers':'LAC','Los Angeles Lakers':'LAL','Memphis Grizzlies':'MEM',
+            'Miami Heat':'MIA','Milwaukee Bucks':'MIL','Minnesota Timberwolves':'MIN','New Orleans Pelicans':'NOP',
+            'New York Knicks':'NYK','Oklahoma City Thunder':'OKC','Orlando Magic':'ORL','Philadelphia 76ers':'PHI',
+            'Phoenix Suns':'PHX','Portland Trail Blazers':'POR','Sacramento Kings':'SAC','San Antonio Spurs':'SAS',
+            'Toronto Raptors':'TOR','Utah Jazz':'UTA','Washington Wizards':'WAS'
+        }
+        ordered_team_names = sorted(team_names, key=len, reverse=True)
+        current_team = None
+        for raw_line in pdf_text.splitlines():
+            line = re.sub(r'Injury Report:\\s*\\d{1,2}/\\d{1,2}/\\d{2}\\s+\\d{1,2}:\\d{2}\\s+[AP]M', '', raw_line, flags=re.I).strip()
+            if not line:
+                continue
+            for team_name in ordered_team_names:
+                team_pos = line.find(team_name)
+                if team_pos >= 0:
+                    current_team = team_names[team_name]
+                    line = line[team_pos + len(team_name):].strip()
+                    break
+            if not current_team:
+                continue
+            match = re.match(r'^(.+?)\\s+(Out|Doubtful|Questionable|Probable|Available)\\b\\s*(.*)$', line, re.I)
+            if not match:
+                continue
+            player_name = match.group(1).strip()
+            if not player_name or player_name.lower() in ('not yet submitted',):
+                continue
+            # NBA PDFs use "Last, First"; ESPN roster keys use "First Last".
+            reordered_name = player_name
+            if ',' in player_name:
+                last, first = [part.strip() for part in player_name.split(',', 1)]
+                reordered_name = f"{first} {last}"
+            roster_info = (
+                roster_map.get(f"{current_team}|{normalize_player_name(reordered_name)}")
+                or roster_map.get(reordered_name.lower(), {})
+                or roster_map.get(player_name.lower(), {})
+            )
+            injuries.append({
+                'team': current_team, 'player': reordered_name,
+                'status': match.group(2).title(), 'detail': match.group(3).strip(),
+                'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
+                'sourceUrl': injury_url
+            })
+        if injuries:
+            injury_source = 'NBA Official Injury Report'
 except Exception as error:
     print('Official injury report unavailable:', str(error)[:160])
 
