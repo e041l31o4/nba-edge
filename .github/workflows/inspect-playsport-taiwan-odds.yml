@@ -1,0 +1,34 @@
+name: Inspect PlaySport Taiwan NBA odds
+on:
+  push:
+    paths:
+      - 'scripts/inspect-playsport-taiwan-odds.py'
+      - '.github/workflows/inspect-playsport-taiwan-odds.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright browser
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Inspect Taiwan odds and international markets separately
+        env:
+          TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
+        run: python scripts/inspect-playsport-taiwan-odds.py
+      - name: Save inspection result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playsport-taiwan-odds-probe
+          path: playsport-taiwan-probe.json
+          if-no-files-found: ignore
+          retention-days: 5
