@@ -16,7 +16,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
  const spread=market.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
  const totals=market.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
  const moneyline=market.flatMap(b=>b.markets.filter(m=>m.key==='h2h').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
- const report=analyzeMatch(game,teamForm,injuryData,calibrator)
+ const report=analyzeMatch(game,teamForm,injuryData,calibrator,teamMetrics)
  const homeInj=report.homeInjuries,awayInj=report.awayInjuries
  const homeMetrics=teamMetrics?.teams?.[game.home.abbreviation],awayMetrics=teamMetrics?.teams?.[game.away.abbreviation]
  const homeModelLine=report.available?-report.projectedMargin:null
