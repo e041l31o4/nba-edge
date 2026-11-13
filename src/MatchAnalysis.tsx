@@ -18,7 +18,8 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
  const moneyline=market.flatMap(b=>b.markets.filter(m=>m.key==='h2h').flatMap(m=>m.outcomes.map(o=>({book:b.title,...o}))))
  const report=analyzeMatch(game,teamForm,injuryData,calibrator,teamMetrics)
  const homeInj=report.homeInjuries,awayInj=report.awayInjuries
- const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()\n const homeMetrics=teamMetrics?.teams?.[normalizeTeam(game.home.abbreviation)],awayMetrics=teamMetrics?.teams?.[normalizeTeam(game.away.abbreviation)]
+ const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
+ const homeMetrics=teamMetrics?.teams?.[normalizeTeam(game.home.abbreviation)],awayMetrics=teamMetrics?.teams?.[normalizeTeam(game.away.abbreviation)]
  const homeModelLine=report.available?-report.projectedMargin:null
  const rotationSummary=(team:string)=>{
   const roster=rosterData?.teams?.[team]??[]
