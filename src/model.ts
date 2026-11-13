@@ -51,7 +51,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
   const injuryRisk:ModelResult['injuryRisk']=injuries?.status!=='available'?'待確認':outCount>=3||(outCount>=2&&uncertainCount>=1)?'偏高':outCount>=1||uncertainCount>=1?'中等':'低'
   const confidence:ModelResult['confidence']=games>=15&&injuries?.status==='available'&&injuryRisk!=='偏高'?'中':'低'
   const p=calibrateProbability(cdf(projectedMargin/13),calibrator)
-  return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players,totalTrend:projectedTotal,totalStdDev:16.5,paceAdjustment:0}
+  return {...empty,available:true,reason:'近期樣本不足，已改用本季球隊攻防效率與節奏估算；此場信心等級下調。',homeRecord:'本季效率模型',awayRecord:'本季效率模型',homePpg:hm!.offensiveRating!*pace/100,homeOppPpg:hm!.defensiveRating!*pace/100,awayPpg:am!.offensiveRating!*pace/100,awayOppPpg:am!.defensiveRating!*pace/100,projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:p,awayWin:1-p,confidence,sample:games,injuryRisk,homeInjuryImpact:hiImpact.points,awayInjuryImpact:aiImpact.points,homeImpactPlayers:hiImpact.players,awayImpactPlayers:aiImpact.players,totalTrend:projectedTotal,totalStdDev:18.6,paceAdjustment:0}
  }
  const hs=h.last10.slice(0,10),as=a.last10.slice(0,10),h5=hs.slice(0,5),a5=as.slice(0,5)
  const hpf=avg(hs.map(x=>x.pointsFor)),hpa=avg(hs.map(x=>x.pointsAgainst)),apf=avg(as.map(x=>x.pointsFor)),apa=avg(as.map(x=>x.pointsAgainst))
@@ -86,7 +86,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const projectedTotal=scoreBasedTotal*0.75+totalTrend*0.25+paceAdjustment
  const allRecentTotals=[...hs,...as].map(x=>x.pointsFor+x.pointsAgainst)
  const totalMean=avg(allRecentTotals),totalVariance=avg(allRecentTotals.map(x=>(x-totalMean)**2))
- const totalStdDev=Math.max(14.2,Math.min(20,Math.sqrt(totalVariance)))
+ const totalStdDev=18.6 // Use the settled forecast-residual baseline; recent game-total dispersion is not forecast error and can overstate market confidence.
  const projectedHome=(projectedTotal+projectedMargin)/2,projectedAway=(projectedTotal-projectedMargin)/2
  const sample=Math.min(hs.length,as.length)
  const allInjuries=[...hi,...ai]
@@ -97,7 +97,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players,totalTrend,totalStdDev,paceAdjustment}
 }
 export function coverProbability(projectedMargin:number,point:number,isHome:boolean){const margin=isHome?projectedMargin:-projectedMargin;return cdf((margin+point)/11.8)}
-export function totalProbability(projectedTotal:number,point:number,isOver:boolean,stdDev=14.2){const sigma=Math.max(10,Math.min(22,Number.isFinite(stdDev)?stdDev:14.2));return isOver?cdf((projectedTotal-point)/sigma):cdf((point-projectedTotal)/sigma)}
+export function totalProbability(projectedTotal:number,point:number,isOver:boolean,stdDev=18.6){const sigma=Math.max(10,Math.min(22,Number.isFinite(stdDev)?stdDev:14.2));return isOver?cdf((projectedTotal-point)/sigma):cdf((point-projectedTotal)/sigma)}
 export function americanToDecimal(price:number){return price>0?1+price/100:1+100/Math.abs(price)}
 export function impliedProbability(price:number){const d=americanToDecimal(price);return 1/d}
 export function expectedValue(probability:number,price:number){return probability*americanToDecimal(price)-1}
