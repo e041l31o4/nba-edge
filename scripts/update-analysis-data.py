@@ -325,7 +325,7 @@ try:
         ordered_team_names = sorted(team_names, key=len, reverse=True)
         current_team = None
         for raw_line in pdf_text.splitlines():
-            line = re.sub(r'Injury Report:\\s*\\d{1,2}/\\d{1,2}/\\d{2}\\s+\\d{1,2}:\\d{2}\\s+[AP]M', '', raw_line, flags=re.I).strip()
+            line = re.sub(r'Injury Report:\s*\d{1,2}/\d{1,2}/\d{2}\s+\d{1,2}:\d{2}\s+[AP]M', '', raw_line, flags=re.I).strip()
             if not line:
                 continue
             for team_name in ordered_team_names:
@@ -336,7 +336,7 @@ try:
                     break
             if not current_team:
                 continue
-            match = re.match(r'^(.+?)\\s+(Out|Doubtful|Questionable|Probable|Available)\\b\\s*(.*)$', line, re.I)
+            match = re.match(r'^(.+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b\s*(.*)$', line, re.I)
             if not match:
                 continue
             player_name = match.group(1).strip()
