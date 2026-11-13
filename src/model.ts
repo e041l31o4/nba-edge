@@ -81,6 +81,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const paceRows=[teamMetrics?.teams?.[game.home.abbreviation],teamMetrics?.teams?.[game.away.abbreviation]]
  const usablePaces=paceRows.filter(x=>!!x&&!x.stale&&typeof x.pace==='number'&&Number.isFinite(x.pace)&&x.pace>=80&&x.pace<=110).map(x=>x!.pace!)
  const paceAdjustment=usablePaces.length===2?Math.max(-6,Math.min(6,(avg(usablePaces)-99)*1.7)):0
+ // Totals use their own trend and uncertainty estimate; this is not a simple copy of the score sum.
  // Independent totals signal: blend the matchup score projection with both teams' recent game-total environment.
  const projectedTotal=scoreBasedTotal*0.75+totalTrend*0.25+paceAdjustment
  const allRecentTotals=[...hs,...as].map(x=>x.pointsFor+x.pointsAgainst)
