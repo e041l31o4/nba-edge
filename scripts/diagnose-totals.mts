@@ -22,7 +22,7 @@ const absenceProbability=(status:string)=>{const value=status.toLowerCase();if(/
 const replacementGap=(mpg:number|null)=>typeof mpg!=='number'||!Number.isFinite(mpg)||mpg<=0?0.35:0.25+0.20*Math.max(0,Math.min(1,mpg/36))
 const majorAbsences=(rows:any[])=>[...new Map(rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&(Number(x.pointsPerGame??0)>=10||Number(x.minutesPerGame??0)>=24)&&absenceProbability(x.status)>=0.5).map(x=>[x.athleteId?String(x.athleteId):String(x.player).trim().toLowerCase(),x])).values()]
 const dynamicCap=(rows:any[])=>{const key=majorAbsences(rows);return Math.min(20,10+Math.max(0,key.length-1)*2+(key.some(x=>Number(x.pointsPerGame??0)>=25)?2:0))}
-const rawInjuryImpact=(rows:any[])=>rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&typeof x.pointsPerGame==='number'&&x.pointsPerGame>0).reduce((sum,x)=>sum+x.pointsPerGame*absenceProbability(x.status)*replacementGap(x.minutesPerGame??null),0)
+const rawInjuryImpact=(rows:any[])=>rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&typeof x.pointsPerGame==='number'&&x.pointsPerGame>0).reduce((sum,x)=>sum+x.pointsPerGame*absenceProbability(x.status)*replacementGap(x.minutesPerGame??null)*(typeof x.recentFormPresenceWeight==='number'?Math.max(0,Math.min(1,x.recentFormPresenceWeight)):1),0)
 const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
 const teamNickname=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'').split(/(?=[0-9])/)[0]
 const output=[]
@@ -77,7 +77,7 @@ for(const game of games){
   totalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(2)),stdDev:Number(report.totalStdDev.toFixed(2)),paceAdj:Number(report.paceAdjustment.toFixed(2)),
   injuryImpact:{
    home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),rawHome:Number(rawHomeImpact.toFixed(2)),rawAway:Number(rawAwayImpact.toFixed(2)),dynamicCap:{home:dynamicCap(homeInjuryRows),away:dynamicCap(awayInjuryRows),homeMajorAbsences:majorAbsences(homeInjuryRows).length,awayMajorAbsences:majorAbsences(awayInjuryRows).length},capSensitivity:{cap10:capScenario(10,10),dynamic:capScenario(dynamicCap(homeInjuryRows),dynamicCap(awayInjuryRows)),cap15:capScenario(15,15),cap20:capScenario(20,20)},
-   homePlayers:homeInjuryRows.map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,detail:x.detail??'',athleteId:x.athleteId??null})),
+   homePlayers:homeInjuryRows.map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,detail:x.detail??'',athleteId:x.athleteId??null,recentFormPresenceWeight:x.recentFormPresenceWeight??null,recentTeamGamesPlayed:x.recentTeamGamesPlayed??null,recentTeamGamesSample:x.recentTeamGamesSample??null})),
    awayPlayers:awayInjuryRows.map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,detail:x.detail??'',athleteId:x.athleteId??null}))
   }
  })
