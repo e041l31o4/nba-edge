@@ -51,3 +51,9 @@ GitHub Pages 是靜態網站。僅加登入畫面並不能保護目前放在 pub
 - 最新只讀檢查 SQL：supabase/verify-membership-status.sql。
 - 最新安全補強 migration：supabase/migrations/202611100004_require_transfer_submission.sql（管理員必須等會員提交匯款末五碼後才能核准）。
 - 詳細步驟見 MEMBERSHIP_GO_LIVE_CHECKLIST.md。
+
+
+## 免費公開兩場賽事分析（2026-11-13）
+- 管理員可在網站管理後台的「免費公開賽事設定」中，分別選擇今天或明天的兩場賽事並儲存；每個台灣日期各自設定，未註冊訪客只會看到被指定的兩場。
+- 若要讓未註冊訪客不只看到賽事卡片，也能查看這兩場的勝率、預測比分、傷兵與可取得的台灣運彩盤口，請在既有會員資料庫 migrations 完成後，再執行 `supabase/migrations/202611130001_public_game_analysis.sql`。
+- 此 RPC 只允許讀取 `public_game_access_by_date` 中管理員已公開的指定日期與賽事 ID，並只回傳該場雙方球隊的模型資料與對應盤口；不開放其他賽事或會員預測紀錄。

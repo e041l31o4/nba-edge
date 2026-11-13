@@ -87,6 +87,7 @@ function App() {
     }
     const selectedGames = games.filter(game => publicGameIds.includes(game.id))
     setPublicGameData({})
+    setError('')
     void Promise.all(selectedGames.map(async game => {
       const { data, error: publicError } = await supabase!.rpc('get_public_game_analysis', {
         p_game_date: date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8),
@@ -105,6 +106,7 @@ function App() {
     }).catch(error => {
       if (alive) {
         setPublicGameData({})
+        setError('免費公開賽事分析資料尚未完成資料庫設定或資料同步；請管理員確認已套用最新 Supabase migration，並等待資料刷新完成。')
         console.warn('Public game analysis unavailable:', error)
       }
     })
