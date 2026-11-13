@@ -366,3 +366,4 @@ result = {
 pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
 pathlib.Path('public/data/backtest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
 print('Saved multi-season walk-forward backtest:', len(all_predictions), 'predictions across', len(season_results), 'seasons', json.dumps(result['metrics']))
+print('Separate Taiwan market backtest (h2h / totals / spreads):', json.dumps(result['marketBacktest'], ensure_ascii=False))
