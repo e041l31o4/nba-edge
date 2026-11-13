@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { analyzeMatch, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
+import { analyzeMatch, totalProbability, decimalExpectedValue, calibrateProbability, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 const read = async <T>(p:string):Promise<T> => JSON.parse(await readFile(p,'utf8')) as T
 const [form,injuries,metrics,backtest,odds] = await Promise.all([
@@ -19,6 +19,8 @@ const games=(board.events??[]).map((e:any)=>{
  return {id:String(e.id),date:e.date,home:{id:String(h?.team?.id??''),name:h?.team?.name,abbreviation:h?.team?.abbreviation},away:{id:String(a?.team?.id??''),name:a?.team?.name,abbreviation:a?.team?.abbreviation}}
 })
 const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
+const normalCdf=(z:number)=>{const sign=z<0?-1:1,x=Math.abs(z)/Math.sqrt(2),t=1/(1+0.3275911*x);const erf=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return Math.max(0.001,Math.min(0.999,0.5*(1+sign*erf)))}
+const teamNickname=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'').split(/(?=[0-9])/)[0]
 const output=[]
 for(const game of games){
  const report=analyzeMatch(game,form,injuries,calibrator,metrics)
@@ -34,6 +36,25 @@ for(const game of games){
   })
  })
  const sorted=pairs.sort((a:any,b:any)=>b.ev-a.ev||b.probability-a.probability)
+ const marketRows=(key:string)=>(market?.bookmakers??[]).flatMap((book:any)=>(book.markets??[]).filter((m:any)=>m.key===key).flatMap((m:any)=>(m.outcomes??[]).map((o:any)=>({...o,book:book.title}))))
+ const moneyline=marketRows('h2h').map((o:any)=>{
+  const n=o.name.toLowerCase(),homeName=game.home.name.toLowerCase(),awayName=game.away.name.toLowerCase()
+  const isHome=homeName.endsWith(n)||homeName.includes(n)
+  const isAway=awayName.endsWith(n)||awayName.includes(n)
+  if(!isHome&&!isAway)return null
+  const probability=isHome?report.homeWin:report.awayWin
+  return {side:o.name,price:o.price,probability,ev:decimalExpectedValue(probability,o.price),book:o.book}
+ }).filter(Boolean).sort((a:any,b:any)=>b.ev-a.ev)
+ const spreads=marketRows('spreads').map((o:any)=>{
+  if(typeof o.point!=='number'||!(o.price>1))return null
+  const n=o.name.toLowerCase(),homeName=game.home.name.toLowerCase(),awayName=game.away.name.toLowerCase()
+  const isHome=homeName.endsWith(n)||homeName.includes(n)
+  const isAway=awayName.endsWith(n)||awayName.includes(n)
+  if(!isHome&&!isAway)return null
+  const teamMargin=isHome?report.projectedMargin:-report.projectedMargin
+  const probability=calibrateProbability(normalCdf((teamMargin+o.point)/12.2),calibrator)
+  return {side:o.name,handicap:o.point,price:o.price,probability,ev:decimalExpectedValue(probability,o.price),book:o.book}
+ }).filter(Boolean).sort((a:any,b:any)=>b.ev-a.ev)
  const homeForm=form.teams[game.home.id],awayForm=form.teams[game.away.id]
  output.push({
   matchup:`${game.away.abbreviation}@${game.home.abbreviation}`,available:report.available,confidence:report.confidence,injuryRisk:report.injuryRisk,
@@ -42,6 +63,10 @@ for(const game of games){
   predictedScore:{away:Number(report.projectedAway.toFixed(1)),home:Number(report.projectedHome.toFixed(1))},
   projectedTotal:Number(report.projectedTotal.toFixed(2)),lineAndPicks:sorted.map((x:any)=>({...x,probability:Number((x.probability*100).toFixed(1)),ev:Number((x.ev*100).toFixed(1))})),
   selected:sorted[0]?{side:sorted[0].side,line:sorted[0].line,book:sorted[0].book,probability:Number((sorted[0].probability*100).toFixed(1)),ev:Number((sorted[0].ev*100).toFixed(1))}:null,
+  otherMarkets:{
+   moneyline:moneyline.slice(0,2).map((x:any)=>({...x,probability:Number((x.probability*100).toFixed(1)),ev:Number((x.ev*100).toFixed(1))})),
+   spread:spreads.slice(0,2).map((x:any)=>({...x,probability:Number((x.probability*100).toFixed(1)),ev:Number((x.ev*100).toFixed(1))}))
+  },
   totalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(2)),stdDev:Number(report.totalStdDev.toFixed(2)),paceAdj:Number(report.paceAdjustment.toFixed(2)),
   injuryImpact:{
    home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),
