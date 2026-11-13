@@ -212,8 +212,12 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
    })
   : []
  // EV ranks both directions; negative EV remains visible as a reference, not a value bet.
- const bestSpread=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
- const bestTotal=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
+ const bestSpreadCandidate=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
+ const bestTotalCandidate=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
+ // Do not turn the better of two weak sides into a formal recommendation.
+ const qualifies=(pick:{probability:number;ev:number}|undefined)=>!!pick&&pick.ev>=0.025&&pick.probability>=0.54&&report?.confidence!=='低'&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'
+ const bestSpread=qualifies(bestSpreadCandidate)?bestSpreadCandidate:undefined
+ const bestTotal=qualifies(bestTotalCandidate)?bestTotalCandidate:undefined
  const confidenceLabel=(pick:{probability:number;ev:number}|undefined)=>!pick?'':pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低'?'較強信號':pick.ev>=0.025&&pick.probability>=0.54&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'一般信號':pick.ev>=0?'偏弱信號':'負期望值參考'
  const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
  const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
@@ -225,7 +229,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')+(unverified?' prediction-unverified':'')}>
    <div className="pick-team-cell"><small>預測勝方</small>{done&&!useSaved&&ledgerStatus==='loading'?<b className="pick-unverified">賽前紀錄載入中</b>:done&&!useSaved&&ledgerStatus==='error'?<b className="pick-unverified">紀錄暫時無法讀取</b>:unverified?<b className="pick-unverified">未留存賽前預測</b>:hasPrediction?(pickedTeam!.logo?<img className="pick-team-logo" src={pickedTeam!.logo} alt={pickedTeam!.displayName} title={pickedTeam!.displayName}/>:<b className="pick-team-fallback">{pickedTeam!.abbreviation}</b>):<b className="pick-unverified">{report?.reason||'球隊近期資料尚未配對'}</b>}<strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong><em>{pickCorrect===true?'預測命中':pickCorrect===false?'預測未中':unverified?'不補算命中率':hasPrediction?'獨贏信心：'+(pickProbability!>=0.68&&report?.confidence==='高'&&report.injuryRisk==='低'?'高':pickProbability!>=0.58&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'中':'一般')+' · '+(useSaved?'正式封存':'每日初估'):'等待模型資料'}</em></div>
    <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{done&&!useSaved&&ledgerStatus==='loading'?'賽前紀錄載入中':done&&!useSaved&&ledgerStatus==='error'?'紀錄暫時無法讀取':unverified?'未留存賽前預測':useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
-   <div className="market-pick-cell"><small>大小分推薦</small><b>{done?'—':bestTotal?totalLabel:!report?.available?'模型待補資料':lotteryGame?'大小分盤口未配對':'盤口未同步'}</b><em>{done?'賽事已結束':bestTotal?confidenceLabel(bestTotal)+' · '+(bestTotal.probability*100).toFixed(1)+'% · EV '+(bestTotal.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未取得有效大小分盤口':'等待台灣運彩盤口'}</em></div>
+   <div className="market-pick-cell"><small>大小分推薦</small><b>{done?'—':bestTotal?totalLabel:!report?.available?'模型待補資料':lotteryGame?'大小分盤口未配對':'盤口未同步'}</b><em>{done?'賽事已結束':bestTotal?confidenceLabel(bestTotal)+' · '+(bestTotal.probability*100).toFixed(1)+'% · EV '+(bestTotal.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):bestTotalCandidate?'無明確優勢 · 最高方向 '+(bestTotalCandidate.isOver?'大':'小')+' '+bestTotalCandidate.point+' · EV '+(bestTotalCandidate.ev*100).toFixed(1)+'%':lotteryGame?'尚未取得有效大小分盤口':'等待台灣運彩盤口'}</em></div>
    <div className="market-pick-cell"><small>讓分推薦</small><b>{done?'—':bestSpread?spreadLabel:!report?.available?'模型待補資料':lotteryGame?'讓分隊伍或盤口未配對':'盤口未同步'}</b><em>{done?'賽事已結束':bestSpread?confidenceLabel(bestSpread)+' · '+(bestSpread.probability*100).toFixed(1)+'% · EV '+(bestSpread.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未配對有效讓分隊伍':'等待台灣運彩盤口'}</em></div>
   </div>
  </button>
