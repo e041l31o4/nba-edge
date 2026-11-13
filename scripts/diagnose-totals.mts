@@ -18,6 +18,9 @@ const games=(board.events??[]).map((e:any)=>{
  const c=e.competitions?.[0], teams=c?.competitors??[], h=teams.find((x:any)=>x.homeAway==='home'), a=teams.find((x:any)=>x.homeAway==='away')
  return {id:String(e.id),date:e.date,home:{id:String(h?.team?.id??''),name:h?.team?.name,abbreviation:h?.team?.abbreviation},away:{id:String(a?.team?.id??''),name:a?.team?.name,abbreviation:a?.team?.abbreviation}}
 })
+const absenceProbability=(status:string)=>{const value=status.toLowerCase();if(/out|inactive|suspended/.test(value))return 1;if(/doubtful/.test(value))return 0.8;if(/questionable|game.time|day.to.day/.test(value))return 0.5;if(/probable/.test(value))return 0.15;return 0}
+const replacementGap=(mpg:number|null)=>typeof mpg!=='number'||!Number.isFinite(mpg)||mpg<=0?0.35:0.25+0.20*Math.max(0,Math.min(1,mpg/36))
+const rawInjuryImpact=(rows:any[])=>rows.filter(x=>!/g league|two-way|on assignment/i.test(x.detail??'')&&typeof x.pointsPerGame==='number'&&x.pointsPerGame>0).reduce((sum,x)=>sum+x.pointsPerGame*absenceProbability(x.status)*replacementGap(x.minutesPerGame??null),0)
 const normalizeTeam=(value:string)=>({GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'} as Record<string,string>)[value.toUpperCase()]??value.toUpperCase()
 const teamNickname=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'').split(/(?=[0-9])/)[0]
 const output=[]
@@ -53,6 +56,10 @@ for(const game of games){
   const probability=coverProbability(report.projectedMargin,o.point,isHome)
   return {side:o.name,handicap:o.point,price:o.price,probability,ev:decimalExpectedValue(probability,o.price),book:o.book}
  }).filter(Boolean).sort((a:any,b:any)=>b.ev-a.ev)
+ const homeInjuryRows=(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.home.abbreviation))
+ const awayInjuryRows=(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.away.abbreviation))
+ const rawHomeImpact=rawInjuryImpact(homeInjuryRows),rawAwayImpact=rawInjuryImpact(awayInjuryRows)
+ const capScenario=(cap:number)=>{const homeScore=report.projectedHome-(Math.min(cap,rawHomeImpact)-report.homeInjuryImpact),awayScore=report.projectedAway-(Math.min(cap,rawAwayImpact)-report.awayInjuryImpact);return {away:Number(awayScore.toFixed(1)),home:Number(homeScore.toFixed(1)),margin:Number((homeScore-awayScore).toFixed(1)),total:Number((homeScore+awayScore).toFixed(1))}}
  const homeForm=form.teams[game.home.id],awayForm=form.teams[game.away.id]
  output.push({
   matchup:`${game.away.abbreviation}@${game.home.abbreviation}`,available:report.available,confidence:report.confidence,injuryRisk:report.injuryRisk,
@@ -67,9 +74,9 @@ for(const game of games){
   },
   totalTrend:report.totalTrend===null?null:Number(report.totalTrend.toFixed(2)),stdDev:Number(report.totalStdDev.toFixed(2)),paceAdj:Number(report.paceAdjustment.toFixed(2)),
   injuryImpact:{
-   home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),
-   homePlayers:(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.home.abbreviation)).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null})),
-   awayPlayers:(injuries.players??[]).filter((x:any)=>normalizeTeam(x.team)===normalizeTeam(game.away.abbreviation)).map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,athleteId:x.athleteId??null}))
+   home:Number(report.homeInjuryImpact.toFixed(2)),away:Number(report.awayInjuryImpact.toFixed(2)),rawHome:Number(rawHomeImpact.toFixed(2)),rawAway:Number(rawAwayImpact.toFixed(2)),capSensitivity:{cap10:capScenario(10),cap15:capScenario(15),cap20:capScenario(20)},
+   homePlayers:homeInjuryRows.map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,detail:x.detail??'',athleteId:x.athleteId??null})),
+   awayPlayers:awayInjuryRows.map((x:any)=>({player:x.player,status:x.status,ppg:x.pointsPerGame??null,mpg:x.minutesPerGame??null,detail:x.detail??'',athleteId:x.athleteId??null}))
   }
  })
 }
