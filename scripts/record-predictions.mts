@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -99,6 +99,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     if (rolling.available) {
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
+      existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
+      existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
+      existing.modelVersion='recent-form-pace-v1'
       existing.capturedAt=now.toISOString(); refreshed++
     }
     continue
@@ -108,7 +111,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const prediction=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
   if (!prediction.available) continue
   const stage:Row['stage']=tipoff-now.getTime()<=60*60*1000?'official':'draft'
-  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
+  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
     delete (existing as any).totalLine; delete (existing as any).totalPick
