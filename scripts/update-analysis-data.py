@@ -295,7 +295,7 @@ injury_source = 'NBA Official Injury Report'
 injury_url = 'https://official.nba.com/nba-injury-report-2026-27-season/'
 try:
     page = urllib.request.urlopen(urllib.request.Request(injury_url, headers=HEAD), timeout=25).read().decode('utf-8', 'ignore')
-    links = re.findall(r'href=[\"']([^\"']+\.pdf)[\"']', page, re.I)
+    links = re.findall(r"""href=["']([^"']+\.pdf)["']""", page, re.I)
     urls = []
     for link in links:
         if link.startswith('/'):
