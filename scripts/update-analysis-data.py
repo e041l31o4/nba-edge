@@ -295,7 +295,7 @@ injury_source = 'NBA Official Injury Report'
 injury_url = 'https://official.nba.com/nba-injury-report-2026-27-season/'
 try:
     page = urllib.request.urlopen(urllib.request.Request(injury_url, headers=HEAD), timeout=25).read().decode('utf-8', 'ignore')
-    links = re.findall(r'href="([^"]+\.pdf)', page, re.I) + re.findall(r"href='([^']+\.pdf)", page, re.I)
+    links = re.findall(r'href=[\"']([^\"']+\.pdf)[\"']', page, re.I)
     urls = []
     for link in links:
         if link.startswith('/'):
@@ -307,7 +307,7 @@ try:
         urls.append(html.unescape(link))
     urls = [url for url in urls if 'injury' in url.lower() and 'report' in url.lower()]
     if urls:
-        injury_url = urls[0]
+        injury_url = urls[-1]
         pdf = urllib.request.urlopen(urllib.request.Request(injury_url, headers=HEAD), timeout=30).read()
         pathlib.Path('/tmp/nba-injury.pdf').write_bytes(pdf)
         import pypdf
@@ -358,8 +358,11 @@ try:
                 'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
                 'sourceUrl': injury_url
             })
-        if injuries:
+        if len(injuries) >= 20:
             injury_source = 'NBA Official Injury Report'
+        else:
+            print('Official injury report parser returned too few rows:', len(injuries))
+            injuries = []
 except Exception as error:
     print('Official injury report unavailable:', str(error)[:160])
 
