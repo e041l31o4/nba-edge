@@ -333,14 +333,17 @@ try:
         for team_index, (team_start, team_name) in enumerate(team_hits):
             segment_end = team_hits[team_index + 1][0] if team_index + 1 < len(team_hits) else len(flat_text)
             segment = flat_text[team_start + len(team_name):segment_end]
-            player_matches = re.finditer(
-                r"""([A-Z][A-Za-zÀ-ÿ.'’\- ]+,\s*[A-Z][A-Za-zÀ-ÿ.'’\- ]+)\s+(Out|Doubtful|Questionable|Probable|Available)\b""",
+            player_matches = list(re.finditer(
+                r"""([A-Z][A-Za-zÀ-ÿ.'’\- ]+?,\s*[A-Z][A-Za-zÀ-ÿ.'’\- ]+?)\s+(Out|Doubtful|Questionable|Probable|Available)\b""",
                 segment, re.I
-            )
-            for match in player_matches:
+            ))
+            for player_index, match in enumerate(player_matches):
                 player_name = match.group(1).strip()
                 last, first = [part.strip() for part in player_name.split(',', 1)]
                 reordered_name = f"{first} {last}"
+                next_player_start = player_matches[player_index + 1].start() if player_index + 1 < len(player_matches) else len(segment)
+                detail = segment[match.end():next_player_start].strip()
+                detail = re.sub(r'Injury Report:\s*\d{1,2}/\d{1,2}/\d{2}\s+\d{1,2}:\d{2}\s+[AP]M\s+Page\s+\d+\s+of\s+\d+', '', detail, flags=re.I).strip()
                 row_key = (team_names[team_name], normalize_player_name(reordered_name))
                 if row_key in seen_official_rows:
                     continue
@@ -352,7 +355,7 @@ try:
                 )
                 injuries.append({
                     'team': team_names[team_name], 'player': reordered_name,
-                    'status': match.group(2).title(), 'detail': '',
+                    'status': match.group(2).title(), 'detail': detail,
                     'athleteId': roster_info.get('athleteId'), 'position': roster_info.get('position'),
                     'sourceUrl': injury_url
                 })
