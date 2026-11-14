@@ -20,6 +20,24 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
 ])
 if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
 
+// Temporary recovery audit: expose only the stored pregame fields for the
+// 2026-11-13 Taiwan slate and its 2026-11-14 UTC scoreboard settlement.
+const recoveryRows = (previousPayload?.records ?? []).filter(row =>
+  row.date?.startsWith('2026-11-13') || row.date?.startsWith('2026-11-14')
+).map(row => ({gameId:row.gameId,date:row.date,home:row.home,away:row.away,stage:row.stage,capturedAt:row.capturedAt,lockedAt:row.lockedAt,homeWin:row.homeWin,awayWin:row.awayWin,projectedMargin:row.projectedMargin,projectedTotal:row.projectedTotal,spreadPick:row.spreadPick,totalPick:row.totalPick,actualHome:row.actualHome,actualAway:row.actualAway,settledAt:row.settledAt}))
+console.log('RECOVERY_AUDIT_LEDGER_20261113:', JSON.stringify(recoveryRows))
+try {
+  const historyRaw = await readFile('public/data/odds-history.jsonl','utf8')
+  const historyRows = historyRaw.split(/\\r?\\n/).filter(Boolean).map(line => { try { return JSON.parse(line) } catch { return null } }).filter(Boolean)
+  const historyAudit = historyRows.filter(item => {
+    const raw = JSON.stringify(item)
+    return (raw.includes('2026-11-13') || raw.includes('2026-11-14') || raw.includes('20261113') || raw.includes('20261114')) && /MIL|Milwaukee|ORL|Orlando/i.test(raw)
+  }).slice(-100)
+  console.log('RECOVERY_AUDIT_ODDS_HISTORY_20261113:', JSON.stringify(historyAudit))
+} catch (error) {
+  console.log('RECOVERY_AUDIT_ODDS_HISTORY_UNAVAILABLE:', String(error))
+}
+
 // Fetch each local-date scoreboard independently. A single transient ESPN error
 // must not cancel capture for every other date in the 9-day window.
 const fetchScoreboard = async (date:string) => {
