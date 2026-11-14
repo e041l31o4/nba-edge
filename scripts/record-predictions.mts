@@ -161,6 +161,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       }
       continue
     }
+    // Recovered historical pregame snapshots are immutable even while a game
+    // remains upcoming; do not overwrite them with a later rolling draft.
+    if (existing.recoverySource) continue
     const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator,teamMetrics)
     if (rolling.available) {
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
