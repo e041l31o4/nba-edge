@@ -222,7 +222,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const matchesTeam=(outcome:string,team:Game['home'])=>{
   // Taiwan Sports Lottery may label NBA teams in Traditional Chinese while ESPN
   // supplies English display names. Match both canonical abbreviations and local aliases.
-  const normalize=(value:string)=>value.toLowerCase().replace(/[^a-z0-9\\u4e00-\\u9fff]/g,'')
+  const normalize=(value:string)=>value.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]/g,'')
   const localAliases:Record<string,string[]> = {
    ATL:['老鷹','亞特蘭大老鷹'],BOS:['塞爾提克','波士頓塞爾提克'],BKN:['籃網','布魯克林籃網'],
    CHA:['黃蜂','夏洛特黃蜂'],CHI:['公牛','芝加哥公牛'],CLE:['騎士','克里夫蘭騎士'],
@@ -237,7 +237,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
    WAS:['巫師','華盛頓巫師']
   }
   const normalized=normalize(outcome)
-  const aliases=[team.name,team.displayName,team.abbreviation,team.displayName.split(/\\s+/).slice(-1)[0],...(localAliases[team.abbreviation.toUpperCase()]??[])]
+  const aliases=[team.name,team.displayName,team.abbreviation,team.displayName.split(' ').slice(-1)[0],...(localAliases[team.abbreviation.toUpperCase()]??[])]
     .map(value=>normalize(value||''))
     .filter(value=>value.length>=2)
   return aliases.some(alias=>normalized===alias||normalized.includes(alias)||alias.includes(normalized))
