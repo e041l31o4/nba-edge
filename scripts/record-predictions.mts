@@ -190,11 +190,20 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     rows.push(row); byId.set(id,row); added++
   }
 }
+// Backfill market outcomes whenever a final score already exists.
+// This is essential when a pregame pick is recovered after the game was previously settled.
+let regraded=0
+for (const row of rows) {
+  if (row.settledAt && Number.isFinite(row.actualHome) && Number.isFinite(row.actualAway) && (row.spreadPick?.result===undefined || row.totalPick?.result===undefined)) {
+    settleMarkets(row,row.actualHome as number,row.actualAway as number)
+    regraded++
+  }
+}
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
 const recoveredSummary=output.filter(row=>row.recoverySource==='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z').map(row=>({gameId:row.gameId,home:row.home,away:row.away,stage:row.stage,spreadPick:row.spreadPick,totalPick:row.totalPick,actualHome:row.actualHome,actualAway:row.actualAway,spreadResult:row.spreadPick?.result,totalResult:row.totalPick?.result,settledAt:row.settledAt}))
 console.log('RECOVERED_MARKET_SETTLEMENTS_20261114:',JSON.stringify(recoveredSummary))
-if (added || settled || refreshed || !previousPayload) {
+if (added || settled || refreshed || regraded || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
   await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
