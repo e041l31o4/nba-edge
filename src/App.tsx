@@ -220,10 +220,26 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const cardSpread=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({book:b.title,name:o.name,point:o.point,price:o.price}))))
  const cardTotals=lotteryBooks.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({book:b.title,name:o.name,point:o.point,price:o.price}))))
  const matchesTeam=(outcome:string,team:Game['home'])=>{
-  const normalized=outcome.toLowerCase().replace(/[^a-z0-9]/g,'')
-  const aliases=[team.name,team.displayName,team.abbreviation,team.displayName.split(/\\s+/).slice(-1)[0]]
-    .map(value=>(value||'').toLowerCase().replace(/[^a-z0-9]/g,''))
-    .filter(value=>value.length>=3)
+  // Taiwan Sports Lottery may label NBA teams in Traditional Chinese while ESPN
+  // supplies English display names. Match both canonical abbreviations and local aliases.
+  const normalize=(value:string)=>value.toLowerCase().replace(/[^a-z0-9\\u4e00-\\u9fff]/g,'')
+  const localAliases:Record<string,string[]> = {
+   ATL:['老鷹','亞特蘭大老鷹'],BOS:['塞爾提克','波士頓塞爾提克'],BKN:['籃網','布魯克林籃網'],
+   CHA:['黃蜂','夏洛特黃蜂'],CHI:['公牛','芝加哥公牛'],CLE:['騎士','克里夫蘭騎士'],
+   DAL:['獨行俠','達拉斯獨行俠'],DEN:['金塊','丹佛金塊'],DET:['活塞','底特律活塞'],
+   GSW:['勇士','金州勇士'],HOU:['火箭','休士頓火箭'],IND:['溜馬','印第安納溜馬'],
+   LAC:['快艇','洛杉磯快艇'],LAL:['湖人','洛杉磯湖人'],MEM:['灰熊','曼菲斯灰熊','孟菲斯灰熊'],
+   MIA:['熱火','邁阿密熱火'],MIL:['公鹿','密爾瓦基公鹿'],MIN:['灰狼','明尼蘇達灰狼'],
+   NOP:['鵜鶘','鵜鶘隊','紐奧良鵜鶘','新奧爾良鵜鶘'],NYK:['尼克','紐約尼克'],
+   OKC:['雷霆','奧克拉荷馬雷霆'],ORL:['魔術','奧蘭多魔術'],PHI:['76人','費城76人'],
+   PHX:['太陽','鳳凰城太陽'],POR:['拓荒者','波特蘭拓荒者'],SAC:['國王','沙加緬度國王'],
+   SAS:['馬刺','聖安東尼奧馬刺'],TOR:['暴龍','多倫多暴龍'],UTA:['爵士','猶他爵士'],
+   WAS:['巫師','華盛頓巫師']
+  }
+  const normalized=normalize(outcome)
+  const aliases=[team.name,team.displayName,team.abbreviation,team.displayName.split(/\\s+/).slice(-1)[0],...(localAliases[team.abbreviation.toUpperCase()]??[])]
+    .map(value=>normalize(value||''))
+    .filter(value=>value.length>=2)
   return aliases.some(alias=>normalized===alias||normalized.includes(alias)||alias.includes(normalized))
  }
  const spreadGroups=new Map<string,typeof cardSpread>()
