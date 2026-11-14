@@ -82,4 +82,19 @@ for(const game of games){
   }
  })
 }
-console.log('NBA_EDGE_TOTALS_DIAGNOSTIC '+JSON.stringify({date:'2026-11-14 Taiwan',oddsSource:odds.source,formUpdatedAt:form.updatedAt,injuriesUpdatedAt:injuries.updatedAt,injurySource:injuries.source,teamMetricsUpdatedAt:metrics.updatedAt,teamMetricsWithValidPace:Object.values(metrics.teams??{}).filter((x:any)=>!x.stale&&typeof x.pace==='number'&&x.pace>=80&&x.pace<=110).length,games:output},null,2))
+// Public repository Actions logs must never expose per-game member predictions or odds.
+const auditSummary={
+ date:'2026-11-14 Taiwan',
+ oddsSource:odds.source,
+ formUpdatedAt:form.updatedAt,
+ injuriesUpdatedAt:injuries.updatedAt,
+ injurySource:injuries.source,
+ teamMetricsUpdatedAt:metrics.updatedAt,
+ teamsWithValidPace:Object.values(metrics.teams??{}).filter((x:any)=>!x.stale&&typeof x.pace==='number'&&x.pace>=80&&x.pace<=110).length,
+ games:output.length,
+ modelAvailable:output.filter((x:any)=>x.available).length,
+ pairedTotals:output.filter((x:any)=>(x.lineAndPicks?.length??0)>=2).length,
+ pairedSpreads:output.filter((x:any)=>(x.otherMarkets?.spread?.length??0)>=2).length,
+ pairedMoneylines:output.filter((x:any)=>(x.otherMarkets?.moneyline?.length??0)>=2).length
+}
+console.log('NBA_EDGE_TOTALS_AUDIT_HEALTH '+JSON.stringify(auditSummary))
