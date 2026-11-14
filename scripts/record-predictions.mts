@@ -178,7 +178,10 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
 // This is essential when a pregame pick is recovered after the game was previously settled.
 let regraded=0
 for (const row of rows) {
-  if (row.settledAt && Number.isFinite(row.actualHome) && Number.isFinite(row.actualAway) && (row.spreadPick?.result===undefined || row.totalPick?.result===undefined)) {
+  if (!row.settledAt || !Number.isFinite(row.actualHome) || !Number.isFinite(row.actualAway)) continue
+  const needsSpreadGrade = !!row.spreadPick && !['win','loss','push'].includes(String(row.spreadPick.result))
+  const needsTotalGrade = !!row.totalPick && !['win','loss','push'].includes(String(row.totalPick.result))
+  if (needsSpreadGrade || needsTotalGrade) {
     settleMarkets(row,row.actualHome as number,row.actualAway as number)
     regraded++
   }
@@ -199,4 +202,4 @@ if (settledGames.length) console.log('Newly settled games:', JSON.stringify(sett
 const recentlySettled = output.filter(row => row.settledAt && now.getTime() - new Date(row.settledAt).getTime() < 30*60*1000).map(row => ({gameId:row.gameId, date:row.date, home:row.home, away:row.away, actualHome:row.actualHome, actualAway:row.actualAway, settledAt:row.settledAt}))
 if (recentlySettled.length) console.log('Recently settled games (persisted):', JSON.stringify(recentlySettled))
 if (manuallyRecovered) console.log(`User-confirmed original spread restored: MEM@NOP Pelicans +3.5 (${manuallyRecovered} row)`)
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
