@@ -9,7 +9,7 @@ export type PredictionRecord = {
   awayWin: number
   projectedMargin: number
   projectedTotal: number
-  spreadPick?: { side: string; line: number; price: number; probability: number; ev: number; result?: 'win'|'loss'|'push'|'ungraded' }
+  spreadPick?: { side: string; teamSide?: 'home'|'away'; line: number; price: number; probability: number; ev: number; result?: 'win'|'loss'|'push'|'ungraded' }
   totalPick?: { side: string; line: number; price: number; probability: number; ev: number; result?: 'win'|'loss'|'push'|'ungraded' }
   stage?: 'draft' | 'official'
   capturedAt: string
