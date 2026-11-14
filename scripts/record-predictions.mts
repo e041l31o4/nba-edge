@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
-type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price:number; probability:number; ev:number; result?:'win'|'loss'|'push'|'ungraded' }
+type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
 type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
@@ -89,6 +89,23 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
   if(row.totalPick){const diff=home+away-row.totalPick.line;row.totalPick.result=Math.abs(diff)<1e-9?'push':((row.totalPick.side==='over'&&diff>0)||(row.totalPick.side==='under'&&diff<0))?'win':'loss'}
 }
 
+// User-confirmed recovery: the original pregame spread direction for MEM@NOP
+// was Pelicans +3.5. The diagnostic candidate row was not the original locked pick.
+// Do not fabricate the original odds or model probability when the source snapshot is missing.
+let manuallyRecovered=0
+const memNop=byId.get('401909300')
+if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
+  const current=memNop.spreadPick
+  if(current?.side!=='Pelicans' || current?.teamSide!=='home' || current?.line!==3.5 || current.price!==undefined || current.probability!==undefined || current.ev!==undefined) {
+    const result = memNop.settledAt && Number.isFinite(memNop.actualHome) && Number.isFinite(memNop.actualAway)
+      ? ((Number(memNop.actualHome)-Number(memNop.actualAway)+3.5)===0 ? 'push' : (Number(memNop.actualHome)-Number(memNop.actualAway)+3.5)>0 ? 'win' : 'loss')
+      : undefined
+    memNop.spreadPick={side:'Pelicans',teamSide:'home',line:3.5,...(result?{result}:{})}
+    memNop.recoverySource='user-confirmed-original-pick; original price/probability unavailable'
+    manuallyRecovered++
+  }
+}
+
 for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
@@ -169,7 +186,7 @@ for (const row of rows) {
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
 // Keep per-game predictions and market picks out of public Actions logs.
-if (added || settled || refreshed || regraded || !previousPayload) {
+if (added || settled || refreshed || regraded || manuallyRecovered || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
   await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
@@ -181,4 +198,5 @@ const official=output.filter(row=>row.stage==='official').length
 if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
 const recentlySettled = output.filter(row => row.settledAt && now.getTime() - new Date(row.settledAt).getTime() < 30*60*1000).map(row => ({gameId:row.gameId, date:row.date, home:row.home, away:row.away, actualHome:row.actualHome, actualAway:row.actualAway, settledAt:row.settledAt}))
 if (recentlySettled.length) console.log('Recently settled games (persisted):', JSON.stringify(recentlySettled))
+if (manuallyRecovered) console.log(`User-confirmed original spread restored: MEM@NOP Pelicans +3.5 (${manuallyRecovered} row)`)
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
