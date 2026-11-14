@@ -566,3 +566,7 @@ footer{margin-top:60px;padding:30px 0;border-top:1px solid #dfe5e2}
 .market-backtest-card>strong{font-size:30px;line-height:1.1;font-weight:800}
 .market-backtest-card>span,.market-backtest-card>small{font-size:12px;color:var(--muted,#687386)}
 @media(max-width:760px){.market-backtest-grid{grid-template-columns:1fr}}
+
+.market-pick-cell b.pick-correct{color:#21865c;background:#eaf7ef;border-radius:6px;padding:3px 6px}
+.market-pick-cell b.pick-wrong{color:#c34e43;background:#fff0ed;border-radius:6px;padding:3px 6px}
+.settled-win{color:#21865c;font-weight:700}.settled-loss{color:#c34e43;font-weight:700}

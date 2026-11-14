@@ -9,6 +9,8 @@ export type PredictionRecord = {
   awayWin: number
   projectedMargin: number
   projectedTotal: number
+  spreadPick?: { side: string; line: number; price: number; probability: number; ev: number; result?: 'win'|'loss'|'push'|'ungraded' }
+  totalPick?: { side: string; line: number; price: number; probability: number; ev: number; result?: 'win'|'loss'|'push'|'ungraded' }
   stage?: 'draft' | 'official'
   capturedAt: string
   actualHome?: number
@@ -31,4 +33,13 @@ export function summarizePredictions(records: PredictionRecord[]) {
   const brier = settled.reduce((sum, x) => sum + ((x.homeWin - ((x.actualHome as number) > (x.actualAway as number) ? 1 : 0)) ** 2 + (x.awayWin - ((x.actualAway as number) > (x.actualHome as number) ? 1 : 0)) ** 2) / 2, 0) / settled.length
   const marginError = settled.reduce((sum, x) => sum + Math.abs(x.projectedMargin - ((x.actualHome as number) - (x.actualAway as number))), 0) / settled.length
   return { total: official.length, settled: settled.length, accuracy: correct / settled.length, brier, marginError }
+}
+
+export function summarizeMarketRecords(records: PredictionRecord[], market: 'spreadPick'|'totalPick') {
+  const eligible = records.filter(x => x.stage === 'official' && x.settledAt && x[market]?.result)
+  const decided = eligible.filter(x => x[market]?.result === 'win' || x[market]?.result === 'loss')
+  const wins = decided.filter(x => x[market]?.result === 'win').length
+  const losses = decided.length - wins
+  const pushes = eligible.filter(x => x[market]?.result === 'push').length
+  return { total: eligible.length, decided: decided.length, wins, losses, pushes, hitRate: decided.length ? wins / decided.length : null }
 }

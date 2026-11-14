@@ -1,7 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises'
-import { analyzeMatch, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
+import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
+type MarketPick = { side:string; line:number; price:number; probability:number; ev:number; result?:'win'|'loss'|'push'|'ungraded' }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -9,12 +10,13 @@ const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric
 const twNoDash = tw.replace(/-/g,'')
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
-const [form, injuries, teamMetrics, backtest, previousPayload] = await Promise.all([
+const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = await Promise.all([
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<TeamMetricsData>('public/data/team-metrics.json'),
   readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
-  readJson<{records:Row[]}>('public/data/prediction-ledger.json')
+  readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
+  readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
 if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
 
@@ -55,6 +57,35 @@ console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.l
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 let added=0, settled=0, refreshed=0
 const settledGames:Array<{gameId:string;home:string;away:string;actualHome:number;actualAway:number}> = []
+const makeMarketPicks=(event:any,prediction:any)=>{
+  const competitors=event.competitions?.[0]?.competitors??[]
+  const h=competitors.find((x:any)=>x.homeAway==='home'),a=competitors.find((x:any)=>x.homeAway==='away')
+  const homeName=String(h?.team?.name??h?.team?.displayName??'').toLowerCase()
+  const awayName=String(a?.team?.name??a?.team?.displayName??'').toLowerCase()
+  const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===homeName&&g.away_team.toLowerCase()===awayName)
+  const books=oddsGame?.bookmakers??[]
+  const matches=(name:string,target:string)=>{const n=name.toLowerCase().replace(/[^a-z]/g,''),t=target.toLowerCase().replace(/[^a-z]/g,'');return n===t||n.includes(t)||t.includes(n)}
+  const spreadRows=books.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
+  const spreadGroups=new Map<string,typeof spreadRows>()
+  for(const x of spreadRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+Math.abs(x.point);spreadGroups.set(k,[...(spreadGroups.get(k)??[]),x])}
+  const spreadCandidates=[...spreadGroups.values()].flatMap(pair=>{
+    const home=pair.find(x=>matches(x.name,homeName)),away=pair.find(x=>matches(x.name,awayName));if(!home||!away)return []
+    return [home,away].map(x=>{const isHome=x===home;const probability=coverProbability(prediction.projectedMargin,x.point!,isHome);return {side:x.name,line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
+  }).sort((x,y)=>y.ev-x.ev)
+  const totalRows=books.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
+  const totalGroups=new Map<string,typeof totalRows>()
+  for(const x of totalRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+x.point;totalGroups.set(k,[...(totalGroups.get(k)??[]),x])}
+  const totalCandidates=[...totalGroups.values()].flatMap(pair=>{
+    const over=pair.find(x=>/over|大/i.test(x.name)),under=pair.find(x=>/under|小/i.test(x.name));if(!over||!under)return []
+    return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,prediction.totalStdDev);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
+  }).sort((x,y)=>y.ev-x.ev)
+  return {...(spreadCandidates[0]?{spreadPick:spreadCandidates[0]}:{}),...(totalCandidates[0]?{totalPick:totalCandidates[0]}:{})}
+}
+const settleMarkets=(row:Row,home:number,away:number)=>{
+  if(row.spreadPick){const margin=home-away+row.spreadPick.line;row.spreadPick.result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
+  if(row.totalPick){const diff=home+away-row.totalPick.line;row.totalPick.result=Math.abs(diff)<1e-9?'push':((row.totalPick.side==='over'&&diff>0)||(row.totalPick.side==='under'&&diff<0))?'win':'loss'}
+}
+
 for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
@@ -67,7 +98,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     if (!existing.settledAt && status.includes('final')) {
       const hs=Number(h.score), as=Number(a.score)
       if (Number.isFinite(hs)&&Number.isFinite(as)) {
-        existing.actualHome=hs; existing.actualAway=as; existing.settledAt=now.toISOString(); settled++; settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
+        existing.actualHome=hs; existing.actualAway=as; settleMarkets(existing,hs,as); existing.settledAt=now.toISOString(); settled++; settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
       }
     }
     continue
@@ -80,14 +111,13 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     if (tipoff<=now.getTime() || status.includes('final')) {
       existing.stage='official'
       existing.lockedAt=existing.capturedAt
-      delete (existing as any).totalLine
-      delete (existing as any).totalPick
       added++
       if (status.includes('final')) {
         const hs=Number(h.score), as=Number(a.score)
         if (Number.isFinite(hs)&&Number.isFinite(as)) {
           existing.actualHome=hs
           existing.actualAway=as
+          settleMarkets(existing,hs,as)
           existing.settledAt=now.toISOString()
           settled++
           settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
@@ -101,6 +131,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
+      Object.assign(existing,makeMarketPicks(event,rolling))
       existing.modelVersion='recent-form-pace-v1'
       existing.capturedAt=now.toISOString(); refreshed++
     }
@@ -111,16 +142,15 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const prediction=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
   if (!prediction.available) continue
   const stage:Row['stage']=tipoff-now.getTime()<=60*60*1000?'official':'draft'
-  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
+  const markets=makeMarketPicks(event,prediction)
+  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
-    delete (existing as any).totalLine; delete (existing as any).totalPick
     if (stage==='official') added++
   } else {
     rows.push(row); byId.set(id,row); added++
   }
 }
-for (const row of rows) { delete (row as any).totalLine; delete (row as any).totalPick }
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
 if (added || settled || refreshed || !previousPayload) {
