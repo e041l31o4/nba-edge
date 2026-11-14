@@ -94,13 +94,15 @@ const missingRecoveredMatchups:string[]=[]
 for(const row of rows){
   const key=canonicalTeam(row.away)+'@'+canonicalTeam(row.home)
   const pick=recoveredMarkets[key]
-  if(!pick || row.date?.slice(0,10)!=='2026-11-14' || row.recoverySource) continue
+  if(!pick || row.date?.slice(0,10)!=='2026-11-14') continue
+  if(row.recoverySource!=='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z') recoveredMarketRows++
   row.totalPick={...pick.total}
   row.spreadPick={...pick.spread}
-  row.stage='official'
-  row.lockedAt=recoveredAt
+  row.capturedAt=recoveredAt
+  row.stage=new Date(row.date).getTime()<=now.getTime()?'official':'draft'
+  if(row.stage==='official') row.lockedAt=recoveredAt
+  else delete row.lockedAt
   row.recoverySource='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z'
-  recoveredMarketRows++
 }
 for(const key of Object.keys(recoveredMarkets)){
   const found=rows.some(row=>canonicalTeam(row.away)+'@'+canonicalTeam(row.home)===key && row.date?.slice(0,10)==='2026-11-14')
