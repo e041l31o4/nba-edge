@@ -196,7 +196,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const live=!done&&hasScore
  const report=analyzeMatch(game,teamForm,injuryData,calibrator,teamMetrics)
  const available=!!report?.available
- const useSaved=!!savedPrediction && savedPrediction.stage==='official'
+ const useSaved=!!savedPrediction && (!!savedPrediction.spreadPick || !!savedPrediction.totalPick)
  const homeWin=useSaved?savedPrediction.homeWin:(!done&&available?report!.homeWin:undefined)
  const awayWin=useSaved?savedPrediction.awayWin:(!done&&available?report!.awayWin:undefined)
  const projectedTotal=useSaved?savedPrediction.projectedTotal:(!done&&available?report!.projectedTotal:undefined)
