@@ -43,11 +43,10 @@ const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrat
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 // Revisit unresolved official records outside the rolling 9-day capture window.
 const unresolvedHistoricalDates = [...new Set(rows
-  .filter(row => row.stage === 'official' && !row.settledAt && Number.isFinite(new Date(row.date).getTime()))
+  .filter(row => !row.settledAt && Number.isFinite(new Date(row.date).getTime()))
   .map(row => row.date.slice(0,10).replace(/-/g,'')))]
   .filter(date => /^\d{8}$/.test(date) && date < twNoDash)
   .sort()
-  .slice(-30)
 const allDateKeys = [...new Set([...dateKeys, ...unresolvedHistoricalDates])].sort()
 const scoreboardResults=await Promise.all(allDateKeys.map(fetchScoreboard))
 const successfulDates=scoreboardResults.filter(x=>x.ok).length
@@ -114,39 +113,33 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const status=String(event.status?.type?.name ?? '').toLowerCase()
   const tipoff=new Date(event.date).getTime()
   if (!Number.isFinite(tipoff)) continue
-  if (existing && existing.stage==='official') {
-    if (!existing.settledAt && status.includes('final')) {
-      const hs=Number(h.score), as=Number(a.score)
-      if (Number.isFinite(hs)&&Number.isFinite(as)) {
-        existing.actualHome=hs; existing.actualAway=as; settleMarkets(existing,hs,as); existing.settledAt=now.toISOString(); settled++; settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
+  const isFinal=status.includes('final')
+  if (existing && isFinal) {
+    const hs=Number(h.score), as=Number(a.score)
+    if (Number.isFinite(hs)&&Number.isFinite(as)) {
+      const wasSettled=!!existing.settledAt
+      existing.stage='official'
+      existing.lockedAt=existing.lockedAt??existing.capturedAt
+      existing.actualHome=hs
+      existing.actualAway=as
+      settleMarkets(existing,hs,as)
+      existing.settledAt=existing.settledAt??now.toISOString()
+      if (!wasSettled) {
+        settled++
+        settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
       }
     }
     continue
   }
+  if (existing && existing.stage==='official') continue
   if (existing?.stage==='draft') {
-    // Any already-captured pregame draft becomes official once tipoff is reached.
-    // Preserve its original probabilities and projected score; never recalculate
-    // a prediction after the game has started. If the game is already final,
-    // settle it in this same pass instead of skipping it forever.
-    if (tipoff<=now.getTime() || status.includes('final')) {
+    // Preserve the captured pregame prediction and promote it at tipoff.
+    if (tipoff<=now.getTime()) {
       existing.stage='official'
       existing.lockedAt=existing.capturedAt
       added++
-      if (status.includes('final')) {
-        const hs=Number(h.score), as=Number(a.score)
-        if (Number.isFinite(hs)&&Number.isFinite(as)) {
-          existing.actualHome=hs
-          existing.actualAway=as
-          settleMarkets(existing,hs,as)
-          existing.settledAt=now.toISOString()
-          settled++
-          settledGames.push({gameId:id,home:existing.home,away:existing.away,actualHome:hs,actualAway:as})
-        }
-      }
       continue
     }
-    // Recovered historical pregame snapshots are immutable even while a game
-    // remains upcoming; do not overwrite them with a later rolling draft.
     if (existing.recoverySource) continue
     const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator,teamMetrics)
     if (rolling.available) {
@@ -160,7 +153,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     }
     continue
   }
-  if (status.includes('final') || tipoff<=now.getTime()) continue
+  if (isFinal || tipoff<=now.getTime()) continue
   const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
   const prediction=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
   if (!prediction.available) continue
