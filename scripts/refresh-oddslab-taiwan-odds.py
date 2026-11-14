@@ -152,7 +152,7 @@ async def main():
                 unmatched.append(card.get("id", "unknown"))
                 continue
             away, home = teams[0], teams[1]
-            espn_alias = {"NYK": "NY", "UTA": "UTAH", "WAS": "WSH"}
+            espn_alias = {"NYK": "NY", "UTA": "UTAH", "WAS": "WSH", "NOP": "NO", "GSW": "GS", "SAS": "SA"}
             away_code = espn_alias.get(away["abbreviation"], away["abbreviation"])
             home_code = espn_alias.get(home["abbreviation"], home["abbreviation"])
             event = espn.get((away_code, home_code))
