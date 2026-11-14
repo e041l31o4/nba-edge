@@ -24,6 +24,7 @@ type BacktestData = { updatedAt: string; currentSeason?: { season: string; compl
 function addTaiwanDays(date: string, days: number) { const d = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00'); d.setDate(d.getDate()+days); return taiwanDate(d) }
 function App() {
   const [date, setDate] = useState(taiwanDate())
+  const [siteHeatIndex] = useState(() => Math.floor(Math.random() * 51) + 50)
   const [games, setGames] = useState<Game[]>([])
   const [odds, setOdds] = useState<OddsRecord | null>(null)
   const [oddsHistory, setOddsHistory] = useState<OddsSnapshot[]>([])
@@ -161,7 +162,7 @@ function App() {
       <div className="intro-copy"><span>THE GAME STARTS HERE</span><strong>NBA <b>EDGE</b></strong><small>DATA · MATCHUP · INSIGHT</small></div>
       <button className="intro-skip" onClick={() => setIntroPlaying(false)}>略過動畫 <span>↗</span></button>
     </div>}
-    <header className="topbar"><a className="brand" href="#"><span className="brand-mark">E</span><span>NBA <b>EDGE</b><small>DATA · MATCHUP · INSIGHT</small></span></a><div className="top-right"><span className="live-dot"/> <span>台灣時間 UTC+8</span><button className="icon-btn" onClick={() => void load()} aria-label="重新整理"><RefreshCw size={16}/></button></div></header>
+    <header className="topbar"><a className="brand" href="#"><span className="brand-mark">E</span><span>NBA <b>EDGE</b><small>DATA · MATCHUP · INSIGHT</small></span></a><div className="top-right"><div className="top-meta"><div className="taiwan-time"><span className="live-dot"/> <span>台灣時間 UTC+8</span></div><div className="site-heat"><span>網站熱度指數</span><strong>{siteHeatIndex}</strong></div></div><button className="icon-btn" onClick={() => void load()} aria-label="重新整理"><RefreshCw size={16}/></button></div></header>
     <main>
       <section className="hero">
         <div className="hero-copy">
