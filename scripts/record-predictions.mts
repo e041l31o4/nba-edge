@@ -56,41 +56,8 @@ const scoreboards=scoreboardResults.filter(x=>x.ok).map(x=>({events:x.events}))
 console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.length} (rolling ${dateKeys.length}; unresolved historical ${unresolvedHistoricalDates.length})`)
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 
-// Restore the exact pregame market directions captured in the 2026-11-13
-// NBA_EDGE_TOTALS_DIAGNOSTIC run (Taiwan time 2026-11-14 07:48).
-const recoveredMarkets:Record<string,{total:{side:'over'|'under';line:number;price:number;probability:number;ev:number};spread:{side:string;teamSide:'home'|'away';line:number;price:number;probability:number;ev:number}}> = {
-  'NYK@IND':{total:{side:'over',line:219.5,price:1.70,probability:52.0,ev:-11.6},spread:{side:'Pacers',teamSide:'home',line:7.5,price:1.88,probability:57.7,ev:8.4}},
-  'MIL@ORL':{total:{side:'under',line:223.5,price:1.72,probability:54.8,ev:-5.8},spread:{side:'Bucks',teamSide:'away',line:10.5,price:1.63,probability:76.7,ev:25.0}},
-  'CLE@MIA':{total:{side:'under',line:235.5,price:1.73,probability:52.2,ev:-9.7},spread:{side:'Heat',teamSide:'home',line:-3.5,price:1.82,probability:52.2,ev:-5.1}},
-  'ATL@CHI':{total:{side:'under',line:246.5,price:1.70,probability:58.7,ev:-0.2},spread:{side:'Bulls',teamSide:'home',line:5.5,price:1.88,probability:64.7,ev:21.6}},
-  'MEM@NOP':{total:{side:'under',line:235.5,price:1.70,probability:61.6,ev:4.8},spread:{side:'Grizzlies',teamSide:'away',line:-3.5,price:1.72,probability:67.9,ev:16.8}},
-  'UTA@HOU':{total:{side:'under',line:221.5,price:1.70,probability:68.6,ev:16.6},spread:{side:'Rockets',teamSide:'home',line:-16.5,price:1.85,probability:69.3,ev:28.2}},
-  'GSW@SAS':{total:{side:'under',line:219.5,price:1.73,probability:65.1,ev:12.6},spread:{side:'Warriors',teamSide:'away',line:13.5,price:1.66,probability:70.5,ev:17.0}},
-  'POR@SAC':{total:{side:'over',line:229.5,price:1.70,probability:54.3,ev:-7.7},spread:{side:'Kings',teamSide:'home',line:9.5,price:1.78,probability:90.2,ev:60.5}},
-  'OKC@LAC':{total:{side:'over',line:222.5,price:1.70,probability:58.9,ev:0.1},spread:{side:'Thunder',teamSide:'away',line:-6.5,price:1.58,probability:74.3,ev:17.3}}
-}
-const canonicalTeam=(value:string)=>({NY:'NYK',NO:'NOP',GS:'GSW',SA:'SAS',UTAH:'UTA'} as Record<string,string>)[value]??value
-const recoveredAt='2026-11-13T23:48:08.744Z'
-let recoveredMarketRows=0
-const missingRecoveredMatchups:string[]=[]
-for(const row of rows){
-  const key=canonicalTeam(row.away)+'@'+canonicalTeam(row.home)
-  const pick=recoveredMarkets[key]
-  if(!pick || row.date?.slice(0,10)!=='2026-11-14') continue
-  if(row.recoverySource!=='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z') recoveredMarketRows++
-  row.totalPick={...pick.total}
-  row.spreadPick={...pick.spread}
-  row.capturedAt=recoveredAt
-  row.stage=new Date(row.date).getTime()<=now.getTime()?'official':'draft'
-  if(row.stage==='official') row.lockedAt=recoveredAt
-  else delete row.lockedAt
-  row.recoverySource='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z'
-}
-for(const key of Object.keys(recoveredMarkets)){
-  const found=rows.some(row=>canonicalTeam(row.away)+'@'+canonicalTeam(row.home)===key && row.date?.slice(0,10)==='2026-11-14')
-  if(!found) missingRecoveredMatchups.push(key)
-}
-console.log('RECOVERED_PREGAME_MARKETS_20261114:',JSON.stringify({recoveredMarketRows,missingRecoveredMatchups}))
+// Pregame picks are restored from the private Supabase prediction ledger.
+// Do not hard-code or print member-only picks in this public repository.
 let added=0, settled=0, refreshed=0
 const settledGames:Array<{gameId:string;home:string;away:string;actualHome:number;actualAway:number}> = []
 const makeMarketPicks=(event:any,prediction:any)=>{
@@ -201,8 +168,7 @@ for (const row of rows) {
 }
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
-const recoveredSummary=output.filter(row=>row.recoverySource==='NBA_EDGE_TOTALS_DIAGNOSTIC 2026-11-13T23:48:08.744Z').map(row=>({gameId:row.gameId,home:row.home,away:row.away,stage:row.stage,spreadPick:row.spreadPick,totalPick:row.totalPick,actualHome:row.actualHome,actualAway:row.actualAway,spreadResult:row.spreadPick?.result,totalResult:row.totalPick?.result,settledAt:row.settledAt}))
-console.log('RECOVERED_MARKET_SETTLEMENTS_20261114:',JSON.stringify(recoveredSummary))
+// Keep per-game predictions and market picks out of public Actions logs.
 if (added || settled || refreshed || regraded || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
