@@ -164,11 +164,11 @@ async def main():
         "targetTaiwanDate":target_text,"pageTitle":title,"source":SOURCE,
         "games":games,"unmatched":unmatched
     }
-    print("PLAYSPORT_TAIWAN_RESULT",json.dumps({
-        "targetDate":target_text,"games":len(games),"unmatched":unmatched,
-        "markets":{key:sum(any(m["key"]==key for b in g["bookmakers"] for m in b["markets"]) for g in games) for key in ("h2h","spreads","totals")},
-        "matches":[{"away":g["away_team"],"home":g["home_team"],"markets":[m["key"] for m in g["bookmakers"][0]["markets"]],
-            "odds":g["bookmakers"][0]["markets"]} for g in games]
+    print("PLAYSPORT_TAIWAN_HEALTH",json.dumps({
+        "targetDate":target_text,
+        "games":len(games),
+        "unmatchedCount":len(unmatched),
+        "marketCounts":{key:sum(any(m["key"]==key for b in g["bookmakers"] for m in b["markets"]) for g in games) for key in ("h2h","spreads","totals")}
     },ensure_ascii=False))
     if "--dry-run" in sys.argv:
         Path("playsport-taiwan-dryrun.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
