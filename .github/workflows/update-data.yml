@@ -118,7 +118,7 @@ jobs:
               for row in snapshots: f.write(json.dumps(row,ensure_ascii=False,separators=(',',':'))+'\n')
           print('Saved',len(out_games),'official games and',len(snapshots),'timestamped snapshots.')
           PY
-      - name: Refresh Taiwan Sports Lottery odds from PlaySport 運彩盤
+      - name: Refresh date-scoped PlaySport 運彩盤 markets for every NBA matchup
         id: playsport_refresh
         env:
           TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
@@ -149,8 +149,8 @@ jobs:
         run: python scripts/diagnose-ledger-totals.py
       - name: Report odds source policy
         run: |
-          echo "NBA EDGE odds source is PlaySport livescore mode=2 only."
-          echo "If PlaySport parsing fails, the workflow stops and preserves the last verified dataset; no OddsLab fallback is permitted."
+          echo "NBA EDGE market source is PlaySport date-scoped 運彩盤 page only; livescore mode=2 is used for cross-checking schedule/context."
+          echo "Missing markets remain explicitly unavailable; schedule mismatch or parser failure stops publishing. No OddsLab fallback or stale PlaySport market reuse is permitted."
       - name: Publish private datasets to Supabase
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
