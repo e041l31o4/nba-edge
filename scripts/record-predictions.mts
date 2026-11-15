@@ -133,6 +133,26 @@ if(heatDet){
   }
 }
 console.log('HEAT_DET_RECOVERY:',JSON.stringify({found:!!heatDet,gameId:heatDet?.gameId,home:heatDet?.home,away:heatDet?.away,restored:heatDetRestored,side:heatDet?.spreadPick?.side,teamSide:heatDet?.spreadPick?.teamSide,line:heatDet?.spreadPick?.line}))
+// User-confirmed recovery: Chicago Bulls vs Minnesota Timberwolves, UNDER 236.5 (Taiwan date 2026-11-15).
+const isBulls=(team:string)=>/^(CHI|BULLS|CHICAGO)$/i.test(team.trim())
+const isWolves=(team:string)=>/^(MIN|TIMBERWOLVES|TIMBERWOLVES|MINNESOTA)$/i.test(team.trim())
+const bullsWolves=rows.find(row=>row.date.slice(0,10)==='2026-11-15' &&
+  ((isBulls(row.home)&&isWolves(row.away)) || (isWolves(row.home)&&isBulls(row.away))))
+let bullsWolvesRestored=false
+if(bullsWolves && (bullsWolves.totalPick?.side?.toLowerCase()!=='under' || bullsWolves.totalPick?.line!==236.5)){
+  const previous=bullsWolves.totalPick
+  const actualTotal=Number(bullsWolves.actualHome)+Number(bullsWolves.actualAway)
+  const result=bullsWolves.settledAt && Number.isFinite(bullsWolves.actualHome) && Number.isFinite(bullsWolves.actualAway)
+    ? (Math.abs(actualTotal-236.5)<1e-9?'push':actualTotal<236.5?'win':'loss')
+    : undefined
+  const recovered={...previous,side:'under',line:236.5,...(result?{result}:{})}
+  bullsWolves.marketChangeHistory=[...(bullsWolves.marketChangeHistory??[]),{at:now.toISOString(),market:'total',from:previous,to:recovered,reason:'依使用者確認的原始推薦恢復：公牛 vs 灰狼 小 236.5'}].slice(-200)
+  bullsWolves.totalPick=recovered
+  bullsWolves.recoverySource='user-confirmed-original-pick; Under 236.5 Bulls vs Timberwolves; original price/probability unavailable'
+  bullsWolvesRestored=true
+  manuallyRecovered++
+}
+console.log('BULLS_WOLVES_TOTAL_RECOVERY:',JSON.stringify({found:!!bullsWolves,gameId:bullsWolves?.gameId,home:bullsWolves?.home,away:bullsWolves?.away,restored:bullsWolvesRestored,side:bullsWolves?.totalPick?.side,line:bullsWolves?.totalPick?.line}))
 const memNop=byId.get('401909300')
 if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
   const current=memNop.spreadPick
