@@ -12,6 +12,11 @@ export type PredictionRecord = {
   spreadPick?: { side: string; teamSide?: 'home'|'away'; line: number; price?: number; probability?: number; ev?: number; result?: 'win'|'loss'|'push'|'ungraded' }
   totalPick?: { side: string; line: number; price?: number; probability?: number; ev?: number; result?: 'win'|'loss'|'push'|'ungraded' }
   stage?: 'draft' | 'official'
+  analysisStatus?: 'draft' | 'preliminary' | 'final'
+  preliminaryAt?: string
+  finalAt?: string
+  openingSnapshot?: Record<string, unknown>
+  finalSnapshot?: Record<string, unknown>
   capturedAt: string
   lockedAt?: string
   finalizedAt?: string
