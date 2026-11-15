@@ -91,7 +91,7 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
 // User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
 let manuallyRecovered=0
 console.log('DEN_NOP_LEDGER_MATCH_DIAGNOSTIC:',JSON.stringify(rows.filter(row=>row.date.startsWith('2026-11-15') && (/DEN|NOP|NO|NUGGETS|PELICANS/i.test(row.home+' '+row.away))).map(row=>({gameId:row.gameId,date:row.date,home:row.home,away:row.away,spreadPick:row.spreadPick,stage:row.stage,settledAt:row.settledAt}))))
-const denNop=rows.find(row=>['NO','NOP','NOP'].includes(row.home) && row.away==='DEN' && row.date.startsWith('2026-11-15'))
+const denNop=rows.find(row=>row.date.startsWith('2026-11-15') && /^(NO|NOP|PELICANS|NEW ORLEANS PELICANS)$/i.test(row.home.trim()) && /^(DEN|NUGGETS|DENVER NUGGETS)$/i.test(row.away.trim()))
 if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSide!=='home' || denNop.spreadPick?.line!==12.5)){
   const margin=Number(denNop.actualHome)-Number(denNop.actualAway)+12.5
   const result=denNop.settledAt && Number.isFinite(denNop.actualHome) && Number.isFinite(denNop.actualAway)
