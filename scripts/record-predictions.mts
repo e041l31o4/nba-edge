@@ -9,7 +9,12 @@ const now = new Date()
 const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(now)
 const twNoDash = tw.replace(/-/g,'')
 const taiwanDateKey=(value:string|Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))
-const isEightPmCutoffReached=(gameDate:string)=>{const localDate=taiwanDateKey(gameDate);const previous=new Date(`${localDate}T00:00:00+08:00`);previous.setUTCDate(previous.getUTCDate()-1);const cutoffDate=previous.toISOString().slice(0,10);return now.getTime()>=new Date(`${cutoffDate}T20:00:00+08:00`).getTime()}
+const isEightPmCutoffReached=(gameDate:string)=>{
+  const localDate=taiwanDateKey(gameDate)
+  const previousLocalMidnight=new Date(new Date(`${localDate}T00:00:00+08:00`).getTime()-24*60*60*1000)
+  const cutoffDate=taiwanDateKey(previousLocalMidnight)
+  return now.getTime()>=new Date(`${cutoffDate}T20:00:00+08:00`).getTime()
+}
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
 const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = await Promise.all([
@@ -55,6 +60,26 @@ const successfulDates=scoreboardResults.filter(x=>x.ok).length
 if (successfulDates===0) throw new Error('All ESPN scoreboard dates failed after retries; existing ledger preserved.')
 const scoreboards=scoreboardResults.filter(x=>x.ok).map(x=>({events:x.events}))
 console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.length} (rolling ${dateKeys.length}; unresolved historical ${unresolvedHistoricalDates.length})`)
+// Repair records that were prematurely locked by the previous UTC-date rollover bug.
+let reopenedPrematureLocks=0
+for(const row of rows){
+  const localDate=taiwanDateKey(row.date)
+  if(row.stage==='official' && !row.settledAt && localDate>tw && !isEightPmCutoffReached(row.date)){
+    const previousLock={stage:row.stage,lockedAt:row.lockedAt??null,finalizedAt:(row as any).finalizedAt??null}
+    row.stage='draft'
+    delete row.lockedAt
+    delete (row as any).finalizedAt
+    row.analysisChangeHistory=[...(row.analysisChangeHistory??[]),{
+      at:now.toISOString(),
+      changedFields:['stage','lockedAt','finalizedAt'],
+      from:previousLock,
+      to:{stage:'draft',lockedAt:null,finalizedAt:null},
+      reason:'修正台灣時間封存截止日計算：原紀錄提前鎖定，重新開放至賽前一日晚間 8 點'
+    }].slice(-200)
+    reopenedPrematureLocks++
+  }
+}
+console.log('PREMATURE_LOCK_RECOVERY:',JSON.stringify({reopened:reopenedPrematureLocks,targetTaiwanDate:tw}))
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 
 // Pregame picks are restored from the private Supabase prediction ledger.
@@ -285,4 +310,4 @@ if (recentMarketChanges.length) console.log('NBA_EDGE_MARKET_DIRECTION_CHANGES:'
 const recentAnalysisChanges=output.flatMap(row=>(row.analysisChangeHistory??[]).filter(change=>now.getTime()-new Date(change.at).getTime()<6*60*1000).map(change=>({date:row.date,game:row.away+' @ '+row.home,at:change.at})))
 if (recentAnalysisChanges.length) console.log('NBA_EDGE_ANALYSIS_CHANGE_AUDIT_COUNT:',recentAnalysisChanges.length)
 console.log('DEN_NOP_SPREAD_RESTORE_APPLIED:',denNopRestored)
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; reopened premature locks ${reopenedPrematureLocks}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
