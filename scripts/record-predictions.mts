@@ -2,12 +2,14 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
 const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(now)
 const twNoDash = tw.replace(/-/g,'')
+const taiwanDateKey=(value:string|Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))
+const isEightPmCutoffReached=(gameDate:string)=>{const localDate=taiwanDateKey(gameDate);const previous=new Date(`${localDate}T00:00:00+08:00`);previous.setUTCDate(previous.getUTCDate()-1);const cutoffDate=previous.toISOString().slice(0,10);return now.getTime()>=new Date(`${cutoffDate}T20:00:00+08:00`).getTime()}
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
 const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = await Promise.all([
@@ -146,36 +148,43 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   }
   if (existing && existing.stage==='official') continue
   if (existing?.stage==='draft') {
-    // Preserve the captured pregame prediction and promote it at tipoff.
-    if (tipoff<=now.getTime()) {
-      existing.stage='official'
-      existing.lockedAt=existing.capturedAt
-      added++
-      continue
-    }
     if (existing.recoverySource) continue
-    const rolling=analyzeMatch({date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}},form,injuries,calibrator,teamMetrics)
+    const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
+    const rolling=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
     if (rolling.available) {
+      const reviewedMarkets=makeMarketPicks(event,rolling)
+      const before={homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,paceAdjustment:existing.paceAdjustment??null,totalTrend:existing.totalTrend??null,totalStdDev:existing.totalStdDev??null,homeInjuryImpact:existing.homeInjuryImpact??null,awayInjuryImpact:existing.awayInjuryImpact??null,injuryRisk:existing.injuryRisk??null}
+      const after={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,paceAdjustment:rolling.paceAdjustment,totalTrend:rolling.totalTrend,totalStdDev:rolling.totalStdDev,homeInjuryImpact:rolling.homeInjuryImpact,awayInjuryImpact:rolling.awayInjuryImpact,injuryRisk:rolling.injuryRisk}
+      const changedKeys=Object.keys(after).filter(key=>JSON.stringify((before as any)[key])!==JSON.stringify((after as any)[key]))
+      if(changedKeys.length){
+        const history=existing.analysisChangeHistory??[]
+        history.push({at:now.toISOString(),from:before,to:after,reason:'賽前滾動更新：模型或盤口資料變動；此紀錄不代表單一因素造成'})
+        existing.analysisChangeHistory=history.slice(-200)
+      }
+      const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
+      const marketHistory=existing.marketChangeHistory??[]
+      if(changed(existing.spreadPick,reviewedMarkets.spreadPick)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
+      if(changed(existing.totalPick,reviewedMarkets.totalPick)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
+      existing.marketChangeHistory=marketHistory.slice(-200)
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
+      existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
-      // Keep the first published market recommendations immutable. Store later
-      // model opinions separately so background refreshes cannot silently flip picks.
-      const reviewedMarkets=makeMarketPicks(event,rolling)
-      const priorReview=existing.latestMarketReview
-      const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
-      const history=existing.marketChangeHistory??[]
-      if(changed(priorReview?.spreadPick??existing.spreadPick,reviewedMarkets.spreadPick)){
-        history.push({at:now.toISOString(),market:'spread',from:priorReview?.spreadPick??existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'模型依最新近況與盤口重新計算；原始推薦不變'})
-      }
-      if(changed(priorReview?.totalPick??existing.totalPick,reviewedMarkets.totalPick)){
-        history.push({at:now.toISOString(),market:'total',from:priorReview?.totalPick??existing.totalPick,to:reviewedMarkets.totalPick,reason:'模型依最新近況與盤口重新計算；原始推薦不變'})
-      }
-      existing.marketChangeHistory=history.slice(-100)
       existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
       existing.modelVersion='recent-form-pace-v1'
       existing.refreshedAt=now.toISOString(); refreshed++
+    }
+    if(isEightPmCutoffReached(event.date)){
+      existing.stage='official'
+      existing.lockedAt=existing.lockedAt??now.toISOString()
+      existing.finalizedAt=existing.lockedAt
+      added++
+    } else if(tipoff<=now.getTime()){
+      existing.stage='official'
+      existing.lockedAt=existing.lockedAt??now.toISOString()
+      existing.finalizedAt=existing.lockedAt
+      added++
     }
     continue
   }
@@ -183,9 +192,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
   const prediction=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
   if (!prediction.available) continue
-  const stage:Row['stage']=tipoff-now.getTime()<=60*60*1000?'official':'draft'
+  const stage:Row['stage']=isEightPmCutoffReached(event.date)||tipoff<=now.getTime()?'official':'draft'
   const markets=makeMarketPicks(event,prediction)
-  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString()}:{})}
+  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
     if (stage==='official') added++
