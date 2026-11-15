@@ -16,7 +16,7 @@ export type PredictionRecord = {
   lockedAt?: string
   finalizedAt?: string
   refreshedAt?: string
-  analysisChangeHistory?: Array<{at:string;from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>
+  analysisChangeHistory?: Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>
   marketChangeHistory?: Array<{at:string;market:'spread'|'total';from?:{side:string;teamSide?:'home'|'away';line:number;price?:number;probability?:number;ev?:number};to?:{side:string;teamSide?:'home'|'away';line:number;price?:number;probability?:number;ev?:number};reason:string}>
   actualHome?: number
   actualAway?: number
