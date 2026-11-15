@@ -77,10 +77,13 @@ def parse_side(lines, side):
     return {"spread":spread, "moneyline":moneyline, "over":over, "under":under}
 
 def extract_game_blocks(lines):
+    # PlaySport only assigns a numeric event ID to some rows. Use every
+    # scheduled tip-off as a block boundary, including rows without an ID.
     starts = []
-    for index, line in enumerate(lines[:-1]):
-        if re.fullmatch(r"\d{3,4}", line) and re.match(r"^(AM|PM)\s+\d{1,2}:\d{2}$", lines[index+1], re.I):
-            starts.append(index)
+    for index, line in enumerate(lines):
+        if re.match(r"^(AM|PM)\s+\d{1,2}:\d{2}$", line, re.I):
+            start = index - 1 if index > 0 and re.fullmatch(r"\d{3,4}", lines[index-1]) else index
+            starts.append(start)
     for position, start in enumerate(starts):
         end = starts[position+1] if position+1 < len(starts) else len(lines)
         yield lines[start:end]
