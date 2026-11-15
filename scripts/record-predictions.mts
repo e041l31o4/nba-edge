@@ -107,20 +107,32 @@ if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSid
 }
 
 // User-confirmed recovery: restore the original Miami Heat +2.5 spread vs Detroit (Taiwan date 2026-11-15).
+// ESPN's home/away order is Pistons (home) / Heat (away); derive the side from the actual row.
 let heatDetRestored=false
-const heatDet=rows.find(row=>row.date.slice(0,10)==='2026-11-15' && /^(MIA|HEAT|MIAMI)$/i.test(row.home.trim()) && /^(DET|PISTONS|DETROIT)$/i.test(row.away.trim()))
-if(heatDet && (heatDet.spreadPick?.side!=='Heat' || heatDet.spreadPick?.teamSide!=='home' || heatDet.spreadPick?.line!==2.5)){
-  const previous=heatDet.spreadPick
-  const margin=Number(heatDet.actualHome)-Number(heatDet.actualAway)+2.5
-  const result=heatDet.settledAt && Number.isFinite(heatDet.actualHome) && Number.isFinite(heatDet.actualAway)
-    ? (Math.abs(margin)<1e-9?'push':margin>0?'win':'loss')
-    : undefined
-  heatDet.marketChangeHistory=[...(heatDet.marketChangeHistory??[]),{at:now.toISOString(),market:'spread',from:previous,to:{side:'Heat',teamSide:'home',line:2.5,...(result?{result}:{})},reason:'依使用者確認的原始推薦恢復：熱火受讓 +2.5（對活塞）'}].slice(-200)
-  heatDet.spreadPick={side:'Heat',teamSide:'home',line:2.5,...(result?{result}:{})}
-  heatDet.recoverySource='user-confirmed-original-pick; Heat +2.5 vs Pistons; original price/probability unavailable'
-  heatDetRestored=true
-  manuallyRecovered++
+const isHeat=(team:string)=>/^(MIA|HEAT|MIAMI)$/i.test(team.trim())
+const isDetroit=(team:string)=>/^(DET|PISTONS|DETROIT)$/i.test(team.trim())
+const heatDet=rows.find(row=>row.date.slice(0,10)==='2026-11-15' &&
+  ((isHeat(row.home)&&isDetroit(row.away)) || (isDetroit(row.home)&&isHeat(row.away))))
+if(heatDet){
+  const heatIsHome=isHeat(heatDet.home)
+  const correctSide=heatIsHome?'home' as const:'away' as const
+  if(heatDet.spreadPick?.side!=='Heat' || heatDet.spreadPick?.teamSide!==correctSide || heatDet.spreadPick?.line!==2.5){
+    const previous=heatDet.spreadPick
+    const margin=heatIsHome
+      ? Number(heatDet.actualHome)-Number(heatDet.actualAway)+2.5
+      : Number(heatDet.actualAway)-Number(heatDet.actualHome)+2.5
+    const result=heatDet.settledAt && Number.isFinite(heatDet.actualHome) && Number.isFinite(heatDet.actualAway)
+      ? (Math.abs(margin)<1e-9?'push':margin>0?'win':'loss')
+      : undefined
+    const recovered={side:'Heat',teamSide:correctSide,line:2.5,...(result?{result}:{})}
+    heatDet.marketChangeHistory=[...(heatDet.marketChangeHistory??[]),{at:now.toISOString(),market:'spread',from:previous,to:recovered,reason:'依使用者確認的原始推薦恢復：熱火受讓 +2.5（對活塞）'}].slice(-200)
+    heatDet.spreadPick=recovered
+    heatDet.recoverySource='user-confirmed-original-pick; Heat +2.5 vs Pistons; original price/probability unavailable'
+    heatDetRestored=true
+    manuallyRecovered++
+  }
 }
+console.log('HEAT_DET_RECOVERY:',JSON.stringify({found:!!heatDet,gameId:heatDet?.gameId,home:heatDet?.home,away:heatDet?.away,restored:heatDetRestored,side:heatDet?.spreadPick?.side,teamSide:heatDet?.spreadPick?.teamSide,line:heatDet?.spreadPick?.line}))
 const memNop=byId.get('401909300')
 if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
   const current=memNop.spreadPick
