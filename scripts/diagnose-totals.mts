@@ -10,12 +10,20 @@ const [form,injuries,metrics,backtest,odds] = await Promise.all([
   read<any>('public/data/odds.json')
 ])
 const calibrator=backtest.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator??null
-const date='20261113'
-const res=await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${date}`)
-if(!res.ok) throw new Error(`ESPN scoreboard HTTP ${res.status}`)
-const board=await res.json() as any
-const games=(board.events??[]).map((e:any)=>{
- const c=e.competitions?.[0], teams=c?.competitors??[], h=teams.find((x:any)=>x.homeAway==='home'), a=teams.find((x:any)=>x.homeAway==='away')
+const taiwanDate=(value:string|Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))
+const taiwanToday=taiwanDate(new Date())
+const targetTaiwanDate=process.env.TARGET_TAIWAN_DATE?.trim() || taiwanDate(new Date(new Date(`${taiwanToday}T00:00:00+08:00`).getTime()+24*60*60*1000)).replace(/-/g,'')
+const targetIso=`${targetTaiwanDate.slice(0,4)}-${targetTaiwanDate.slice(4,6)}-${targetTaiwanDate.slice(6,8)}`
+const targetMidnight=new Date(`${targetIso}T00:00:00+08:00`)
+const utcDates=[-1,0,1].map(offset=>new Date(targetMidnight.getTime()+offset*24*60*60*1000).toISOString().slice(0,10).replace(/-/g,''))
+const boards=await Promise.all(utcDates.map(async date=>{
+ const res=await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${date}`)
+ if(!res.ok) throw new Error(`ESPN scoreboard ${date} HTTP ${res.status}`)
+ return await res.json() as any
+}))
+const events=[...new Map(boards.flatMap((board:any)=>board.events??[]).filter((event:any)=>taiwanDate(event.date)===targetIso).map((event:any)=>[String(event.id),event])).values()]
+const games=events.map((e:any)=>{
+ const teams=e.competitions?.[0]?.competitors??[], h=teams.find((x:any)=>x.homeAway==='home'), a=teams.find((x:any)=>x.homeAway==='away')
  return {id:String(e.id),date:e.date,home:{id:String(h?.team?.id??''),name:h?.team?.name,abbreviation:h?.team?.abbreviation},away:{id:String(a?.team?.id??''),name:a?.team?.name,abbreviation:a?.team?.abbreviation}}
 })
 const absenceProbability=(status:string)=>{const value=status.toLowerCase();if(/out|inactive|suspended/.test(value))return 1;if(/doubtful/.test(value))return 0.8;if(/questionable|game.time|day.to.day/.test(value))return 0.5;if(/probable/.test(value))return 0.15;return 0}
@@ -84,7 +92,7 @@ for(const game of games){
 }
 // Public repository Actions logs must never expose per-game member predictions or odds.
 const auditSummary={
- date:'2026-11-14 Taiwan',
+ date:`${targetTaiwanDate} Taiwan`,
  oddsSource:odds.source,
  formUpdatedAt:form.updatedAt,
  injuriesUpdatedAt:injuries.updatedAt,
