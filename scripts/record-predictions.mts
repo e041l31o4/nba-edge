@@ -88,8 +88,19 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
   if(row.totalPick){const diff=home+away-row.totalPick.line;row.totalPick.result=Math.abs(diff)<1e-9?'push':((row.totalPick.side==='over'&&diff>0)||(row.totalPick.side==='under'&&diff<0))?'win':'loss'}
 }
 
-// User-confirmed recovery: the original pregame spread was Grizzlies -3.5.
+// User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
 let manuallyRecovered=0
+const denNop=rows.find(row=>['NO','NOP','NOP'].includes(row.home) && row.away==='DEN' && row.date.startsWith('2026-11-15'))
+if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSide!=='home' || denNop.spreadPick?.line!==12.5)){
+  const margin=Number(denNop.actualHome)-Number(denNop.actualAway)+12.5
+  const result=denNop.settledAt && Number.isFinite(denNop.actualHome) && Number.isFinite(denNop.actualAway)
+    ? (Math.abs(margin)<1e-9?'push':margin>0?'win':'loss')
+    : undefined
+  denNop.spreadPick={side:'Pelicans',teamSide:'home',line:12.5,...(result?{result}:{})}
+  denNop.recoverySource='user-confirmed-original-pick; original price/probability unavailable'
+  manuallyRecovered++
+}
+
 const memNop=byId.get('401909300')
 if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
   const current=memNop.spreadPick
