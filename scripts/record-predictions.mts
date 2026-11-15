@@ -9,11 +9,9 @@ const now = new Date()
 const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(now)
 const twNoDash = tw.replace(/-/g,'')
 const taiwanDateKey=(value:string|Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))
-const isEightPmCutoffReached=(gameDate:string)=>{
-  const localDate=taiwanDateKey(gameDate)
-  const previousLocalMidnight=new Date(new Date(`${localDate}T00:00:00+08:00`).getTime()-24*60*60*1000)
-  const cutoffDate=taiwanDateKey(previousLocalMidnight)
-  return now.getTime()>=new Date(`${cutoffDate}T20:00:00+08:00`).getTime()
+const isFinalReviewReached=(gameDate:string)=>{
+  const tipoff=new Date(gameDate).getTime()
+  return Number.isFinite(tipoff) && now.getTime()>=tipoff-2*60*60*1000
 }
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
@@ -244,7 +242,8 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
       existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
-       if(!existing.preliminaryAt && (Object.keys(reviewedMarkets).length>0 || (oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase().includes(existing.home.toLowerCase())&&g.away_team.toLowerCase().includes(existing.away.toLowerCase())&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0))))){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
+       const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.displayName??h.team?.name??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.displayName??a.team?.name??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
+       if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
       existing.modelVersion='recent-form-pace-v1'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
