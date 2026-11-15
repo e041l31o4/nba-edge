@@ -120,20 +120,11 @@ jobs:
           PY
       - name: Refresh Taiwan Sports Lottery odds from PlaySport 運彩盤
         id: playsport_refresh
-        continue-on-error: true
         env:
-          SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
           TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
         run: python scripts/refresh-playsport-taiwan-odds.py
-      - name: Refresh public Taiwan lottery odds when PlaySport source is unavailable
-        id: odds_refresh
-        if: steps.playsport_refresh.outcome != 'success'
-        continue-on-error: true
-        env:
-          SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
-        run: python scripts/refresh-oddslab-taiwan-odds.py
       - name: Publish fresh odds and odds history to Supabase immediately
-        if: steps.playsport_refresh.outcome == 'success' || steps.odds_refresh.outcome == 'success'
+        if: steps.playsport_refresh.outcome == 'success'
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -158,8 +149,8 @@ jobs:
         run: python scripts/diagnose-ledger-totals.py
       - name: Report odds source policy
         run: |
-          echo "Official Taiwan Sports Lottery feed is preferred when configured."
-          echo "Otherwise, public OddsLab republication is labeled as third-party and is never represented as an official API feed."
+          echo "NBA EDGE odds source is PlaySport livescore mode=2 only."
+          echo "If PlaySport parsing fails, the workflow stops and preserves the last verified dataset; no OddsLab fallback is permitted."
       - name: Publish private datasets to Supabase
         env:
           SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
