@@ -149,7 +149,6 @@ function App() {
   const active = games.find(g => g.id === selected)
   const canSeeAll = membershipActive || isAdmin
   const latestMemberDate = addTaiwanDays(taiwanDate(), 1)
-  const firstGameStart = games.length ? Math.min(...games.map(g => new Date(g.date).getTime()).filter(Number.isFinite)) : Number.POSITIVE_INFINITY
   const taiwanHour = Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hourCycle:'h23'}).format(new Date()))
    const allGamesFinalized = games.length > 0 && games.every(g => predictionRecords.some(p => p.gameId === g.id && p.stage === 'official'))
    const releaseReached = date <= taiwanDate() || (date <= latestMemberDate && taiwanHour >= 20 && allGamesFinalized)
@@ -196,7 +195,6 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const hasScore=game.home.score!==undefined&&game.away.score!==undefined&&game.home.score!==''&&game.away.score!==''
  const live=!done&&hasScore
  const report=analyzeMatch(game,teamForm,injuryData,calibrator,teamMetrics)
- const available=!!report?.available
  const useSaved=savedPrediction?.stage==='official'
   const pendingFinalization=!done&&!useSaved
  const homeWin=useSaved?savedPrediction.homeWin:undefined
