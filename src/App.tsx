@@ -288,8 +288,8 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  // Do not turn the better of two weak sides into a formal recommendation.
  const qualifies=(pick:{probability:number;ev:number}|undefined)=>!!pick&&pick.ev>=0.025&&pick.probability>=0.54&&report?.confidence!=='低'&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'
  // Always show the model's strongest paired-line direction; qualification is a separate label.
- const bestSpread=useSaved?undefined:pendingFinalization?undefined:bestSpreadCandidate
- const bestTotal=useSaved?undefined:pendingFinalization?undefined:bestTotalCandidate
+ const bestSpread=useSaved&&savedPrediction?.spreadPick?{isHome:savedPrediction.spreadPick.teamSide==='home',point:savedPrediction.spreadPick.line,probability:savedPrediction.spreadPick.probability??0,ev:savedPrediction.spreadPick.ev??0}:pendingFinalization?undefined:bestSpreadCandidate
+ const bestTotal=useSaved&&savedPrediction?.totalPick?{isOver:savedPrediction.totalPick.side==='over',point:savedPrediction.totalPick.line,probability:savedPrediction.totalPick.probability??0,ev:savedPrediction.totalPick.ev??0}:pendingFinalization?undefined:bestTotalCandidate
  const spreadQualified=qualifies(bestSpreadCandidate)
  const totalQualified=qualifies(bestTotalCandidate)
  const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>!pick?'':qualified?(pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低'?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'
