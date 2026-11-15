@@ -285,13 +285,13 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const bestSpreadCandidate=spreadPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
  const bestTotalCandidate=totalPicks.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]
  // Do not turn the better of two weak sides into a formal recommendation.
- const qualifies=(pick:{probability:number;ev:number}|undefined)=>!!pick&&pick.ev>=0.025&&pick.probability>=0.54&&report?.confidence!=='低'&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'
+ const qualifies=(pick:{probability:number;ev:number}|undefined)=>!!pick&&pick.ev>=0.025&&pick.probability>=0.54&&report?.confidence!=='低'&&report?.injuryRisk!=='偏高'
  // Always show the model's strongest paired-line direction; qualification is a separate label.
  const bestSpread=useSaved?(savedPrediction?.spreadPick?{isHome:savedPrediction.spreadPick.teamSide==='home',point:savedPrediction.spreadPick.line,probability:savedPrediction.spreadPick.probability??0,ev:savedPrediction.spreadPick.ev??0}:undefined):pendingFinalization?undefined:bestSpreadCandidate
  const bestTotal=useSaved?(savedPrediction?.totalPick?{isOver:savedPrediction.totalPick.side==='over',point:savedPrediction.totalPick.line,probability:savedPrediction.totalPick.probability??0,ev:savedPrediction.totalPick.ev??0}:undefined):pendingFinalization?undefined:bestTotalCandidate
  const spreadQualified=qualifies(bestSpread)
  const totalQualified=qualifies(bestTotal)
- const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>!pick?'':usePreliminary?(qualified?'初步分析傾向｜達推薦門檻':'初步分析傾向｜未達推薦門檻'):qualified?(pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低'?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'
+ const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>{if(!pick)return '';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低';const prefix=usePreliminary?'初步分析':'分析傾向';if(pick.ev<0.025)return prefix+'｜EV 未達 2.5%';if(pick.probability<0.54)return prefix+'｜模型機率未達 54%';if(report?.confidence==='低')return prefix+'｜模型信心不足';if(report?.injuryRisk==='偏高')return prefix+'｜傷兵風險偏高';if(report?.injuryRisk==='待確認')return prefix+'｜待官方傷兵資料確認';return usePreliminary?(qualified?'初步推薦｜'+(strong?'較強訊號':'一般訊號'):'初步觀察'):qualified?(strong?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'}
  const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
  const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
  const unverified=done&&!useSaved&&ledgerStatus==='ready'
