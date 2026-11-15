@@ -14,6 +14,8 @@ declare
   v_now timestamptz := now();
   v_found boolean := false;
   v_item jsonb;
+  v_before jsonb;
+  v_after jsonb;
 begin
   if v_user is null then
     raise exception 'Authentication required' using errcode = '28000';
@@ -53,6 +55,18 @@ begin
   );
 
   if v_found then
+    v_before := jsonb_build_object(
+      'homeWin', v_old->'homeWin', 'awayWin', v_old->'awayWin',
+      'projectedMargin', v_old->'projectedMargin', 'projectedTotal', v_old->'projectedTotal',
+      'spreadPick', v_old->'spreadPick', 'totalPick', v_old->'totalPick',
+      'adminRationale', v_old->'adminRationale'
+    );
+    v_after := jsonb_build_object(
+      'homeWin', v_new->'homeWin', 'awayWin', v_new->'awayWin',
+      'projectedMargin', v_new->'projectedMargin', 'projectedTotal', v_new->'projectedTotal',
+      'spreadPick', v_new->'spreadPick', 'totalPick', v_new->'totalPick',
+      'adminRationale', v_new->'adminRationale'
+    );
     v_new := jsonb_set(
       v_new,
       '{analysisChangeHistory}',
@@ -60,8 +74,8 @@ begin
       jsonb_build_array(jsonb_build_object(
         'at', v_now,
         'changedFields', jsonb_build_array('homeWin','awayWin','projectedMargin','projectedTotal','spreadPick','totalPick','adminOverride'),
-        'from', v_old,
-        'to', v_new,
+        'from', v_before,
+        'to', v_after,
         'reason', '管理員手動調整分析；系統已依調整後方向重新產生選擇理由'
       )),
       true
@@ -77,7 +91,7 @@ begin
         'at', v_now,
         'changedFields', jsonb_build_array('predictionCreated','adminOverride'),
         'from', '{}'::jsonb,
-        'to', v_new,
+        'to', jsonb_build_object('homeWin',v_new->'homeWin','awayWin',v_new->'awayWin','projectedMargin',v_new->'projectedMargin','projectedTotal',v_new->'projectedTotal','spreadPick',v_new->'spreadPick','totalPick',v_new->'totalPick','adminRationale',v_new->'adminRationale'),
         'reason', '管理員建立本場分析；系統已依設定方向自動產生選擇理由'
       ))
     );
