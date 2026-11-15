@@ -290,8 +290,8 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  // Always show the model's strongest paired-line direction; qualification is a separate label.
  const bestSpread=useSaved?(savedPrediction?.spreadPick?{isHome:savedPrediction.spreadPick.teamSide==='home',point:savedPrediction.spreadPick.line,probability:savedPrediction.spreadPick.probability??0,ev:savedPrediction.spreadPick.ev??0}:undefined):pendingFinalization?undefined:bestSpreadCandidate
  const bestTotal=useSaved?(savedPrediction?.totalPick?{isOver:savedPrediction.totalPick.side==='over',point:savedPrediction.totalPick.line,probability:savedPrediction.totalPick.probability??0,ev:savedPrediction.totalPick.ev??0}:undefined):pendingFinalization?undefined:bestTotalCandidate
- const spreadQualified=qualifies(bestSpreadCandidate)
- const totalQualified=qualifies(bestTotalCandidate)
+ const spreadQualified=qualifies(bestSpread)
+ const totalQualified=qualifies(bestTotal)
  const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>!pick?'':qualified?(pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低'?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'
  const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
  const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
