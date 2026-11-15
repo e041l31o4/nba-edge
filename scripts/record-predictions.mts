@@ -163,8 +163,8 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       }
       const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
       const marketHistory=existing.marketChangeHistory??[]
-      if(changed(existing.spreadPick,reviewedMarkets.spreadPick)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
-      if(changed(existing.totalPick,reviewedMarkets.totalPick)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
+      if(JSON.stringify(existing.spreadPick??null)!==JSON.stringify(reviewedMarkets.spreadPick??null)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
+      if(JSON.stringify(existing.totalPick??null)!==JSON.stringify(reviewedMarkets.totalPick??null)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
       existing.marketChangeHistory=marketHistory.slice(-200)
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
