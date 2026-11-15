@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -64,7 +64,7 @@ console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.l
 let reopenedPrematureLocks=0
 for(const row of rows){
   const localDate=taiwanDateKey(row.date)
-  if(row.stage==='official' && !row.settledAt && localDate>tw && !isEightPmCutoffReached(row.date)){
+  if(row.stage==='official' && !row.settledAt && localDate>tw && !(new Date(row.date).getTime()-2*60*60*1000<=now.getTime())){
     const previousLock={stage:row.stage,lockedAt:row.lockedAt??null,finalizedAt:(row as any).finalizedAt??null}
     row.stage='draft'
     delete row.lockedAt
@@ -74,7 +74,7 @@ for(const row of rows){
       changedFields:['stage','lockedAt','finalizedAt'],
       from:previousLock,
       to:{stage:'draft',lockedAt:null,finalizedAt:null},
-      reason:'修正台灣時間封存截止日計算：原紀錄提前鎖定，重新開放至賽前一日晚間 8 點'
+      reason:'調整封存規則：正式分析改為比賽開始前 2 小時確認，提前封存紀錄重新開放'
     }].slice(-200)
     reopenedPrematureLocks++
   }
@@ -243,11 +243,11 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
-      existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
+      existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}\n       if(!existing.preliminaryAt && (Object.keys(reviewedMarkets).length>0 || (oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase().includes(existing.home.toLowerCase())&&g.away_team.toLowerCase().includes(existing.away.toLowerCase())&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0))))){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
       existing.modelVersion='recent-form-pace-v1'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
-    if(isEightPmCutoffReached(event.date)){
+    if(isFinalReviewReached(event.date)){
       existing.stage='official'
       existing.lockedAt=existing.lockedAt??now.toISOString()
       existing.finalizedAt=existing.lockedAt
@@ -264,9 +264,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
   const prediction=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
   if (!prediction.available) continue
-  const stage:Row['stage']=isEightPmCutoffReached(event.date)||tipoff<=now.getTime()?'official':'draft'
+  const stage:Row['stage']=isFinalReviewReached(event.date)||tipoff<=now.getTime()?'official':'draft'
   const markets=makeMarketPicks(event,prediction)
-  const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
+  const hasOpeningMarket=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.displayName??h.team?.name??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.displayName??a.team?.name??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))\n   if(!hasOpeningMarket) continue\n   const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,analysisStatus:stage==='official'?'final':'preliminary',preliminaryAt:now.toISOString(),openingSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,capturedAt:now.toISOString()},...(stage==='official'?{finalAt:now.toISOString(),finalSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,confirmedAt:now.toISOString()}}:{}),homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
     if (stage==='official') added++
@@ -296,7 +296,7 @@ if (added || settled || refreshed || regraded || manuallyRecovered || !previousP
   const { rename } = await import('node:fs/promises')
   await rename(temp,target)
 }
-const upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
+const preliminary=output.filter(row=>row.analysisStatus==='preliminary').length\nconst upcoming=output.filter(row=>new Date(row.date).getTime()>now.getTime() && row.stage==='draft').length
 const official=output.filter(row=>row.stage==='official').length
 if (settledGames.length) console.log('Newly settled games:', JSON.stringify(settledGames))
 const recentlySettled = output.filter(row => row.settledAt && now.getTime() - new Date(row.settledAt).getTime() < 30*60*1000).map(row => ({gameId:row.gameId, date:row.date, home:row.home, away:row.away, actualHome:row.actualHome, actualAway:row.actualAway, settledAt:row.settledAt}))
@@ -310,4 +310,4 @@ if (recentMarketChanges.length) console.log('NBA_EDGE_MARKET_DIRECTION_CHANGES:'
 const recentAnalysisChanges=output.flatMap(row=>(row.analysisChangeHistory??[]).filter(change=>now.getTime()-new Date(change.at).getTime()<6*60*1000).map(change=>({date:row.date,game:row.away+' @ '+row.home,at:change.at})))
 if (recentAnalysisChanges.length) console.log('NBA_EDGE_ANALYSIS_CHANGE_AUDIT_COUNT:',recentAnalysisChanges.length)
 console.log('DEN_NOP_SPREAD_RESTORE_APPLIED:',denNopRestored)
-console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; reopened premature locks ${reopenedPrematureLocks}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
+console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; reopened premature locks ${reopenedPrematureLocks}; preliminary ${preliminary}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
