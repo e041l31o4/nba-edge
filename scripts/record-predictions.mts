@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -146,9 +146,22 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
-      Object.assign(existing,makeMarketPicks(event,rolling))
+      // Keep the first published market recommendations immutable. Store later
+      // model opinions separately so background refreshes cannot silently flip picks.
+      const reviewedMarkets=makeMarketPicks(event,rolling)
+      const priorReview=existing.latestMarketReview
+      const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
+      const history=existing.marketChangeHistory??[]
+      if(changed(priorReview?.spreadPick??existing.spreadPick,reviewedMarkets.spreadPick)){
+        history.push({at:now.toISOString(),market:'spread',from:priorReview?.spreadPick??existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'模型依最新近況與盤口重新計算；原始推薦不變'})
+      }
+      if(changed(priorReview?.totalPick??existing.totalPick,reviewedMarkets.totalPick)){
+        history.push({at:now.toISOString(),market:'total',from:priorReview?.totalPick??existing.totalPick,to:reviewedMarkets.totalPick,reason:'模型依最新近況與盤口重新計算；原始推薦不變'})
+      }
+      existing.marketChangeHistory=history.slice(-100)
+      existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
       existing.modelVersion='recent-form-pace-v1'
-      existing.capturedAt=now.toISOString(); refreshed++
+      existing.refreshedAt=now.toISOString(); refreshed++
     }
     continue
   }
