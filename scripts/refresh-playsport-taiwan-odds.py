@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 from playwright.async_api import async_playwright
 
 TAIPEI = ZoneInfo("Asia/Taipei")
-BASE = "https://www.playsport.cc/predict/games?allianceid=3&from=header&type=p"
+BASE = "https://www.playsport.cc/predict/games?allianceid=3&from=header&type=p&gamedate={target}"
 SOURCE = 'Taiwan Sports Lottery odds via PlaySport "運彩盤" column (third-party display)'
 BOOK = '台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）'
 
@@ -117,12 +117,18 @@ def parse_blocks(body, espn_games):
                 {"name":"Over","point":away_markets["over"][0],"price":away_markets["over"][1]},
                 {"name":"Under","point":home_markets["under"][0],"price":home_markets["under"][1]}
             ]})
-        if markets:
-            games.append({
-                "id":event["id"],"commence_time":event["commence_time"],
-                "home_team":event["home_team"],"away_team":event["away_team"],
-                "bookmakers":[{"title":BOOK,"markets":markets}]
-            })
+        # Keep every scheduled matchup, even when PlaySport has not posted a
+        # complete market yet. Empty markets are explicit and are never backfilled.
+        games.append({
+            "id":event["id"],"commence_time":event["commence_time"],
+            "home_team":event["home_team"],"away_team":event["away_team"],
+            "bookmakers":[{"title":BOOK,"markets":markets}] if markets else [],
+            "marketAvailability": {
+                "spreads": any(m["key"] == "spreads" for m in markets),
+                "h2h": any(m["key"] == "h2h" for m in markets),
+                "totals": any(m["key"] == "totals" for m in markets)
+            }
+        })
     return games, unmatched
 
 async def read_page(target_date):
@@ -131,7 +137,8 @@ async def read_page(target_date):
         page = await browser.new_page(locale="zh-TW",timezone_id="Asia/Taipei",
             viewport={"width":1440,"height":1200},
             user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
-        response = await page.goto(BASE,wait_until="domcontentloaded",timeout=45000)
+        url = BASE.format(target=target_date.strftime("%Y%m%d"))
+        response = await page.goto(url,wait_until="domcontentloaded",timeout=45000)
         try:
             await page.wait_for_load_state("networkidle",timeout=10000)
         except Exception:
@@ -154,8 +161,16 @@ async def main():
     title, body = await read_page(target_date)
     espn_games = fetch_espn_games(target_date)
     games, unmatched = parse_blocks(body,espn_games)
-    if not games:
-        raise SystemExit(f"No verified Taiwan odds rows matched ESPN for {target_text}; keeping prior odds untouched.")
+    expected_ids = {row["id"] for row in espn_games.values()}
+    captured_ids = {row["id"] for row in games}
+    missing_events = sorted(expected_ids - captured_ids)
+    if not games or unmatched or missing_events:
+        raise SystemExit(
+            f"PlaySport schedule verification failed for {target_text}: "
+            f"captured={len(captured_ids)}, expected={len(expected_ids)}, "
+            f"unmatched={unmatched}, missing_event_ids={missing_events}; "
+            "keeping prior odds untouched."
+        )
     result = {
         "updatedAt":dt.datetime.now(dt.timezone.utc).isoformat(),
         "targetTaiwanDate":target_text,"pageTitle":title,"source":SOURCE,
@@ -165,7 +180,9 @@ async def main():
         "targetDate":target_text,
         "games":len(games),
         "unmatchedCount":len(unmatched),
-        "marketCounts":{key:sum(any(m["key"]==key for b in g["bookmakers"] for m in b["markets"]) for g in games) for key in ("h2h","spreads","totals")}
+        "marketCounts":{key:sum(any(m["key"]==key for b in g["bookmakers"] for m in b["markets"]) for g in games) for key in ("h2h","spreads","totals")},
+        "gamesWithoutAnyMarket":sum(not g["bookmakers"] for g in games),
+        "gamesMissingMarkets":{key:[g["away_team"]+" @ "+g["home_team"] for g in games if not g["marketAvailability"][key]] for key in ("h2h","spreads","totals")}
     },ensure_ascii=False))
     if "--dry-run" in sys.argv:
         Path("playsport-taiwan-dryrun.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
@@ -196,7 +213,7 @@ async def main():
         phase="first_observed" if str(game["id"]) not in seen else ("live" if start<=dt.datetime.now(dt.timezone.utc) else "pregame")
         snapshots.append({"capturedAt":dt.datetime.now(dt.timezone.utc).isoformat(),"phase":phase,
             "source":SOURCE,"gameId":game["id"],"home_team":game["home_team"],"away_team":game["away_team"],
-            "commence_time":game["commence_time"],"bookmakers":game["bookmakers"][-1:]})
+            "commence_time":game["commence_time"],"marketAvailability":game.get("marketAvailability",{}),"bookmakers":game["bookmakers"][-1:]})
     root.mkdir(parents=True,exist_ok=True)
     ordered=sorted(previous.values(),key=lambda g:g.get("commence_time",""))
     odds_path.write_text(json.dumps({"updatedAt":dt.datetime.now(dt.timezone.utc).isoformat(),
