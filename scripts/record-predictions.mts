@@ -106,6 +106,21 @@ if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSid
   manuallyRecovered++
 }
 
+// User-confirmed recovery: restore the original Miami Heat +2.5 spread vs Cleveland (Taiwan date 2026-11-14).
+let heatCleRestored=false
+const heatCle=rows.find(row=>row.date.slice(0,10)==='2026-11-14' && /^(MIA|HEAT|MIAMI)$/i.test(row.home.trim()) && /^(CLE|CAVALIERS|CLEVELAND)$/i.test(row.away.trim()))
+if(heatCle && (heatCle.spreadPick?.side!=='Heat' || heatCle.spreadPick?.teamSide!=='home' || heatCle.spreadPick?.line!==2.5)){
+  const previous=heatCle.spreadPick
+  const margin=Number(heatCle.actualHome)-Number(heatCle.actualAway)+2.5
+  const result=heatCle.settledAt && Number.isFinite(heatCle.actualHome) && Number.isFinite(heatCle.actualAway)
+    ? (Math.abs(margin)<1e-9?'push':margin>0?'win':'loss')
+    : undefined
+  heatCle.marketChangeHistory=[...(heatCle.marketChangeHistory??[]),{at:now.toISOString(),market:'spread',from:previous,to:{side:'Heat',teamSide:'home',line:2.5,...(result?{result}:{})},reason:'依使用者確認的原始推薦恢復：熱火受讓 +2.5'}].slice(-200)
+  heatCle.spreadPick={side:'Heat',teamSide:'home',line:2.5,...(result?{result}:{})}
+  heatCle.recoverySource='user-confirmed-original-pick; Heat +2.5; original price/probability unavailable'
+  heatCleRestored=true
+  manuallyRecovered++
+}
 const memNop=byId.get('401909300')
 if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
   const current=memNop.spreadPick
