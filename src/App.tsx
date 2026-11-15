@@ -150,7 +150,9 @@ function App() {
   const canSeeAll = membershipActive || isAdmin
   const latestMemberDate = addTaiwanDays(taiwanDate(), 1)
   const firstGameStart = games.length ? Math.min(...games.map(g => new Date(g.date).getTime()).filter(Number.isFinite)) : Number.POSITIVE_INFINITY
-  const releaseReached = date <= taiwanDate() || (date <= latestMemberDate && firstGameStart <= Date.now() + 24 * 60 * 60 * 1000)
+  const taiwanHour = Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hourCycle:'h23'}).format(new Date()))
+   const allGamesFinalized = games.length > 0 && games.every(g => predictionRecords.some(p => p.gameId === g.id && p.stage === 'official'))
+   const releaseReached = date <= taiwanDate() || (date <= latestMemberDate && taiwanHour >= 20 && allGamesFinalized)
   const canViewSelectedDate = canSeeAll && (isAdmin || releaseReached)
   const visibleGames = isAdmin || (membershipActive && canViewSelectedDate) ? games : membershipActive ? [] : games.filter(g => publicGameIds.includes(g.id))
   return <div className="app-shell">
@@ -195,13 +197,14 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const live=!done&&hasScore
  const report=analyzeMatch(game,teamForm,injuryData,calibrator,teamMetrics)
  const available=!!report?.available
- const useSaved=!!savedPrediction && (!!savedPrediction.spreadPick || !!savedPrediction.totalPick)
- const homeWin=useSaved?savedPrediction.homeWin:(!done&&available?report!.homeWin:undefined)
- const awayWin=useSaved?savedPrediction.awayWin:(!done&&available?report!.awayWin:undefined)
- const projectedTotal=useSaved?savedPrediction.projectedTotal:(!done&&available?report!.projectedTotal:undefined)
- const projectedMargin=useSaved?savedPrediction.projectedMargin:(!done&&available?report!.projectedMargin:undefined)
- const projectedHome=useSaved?(projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal+projectedMargin)/2:undefined):(!done&&available?report!.projectedHome:undefined)
- const projectedAway=useSaved?(projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal-projectedMargin)/2:undefined):(!done&&available?report!.projectedAway:undefined)
+ const useSaved=savedPrediction?.stage==='official'
+  const pendingFinalization=!done&&!useSaved
+ const homeWin=useSaved?savedPrediction.homeWin:undefined
+ const awayWin=useSaved?savedPrediction.awayWin:undefined
+ const projectedTotal=useSaved?savedPrediction.projectedTotal:undefined
+ const projectedMargin=useSaved?savedPrediction.projectedMargin:undefined
+ const projectedHome=useSaved&&projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal+projectedMargin)/2:undefined
+ const projectedAway=useSaved&&projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal-projectedMargin)/2:undefined
  const hasPrediction=homeWin!==undefined
  const pickedTeam=hasPrediction?(homeWin!>=0.5?game.home:game.away):null
  const actualWinner=done?((Number(game.home.score)>Number(game.away.score))?game.home:(Number(game.away.score)>Number(game.home.score)?game.away:null)):null
@@ -285,8 +288,8 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  // Do not turn the better of two weak sides into a formal recommendation.
  const qualifies=(pick:{probability:number;ev:number}|undefined)=>!!pick&&pick.ev>=0.025&&pick.probability>=0.54&&report?.confidence!=='低'&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'
  // Always show the model's strongest paired-line direction; qualification is a separate label.
- const bestSpread=bestSpreadCandidate
- const bestTotal=bestTotalCandidate
+ const bestSpread=useSaved?undefined:pendingFinalization?undefined:bestSpreadCandidate
+ const bestTotal=useSaved?undefined:pendingFinalization?undefined:bestTotalCandidate
  const spreadQualified=qualifies(bestSpreadCandidate)
  const totalQualified=qualifies(bestTotalCandidate)
  const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>!pick?'':qualified?(pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低'?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'
@@ -298,10 +301,10 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className={'game-prediction-summary'+(!hasPrediction?' prediction-pending':'')+(pickCorrect===true?' pick-correct':pickCorrect===false?' pick-wrong':'')+(unverified?' prediction-unverified':'')}>
-   <div className="pick-team-cell"><small>預測勝方</small>{done&&!useSaved&&ledgerStatus==='loading'?<b className="pick-unverified">賽前紀錄載入中</b>:done&&!useSaved&&ledgerStatus==='error'?<b className="pick-unverified">紀錄暫時無法讀取</b>:unverified?<b className="pick-unverified">未留存賽前預測</b>:hasPrediction?(pickedTeam!.logo?<img className="pick-team-logo" src={pickedTeam!.logo} alt={pickedTeam!.displayName} title={pickedTeam!.displayName}/>:<b className="pick-team-fallback">{pickedTeam!.abbreviation}</b>):<b className="pick-unverified">{report?.reason||'球隊近期資料尚未配對'}</b>}<strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong><em>{pickCorrect===true?'預測命中':pickCorrect===false?'預測未中':unverified?'不補算命中率':hasPrediction?'獨贏信心：'+(pickProbability!>=0.68&&report?.confidence==='高'&&report.injuryRisk==='低'?'高':pickProbability!>=0.58&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'中':'一般')+' · '+(useSaved?'正式封存':'每日初估') :'模型資料不足，暫無預測'}</em></div>
-   <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{done&&!useSaved&&ledgerStatus==='loading'?'賽前紀錄載入中':done&&!useSaved&&ledgerStatus==='error'?'紀錄暫時無法讀取':unverified?'未留存賽前預測':useSaved?'賽前封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
-   <div className="market-pick-cell"><small>大小分分析</small><b className={done?settlementClass(totalSettlement):''}>{done?(savedPrediction?.totalPick?((savedPrediction.totalPick.side==='over'?'大 ':'小 ')+savedPrediction.totalPick.line+' · '+settlementLabel(totalSettlement)):'無賽前盤口紀錄'):bestTotal?totalLabel:!report?.available?'資料不足 · 暫無預測':lotteryGame?'大小分盤口未配對':'盤口未同步'}</b><em>{done?(savedPrediction?.totalPick?'賽前命中率 '+(savedPrediction.totalPick.probability*100).toFixed(1)+'% · 賠率 '+savedPrediction.totalPick.price:'舊賽事無法補造盤口與結算'):bestTotal?confidenceLabel(bestTotal,totalQualified)+' · '+(bestTotal.probability*100).toFixed(1)+'% · EV '+(bestTotal.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未取得同線雙邊大小分盤口':'等待台灣運彩盤口'}</em></div>
-   <div className="market-pick-cell"><small>讓分分析</small><b className={done?settlementClass(spreadSettlement):''}>{done?(savedPrediction?.spreadPick?(savedPrediction.spreadPick.side+' '+(savedPrediction.spreadPick.line>0?'+':'')+savedPrediction.spreadPick.line+' · '+settlementLabel(spreadSettlement)):'無賽前盤口紀錄'):bestSpread?spreadLabel:!report?.available?'模型待補資料':lotteryGame?'讓分隊伍或盤口未配對':'盤口未同步'}</b><em>{done?(savedPrediction?.spreadPick?(savedPrediction.spreadPick.probability!==undefined&&savedPrediction.spreadPick.price!==undefined?'賽前過盤率 '+(savedPrediction.spreadPick.probability*100).toFixed(1)+'% · 賠率 '+savedPrediction.spreadPick.price:'原始推薦方向已恢復；原始過盤率與賠率無可驗證資料'):'舊賽事無法補造盤口與結算'):bestSpread?confidenceLabel(bestSpread,spreadQualified)+' · '+(bestSpread.probability*100).toFixed(1)+'% · EV '+(bestSpread.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未配對有效讓分隊伍':'等待台灣運彩盤口'}</em></div>
+   <div className="pick-team-cell"><small>預測勝方</small>{done&&!useSaved&&ledgerStatus==='loading'?<b className="pick-unverified">賽前紀錄載入中</b>:done&&!useSaved&&ledgerStatus==='error'?<b className="pick-unverified">紀錄暫時無法讀取</b>:unverified?<b className="pick-unverified">未留存賽前預測</b>:pendingFinalization?<b className="pick-unverified">等待晚間 8 點正式封存</b>:hasPrediction?(pickedTeam!.logo?<img className="pick-team-logo" src={pickedTeam!.logo} alt={pickedTeam!.displayName} title={pickedTeam!.displayName}/>:<b className="pick-team-fallback">{pickedTeam!.abbreviation}</b>):<b className="pick-unverified">{report?.reason||'球隊近期資料尚未配對'}</b>}<strong>{hasPrediction?(pickProbability!*100).toFixed(1)+'%':'—'}</strong><em>{pickCorrect===true?'預測命中':pickCorrect===false?'預測未中':unverified?'不補算命中率':hasPrediction?'獨贏信心：'+(pickProbability!>=0.68&&report?.confidence==='高'&&report.injuryRisk==='低'?'高':pickProbability!>=0.58&&report?.injuryRisk!=='待確認'&&report?.injuryRisk!=='偏高'?'中':'一般')+' · '+(useSaved?'正式封存':'每日初估') :'模型資料不足，暫無預測'}</em></div>
+   <div><small>預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{pendingFinalization?'等待正式封存':pendingFinalization?'等待晚間 8 點正式封存':done&&!useSaved&&ledgerStatus==='loading'?'賽前紀錄載入中':done&&!useSaved&&ledgerStatus==='error'?'紀錄暫時無法讀取':unverified?'未留存賽前預測':useSaved?'正式封存':savedPrediction?.stage==='draft'?'每日滾動初估':'模型預測'}</em></div>
+   <div className="market-pick-cell"><small>大小分分析</small><b className={done?settlementClass(totalSettlement):''}>{done?(savedPrediction?.totalPick?((savedPrediction.totalPick.side==='over'?'大 ':'小 ')+savedPrediction.totalPick.line+' · '+settlementLabel(totalSettlement)):'無賽前盤口紀錄'):pendingFinalization?'等待晚間 8 點正式封存':bestTotal?totalLabel:!report?.available?'資料不足 · 暫無預測':lotteryGame?'大小分盤口未配對':'盤口未同步'}</b><em>{done?(savedPrediction?.totalPick?'賽前命中率 '+(savedPrediction.totalPick.probability*100).toFixed(1)+'% · 賠率 '+savedPrediction.totalPick.price:'舊賽事無法補造盤口與結算'):bestTotal?confidenceLabel(bestTotal,totalQualified)+' · '+(bestTotal.probability*100).toFixed(1)+'% · EV '+(bestTotal.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未取得同線雙邊大小分盤口':'等待台灣運彩盤口'}</em></div>
+   <div className="market-pick-cell"><small>讓分分析</small><b className={done?settlementClass(spreadSettlement):''}>{done?(savedPrediction?.spreadPick?(savedPrediction.spreadPick.side+' '+(savedPrediction.spreadPick.line>0?'+':'')+savedPrediction.spreadPick.line+' · '+settlementLabel(spreadSettlement)):'無賽前盤口紀錄'):pendingFinalization?'等待晚間 8 點正式封存':bestSpread?spreadLabel:!report?.available?'模型待補資料':lotteryGame?'讓分隊伍或盤口未配對':'盤口未同步'}</b><em>{done?(savedPrediction?.spreadPick?(savedPrediction.spreadPick.probability!==undefined&&savedPrediction.spreadPick.price!==undefined?'賽前過盤率 '+(savedPrediction.spreadPick.probability*100).toFixed(1)+'% · 賠率 '+savedPrediction.spreadPick.price:'原始推薦方向已恢復；原始過盤率與賠率無可驗證資料'):'舊賽事無法補造盤口與結算'):bestSpread?confidenceLabel(bestSpread,spreadQualified)+' · '+(bestSpread.probability*100).toFixed(1)+'% · EV '+(bestSpread.ev*100).toFixed(1)+'%':!report?.available?(report?.reason||'模型資料尚未載入'):lotteryGame?'尚未配對有效讓分隊伍':'等待台灣運彩盤口'}</em></div>
   </div>
  </button>
 }
