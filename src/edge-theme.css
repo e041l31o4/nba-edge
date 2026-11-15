@@ -1091,3 +1091,17 @@ footer:before{background:#2463eb!important}
   .game-prediction-summary > div { min-height: 104px !important; padding: 9px !important; }
   .game-prediction-summary strong { font-size: 19px !important; }
 }
+
+/* Admin prediction override editor */
+.admin-editor{border:1px solid #cbd8e9!important;background:#fbfdff!important}
+.admin-edit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.admin-edit-grid label{display:flex;flex-direction:column;gap:6px;color:#61738a;font-size:11px;font-weight:750}
+.admin-edit-grid input,.admin-edit-grid select{width:100%;min-width:0;min-height:38px;padding:8px 10px;border:1px solid #d9e2ed;border-radius:8px;background:#fff;color:#26384e;font:inherit}
+.admin-rationale-preview{margin-top:14px;padding:13px;border:1px solid #e0e8f2;border-radius:10px;background:#fff;color:#43566e;font-size:11px;line-height:1.65}
+.admin-rationale-preview>b{display:block;margin-bottom:8px;color:#244d88;font-size:12px}
+.admin-rationale-preview p{margin:7px 0}
+.admin-rationale-preview ul{margin:4px 0 10px;padding-left:20px}
+.admin-editor-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.admin-editor-actions>span{font-size:11px;color:#54718f}
+@media(max-width:760px){.admin-edit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.admin-edit-grid{grid-template-columns:minmax(0,1fr)}}
