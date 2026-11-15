@@ -92,7 +92,7 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
 let manuallyRecovered=0
 let denNopRestored=false
 console.log('DEN_NOP_LEDGER_MATCH_DIAGNOSTIC:',JSON.stringify(rows.filter(row=>row.date.startsWith('2026-11-15') && (/DEN|NOP|NO|NUGGETS|PELICANS/i.test(row.home+' '+row.away))).map(row=>({gameId:row.gameId,date:row.date,home:row.home,away:row.away,stage:row.stage,settled:!!row.settledAt}))))
-const denNop=rows.find(row=>row.date.startsWith('2026-11-15') && /^(NO|NOP|PELICANS|NEW ORLEANS PELICANS)$/i.test(row.home.trim()) && /^(DEN|NUGGETS|DENVER NUGGETS)$/i.test(row.away.trim()))
+const denNop=rows.find(row=>row.date.slice(0,10)>='2026-11-14' && row.date.slice(0,10)<='2026-11-16' && /^(NO|NOP|PELICANS|NEW ORLEANS PELICANS)$/i.test(row.home.trim()) && /^(DEN|NUGGETS|DENVER NUGGETS)$/i.test(row.away.trim()))
 if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSide!=='home' || denNop.spreadPick?.line!==12.5)){
   const margin=Number(denNop.actualHome)-Number(denNop.actualAway)+12.5
   const result=denNop.settledAt && Number.isFinite(denNop.actualHome) && Number.isFinite(denNop.actualAway)
