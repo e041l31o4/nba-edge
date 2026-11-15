@@ -21,6 +21,8 @@ export type PredictionRecord = {
   actualHome?: number
   actualAway?: number
   settledAt?: string
+  adminOverride?: {active:boolean;updatedAt:string;source:'admin'}
+  adminRationale?: {generatedAt:string;method:string;winner:{pick:string;summary:string;factors:string[];risks:string[]};spread:{summary:string;factors:string[]};total:{summary:string;factors:string[]};modelReference:Record<string,unknown>}
 }
 
 export async function getPredictionRecords(): Promise<PredictionRecord[]> {
