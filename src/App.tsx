@@ -149,7 +149,6 @@ function App() {
   const active = games.find(g => g.id === selected)
   const canSeeAll = membershipActive || isAdmin
   const latestMemberDate = addTaiwanDays(taiwanDate(), 1)
-  const taiwanHour = Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hourCycle:'h23'}).format(new Date()))
    const hasPublishedAnalysis = (p:PredictionRecord|undefined) => !!p && (p.analysisStatus === 'preliminary' || p.analysisStatus === 'final' || p.stage === 'official')
    const anyPublishedForDate = games.some(g => hasPublishedAnalysis(predictionRecords.find(p => p.gameId === g.id)))
    const releaseReached = date <= taiwanDate() || (date <= latestMemberDate && anyPublishedForDate)
