@@ -90,7 +90,8 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
 
 // User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
 let manuallyRecovered=0
-console.log('DEN_NOP_LEDGER_MATCH_DIAGNOSTIC:',JSON.stringify(rows.filter(row=>row.date.startsWith('2026-11-15') && (/DEN|NOP|NO|NUGGETS|PELICANS/i.test(row.home+' '+row.away))).map(row=>({gameId:row.gameId,date:row.date,home:row.home,away:row.away,spreadPick:row.spreadPick,stage:row.stage,settledAt:row.settledAt}))))
+let denNopRestored=false
+console.log('DEN_NOP_LEDGER_MATCH_DIAGNOSTIC:',JSON.stringify(rows.filter(row=>row.date.startsWith('2026-11-15') && (/DEN|NOP|NO|NUGGETS|PELICANS/i.test(row.home+' '+row.away))).map(row=>({gameId:row.gameId,date:row.date,home:row.home,away:row.away,stage:row.stage,settled:!!row.settledAt}))))
 const denNop=rows.find(row=>row.date.startsWith('2026-11-15') && /^(NO|NOP|PELICANS|NEW ORLEANS PELICANS)$/i.test(row.home.trim()) && /^(DEN|NUGGETS|DENVER NUGGETS)$/i.test(row.away.trim()))
 if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSide!=='home' || denNop.spreadPick?.line!==12.5)){
   const margin=Number(denNop.actualHome)-Number(denNop.actualAway)+12.5
@@ -99,6 +100,7 @@ if(denNop && (denNop.spreadPick?.side!=='Pelicans' || denNop.spreadPick?.teamSid
     : undefined
   denNop.spreadPick={side:'Pelicans',teamSide:'home',line:12.5,...(result?{result}:{})}
   denNop.recoverySource='user-confirmed-original-pick; original price/probability unavailable'
+  denNopRestored=true
   manuallyRecovered++
 }
 
@@ -224,5 +226,5 @@ if (houstonScoreboardEvents.length) console.log('Houston scoreboard settlement d
 if (recentlySettled.length) console.log('Recently settled games (persisted):', JSON.stringify(recentlySettled))
 const recentMarketChanges=output.flatMap(row=>(row.marketChangeHistory??[]).filter(change=>now.getTime()-new Date(change.at).getTime()<6*60*1000).map(change=>({date:row.date,game:row.away+' @ '+row.home,market:change.market,from:change.from,to:change.to,at:change.at})))
 if (recentMarketChanges.length) console.log('NBA_EDGE_MARKET_DIRECTION_CHANGES:',JSON.stringify(recentMarketChanges))
-if (manuallyRecovered) console.log(`User-confirmed original spread restored: MEM@NOP Grizzlies -3.5 (${manuallyRecovered} row)`)
+console.log('DEN_NOP_SPREAD_RESTORE_APPLIED:',denNopRestored)
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
