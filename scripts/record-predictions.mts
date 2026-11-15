@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -158,7 +158,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       const changedKeys=Object.keys(after).filter(key=>JSON.stringify((before as any)[key])!==JSON.stringify((after as any)[key]))
       if(changedKeys.length){
         const history=existing.analysisChangeHistory??[]
-        history.push({at:now.toISOString(),from:before,to:after,reason:'賽前滾動更新：模型或盤口資料變動；此紀錄不代表單一因素造成'})
+        history.push({at:now.toISOString(),changedFields:changedKeys,from:before,to:after,reason:'賽前滾動更新：模型或盤口資料變動；此紀錄不代表單一因素造成'})
         existing.analysisChangeHistory=history.slice(-200)
       }
       const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
