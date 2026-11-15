@@ -144,6 +144,8 @@ jobs:
       - name: Capture pregame predictions and settle completed games
         run: npx --yes tsx scripts/record-predictions.mts
       - name: Diagnose every totals market against the independent model
+        env:
+          TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
         run: npx --yes tsx scripts/diagnose-totals.mts
       - name: Audit settled official total forecasts for systematic bias
         run: python scripts/diagnose-ledger-totals.py
