@@ -196,10 +196,14 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
   if (!h || !a || !event.id) continue
   const id=String(event.id), existing=byId.get(id)
-  const status=String(event.status?.type?.name ?? '').toLowerCase()
+  const status=String(event.status?.type?.name ?? event.status?.name ?? '').toLowerCase()
+  const statusState=String(event.status?.type?.state ?? event.status?.state ?? '').toLowerCase()
   const tipoff=new Date(event.date).getTime()
   if (!Number.isFinite(tipoff)) continue
-  const isFinal=status.includes('final')
+  // ESPN may expose completed games through the state/completed fields even when
+  // the display name is not STATUS_FINAL. Require valid final scores before grading.
+  const hasFinalScores=Number.isFinite(Number(h.score)) && Number.isFinite(Number(a.score))
+  const isFinal=hasFinalScores && (status.includes('final') || statusState==='post' || event.status?.type?.completed===true || event.status?.completed===true)
   if (existing && isFinal) {
     const hs=Number(h.score), as=Number(a.score)
     if (Number.isFinite(hs)&&Number.isFinite(as)) {
