@@ -320,7 +320,7 @@ current_season_predictions = run_walk_forward(current_season_games) if current_s
 # Match the production app: calibrate current-season H2H probabilities with the
 # latest strictly prior-season Platt calibrator. Keep raw predictions untouched
 # so winner/score metrics remain comparable to the uncalibrated walk-forward run.
-current_calibrator = season_results[-1].get('calibrator') if season_results else None
+current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
 market_predictions = []
 for row in current_season_predictions:
     item = dict(row)
