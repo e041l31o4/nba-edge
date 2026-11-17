@@ -317,29 +317,7 @@ current_season_end_year = now.year if now.month >= 7 else now.year - 1
 # Reconstruct current-season predictions chronologically and match ESPN event ids.
 current_season_games = fetch_season(current_season_end_year + 1)
 current_season_predictions = run_walk_forward(current_season_games) if current_season_games else []
-# Match the production app: calibrate current-season H2H probabilities with the
-# latest strictly prior-season Platt calibrator. Keep raw predictions untouched
-# so winner/score metrics remain comparable to the uncalibrated walk-forward run.
-current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
-market_predictions = []
-for row in current_season_predictions:
-    item = dict(row)
-    if current_calibrator:
-        item['marketHomeWin'] = sigmoid(
-            current_calibrator['a'] * logit(row['homeWin']) + current_calibrator['b']
-        )
-    else:
-        item['marketHomeWin'] = row['homeWin']
-    market_predictions.append(item)
-current_market_backtest = market_backtest(market_predictions)
-if current_calibrator:
-    current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
-else:
-    current_market_backtest['h2h']['method'] += ' 尚無可用的前季校準器，獨贏暫以原始模型機率計算。'
-print('Current-season market-only backtest:', current_season_end_year,
-      'completed games:', len(current_season_games),
-      'pregame predictions:', len(current_season_predictions),
-      json.dumps(current_market_backtest, ensure_ascii=False))
+# Market backtest is computed after fitting the prior-season calibrator below.
 # Three most recently completed seasons; season identifiers use the ending year.
 season_years = list(range(current_season_end_year - 2, current_season_end_year + 1))
 season_results = []
@@ -377,6 +355,30 @@ for season_year in season_years:
     })
     calibration_training.extend(predictions)
     all_predictions.extend(predictions)
+
+# Match the production app: calibrate current-season H2H probabilities with the
+# latest strictly prior-season Platt calibrator. Keep raw predictions untouched
+# so winner/score metrics remain comparable to the uncalibrated walk-forward run.
+current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
+market_predictions = []
+for row in current_season_predictions:
+    item = dict(row)
+    if current_calibrator:
+        item['marketHomeWin'] = sigmoid(
+            current_calibrator['a'] * logit(row['homeWin']) + current_calibrator['b']
+        )
+    else:
+        item['marketHomeWin'] = row['homeWin']
+    market_predictions.append(item)
+current_market_backtest = market_backtest(market_predictions)
+if current_calibrator:
+    current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
+else:
+    current_market_backtest['h2h']['method'] += ' 尚無可用的前季校準器，獨贏暫以原始模型機率計算。'
+print('Current-season market-only backtest:', current_season_end_year,
+      'completed games:', len(current_season_games),
+      'pregame predictions:', len(current_season_predictions),
+      json.dumps(current_market_backtest, ensure_ascii=False))
 
 if len(all_predictions) < 900 or len(season_results) < 2:
     raise SystemExit(f'Insufficient multi-season out-of-sample data: {len(all_predictions)} predictions across {len(season_results)} seasons')
