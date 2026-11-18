@@ -103,6 +103,7 @@ function App() {
           // Fail closed: never infer paid access when membership checks fail.
           setIsAdmin(false); setMembershipActive(false); setPublicGameIds([])
           setAccessReady(true)
+          setError('會員／公開賽事權限資料讀取失敗，已暫停會員內容顯示；請重新整理或稍後再試。')
         }
       }
     }
@@ -215,7 +216,7 @@ function App() {
           <div className="hero-stat"><span>今日賽事</span><strong>{loading ? '—' : games.length.toString().padStart(2,'0')}</strong><small>GAMES ON THE BOARD</small></div>
         </div>
       </section>
-      <section className="ticker"><div className="ticker-label"><Activity size={15}/> DATA STATUS</div><span className="status-ok"><i/> 賽程來源連線</span><span className={odds ? 'status-ok' : 'status-warn'}><i/> {odds ? '盤口資料已載入' : '官方盤口來源未接通'}</span><span className="ticker-time">最後更新 {updated || '—'}</span></section>
+      <section className="ticker"><div className="ticker-label"><Activity size={15}/> DATA STATUS</div><span className="status-ok"><i/> 賽程來源連線</span><span className={odds ? 'status-ok' : 'status-warn'}><i/> {odds ? '玩運彩盤口已載入' : '玩運彩盤口暫不可用'}</span><span className="ticker-time">最後更新 {updated || '—'}</span></section>
       <section className="toolbar"><div className="date-nav"><button className="icon-btn" onClick={() => moveDate(-1)}><ChevronLeft size={18}/></button><div><CalendarDays size={17}/><b>{date.slice(0,4)}/{date.slice(4,6)}/{date.slice(6,8)}</b><small>{dateLabel(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00')}</small></div><button className="icon-btn" onClick={() => moveDate(1)}><ChevronRight size={18}/></button><button className="today-btn" onClick={() => setDate(taiwanDate())}>今天</button></div><div className="tabs"><button className={tab==='games'?'active':''} onClick={()=>setTab('games')}>賽事總覽</button>{(canViewSelectedDate || publicGameIds.length>0)&&<button className={tab==='analysis'?'active':''} onClick={()=>setTab('analysis')}>賽前分析{!canViewSelectedDate?'（公開場次）':''}</button>}{isAdmin&&<button className={tab==='performance'?'active':''} onClick={()=>setTab('performance')}>模型績效</button>}</div></section>
       {error && <div className="notice error"><CircleAlert size={17}/>{error}</div>}
       {tab==='games' && <><section className="section-heading"><div><span className="eyebrow">MATCH CENTER</span><h2>賽事總覽 <small>{date.slice(4,6)}/{date.slice(6,8)}</small></h2></div><div className="legend"><span><i className="green"/>進行中／未開賽</span><span><i className="gray"/>已完賽</span></div></section>
