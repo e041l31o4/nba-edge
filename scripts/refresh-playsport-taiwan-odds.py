@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 from playwright.async_api import async_playwright
 
 TAIPEI = ZoneInfo("Asia/Taipei")
-BASE = "https://www.playsport.cc/predict/games?allianceid=3&from=header&type=p&gamedate={target}"
+BASE = "https://www.playsport.cc/predict/scale?allianceid=3&gametime={target}&sid=0"
 SOURCE = 'Taiwan Sports Lottery odds via PlaySport "運彩盤" column (third-party display)'
 BOOK = '台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）'
 
