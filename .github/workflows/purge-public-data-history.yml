@@ -1,3 +1,5 @@
+# Authorized cleanup: rewrite Git history only.
+# This workflow does not connect to Supabase or modify application/model/会员 data.
 name: Purge historical public datasets
 
 on:
