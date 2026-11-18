@@ -29,6 +29,19 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      - name: Report dependency audit findings
+        run: |
+          npm audit --json > npm-audit.json || true
+          node - <<'NODE'
+          const report = require('./npm-audit.json')
+          console.log('AUDIT_SUMMARY', JSON.stringify(report.metadata?.vulnerabilities ?? {}))
+          for (const [name, item] of Object.entries(report.vulnerabilities ?? {})) {
+            console.log('AUDIT_PACKAGE', JSON.stringify({
+              name, severity: item.severity, range: item.range,
+              via: item.via, fixAvailable: item.fixAvailable
+            }))
+          }
+          NODE
       - run: npm run build
       - name: Remove static paid datasets from published site when membership is enabled
         run: |
