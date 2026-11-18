@@ -2,11 +2,16 @@ name: Build and deploy NBA EDGE
 on:
   push:
     branches: [main, master]
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - '.env.production'
+      - 'public/data/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Refresh Taiwan Sports Lottery NBA odds"]
-    types: [completed]
-    branches: [main]
 permissions:
   contents: read
   pages: write
