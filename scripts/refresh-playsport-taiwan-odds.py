@@ -209,8 +209,8 @@ async def main():
     snapshots=[]
     for game in games:
         old=previous.get(str(game["id"]),{})
-        other_books=[b for b in old.get("bookmakers",[]) if "玩運彩" not in str(b.get("title","")) and "OddsLab" not in str(b.get("title",""))]
-        game["bookmakers"]=other_books+game["bookmakers"]
+        # NBA EDGE is PlaySport-only: never carry forward quotes from other bookmakers.
+        game["bookmakers"]=[b for b in game.get("bookmakers",[]) if b.get("title")==BOOK]
         previous[str(game["id"])]=game
         start=dt.datetime.fromisoformat(game["commence_time"].replace("Z","+00:00"))
         phase="first_observed" if str(game["id"]) not in seen else ("live" if start<=dt.datetime.now(dt.timezone.utc) else "pregame")
