@@ -26,7 +26,6 @@ function App() {
   const [date, setDate] = useState(taiwanDate())
   const loadRequest = useRef(0)
   const [games, setGames] = useState<Game[]>([])
-  const [games, setGames] = useState<Game[]>([])
   const [odds, setOdds] = useState<OddsRecord | null>(null)
   const [oddsHistory, setOddsHistory] = useState<OddsSnapshot[]>([])
   const [teamForm, setTeamForm] = useState<TeamFormData | null>(null)
