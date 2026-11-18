@@ -28,7 +28,7 @@ export async function getOdds(): Promise<OddsRecord | null> {
 export function marketFor(game: Game, odds: OddsRecord | null) {
   const found = odds?.games.find(g => g.home_team.toLowerCase() === game.home.name.toLowerCase() && g.away_team.toLowerCase() === game.away.name.toLowerCase())
   if (!found) return null
-  const books = found.bookmakers ?? []
+  const books = (found.bookmakers ?? []).filter(b => b.title.includes('玩運彩「運彩盤」欄位'))
   const spread = books.flatMap(b => b.markets.filter(m => m.key === 'spreads').flatMap(m => m.outcomes.map(o => ({ book: b.title, name: o.name, point: o.point, price: o.price }))))
   const total = books.flatMap(b => b.markets.filter(m => m.key === 'totals').flatMap(m => m.outcomes.map(o => ({ book: b.title, name: o.name, point: o.point, price: o.price }))))
   return { spread, total, bookCount: books.length }
