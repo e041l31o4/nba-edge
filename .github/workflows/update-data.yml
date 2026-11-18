@@ -3,8 +3,14 @@ name: Refresh Taiwan Sports Lottery NBA odds
 on:
   push:
     paths:
-      - 'scripts/**'
-      - 'src/**'
+      - 'scripts/refresh-playsport-taiwan-odds.py'
+      - 'scripts/update-analysis-data.py'
+      - 'scripts/record-predictions.mts'
+      - 'scripts/restore-private-datasets.py'
+      - 'scripts/publish-private-datasets.py'
+      - 'scripts/diagnose-totals.mts'
+      - 'scripts/diagnose-ledger-totals.py'
+      - 'src/model.ts'
       - '.github/workflows/update-data.yml'
   schedule:
     - cron: '*/5 * * * *'
