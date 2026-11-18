@@ -1,4 +1,5 @@
 name: NBA EDGE prediction ledger
+# Re-trigger settlement after a missed scheduled run; market results are written to the private ledger.
 on:
   push:
     branches: [main, master]
