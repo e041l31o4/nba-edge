@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Activity, CalendarDays, ChevronLeft, ChevronRight, CircleAlert, RefreshCw, ShieldCheck, Target, TrendingUp, Trophy } from 'lucide-react'
 import { dateLabel, getOdds, getScoreboard, taiwanDate, type Game, type OddsRecord, type OddsSnapshot } from './lib'
 import { loadDataset } from './lib/memberData'
@@ -24,6 +24,7 @@ type BacktestData = { updatedAt: string; currentSeason?: { season: string; compl
 function addTaiwanDays(date: string, days: number) { const d = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00'); d.setDate(d.getDate()+days); return taiwanDate(d) }
 function App() {
   const [date, setDate] = useState(taiwanDate())
+  const loadRequest = useRef(0)
   const [games, setGames] = useState<Game[]>([])
   const [games, setGames] = useState<Game[]>([])
   const [odds, setOdds] = useState<OddsRecord | null>(null)
@@ -47,10 +48,26 @@ function App() {
   const [accessReady, setAccessReady] = useState(false)
   const [publicGameData, setPublicGameData] = useState<Record<string, PublicGameAnalysisData>>({})
   const load = async () => {
+    const requestId = ++loadRequest.current
     setLoading(true); setError('')
-    try { const [g, o, oh, tf, inj, roster, metrics, bt] = await Promise.all([getScoreboard(date), getOdds(), loadDataset<OddsSnapshot[]>('odds-history', 'odds-history.jsonl').catch(()=>[]), loadDataset<TeamFormData>('team-form', 'team-form.json').catch(()=>null), loadDataset<InjuryData>('injuries', 'injuries.json').catch(()=>null), loadDataset<RosterData>('rosters', 'rosters.json').catch(()=>null), loadDataset<TeamMetricsData>('team-metrics', 'team-metrics.json').catch(()=>null), loadDataset<BacktestData>('backtest', 'backtest.json').catch(()=>null)]); setGames(g); setOdds(o); setOddsHistory(Array.isArray(oh)?oh:[]); setTeamForm(tf); setInjuryData(inj); setRosterData(roster); setTeamMetrics(metrics); setBacktest(bt); setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })) }
-    catch (e) { setError(e instanceof Error ? e.message : '讀取失敗') }
-    finally { setLoading(false) }
+    try {
+      const [g, o, oh, tf, inj, roster, metrics, bt] = await Promise.all([
+        getScoreboard(date), getOdds(),
+        loadDataset<OddsSnapshot[]>('odds-history', 'odds-history.jsonl').catch(()=>[]),
+        loadDataset<TeamFormData>('team-form', 'team-form.json').catch(()=>null),
+        loadDataset<InjuryData>('injuries', 'injuries.json').catch(()=>null),
+        loadDataset<RosterData>('rosters', 'rosters.json').catch(()=>null),
+        loadDataset<TeamMetricsData>('team-metrics', 'team-metrics.json').catch(()=>null),
+        loadDataset<BacktestData>('backtest', 'backtest.json').catch(()=>null)
+      ])
+      if (requestId !== loadRequest.current) return
+      setGames(g); setOdds(o); setOddsHistory(Array.isArray(oh)?oh:[]); setTeamForm(tf); setInjuryData(inj); setRosterData(roster); setTeamMetrics(metrics); setBacktest(bt)
+      setUpdated(new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' }))
+    } catch (e) {
+      if (requestId === loadRequest.current) setError(e instanceof Error ? e.message : '讀取失敗')
+    } finally {
+      if (requestId === loadRequest.current) setLoading(false)
+    }
   }
   useEffect(() => { const timer = window.setTimeout(() => setIntroPlaying(false), 3200); return () => window.clearTimeout(timer) }, [])
   const probabilityCalibrator: ProbabilityCalibrator | null = backtest?.seasonResults?.slice().reverse().find(row => row.calibrator)?.calibrator ?? null
@@ -58,17 +75,37 @@ function App() {
     let alive = true
     const refreshAccess = async () => {
       if (!supabase) { if (alive) setAccessReady(true); return }
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        const [{ data: profile }, { data: active }] = await Promise.all([
-          supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle(),
-          supabase.rpc('has_active_membership')
-        ])
-        if (alive) { setIsAdmin(profile?.role === 'admin'); setMembershipActive(Boolean(active) || profile?.role === 'admin') }
-      } else if (alive) { setIsAdmin(false); setMembershipActive(false) }
-      const gameDate = date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)
-      const { data: access } = await supabase.from('public_game_access_by_date').select('game_ids').eq('game_date', gameDate).maybeSingle()
-      if (alive) { setPublicGameIds(Array.isArray(access?.game_ids) ? access.game_ids : []); setAccessReady(true) }
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        if (sessionError) throw sessionError
+        let nextAdmin = false
+        let nextMember = false
+        if (session) {
+          const [{ data: profile, error: profileError }, { data: active, error: membershipError }] = await Promise.all([
+            supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle(),
+            supabase.rpc('has_active_membership')
+          ])
+          if (profileError) throw profileError
+          if (membershipError) throw membershipError
+          nextAdmin = profile?.role === 'admin'
+          nextMember = Boolean(active) || nextAdmin
+        }
+        const gameDate = date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)
+        const { data: access, error: accessError } = await supabase.from('public_game_access_by_date').select('game_ids').eq('game_date', gameDate).maybeSingle()
+        if (accessError) throw accessError
+        if (alive) {
+          setIsAdmin(nextAdmin); setMembershipActive(nextMember)
+          setPublicGameIds(Array.isArray(access?.game_ids) ? access.game_ids : [])
+          setAccessReady(true)
+        }
+      } catch (e) {
+        console.warn('NBA EDGE access refresh failed:', e)
+        if (alive) {
+          // Fail closed: never infer paid access when membership checks fail.
+          setIsAdmin(false); setMembershipActive(false); setPublicGameIds([])
+          setAccessReady(true)
+        }
+      }
     }
     void refreshAccess()
     if (!supabase) return () => { alive = false }
