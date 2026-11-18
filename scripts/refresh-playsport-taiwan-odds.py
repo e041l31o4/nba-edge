@@ -218,6 +218,10 @@ async def main():
             "source":SOURCE,"gameId":game["id"],"home_team":game["home_team"],"away_team":game["away_team"],
             "commence_time":game["commence_time"],"marketAvailability":game.get("marketAvailability",{}),"bookmakers":game["bookmakers"][-1:]})
     root.mkdir(parents=True,exist_ok=True)
+    # Sanitize the full retained odds dataset so legacy non-PlaySport
+    # bookmakers cannot leak into member views or market selection.
+    for stored_game in previous.values():
+        stored_game["bookmakers"]=[b for b in stored_game.get("bookmakers",[]) if b.get("title")==BOOK]
     ordered=sorted(previous.values(),key=lambda g:g.get("commence_time",""))
     odds_path.write_text(json.dumps({"updatedAt":dt.datetime.now(dt.timezone.utc).isoformat(),
         "source":SOURCE,"games":ordered},ensure_ascii=False,separators=(",",":")),encoding="utf-8")
