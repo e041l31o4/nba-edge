@@ -91,7 +91,8 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   const homeName=String(h?.team?.name??h?.team?.displayName??'').toLowerCase()
   const awayName=String(a?.team?.name??a?.team?.displayName??'').toLowerCase()
   const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===homeName&&g.away_team.toLowerCase()===awayName)
-  const books=oddsGame?.bookmakers??[]
+  // Only use the PlaySport "運彩盤" bookmaker; ignore legacy/foreign quotes.
+  const books=(oddsGame?.bookmakers??[]).filter(b=>b.title==='台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）')
   const matches=(name:string,target:string)=>{const n=name.toLowerCase().replace(/[^a-z]/g,''),t=target.toLowerCase().replace(/[^a-z]/g,'');return n===t||n.includes(t)||t.includes(n)}
   const spreadRows=books.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const spreadGroups=new Map<string,typeof spreadRows>()
