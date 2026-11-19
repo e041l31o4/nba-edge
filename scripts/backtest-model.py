@@ -293,8 +293,12 @@ def market_backtest(predictions):
                             candidates.append({'probability':prob,'price':price,'ev':ev,'actual':actual,'line':line,'side':outcome.get('name')})
                         except (TypeError, ValueError, KeyError):
                             continue
-            if candidates:
-                pick = max(candidates, key=lambda x: x['ev'])
+            # Match production's no-forced-bet policy: only record a market
+            # when at least one side clears zero expected value.
+            positive_ev = [candidate for candidate in candidates
+                           if math.isfinite(candidate['ev']) and candidate['ev'] > 0]
+            if positive_ev:
+                pick = max(positive_ev, key=lambda x: x['ev'])
                 bets.append(pick)
         decided = [b for b in bets if b['actual'] != 0.5]
         wins = sum(1 for b in decided if b['actual'] == 1)
@@ -307,7 +311,7 @@ def market_backtest(predictions):
             'roi': round(profit/n,5) if n else None,
             'netUnits': round(profit,3),
             'averageEV': round(avg([b['ev'] for b in bets]),5) if bets else None,
-            'method':'每場僅取開賽前最後一筆台灣運彩快照；依模型機率計算雙邊 EV，選 EV 較高方向；固定每注 1 單位，不含手續費與盤口滑價。'
+            'method':'每場僅取開賽前最後一筆台灣運彩快照；僅在至少一邊 EV 大於 0 時，選擇正 EV 最高方向；固定每注 1 單位，不含手續費與盤口滑價。'
         }
     return result
 
