@@ -108,7 +108,11 @@ const makeMarketPicks=(event:any,prediction:any)=>{
     const over=pair.find(x=>/over|大/i.test(x.name)),under=pair.find(x=>/under|小/i.test(x.name));if(!over||!under)return []
     return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,prediction.totalStdDev);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
   }).sort((x,y)=>y.ev-x.ev)
-  return {...(spreadCandidates[0]?{spreadPick:spreadCandidates[0]}:{}),...(totalCandidates[0]?{totalPick:totalCandidates[0]}:{})}
+  // Never force a recommendation when every side has negative expected value.
+  // A market with no positive-EV candidate is intentionally left without a pick.
+  const bestSpread=spreadCandidates.find(candidate=>Number.isFinite(candidate.ev)&&candidate.ev>0)
+  const bestTotal=totalCandidates.find(candidate=>Number.isFinite(candidate.ev)&&candidate.ev>0)
+  return {...(bestSpread?{spreadPick:bestSpread}:{}),...(bestTotal?{totalPick:bestTotal}:{})}
 }
 const settleMarkets=(row:Row,home:number,away:number)=>{
   if(row.spreadPick){const margin=row.spreadPick.teamSide==='away'?away-home+row.spreadPick.line:home-away+row.spreadPick.line;row.spreadPick.result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
