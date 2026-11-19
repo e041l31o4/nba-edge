@@ -71,10 +71,10 @@ def numeric_line(lines, pattern):
     return None
 
 def parse_side(lines, side):
-    spread = numeric_line(lines, rf"^{side}\\s*([+-]?\\d+(?:\\.\\d+)?)\\s*,\\s*(\\d+(?:\\.\\d+)?)$")
-    moneyline = numeric_line(lines, rf"^{side}\\s*,?\\s*(\\d+(?:\\.\\d+)?)$")
-    over = numeric_line(lines, r"^大\\s*(\\d+(?:\\.\\d+)?)\\s*,\\s*(\\d+(?:\\.\\d+)?)$")
-    under = numeric_line(lines, r"^小\\s*(\\d+(?:\\.\\d+)?)\\s*,\\s*(\\d+(?:\\.\\d+)?)$")
+    spread = numeric_line(lines, rf"^{side}\s*([+-]?\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)$")
+    moneyline = numeric_line(lines, rf"^{side}\s*,?\s*(\d+(?:\.\d+)?)$")
+    over = numeric_line(lines, r"^大\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)$")
+    under = numeric_line(lines, r"^小\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)$")
     return {"spread":spread, "moneyline":moneyline, "over":over, "under":under}
 
 def extract_game_blocks(lines):
@@ -82,15 +82,15 @@ def extract_game_blocks(lines):
     # scheduled tip-off as a block boundary, including rows without an ID.
     starts = []
     for index, line in enumerate(lines):
-        if re.match(r"^(AM|PM)\\s+\\d{1,2}:\\d{2}$", line, re.I):
-            start = index - 1 if index > 0 and re.fullmatch(r"\\d{3,4}", lines[index-1]) else index
+        if re.match(r"^(AM|PM)\s+\d{1,2}:\d{2}$", line, re.I):
+            start = index - 1 if index > 0 and re.fullmatch(r"\d{3,4}", lines[index-1]) else index
             starts.append(start)
     for position, start in enumerate(starts):
         end = starts[position+1] if position+1 < len(starts) else len(lines)
         yield lines[start:end]
 
 def parse_blocks(body, espn_games):
-    lines = [re.sub(r"\\s+", " ", line).strip() for line in body.splitlines()]
+    lines = [re.sub(r"\s+", " ", line).strip() for line in body.splitlines()]
     lines = [line for line in lines if line]
     games, unmatched = [], []
     for block in extract_game_blocks(lines):
