@@ -1,5 +1,6 @@
 import asyncio
 # Trigger a fresh verified PlaySport Taiwan Sports Lottery odds refresh.
+# Workflow refresh trigger: keep date-scoped odds and private member dataset current.
 import datetime as dt
 import json
 import re
