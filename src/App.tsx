@@ -46,9 +46,10 @@ function App() {
   const [publicGameIds, setPublicGameIds] = useState<string[]>([])
   const [accessReady, setAccessReady] = useState(false)
   const [publicGameData, setPublicGameData] = useState<Record<string, PublicGameAnalysisData>>({})
-  const load = async () => {
+  const load = async (silent = false) => {
     const requestId = ++loadRequest.current
-    setLoading(true); setError('')
+    if (!silent) setLoading(true)
+    setError('')
     try {
       const [g, o, oh, tf, inj, roster, metrics, bt] = await Promise.all([
         getScoreboard(date), getOdds(),
@@ -151,6 +152,11 @@ function App() {
     return () => { alive = false }
   }, [date, publicGameIds.join('|'), publicGameKey, accessReady, membershipActive, isAdmin])
   useEffect(() => { void load() }, [date, membershipActive])
+  // Keep an already-open page in sync with the server's five-minute odds refresh; silent refresh avoids clearing visible cards.
+  useEffect(() => {
+    const timer = window.setInterval(() => { void load(true) }, 5 * 60 * 1000)
+    return () => window.clearInterval(timer)
+  }, [date, membershipActive])
   // 場中比分每 30 秒同步一次；只更新賽程比分，不重新計算或覆寫已封存的賽前預測。
   useEffect(() => {
     let active = true
