@@ -253,11 +253,11 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   [game.home.abbreviation.toUpperCase(),game.away.abbreviation.toUpperCase()].includes('MIN')
  const knicksIsHome=game.home.abbreviation.toUpperCase()==='NYK'
  const manualUserMarket=isNov20KnicksWolves
- const manualSpreadPick=manualUserMarket?{
+ const manualSpreadPick:PredictionRecord['spreadPick']=manualUserMarket?{
   side:knicksIsHome?game.home.displayName:game.away.displayName,
   teamSide:knicksIsHome?'home' as const:'away' as const,line:-1.5
  }:undefined
- const manualTotalPick=manualUserMarket?{side:'over',line:215.5}:undefined
+ const manualTotalPick:PredictionRecord['totalPick']=manualUserMarket?{side:'over',line:215.5}:undefined
  const officialSpreadPick=savedPrediction?.spreadPick??manualSpreadPick
  const officialTotalPick=savedPrediction?.totalPick??manualTotalPick
  const usingManualSpread=!!manualSpreadPick&&!savedPrediction?.spreadPick
