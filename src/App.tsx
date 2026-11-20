@@ -248,10 +248,12 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const pickCorrect=done&&useSaved&&actualWinner? pickedTeam?.id===actualWinner.id : null
  const pickProbability=hasPrediction?Math.max(homeWin!,awayWin!):undefined
  // Restore the exact historical lines supplied by the admin for the Nov 20 Taiwan-date Knicks-Wolves game.
+ // ESPN can label New York as "NY" (not "NYK"), so identify teams by both abbreviation and full name.
+ const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
+ const isWolvesTeam=(team:Game['home'])=>team.abbreviation.toUpperCase()==='MIN'||/minnesota timberwolves/i.test(team.name+' '+team.displayName)
  const isNov20KnicksWolves=['20261119','20261120'].includes(taiwanDate(new Date(game.date))) &&
-  [game.home.abbreviation.toUpperCase(),game.away.abbreviation.toUpperCase()].includes('NYK') &&
-  [game.home.abbreviation.toUpperCase(),game.away.abbreviation.toUpperCase()].includes('MIN')
- const knicksIsHome=game.home.abbreviation.toUpperCase()==='NYK'
+  ((isKnicksTeam(game.home)&&isWolvesTeam(game.away))||(isKnicksTeam(game.away)&&isWolvesTeam(game.home)))
+ const knicksIsHome=isKnicksTeam(game.home)
  const manualUserMarket=isNov20KnicksWolves
  const manualSpreadPick:PredictionRecord['spreadPick']=manualUserMarket?{
   side:knicksIsHome?game.home.displayName:game.away.displayName,
