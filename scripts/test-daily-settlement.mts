@@ -1,3 +1,4 @@
+// Keep the postgame report grading test in the ledger workflow before each sync.
 import { strict as assert } from 'node:assert'
 import { buildDailySettlementReport } from '../src/dailySettlement'
 import type { PredictionRecord } from '../src/predictionLedger'
