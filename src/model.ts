@@ -73,9 +73,9 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const hs=h.last10.slice(0,10),as=a.last10.slice(0,10),h5=hs.slice(0,5),a5=as.slice(0,5)
  const hpf=avg(hs.map(x=>x.pointsFor)),hpa=avg(hs.map(x=>x.pointsAgainst)),apf=avg(as.map(x=>x.pointsFor)),apa=avg(as.map(x=>x.pointsAgainst))
  const h5pf=avg(h5.map(x=>x.pointsFor)),h5pa=avg(h5.map(x=>x.pointsAgainst)),a5pf=avg(a5.map(x=>x.pointsFor)),a5pa=avg(a5.map(x=>x.pointsAgainst))
- // Odds-blind baseline: 60% last-10 efficiency, 40% last-5 momentum.
- const homeAttack=0.6*hpf+0.4*h5pf,homeDefense=0.6*hpa+0.4*h5pa
- const awayAttack=0.6*apf+0.4*a5pf,awayDefense=0.6*apa+0.4*a5pa
+ // Moneyline V2: reduce short-term momentum overweighting; 80% last-10 baseline, 20% last-5 momentum.
+ const homeAttack=0.8*hpf+0.2*h5pf,homeDefense=0.8*hpa+0.2*h5pa
+ const awayAttack=0.8*apf+0.2*a5pf,awayDefense=0.8*apa+0.2*a5pa
  const rawHome=(homeAttack+awayDefense)/2+2.2,rawAway=(awayAttack+homeDefense)/2
  const gameDay=new Date(game.date).getTime()
  const rest=(rows:RecentGame[])=>{const last=rows.find(x=>x.date);if(!last?.date||!Number.isFinite(gameDay))return null;const diff=Math.floor((gameDay-new Date(last.date).getTime())/86400000);return Number.isFinite(diff)?Math.max(0,diff-1):null}
