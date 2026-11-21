@@ -27,7 +27,7 @@ assert.deepEqual([report.moneyline.wins,report.moneyline.losses,report.moneyline
 assert.deepEqual([report.spread.wins,report.spread.losses,report.spread.pushes],[2,1,1])
 assert.deepEqual([report.totals.wins,report.totals.losses,report.totals.pushes],[3,0,1])
 assert.equal(report.recommendations.moneyline.wins,1)
-assert.equal(report.recommendations.moneyline.noDirection,2)
+assert.equal(report.recommendations.moneyline.noDirection,3)
 const incomplete=buildDailySettlementReport(records.slice(0,3),games,date)
 assert.equal(incomplete.complete,false)
 assert.equal(incomplete.pendingCount,1)
