@@ -95,7 +95,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
    const candidate=items.filter(x=>Number.isFinite(x.ev)&&Number.isFinite(x.probability)).sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]??null
    if(!candidate)return null
    // Keep the best model direction visible; recommendation eligibility is a separate flag.
-   const qualified=candidate.ev>=0.025&&candidate.probability>=0.54&&report.confidence!=='低'&&report.injuryRisk!=='偏高'
+   const qualified=candidate.ev>=0.025&&candidate.probability>=0.54&&report.confidence!=='低'&&report.injuryRisk!=='偏高'&&report.injuryRisk!=='待確認'
    return {...candidate,qualified}
   }
   const spread=choose(spreadCandidates),total=choose(totalCandidates)
