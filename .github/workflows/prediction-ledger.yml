@@ -8,6 +8,9 @@ on:
       - 'scripts/record-predictions.mts'
       - 'scripts/restore-private-datasets.py'
       - 'src/model.ts'
+      - 'src/predictionLedger.ts'
+      - 'src/dailySettlement.ts'
+      - 'scripts/test-daily-settlement.mts'
       - 'public/data/team-form.json'
       - 'public/data/injuries.json'
       - 'public/data/backtest.json'
@@ -43,6 +46,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Verify daily final report grading logic
+        run: npx --yes tsx scripts/test-daily-settlement.mts
       - name: Capture pregame predictions and settle final scores
         run: npx --yes tsx scripts/record-predictions.mts
       - name: Publish private prediction ledger
