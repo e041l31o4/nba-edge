@@ -293,12 +293,13 @@ def market_backtest(predictions):
                             candidates.append({'probability':prob,'price':price,'ev':ev,'actual':actual,'line':line,'side':outcome.get('name')})
                         except (TypeError, ValueError, KeyError):
                             continue
-            # Match production's no-forced-bet policy: only record a market
-            # when at least one side clears zero expected value.
-            positive_ev = [candidate for candidate in candidates
-                           if math.isfinite(candidate['ev']) and candidate['ev'] > 0]
-            if positive_ev:
-                pick = max(positive_ev, key=lambda x: x['ev'])
+            # Match the formal production probability/EV gates. Historical
+            # injury verification and confidence cannot be reconstructed here.
+            qualified = [candidate for candidate in candidates
+                         if math.isfinite(candidate['ev']) and candidate['ev'] >= 0.025
+                         and math.isfinite(candidate['probability']) and candidate['probability'] >= 0.54]
+            if qualified:
+                pick = max(qualified, key=lambda x: x['ev'])
                 bets.append(pick)
         decided = [b for b in bets if b['actual'] != 0.5]
         wins = sum(1 for b in decided if b['actual'] == 1)
@@ -311,7 +312,7 @@ def market_backtest(predictions):
             'roi': round(profit/n,5) if n else None,
             'netUnits': round(profit,3),
             'averageEV': round(avg([b['ev'] for b in bets]),5) if bets else None,
-            'method':'每場僅取開賽前最後一筆台灣運彩快照；僅在至少一邊 EV 大於 0 時，選擇正 EV 最高方向；固定每注 1 單位，不含手續費與盤口滑價。'
+            'method':'每場僅取開賽前最後一筆台灣運彩快照；僅選擇模型機率至少54%、EV至少+2.5%的方向；歷史傷兵官方確認與信心門檻無法重建，故不計入此回測；固定每注1單位，不含手續費與盤口滑價。'
         }
     return result
 
@@ -465,3 +466,4 @@ pathlib.Path('public/data/backtest.json').write_text(json.dumps(result, ensure_a
 print('Saved multi-season walk-forward backtest:', len(all_predictions), 'predictions across', len(season_results), 'seasons', json.dumps(result['metrics']))
 print('Current-season winner/score backtest:', json.dumps(result['currentSeason'], ensure_ascii=False))
 print('Separate Taiwan market backtest (h2h / totals / spreads):', json.dumps(result['marketBacktest'], ensure_ascii=False))
+print('MODEL_COMPARISON_V1_VS_CANDIDATE_V2:', json.dumps(result['modelComparison'], ensure_ascii=False))
