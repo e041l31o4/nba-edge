@@ -70,7 +70,7 @@ def fetch_season(season):
             print('schedule skipped', season, team_id, str(error)[:120])
     return sorted(events_by_id.values(), key=lambda x: x.get('date') or '')
 
-def run_walk_forward(games):
+def run_walk_forward(games, recent_weight=0.6):
     history = {}
     predictions = []
     def team_rows(team_id):
@@ -93,10 +93,10 @@ def run_walk_forward(games):
         home_rows, away_rows = team_rows(game['homeId']), team_rows(game['awayId'])
         if len(home_rows) >= 3 and len(away_rows) >= 3:
             h5, a5 = home_rows[-5:], away_rows[-5:]
-            hpf = 0.6 * avg([x['pointsFor'] for x in home_rows]) + 0.4 * avg([x['pointsFor'] for x in h5])
-            hpa = 0.6 * avg([x['pointsAgainst'] for x in home_rows]) + 0.4 * avg([x['pointsAgainst'] for x in h5])
-            apf = 0.6 * avg([x['pointsFor'] for x in away_rows]) + 0.4 * avg([x['pointsFor'] for x in a5])
-            apa = 0.6 * avg([x['pointsAgainst'] for x in away_rows]) + 0.4 * avg([x['pointsAgainst'] for x in a5])
+            hpf = recent_weight * avg([x['pointsFor'] for x in home_rows]) + (1 - recent_weight) * avg([x['pointsFor'] for x in h5])
+            hpa = recent_weight * avg([x['pointsAgainst'] for x in home_rows]) + (1 - recent_weight) * avg([x['pointsAgainst'] for x in h5])
+            apf = recent_weight * avg([x['pointsFor'] for x in away_rows]) + (1 - recent_weight) * avg([x['pointsFor'] for x in a5])
+            apa = recent_weight * avg([x['pointsAgainst'] for x in away_rows]) + (1 - recent_weight) * avg([x['pointsAgainst'] for x in a5])
             raw_home, raw_away = (hpf + apa) / 2 + 2.2, (apf + hpa) / 2
             hr, ar = rest_days(home_rows, game['date']), rest_days(away_rows, game['date'])
             hb, ab = hr == 0, ar == 0
@@ -317,28 +317,32 @@ def market_backtest(predictions):
 
 now = datetime.datetime.now(datetime.timezone.utc)
 current_season_end_year = now.year if now.month >= 7 else now.year - 1
-# Current-season odds snapshots cannot be joined to completed prior seasons.
-# Reconstruct current-season predictions chronologically and match ESPN event ids.
+# Compare the production 60/40 recent-form blend with a less momentum-heavy
+# 80/20 candidate using identical chronological game samples.
 current_season_games = fetch_season(current_season_end_year + 1)
-current_season_predictions = run_walk_forward(current_season_games) if current_season_games else []
-# Market backtest is computed after fitting the prior-season calibrator below.
-# Three most recently completed seasons; season identifiers use the ending year.
+current_season_predictions = run_walk_forward(current_season_games, 0.6) if current_season_games else []
+current_season_candidate = run_walk_forward(current_season_games, 0.8) if current_season_games else []
 season_years = list(range(current_season_end_year - 2, current_season_end_year + 1))
 season_results = []
 all_predictions = []
+all_candidate_predictions = []
 calibration_training = []
+candidate_calibration_training = []
 calibrated_predictions = []
+candidate_calibrated_predictions = []
 for season_year in season_years:
     games = fetch_season(season_year)
     if len(games) < 500:
         print('Skipping incomplete season', season_year, 'games:', len(games))
         continue
-    predictions = run_walk_forward(games)
-    if len(predictions) < 300:
-        print('Skipping insufficient prediction season', season_year, 'predictions:', len(predictions))
+    predictions = run_walk_forward(games, 0.6)
+    candidate_predictions = run_walk_forward(games, 0.8)
+    if len(predictions) < 300 or len(candidate_predictions) != len(predictions):
+        print('Skipping insufficient or mismatched prediction season', season_year, 'predictions:', len(predictions), len(candidate_predictions))
         continue
     season_name = f'{season_year-1}-{str(season_year)[-2:]}'
     calibrator = fit_platt(calibration_training)
+    candidate_calibrator = fit_platt(candidate_calibration_training)
     if calibrator:
         calibrated = []
         for row in predictions:
@@ -349,44 +353,63 @@ for season_year in season_years:
         calibrated_metrics = probability_metrics(calibrated, 'calibratedHomeWin')
     else:
         calibrated_metrics = None
+    if candidate_calibrator:
+        candidate_calibrated = []
+        for row in candidate_predictions:
+            item = dict(row)
+            item['calibratedHomeWin'] = sigmoid(candidate_calibrator['a'] * logit(row['homeWin']) + candidate_calibrator['b'])
+            candidate_calibrated.append(item)
+        candidate_calibrated_predictions.extend(candidate_calibrated)
+        candidate_calibrated_metrics = probability_metrics(candidate_calibrated, 'calibratedHomeWin')
+    else:
+        candidate_calibrated_metrics = None
     season_results.append({
         'season': season_name,
         'completedGames': len(games),
         'metrics': metrics(predictions),
+        'candidateV2Metrics': metrics(candidate_predictions),
         'calibrationTrainingSamples': len(calibration_training),
         'calibrator': calibrator,
-        'calibratedMetrics': calibrated_metrics
+        'calibratedMetrics': calibrated_metrics,
+        'candidateV2CalibrationTrainingSamples': len(candidate_calibration_training),
+        'candidateV2Calibrator': candidate_calibrator,
+        'candidateV2CalibratedMetrics': candidate_calibrated_metrics
     })
     calibration_training.extend(predictions)
+    candidate_calibration_training.extend(candidate_predictions)
     all_predictions.extend(predictions)
+    all_candidate_predictions.extend(candidate_predictions)
 
-# Match the production app: calibrate current-season H2H probabilities with the
-# latest strictly prior-season Platt calibrator. Keep raw predictions untouched
-# so winner/score metrics remain comparable to the uncalibrated walk-forward run.
 current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
+candidate_calibrator = next((row.get('candidateV2Calibrator') for row in reversed(season_results) if row.get('candidateV2Calibrator')), None)
 market_predictions = []
 for row in current_season_predictions:
     item = dict(row)
-    if current_calibrator:
-        item['marketHomeWin'] = sigmoid(
-            current_calibrator['a'] * logit(row['homeWin']) + current_calibrator['b']
-        )
-    else:
-        item['marketHomeWin'] = row['homeWin']
+    item['marketHomeWin'] = sigmoid(current_calibrator['a'] * logit(row['homeWin']) + current_calibrator['b']) if current_calibrator else row['homeWin']
     market_predictions.append(item)
+candidate_market_predictions = []
+for row in current_season_candidate:
+    item = dict(row)
+    item['marketHomeWin'] = sigmoid(candidate_calibrator['a'] * logit(row['homeWin']) + candidate_calibrator['b']) if candidate_calibrator else row['homeWin']
+    candidate_market_predictions.append(item)
 current_market_backtest = market_backtest(market_predictions)
-if current_calibrator:
-    current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
-else:
-    current_market_backtest['h2h']['method'] += ' 尚無可用的前季校準器，獨贏暫以原始模型機率計算。'
-print('Current-season market-only backtest:', current_season_end_year,
-      'completed games:', len(current_season_games),
-      'pregame predictions:', len(current_season_predictions),
-      json.dumps(current_market_backtest, ensure_ascii=False))
+candidate_market_backtest = market_backtest(candidate_market_predictions)
+current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
+candidate_market_backtest['h2h']['method'] += ' 候選 80/20 模型使用其自身前季 Platt 校準；讓分及大小分使用候選模型分差。'
+print('Current-season market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
+      'pregame predictions:', len(current_season_predictions), json.dumps(current_market_backtest, ensure_ascii=False))
+print('Candidate 80/20 market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
+      'pregame predictions:', len(current_season_candidate), json.dumps(candidate_market_backtest, ensure_ascii=False))
 
 if len(all_predictions) < 900 or len(season_results) < 2:
     raise SystemExit(f'Insufficient multi-season out-of-sample data: {len(all_predictions)} predictions across {len(season_results)} seasons')
 
+v1_metrics = metrics(all_predictions)
+candidate_metrics = metrics(all_candidate_predictions)
+candidate_improves = bool(candidate_metrics['winnerAccuracy'] is not None and v1_metrics['winnerAccuracy'] is not None
+                          and candidate_metrics['winnerAccuracy'] > v1_metrics['winnerAccuracy']
+                          and candidate_metrics['brierScore'] is not None and v1_metrics['brierScore'] is not None
+                          and candidate_metrics['brierScore'] < v1_metrics['brierScore'])
 result = {
     'updatedAt': now.isoformat(),
     'source': 'ESPN completed regular-season schedules',
@@ -394,15 +417,24 @@ result = {
     'method': 'Three-season walk-forward: each game is predicted only from games completed earlier in that same season; current result is appended after prediction.',
     'modelVersion': 'odds-blind-v4-walkforward-calibration',
     'sampleSize': len(all_predictions),
-    'metrics': metrics(all_predictions),
+    'metrics': v1_metrics,
     'marketBacktest': current_market_backtest,
+    'marketBacktestCandidateV2': candidate_market_backtest,
+    'modelComparison': {
+        'baseline': {'version': 'recent-form-pace-v1 (60% last-10 / 40% last-5)', 'metrics': v1_metrics},
+        'candidateV2': {'version': 'recent-form-pace-v2-candidate (80% last-10 / 20% last-5)', 'metrics': candidate_metrics},
+        'candidateImprovesBothAccuracyAndBrier': candidate_improves,
+        'decision': 'candidateV2-eligible-for-shadow-test' if candidate_improves else 'keep-baseline; candidate-not-proven-better',
+        'policy': 'Do not replace production model unless the candidate improves both walk-forward winner accuracy and Brier Score on identical samples; this is a comparison, not a 70% guarantee.'
+    },
     'marketBacktestSeason': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
     'marketBacktestPredictionSample': len(current_season_predictions),
     'currentSeason': {
         'season': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
         'completedGames': len(current_season_games),
         'predictionSample': len(current_season_predictions),
-        'metrics': metrics(current_season_predictions)
+        'metrics': metrics(current_season_predictions),
+        'candidateV2Metrics': metrics(current_season_candidate)
     },
     'seasonResults': season_results,
     'calibration': calibration(all_predictions),
@@ -414,8 +446,15 @@ result = {
         'calibratedMetrics': probability_metrics(calibrated_predictions, 'calibratedHomeWin') if calibrated_predictions else None,
         'improvedBrier': (probability_metrics(calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(calibrated_predictions, 'homeWin')['brierScore']) if calibrated_predictions else None
     },
+    'candidateV2CalibrationEvaluation': {
+        'sampleSize': len(candidate_calibrated_predictions),
+        'rawMetrics': probability_metrics(candidate_calibrated_predictions, 'homeWin') if candidate_calibrated_predictions else None,
+        'calibratedMetrics': probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin') if candidate_calibrated_predictions else None,
+        'improvedBrier': (probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(candidate_calibrated_predictions, 'homeWin')['brierScore']) if candidate_calibrated_predictions else None
+    },
     'limitations': [
-        'Historical injury reports and player availability are not reconstructed; the injury adjustment is not included in this historical test.',
+        'Candidate V2 changes only the last-10 versus last-5 weighting from 60/40 to 80/20; all other model factors and chronological samples are held constant.',
+        'Historical injury reports and player availability are not reconstructed; injury adjustment is not included in this historical test.',
         '獨贏三季回測與市場盤口回測分開：讓分及大小分只使用當季可配對的開賽前台灣運彩快照；沒有歷史盤口的往季不補造盤口。',
         'Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.',
         'Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance.'
