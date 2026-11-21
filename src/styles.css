@@ -571,3 +571,22 @@ footer{margin-top:60px;padding:30px 0;border-top:1px solid #dfe5e2}
 .market-pick-cell b.pick-correct{color:#21865c;background:#eaf7ef;border-radius:6px;padding:3px 6px}
 .market-pick-cell b.pick-wrong{color:#c34e43;background:#fff0ed;border-radius:6px;padding:3px 6px}
 .settled-win{color:#21865c;font-weight:700}.settled-loss{color:#c34e43;font-weight:700}
+
+
+/* Daily postgame green/red/push settlement report */
+.daily-settlement-report{margin:24px 0 30px!important;padding:22px!important;border:1px solid #dfe6ef!important;border-radius:14px!important;background:#fff!important}
+.daily-report-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.daily-report-heading h3{margin:7px 0 0;font-size:20px;color:#172333}
+.daily-report-status{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.daily-report-status.complete{background:#e7f6ed;color:#177a4b}
+.daily-report-status.pending{background:#fff4df;color:#986319}
+.daily-report-summary{margin:13px 0 16px;color:#64748b;font-size:13px;line-height:1.7}
+.daily-report-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.daily-report-market{border:1px solid #e4eaf1;border-radius:10px;padding:15px;background:#fbfcfe;min-width:0}
+.daily-report-market>b{display:block;color:#1d2c40;font-size:14px;margin-bottom:12px}
+.daily-report-lights{display:flex;gap:12px;flex-wrap:wrap;font-size:16px;font-weight:850}
+.daily-green{color:#168453}.daily-red{color:#cf4b4b}.daily-push{color:#7b8795}
+.daily-report-meta,.daily-report-recommendation{font-size:11px;color:#66768a;line-height:1.7;margin-top:10px}
+.daily-report-recommendation{border-top:1px solid #e6ebf1;padding-top:9px;color:#35465a}
+.daily-report-footnote{margin:14px 0 0;color:#8491a1;font-size:11px;line-height:1.7}
+@media(max-width:760px){.daily-report-grid{grid-template-columns:1fr}.daily-settlement-report{padding:16px!important}.daily-report-heading h3{font-size:17px}}

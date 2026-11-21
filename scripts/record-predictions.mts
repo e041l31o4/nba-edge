@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; moneylineLean?:MarketPick; moneylinePick?:MarketPick; spreadLean?:MarketPick; totalLean?:MarketPick; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -91,32 +91,64 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   const homeName=String(h?.team?.name??h?.team?.displayName??'').toLowerCase()
   const awayName=String(a?.team?.name??a?.team?.displayName??'').toLowerCase()
   const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===homeName&&g.away_team.toLowerCase()===awayName)
-  // Only use the PlaySport "運彩盤" bookmaker; ignore legacy/foreign quotes.
+  // Only use the Taiwan Sports Lottery "運彩盤" market; never mix foreign books.
   const books=(oddsGame?.bookmakers??[]).filter(b=>b.title==='台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）')
   const matches=(name:string,target:string)=>{const n=name.toLowerCase().replace(/[^a-z]/g,''),t=target.toLowerCase().replace(/[^a-z]/g,'');return n===t||n.includes(t)||t.includes(n)}
+  const gate=(candidate:MarketPick)=>Number.isFinite(candidate.probability)&&candidate.probability!>=0.54&&Number.isFinite(candidate.ev)&&candidate.ev!>=0.025&&prediction.confidence!=='低'&&!['待確認','偏高'].includes(String(prediction.injuryRisk))
+  const h2hRows=books.flatMap(b=>b.markets.filter(m=>m.key==='h2h').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
+  const h2hCandidates=h2hRows.flatMap(x=>{
+    const isHome=matches(x.name,homeName),isAway=matches(x.name,awayName)
+    if(!isHome&&!isAway||!Number.isFinite(x.price)||x.price<=1)return []
+    const probability=isHome?prediction.homeWin:prediction.awayWin
+    return [{side:x.name,teamSide:isHome?'home' as const:'away' as const,line:0,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}]
+  }).sort((x,y)=>y.ev-x.ev)
   const spreadRows=books.flatMap(b=>b.markets.filter(m=>m.key==='spreads').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const spreadGroups=new Map<string,typeof spreadRows>()
   for(const x of spreadRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+Math.abs(x.point);spreadGroups.set(k,[...(spreadGroups.get(k)??[]),x])}
-  const spreadCandidates=[...spreadGroups.values()].flatMap(pair=>{
+  const spreadCandidates=([...spreadGroups.values()].flatMap(pair=>{
     const home=pair.find(x=>matches(x.name,homeName)),away=pair.find(x=>matches(x.name,awayName));if(!home||!away)return []
     return [home,away].map(x=>{const isHome=x===home;const probability=coverProbability(prediction.projectedMargin,x.point!,isHome);return {side:x.name,teamSide:isHome?'home' as const:'away' as const,line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
-  }).sort((x,y)=>y.ev-x.ev)
+  })).sort((x,y)=>y.ev-x.ev)
   const totalRows=books.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const totalGroups=new Map<string,typeof totalRows>()
   for(const x of totalRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+x.point;totalGroups.set(k,[...(totalGroups.get(k)??[]),x])}
-  const totalCandidates=[...totalGroups.values()].flatMap(pair=>{
+  const totalCandidates=([...totalGroups.values()].flatMap(pair=>{
     const over=pair.find(x=>/over|大/i.test(x.name)),under=pair.find(x=>/under|小/i.test(x.name));if(!over||!under)return []
     return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,prediction.totalStdDev);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
-  }).sort((x,y)=>y.ev-x.ev)
-  // Never force a recommendation when every side has negative expected value.
-  // A market with no positive-EV candidate is intentionally left without a pick.
-  const bestSpread=spreadCandidates.find(candidate=>Number.isFinite(candidate.ev)&&candidate.ev>0)
-  const bestTotal=totalCandidates.find(candidate=>Number.isFinite(candidate.ev)&&candidate.ev>0)
-  return {...(bestSpread?{spreadPick:bestSpread}:{}),...(bestTotal?{totalPick:bestTotal}:{})}
+  })).sort((x,y)=>y.ev-x.ev)
+  // Always preserve the best available analytical direction; formal picks must pass every strict gate.
+  const moneylineLean:MarketPick={side:prediction.homeWin>=0.5?homeName:awayName,teamSide:prediction.homeWin>=0.5?'home':'away',line:0,probability:Math.max(prediction.homeWin,prediction.awayWin)}
+  const moneylinePick=h2hCandidates.find(gate)
+  const spreadLean=spreadCandidates[0]
+  const totalLean=totalCandidates[0]
+  const spreadPick=spreadCandidates.find(gate)
+  const totalPick=totalCandidates.find(gate)
+  return {
+    moneylineLean,
+    ...(moneylinePick?{moneylinePick}:{}),
+    ...(spreadLean?{spreadLean}:{}),
+    ...(totalLean?{totalLean}:{}),
+    ...(spreadPick?{spreadPick}:{}),
+    ...(totalPick?{totalPick}:{})
+  }
 }
 const settleMarkets=(row:Row,home:number,away:number)=>{
-  if(row.spreadPick){const margin=row.spreadPick.teamSide==='away'?away-home+row.spreadPick.line:home-away+row.spreadPick.line;row.spreadPick.result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
-  if(row.totalPick){const diff=home+away-row.totalPick.line;row.totalPick.result=Math.abs(diff)<1e-9?'push':((row.totalPick.side==='over'&&diff>0)||(row.totalPick.side==='under'&&diff<0))?'win':'loss'}
+  const frozen=(row.finalSnapshot??{}) as any
+  const moneyline=(frozen.moneylinePick??row.moneylinePick) as MarketPick|undefined
+  const spread=(frozen.spreadPick??row.spreadPick) as MarketPick|undefined
+  const total=(frozen.totalPick??row.totalPick) as MarketPick|undefined
+  if(moneyline){
+    const correct=moneyline.teamSide==='home'?home>away:away>home
+    row.moneylinePick={...moneyline,result:correct?'win':'loss'}
+  }
+  if(spread){
+    const margin=spread.teamSide==='away'?away-home+spread.line:home-away+spread.line
+    row.spreadPick={...spread,result:Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
+  }
+  if(total){
+    const diff=home+away-total.line
+    row.totalPick={...total,result:Math.abs(diff)<1e-9?'push':((total.side==='over'&&diff>0)||(total.side==='under'&&diff<0))?'win':'loss'}
+  }
 }
 
 // User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
@@ -260,6 +292,10 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       const wasSettled=!!existing.settledAt
       existing.stage='official'
       existing.lockedAt=existing.lockedAt??existing.capturedAt
+      existing.finalAt=existing.finalAt??existing.lockedAt
+      existing.finalizedAt=existing.finalizedAt??existing.lockedAt
+      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
+      existing.analysisStatus='final'
       existing.actualHome=hs
       existing.actualAway=as
       settleMarkets(existing,hs,as)
@@ -278,8 +314,8 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     const rolling=analyzeMatch(game,form,injuries,calibrator,teamMetrics)
     if (rolling.available) {
       const reviewedMarkets=makeMarketPicks(event,rolling)
-      const before={homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,paceAdjustment:existing.paceAdjustment??null,totalTrend:existing.totalTrend??null,totalStdDev:existing.totalStdDev??null,homeInjuryImpact:existing.homeInjuryImpact??null,awayInjuryImpact:existing.awayInjuryImpact??null,injuryRisk:existing.injuryRisk??null}
-      const after={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,paceAdjustment:rolling.paceAdjustment,totalTrend:rolling.totalTrend,totalStdDev:rolling.totalStdDev,homeInjuryImpact:rolling.homeInjuryImpact,awayInjuryImpact:rolling.awayInjuryImpact,injuryRisk:rolling.injuryRisk}
+      const before={homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,paceAdjustment:existing.paceAdjustment??null,totalTrend:existing.totalTrend??null,totalStdDev:existing.totalStdDev??null,homeInjuryImpact:existing.homeInjuryImpact??null,awayInjuryImpact:existing.awayInjuryImpact??null,injuryRisk:existing.injuryRisk??null}
+      const after={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,moneylineLean:reviewedMarkets.moneylineLean??null,moneylinePick:reviewedMarkets.moneylinePick??null,spreadLean:reviewedMarkets.spreadLean??null,totalLean:reviewedMarkets.totalLean??null,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,paceAdjustment:rolling.paceAdjustment,totalTrend:rolling.totalTrend,totalStdDev:rolling.totalStdDev,homeInjuryImpact:rolling.homeInjuryImpact,awayInjuryImpact:rolling.awayInjuryImpact,injuryRisk:rolling.injuryRisk}
       const changedKeys=Object.keys(after).filter(key=>JSON.stringify((before as any)[key])!==JSON.stringify((after as any)[key]))
       if(changedKeys.length){
         const history=existing.analysisChangeHistory??[]
@@ -293,24 +329,32 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.marketChangeHistory=marketHistory.slice(-200)
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
+      existing.moneylineLean=reviewedMarkets.moneylineLean; existing.moneylinePick=reviewedMarkets.moneylinePick
+      existing.spreadLean=reviewedMarkets.spreadLean; existing.totalLean=reviewedMarkets.totalLean
       existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
       existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
       existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
       existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
        const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
        if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
-      existing.modelVersion='recent-form-pace-v1'
+      existing.modelVersion='recent-form-pace-v1.1-strict-gates'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
     if(isFinalReviewReached(event.date)){
       existing.stage='official'
       existing.lockedAt=existing.lockedAt??now.toISOString()
       existing.finalizedAt=existing.lockedAt
+      existing.finalAt=existing.finalAt??existing.lockedAt
+      existing.analysisStatus='final'
+      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
       added++
     } else if(tipoff<=now.getTime()){
       existing.stage='official'
       existing.lockedAt=existing.lockedAt??now.toISOString()
       existing.finalizedAt=existing.lockedAt
+      existing.finalAt=existing.finalAt??existing.lockedAt
+      existing.analysisStatus='final'
+      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
       added++
     }
     continue
@@ -323,7 +367,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const markets=makeMarketPicks(event,prediction)
   const hasOpeningMarket=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
    if(!hasOpeningMarket) continue
-   const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,analysisStatus:stage==='official'?'final':'preliminary',preliminaryAt:now.toISOString(),openingSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,capturedAt:now.toISOString()},...(stage==='official'?{finalAt:now.toISOString(),finalSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,confirmedAt:now.toISOString()}}:{}),homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,modelVersion:'recent-form-pace-v1',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
+   const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,analysisStatus:stage==='official'?'final':'preliminary',preliminaryAt:now.toISOString(),openingSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,moneylineLean:markets.moneylineLean??null,moneylinePick:markets.moneylinePick??null,spreadLean:markets.spreadLean??null,totalLean:markets.totalLean??null,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,capturedAt:now.toISOString()},...(stage==='official'?{finalAt:now.toISOString(),finalSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,moneylineLean:markets.moneylineLean??null,moneylinePick:markets.moneylinePick??null,spreadLean:markets.spreadLean??null,totalLean:markets.totalLean??null,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,confirmedAt:now.toISOString()}}:{}),homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,moneylineLean:markets.moneylineLean,moneylinePick:markets.moneylinePick,spreadLean:markets.spreadLean,totalLean:markets.totalLean,modelVersion:'recent-form-pace-v1.1-strict-gates',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
     if (stage==='official') added++
