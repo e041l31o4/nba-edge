@@ -176,14 +176,20 @@ function App() {
   useEffect(() => {
     let active = true
     setLedgerStatus('loading')
-    void getPredictionRecords().then(records => {
-      if (!active) return
-      setPredictionRecords(records)
-      setLedgerStatus('ready')
-    }).catch(() => {
-      if (active) setLedgerStatus('error')
-    })
-    return () => { active = false }
+    const refreshLedger = () => {
+      void getPredictionRecords().then(records => {
+        if (!active) return
+        setPredictionRecords(records)
+        setLedgerStatus('ready')
+      }).catch(() => {
+        if (active) setLedgerStatus('error')
+      })
+    }
+    refreshLedger()
+    // The settlement workflow runs every five minutes; refresh the private ledger
+    // automatically so the final daily report appears without a manual reload.
+    const timer = window.setInterval(refreshLedger, 60 * 1000)
+    return () => { active = false; window.clearInterval(timer) }
   }, [date, membershipActive])
   const predictionStats = summarizePredictions(predictionRecords)
   const spreadLedgerStats = summarizeMarketRecords(predictionRecords,'spreadPick')
