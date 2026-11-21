@@ -227,7 +227,7 @@ export default function MembershipGate({ children }: { children: ReactNode }) {
   })
   const statusText = (s: string) => ({ pending:'待付款／待審核', paid:'已開通', failed:'未通過', refunded:'已退款', expired:'已到期' }[s] || s)
   const hasPendingOrder = orders.some(order => order.status === 'pending')
-  if (!membershipEnabled) return <>{children}</>
+  if (!membershipEnabled && !maintenanceMode) return <>{children}</>
   if (!supabaseConfigured || !supabase) return <div className="member-shell"><div className="member-card"><b>NBA EDGE 會員系統尚未設定</b><p>目前尚未設定 Supabase 連線環境變數，會員登入暫不可用。</p></div></div>
   if (!maintenanceReady) return <div className="member-shell"><div className="member-card">正在確認網站狀態…</div></div>
   if (!ready) return <div className="member-shell"><div className="member-card">正在確認會員資格…</div></div>
