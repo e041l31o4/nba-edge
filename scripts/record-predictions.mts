@@ -20,7 +20,7 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<TeamMetricsData>('public/data/team-metrics.json'),
-  readJson<{seasonResults?:{calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
+  readJson<{currentSeason?:{calibrator?:ProbabilityCalibrator|null};seasonResults?:{calibrator?:ProbabilityCalibrator|null;candidateV2Calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
   readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
   readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
@@ -45,7 +45,7 @@ const fetchScoreboard = async (date:string) => {
   console.warn(`Scoreboard date ${date} unavailable after 3 attempts:`,String(lastError))
   return {date,events:[] as any[],ok:false as const}
 }
-const calibrator = backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
+const calibrator = backtest?.currentSeason?.calibrator ?? backtest?.seasonResults?.slice().reverse().find(x=>x.candidateV2Calibrator)?.candidateV2Calibrator ?? backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 // Revisit unresolved official records outside the rolling 9-day capture window.
 const unresolvedHistoricalDates = [...new Set(rows
@@ -337,7 +337,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
        const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
        if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
-      existing.modelVersion='recent-form-pace-v1.1-strict-gates'
+      existing.modelVersion='recent-form-pace-v2.0-strict-gates'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
     if(isFinalReviewReached(event.date)){
