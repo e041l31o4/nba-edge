@@ -9,6 +9,10 @@ export type PredictionRecord = {
   awayWin: number
   projectedMargin: number
   projectedTotal: number
+  moneylineLean?: { side: string; teamSide?: 'home'|'away'; line: number; price?: number; probability?: number; ev?: number }
+  moneylinePick?: { side: string; teamSide?: 'home'|'away'; line: number; price?: number; probability?: number; ev?: number; result?: 'win'|'loss'|'push'|'ungraded' }
+  spreadLean?: { side: string; teamSide?: 'home'|'away'; line: number; price?: number; probability?: number; ev?: number }
+  totalLean?: { side: string; line: number; price?: number; probability?: number; ev?: number }
   spreadPick?: { side: string; teamSide?: 'home'|'away'; line: number; price?: number; probability?: number; ev?: number; result?: 'win'|'loss'|'push'|'ungraded' }
   totalPick?: { side: string; line: number; price?: number; probability?: number; ev?: number; result?: 'win'|'loss'|'push'|'ungraded' }
   stage?: 'draft' | 'official'
