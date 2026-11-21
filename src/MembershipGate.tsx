@@ -44,10 +44,11 @@ export default function MembershipGate({ children }: { children: ReactNode }) {
   const formatPublicDate = (d: string) => d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8)
 
   useEffect(() => {
-    if (!supabase) { setMaintenanceReady(true); return }
+    const client = supabase
+    if (!client) { setMaintenanceReady(true); return }
     let alive = true
     const loadSiteSettings = async () => {
-      const { data, error: settingsError } = await supabase.from('site_settings').select('maintenance_mode,maintenance_message').eq('id', true).maybeSingle()
+      const { data, error: settingsError } = await client.from('site_settings').select('maintenance_mode,maintenance_message').eq('id', true).maybeSingle()
       if (!alive) return
       if (settingsError) {
         console.warn('NBA EDGE maintenance status unavailable:', settingsError)
