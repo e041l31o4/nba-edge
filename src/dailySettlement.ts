@@ -104,7 +104,7 @@ export function buildDailySettlementReport(
     const frozen = (record.finalSnapshot ?? {}) as Record<string, unknown>
     const lean = (key: string, fallback?: unknown) => (frozen[key] ?? fallback ?? null) as Pick | null
     const moneylineLean = lean('moneylineLean', record.moneylineLean) ??
-      (typeof record.homeWin === 'number' ? { teamSide: record.homeWin >= 0.5 ? 'home' : 'away', line: 0 } : null)
+      (typeof record.homeWin === 'number' ? { teamSide: record.homeWin >= 0.5 ? 'home' as const : 'away' as const, line: 0 } : null)
     const spreadLean = lean('spreadLean', record.spreadLean ?? record.spreadPick)
     const totalLean = lean('totalLean', record.totalLean ?? record.totalPick)
     addOutcome(moneyline, grade(moneylineLean, 'moneyline', home, away))
