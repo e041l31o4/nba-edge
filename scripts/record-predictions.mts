@@ -182,6 +182,51 @@ if(bullsWolves && (bullsWolves.totalPick?.side?.toLowerCase()!=='under' || bulls
   manuallyRecovered++
 }
 console.log('BULLS_WOLVES_TOTAL_RECOVERY:',JSON.stringify({found:!!bullsWolves,gameId:bullsWolves?.gameId,home:bullsWolves?.home,away:bullsWolves?.away,restored:bullsWolvesRestored,side:bullsWolves?.totalPick?.side,line:bullsWolves?.totalPick?.line}))
+// Restore the original Nov 21 totals picks from the private ledger's own snapshots/history.
+// This reads only existing historical values; it does not recalculate or invent a direction.
+const nov21OriginalTotalTargets = new Set(['401909305','401909307','401909310','401909312'])
+const asHistoricalTotal = (value:unknown):MarketPick|undefined => {
+  if (!value || typeof value!=='object') return undefined
+  const pick=value as Record<string,unknown>
+  const side=String(pick.side??'').toLowerCase()
+  const line=Number(pick.line)
+  if (!['over','under'].includes(side) || !Number.isFinite(line) || line<=0) return undefined
+  return {
+    side,
+    line,
+    ...(Number.isFinite(Number(pick.price))?{price:Number(pick.price)}:{}),
+    ...(Number.isFinite(Number(pick.probability))?{probability:Number(pick.probability)}:{}),
+    ...(Number.isFinite(Number(pick.ev))?{ev:Number(pick.ev)}:{}),
+  }
+}
+let nov21OriginalTotalsRestored=0
+for (const row of rows) {
+  if (!nov21OriginalTotalTargets.has(row.gameId) || asHistoricalTotal(row.totalPick)) continue
+  const marketHistory=(row.marketChangeHistory??[]).filter(change=>change.market==='total').slice().sort((a,b)=>a.at.localeCompare(b.at))
+  const analysisHistory=(row.analysisChangeHistory??[]).slice().sort((a,b)=>a.at.localeCompare(b.at))
+  const candidates:unknown[]=[
+    (row.openingSnapshot as any)?.totalPick,
+    ...marketHistory.flatMap(change=>[change.from,change.to]),
+    ...analysisHistory.flatMap(change=>[change.from?.totalPick,change.to?.totalPick]),
+    (row.finalSnapshot as any)?.totalPick,
+    row.latestMarketReview?.totalPick,
+  ]
+  const original=candidates.map(asHistoricalTotal).find(Boolean)
+  if (!original) continue
+  const previous=row.totalPick
+  row.totalPick=original
+  row.recoverySource='restored-from-original-private-ledger-snapshot-and-history; no new prediction generated'
+  row.marketChangeHistory=[...(row.marketChangeHistory??[]),{
+    at:now.toISOString(),
+    market:'total',
+    ...(previous?{from:previous}:{}),
+    to:original,
+    reason:'恢復 2026-11-21 原始大小分推薦：取自封存前的私人預測快照／方向歷程，非重新計算'
+  }].slice(-200)
+  nov21OriginalTotalsRestored++
+}
+console.log('NOV21_ORIGINAL_TOTALS_RESTORED_COUNT:',nov21OriginalTotalsRestored)
+
 const memNop=byId.get('401909300')
 if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
   const current=memNop.spreadPick
