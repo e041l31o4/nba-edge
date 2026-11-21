@@ -6,7 +6,8 @@ const date='20261121'
 const games=[
   {id:'g1',date:'2026-11-20T16:00:00Z',status:'STATUS_FINAL',home:{abbreviation:'H1',score:'110'},away:{abbreviation:'A1',score:'100'}},
   {id:'g2',date:'2026-11-20T17:00:00Z',status:'STATUS_FINAL',home:{abbreviation:'H2',score:'99'},away:{abbreviation:'A2',score:'101'}},
-  {id:'g3',date:'2026-11-20T18:00:00Z',status:'STATUS_FINAL',home:{abbreviation:'H3',score:'98'},away:{abbreviation:'A3',score:'100'}}
+  {id:'g3',date:'2026-11-20T18:00:00Z',status:'STATUS_FINAL',home:{abbreviation:'H3',score:'98'},away:{abbreviation:'A3',score:'100'}},
+  {id:'g4',date:'2026-11-20T19:00:00Z',status:'STATUS_FINAL',home:{abbreviation:'H4',score:'100'},away:{abbreviation:'A4',score:'95'}}
 ]
 const makeRecord=(gameId:string,home:number,away:number,finalSnapshot:Record<string,unknown>)=>({
   gameId,date:'2026-11-20T16:00:00Z',home:'H',away:'A',homeWin:home>away?0.6:0.4,awayWin:home>away?0.4:0.6,
@@ -16,17 +17,18 @@ const makeRecord=(gameId:string,home:number,away:number,finalSnapshot:Record<str
 const records=[
   makeRecord('g1',110,100,{moneylineLean:{teamSide:'home',line:0},spreadLean:{teamSide:'home',line:-3.5},totalLean:{side:'over',line:205},moneylinePick:{teamSide:'home',line:0},spreadPick:{teamSide:'home',line:-3.5},totalPick:{side:'over',line:205}}),
   makeRecord('g2',99,101,{moneylineLean:{teamSide:'away',line:0},spreadLean:{teamSide:'home',line:-2.5},totalLean:{side:'under',line:205}}),
-  makeRecord('g3',98,100,{moneylineLean:{teamSide:'away',line:0},spreadLean:{teamSide:'away',line:2.5},totalLean:{side:'under',line:205}})
+  makeRecord('g3',98,100,{moneylineLean:{teamSide:'away',line:0},spreadLean:{teamSide:'away',line:2.5},totalLean:{side:'under',line:205}}),
+  makeRecord('g4',100,95,{moneylineLean:{teamSide:'home',line:0},spreadLean:{teamSide:'home',line:-5},totalLean:{side:'over',line:195}})
 ]
 const report=buildDailySettlementReport(records,games,date)
 assert.equal(report.complete,true)
-assert.equal(report.gameCount,3)
-assert.deepEqual([report.moneyline.wins,report.moneyline.losses,report.moneyline.pushes],[3,0,0])
-assert.deepEqual([report.spread.wins,report.spread.losses,report.spread.pushes],[2,1,0])
-assert.deepEqual([report.totals.wins,report.totals.losses,report.totals.pushes],[3,0,0])
+assert.equal(report.gameCount,4)
+assert.deepEqual([report.moneyline.wins,report.moneyline.losses,report.moneyline.pushes],[4,0,0])
+assert.deepEqual([report.spread.wins,report.spread.losses,report.spread.pushes],[2,1,1])
+assert.deepEqual([report.totals.wins,report.totals.losses,report.totals.pushes],[3,0,1])
 assert.equal(report.recommendations.moneyline.wins,1)
 assert.equal(report.recommendations.moneyline.noDirection,2)
-const incomplete=buildDailySettlementReport(records.slice(0,2),games,date)
+const incomplete=buildDailySettlementReport(records.slice(0,3),games,date)
 assert.equal(incomplete.complete,false)
 assert.equal(incomplete.pendingCount,1)
 console.log('Daily settlement report tests passed.')
