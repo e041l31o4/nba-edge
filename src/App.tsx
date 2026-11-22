@@ -308,7 +308,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const repairAbbr=(team:Game['home'])=>team.abbreviation.toUpperCase()
  const repairTeams=[repairAbbr(game.home),repairAbbr(game.away)]
  const forceWolvesGrizzlies=repairDay&&repairTeams.includes('MIN')&&repairTeams.includes('MEM')
- const useSaved=savedPrediction?.stage==='official'||forceWolvesGrizzlies
+ const useSaved=!!savedPrediction&&(savedPrediction.stage==='official'||forceWolvesGrizzlies)
  const usePreliminary=!done&&!useSaved&&savedPrediction?.analysisStatus==='preliminary'
  const pendingFinalization=!done&&!useSaved&&!usePreliminary
  const homeWin=useSaved?savedPrediction.homeWin:usePreliminary&&report.available?report.homeWin:undefined
