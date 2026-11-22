@@ -45,7 +45,8 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    const sourceSpread=record.spreadPick??record.spreadLean
    const repairedSpread=sourceSpread?{...sourceSpread,side:wolvesName,teamSide:wolvesSide}:undefined
    const repairedLean=record.spreadLean?{...record.spreadLean,side:wolvesName,teamSide:wolvesSide}:repairedSpread
-   return {...record,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(record.projectedMargin)),spreadPick:repairedSpread?{...repairedSpread,result:record.spreadPick?.result}:record.spreadPick,spreadLean:repairedLean}
+   const updateMoneyline=(pick:PredictionRecord['moneylinePick']|PredictionRecord['moneylineLean'])=>pick?{...pick,side:wolvesName,teamSide:wolvesSide}:pick
+   return {...record,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(record.projectedMargin)),moneylinePick:updateMoneyline(record.moneylinePick),moneylineLean:updateMoneyline(record.moneylineLean),spreadPick:repairedSpread?{...repairedSpread,result:record.spreadPick?.result}:record.spreadPick,spreadLean:repairedLean}
   }
   return record
  })
