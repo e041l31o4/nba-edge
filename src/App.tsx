@@ -350,8 +350,11 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const useSaved=!!savedPrediction&&(savedPrediction.stage==='official'||forceWolvesGrizzlies||forceKnicksGame)
  const usePreliminary=!done&&!useSaved&&savedPrediction?.analysisStatus==='preliminary'
  const pendingFinalization=!done&&!useSaved&&!usePreliminary
- const homeWin=useSaved?savedPrediction.homeWin:usePreliminary&&report.available?report.homeWin:undefined
- const awayWin=useSaved?savedPrediction.awayWin:usePreliminary&&report.available?report.awayWin:undefined
+ const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
+ // The Nov 22 POR–NY game was explicitly picked as Knicks moneyline; keep this separate from the spread pick.
+ const forceKnicksMoneyline=forceKnicksGame&&repairTeams.includes('POR')&&repairTeams.some(x=>x==='NY'||x==='NYK')
+ const homeWin=forceKnicksMoneyline?(isKnicksTeam(game.home)?0.643:0.357):useSaved?savedPrediction.homeWin:usePreliminary&&report.available?report.homeWin:undefined
+ const awayWin=forceKnicksMoneyline?(isKnicksTeam(game.away)?0.643:0.357):useSaved?savedPrediction.awayWin:usePreliminary&&report.available?report.awayWin:undefined
  const projectedTotal=useSaved?savedPrediction.projectedTotal:usePreliminary&&report.available?report.projectedTotal:undefined
  const projectedMargin=useSaved?savedPrediction.projectedMargin:usePreliminary&&report.available?report.projectedMargin:undefined
  const projectedHome=projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal+projectedMargin)/2:undefined
@@ -363,7 +366,6 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const pickProbability=hasPrediction?Math.max(homeWin!,awayWin!):undefined
  // Restore the exact historical lines supplied by the admin for the Nov 20 Taiwan-date Knicks-Wolves game.
  // ESPN can label New York as "NY" (not "NYK"), so identify teams by both abbreviation and full name.
- const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
  const isNov20KnicksWolves=['20261119','20261120','20261121','20261122'].includes(taiwanDate(new Date(game.date))) &&
   (isKnicksTeam(game.home)||isKnicksTeam(game.away))
  const knicksIsHome=isKnicksTeam(game.home)
