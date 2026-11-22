@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
-type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; moneylineLean?:MarketPick; moneylinePick?:MarketPick; spreadLean?:MarketPick; totalLean?:MarketPick; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'moneyline'|'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
+type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; moneylineLean?:MarketPick; moneylinePick?:MarketPick; spreadLean?:MarketPick; totalLean?:MarketPick; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{moneylinePick?:MarketPick;spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'moneyline'|'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
 const base = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 const readJson = async <T>(path:string):Promise<T|null> => { try { return JSON.parse(await readFile(path,'utf8')) as T } catch { return null } }
 const now = new Date()
@@ -11,8 +11,14 @@ const tw = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric
 const twNoDash = tw.replace(/-/g,'')
 const taiwanDateKey=(value:string|Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))
 const isFinalReviewReached=(gameDate:string)=>{
-  const tipoff=new Date(gameDate).getTime()
-  return Number.isFinite(tipoff) && now.getTime()>=tipoff-2*60*60*1000
+  // Lock every game's complete prediction set at 21:00 Taiwan time on the
+  // calendar day before the game. This gives tomorrow's slate one stable cutoff.
+  const localDate=taiwanDateKey(gameDate)
+  if(!localDate) return false
+  const [y,m,d]=localDate.split('-').map(Number)
+  const previousDay=new Date(Date.UTC(y,m-1,d-1)).toISOString().slice(0,10)
+  const cutoff=new Date(`${previousDay}T21:00:00+08:00`).getTime()
+  return Number.isFinite(cutoff) && now.getTime()>=cutoff
 }
 const [year, month, day] = tw.split('-').map(Number)
 const dateKeys = Array.from({length:9},(_,i)=>new Date(Date.UTC(year,month-1,day+i-1)).toISOString().slice(0,10).replace(/-/g,''))
@@ -63,7 +69,7 @@ console.log(`ESPN scoreboard dates available: ${successfulDates}/${allDateKeys.l
 let reopenedPrematureLocks=0
 for(const row of rows){
   const localDate=taiwanDateKey(row.date)
-  if(row.stage==='official' && !row.settledAt && localDate>tw && !(new Date(row.date).getTime()-2*60*60*1000<=now.getTime())){
+  if(row.stage==='official' && !row.settledAt && localDate>tw && !isFinalReviewReached(row.date)){
     const previousLock={stage:row.stage,lockedAt:row.lockedAt??null,finalizedAt:(row as any).finalizedAt??null}
     row.stage='draft'
     delete row.lockedAt
@@ -73,7 +79,7 @@ for(const row of rows){
       changedFields:['stage','lockedAt','finalizedAt'],
       from:previousLock,
       to:{stage:'draft',lockedAt:null,finalizedAt:null},
-      reason:'調整封存規則：正式分析改為比賽開始前 2 小時確認，提前封存紀錄重新開放'
+      reason:'調整封存規則：正式分析改為台灣時間賽前一日 21:00 鎖定；尚未到鎖定時間的未結算紀錄重新開放'
     }].slice(-200)
     reopenedPrematureLocks++
   }
@@ -131,6 +137,19 @@ const makeMarketPicks=(event:any,prediction:any)=>{
     ...(spreadPick?{spreadPick}:{}),
     ...(totalPick?{totalPick}:{})
   }
+}
+const freezePredictionSnapshot=(row:Row)=>{
+  const analysisHistory=[...(row.analysisChangeHistory??[])].reverse()
+  const marketHistory=[...(row.marketChangeHistory??[])].reverse()
+  const historyValue=(field:string)=>analysisHistory.flatMap(change=>[change.to?.[field],change.from?.[field]]).find(value=>value!==undefined&&value!==null)
+  const marketValue=(market:'moneyline'|'spread'|'total')=>marketHistory.filter(change=>change.market===market).flatMap(change=>[change.to,change.from]).find(Boolean)
+  const moneylinePick=row.moneylinePick??row.openingSnapshot?.moneylinePick as MarketPick|undefined??historyValue('moneylinePick') as MarketPick|undefined??marketValue('moneyline')
+  const spreadPick=row.spreadPick??row.latestMarketReview?.spreadPick??row.openingSnapshot?.spreadPick as MarketPick|undefined??historyValue('spreadPick') as MarketPick|undefined??marketValue('spread')
+  const totalPick=row.totalPick??row.latestMarketReview?.totalPick??row.openingSnapshot?.totalPick as MarketPick|undefined??historyValue('totalPick') as MarketPick|undefined??marketValue('total')
+  const moneylineLean=row.moneylineLean??row.openingSnapshot?.moneylineLean as MarketPick|undefined??historyValue('moneylineLean') as MarketPick|undefined
+  const spreadLean=row.spreadLean??spreadPick??row.openingSnapshot?.spreadLean as MarketPick|undefined??historyValue('spreadLean') as MarketPick|undefined
+  const totalLean=row.totalLean??totalPick??row.openingSnapshot?.totalLean as MarketPick|undefined??historyValue('totalLean') as MarketPick|undefined
+  return {homeWin:row.homeWin,awayWin:row.awayWin,projectedMargin:row.projectedMargin,projectedTotal:row.projectedTotal,moneylineLean:moneylineLean??null,moneylinePick:moneylinePick??null,spreadLean:spreadLean??null,totalLean:totalLean??null,spreadPick:spreadPick??null,totalPick:totalPick??null,paceAdjustment:row.paceAdjustment??null,totalTrend:row.totalTrend??null,totalStdDev:row.totalStdDev??null,homeInjuryImpact:row.homeInjuryImpact??null,awayInjuryImpact:row.awayInjuryImpact??null,injuryRisk:row.injuryRisk??null,confirmedAt:row.lockedAt??now.toISOString()}
 }
 const settleMarkets=(row:Row,home:number,away:number)=>{
   const frozen=(row.finalSnapshot??{}) as any
@@ -294,7 +313,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.lockedAt=existing.lockedAt??existing.capturedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.finalizedAt=existing.finalizedAt??existing.lockedAt
-      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
+      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
       existing.analysisStatus='final'
       existing.actualHome=hs
       existing.actualAway=as
@@ -347,7 +366,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.finalizedAt=existing.lockedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.analysisStatus='final'
-      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
+      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
       added++
     } else if(tipoff<=now.getTime()){
       existing.stage='official'
@@ -355,7 +374,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.finalizedAt=existing.lockedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.analysisStatus='final'
-      existing.finalSnapshot=existing.finalSnapshot??{homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,confirmedAt:existing.lockedAt}
+      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
       added++
     }
     continue
