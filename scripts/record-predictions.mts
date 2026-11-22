@@ -151,6 +151,20 @@ const freezePredictionSnapshot=(row:Row)=>{
   const totalLean=row.totalLean??totalPick??row.openingSnapshot?.totalLean as MarketPick|undefined??historyValue('totalLean') as MarketPick|undefined
   return {homeWin:row.homeWin,awayWin:row.awayWin,projectedMargin:row.projectedMargin,projectedTotal:row.projectedTotal,moneylineLean:moneylineLean??null,moneylinePick:moneylinePick??null,spreadLean:spreadLean??null,totalLean:totalLean??null,spreadPick:spreadPick??null,totalPick:totalPick??null,paceAdjustment:row.paceAdjustment??null,totalTrend:row.totalTrend??null,totalStdDev:row.totalStdDev??null,homeInjuryImpact:row.homeInjuryImpact??null,awayInjuryImpact:row.awayInjuryImpact??null,injuryRisk:row.injuryRisk??null,confirmedAt:row.lockedAt??now.toISOString()}
 }
+const ensureFinalSnapshot=(row:Row)=>{
+  const recovered=freezePredictionSnapshot(row)
+  const current=(row.finalSnapshot??{}) as Record<string,unknown>
+  row.finalSnapshot={
+    ...recovered,...current,
+    moneylineLean:current.moneylineLean??recovered.moneylineLean,
+    moneylinePick:current.moneylinePick??recovered.moneylinePick,
+    spreadLean:current.spreadLean??recovered.spreadLean,
+    spreadPick:current.spreadPick??recovered.spreadPick,
+    totalLean:current.totalLean??recovered.totalLean,
+    totalPick:current.totalPick??recovered.totalPick,
+    confirmedAt:current.confirmedAt??current.lockedAt??recovered.confirmedAt
+  }
+}
 const settleMarkets=(row:Row,home:number,away:number)=>{
   const frozen=(row.finalSnapshot??{}) as any
   const moneyline=(frozen.moneylinePick??row.moneylinePick) as MarketPick|undefined
@@ -313,7 +327,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.lockedAt=existing.lockedAt??existing.capturedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.finalizedAt=existing.finalizedAt??existing.lockedAt
-      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
+      ensureFinalSnapshot(existing)
       existing.analysisStatus='final'
       existing.actualHome=hs
       existing.actualAway=as
@@ -366,7 +380,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.finalizedAt=existing.lockedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.analysisStatus='final'
-      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
+      ensureFinalSnapshot(existing)
       added++
     } else if(tipoff<=now.getTime()){
       existing.stage='official'
@@ -374,7 +388,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.finalizedAt=existing.lockedAt
       existing.finalAt=existing.finalAt??existing.lockedAt
       existing.analysisStatus='final'
-      existing.finalSnapshot=existing.finalSnapshot??freezePredictionSnapshot(existing)
+      ensureFinalSnapshot(existing)
       added++
     }
     continue
