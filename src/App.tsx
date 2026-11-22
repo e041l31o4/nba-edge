@@ -66,11 +66,11 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    const pick={side:knicksHome?game.home.displayName:game.away.displayName,teamSide:knicksHome?'home' as const:'away' as const,line:-1.5}
    const totalSource=restored.totalPick??restored.totalLean
    const totalLine=typeof totalSource?.line==='number'?totalSource.line:215.5
-   const {result:_oldTotalResult,...totalBase}=totalSource??{side:'under',line:215.5}
+   const totalBase:NonNullable<PredictionRecord['totalPick']>={side:'under',line:totalLine,...(totalSource?.price!==undefined?{price:totalSource.price}:{}),...(totalSource?.probability!==undefined?{probability:totalSource.probability}:{}),...(totalSource?.ev!==undefined?{ev:totalSource.ev}:{})}
    const actualTotal=Number(game.home.score)+Number(game.away.score)
    const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(actualTotal)
    const totalResult=hasFinalTotal?(Math.abs(actualTotal-totalLine)<1e-9?'push':actualTotal<totalLine?'win':'loss'):undefined
-   const underPick={...totalBase,side:'under',line:totalLine}
+   const underPick=totalBase
    return settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick},totalPick:{...underPick,...(totalResult?{result:totalResult}:{})},totalLean:underPick})
   }
   if((wolvesHome||wolvesAway)&&grizzliesPresent){
