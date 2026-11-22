@@ -11,6 +11,7 @@ on:
       - 'scripts/diagnose-totals.mts'
       - 'scripts/diagnose-ledger-totals.py'
       - 'src/model.ts'
+      - 'src/dailySettlement.ts'
       - '.github/workflows/update-data.yml'
   schedule:
     - cron: '*/5 * * * *'
