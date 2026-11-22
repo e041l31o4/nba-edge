@@ -328,7 +328,6 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  // Restore the exact historical lines supplied by the admin for the Nov 20 Taiwan-date Knicks-Wolves game.
  // ESPN can label New York as "NY" (not "NYK"), so identify teams by both abbreviation and full name.
  const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
- const isWolvesTeam=(team:Game['home'])=>team.abbreviation.toUpperCase()==='MIN'||/minnesota timberwolves/i.test(team.name+' '+team.displayName)
  const isNov20KnicksWolves=['20261119','20261120','20261121','20261122'].includes(taiwanDate(new Date(game.date))) &&
   (isKnicksTeam(game.home)||isKnicksTeam(game.away))
  const knicksIsHome=isKnicksTeam(game.home)
