@@ -23,6 +23,7 @@ export type DailySettlementReport = {
   finalGameCount: number
   settledRecordCount: number
   pendingCount: number
+  pendingGames: string[]
   complete: boolean
   moneyline: MarketTally
   spread: MarketTally
@@ -90,6 +91,7 @@ export function buildDailySettlementReport(
   const moneyline = tally(), spread = tally(), totals = tally()
   const moneylinePicks = tally(), spreadPicks = tally(), totalPicks = tally()
   let settledRecordCount = 0, pendingCount = 0
+  const pendingGames: string[] = []
 
   for (const game of dayGames) {
     const record = byId.get(game.id)
@@ -97,6 +99,7 @@ export function buildDailySettlementReport(
     // an official pre-game pick pending merely because the background settlement
     // worker has not yet written settledAt/actualHome/actualAway to the ledger.
     if (!record || record.stage !== 'official') {
+      pendingGames.push(`${game.away.abbreviation} @ ${game.home.abbreviation}`)
       pendingCount++
       moneyline.unavailable++; spread.unavailable++; totals.unavailable++
       continue
@@ -104,6 +107,7 @@ export function buildDailySettlementReport(
     const home = Number.isFinite(record.actualHome) ? Number(record.actualHome) : Number(game.home.score)
     const away = Number.isFinite(record.actualAway) ? Number(record.actualAway) : Number(game.away.score)
     if (!Number.isFinite(home) || !Number.isFinite(away)) {
+      pendingGames.push(`${game.away.abbreviation} @ ${game.home.abbreviation}（缺少完賽比分）`)
       pendingCount++
       moneyline.unavailable++; spread.unavailable++; totals.unavailable++
       continue
@@ -127,7 +131,7 @@ export function buildDailySettlementReport(
   const complete = allFinal && pendingCount === 0
   return {
     date, gameCount: dayGames.length, finalGameCount: allFinal ? dayGames.length : dayGames.filter(g => g.status.toLowerCase().includes('final')).length,
-    settledRecordCount, pendingCount, complete,
+    settledRecordCount, pendingCount, pendingGames, complete,
     moneyline: finishTally(moneyline), spread: finishTally(spread), totals: finishTally(totals),
     recommendations: {
       moneyline: finishTally(moneylinePicks), spread: finishTally(spreadPicks), totals: finishTally(totalPicks)
