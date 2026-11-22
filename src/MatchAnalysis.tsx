@@ -132,8 +132,6 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   const grade=(pick:any,count:number)=>{if(!pick)return '無完整配對盤口';if(pick.ev<0.025)return '分析傾向（EV 未達 2.5%）';if(pick.probability<0.54)return '分析傾向（模型機率未達 54%）';if(report.confidence==='低')return '分析傾向（模型信心不足）';if(report.injuryRisk==='偏高')return '分析傾向（傷兵風險偏高）';if(report.injuryRisk==='待確認')return '待官方傷兵資料確認';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低';const label=strong?'正式推薦｜較強':'正式推薦｜一般';return count<30?label+'（歷史回測 '+count+' 場，樣本持續累積）':label}
   return {spread,total,spreadGrade:grade(spread,spreadBacktestCount),totalGrade:grade(total,totalBacktestCount),blocked:false}
  },[report,homeSpread,totals,marketBacktest,hasFrozenMemberPrediction,savedPrediction])
- const archivedSpread=savedPrediction?.spreadLean??savedPrediction?.spreadPick
- const archivedTotal=savedPrediction?.totalLean??savedPrediction?.totalPick
  if(!isAdmin && (!savedPrediction || (savedPrediction.analysisStatus!=='preliminary' && savedPrediction.analysisStatus!=='final' && savedPrediction.stage!=='official'))) return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button><div className="missing"><ShieldCheck size={18}/><b>等待運彩開盤</b><span>尚未取得可驗證的運彩盤口，初步分析尚未發布。開盤後將先提供初步分析，並於比賽開始前 2 小時重新盤整。</span></div></div>
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
  <div className="matchup-head"><div><span>{game.detail||'賽前資料'}</span><h3>{game.away.displayName} <em>@</em> {game.home.displayName}</h3><small>{new Date(game.date).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}（台灣時間）</small></div></div>
