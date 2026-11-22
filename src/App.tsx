@@ -61,6 +61,16 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
   const wolvesHome=home==='MIN',wolvesAway=away==='MIN'
   const grizzliesPresent=home==='MEM'||away==='MEM'
+  // Restore the explicitly requested Boston game total: Over 217.5.
+  if(day==='20261122'&&(home==='BOS'||away==='BOS')){
+   const totalSource=restored.totalPick??restored.totalLean
+   const totalLine=217.5
+   const total=Number(game.home.score)+Number(game.away.score)
+   const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(total)
+   const totalResult=hasFinalTotal?(Math.abs(total-totalLine)<1e-9?'push':total>totalLine?'win':'loss'):undefined
+   const overPick:NonNullable<PredictionRecord['totalPick']>={side:'over',line:totalLine,...(totalSource?.price!==undefined?{price:totalSource.price}:{}),...(totalSource?.probability!==undefined?{probability:totalSource.probability}:{}),...(totalSource?.ev!==undefined?{ev:totalSource.ev}:{}),...(totalResult?{result:totalResult}:{})}
+   return settleSpread({...restored,totalPick:overPick,totalLean:overPick})
+  }
   // Knicks and Wolves are separate games on this slate; identify each matchup independently.
   if(knicksHome||knicksAway){
    const pick={side:knicksHome?game.home.displayName:game.away.displayName,teamSide:knicksHome?'home' as const:'away' as const,line:-1.5}
