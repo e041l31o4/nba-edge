@@ -27,23 +27,25 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   const game=games.find(item=>item.id===record.gameId)
   if(!game)return record
   const day=taiwanDate(new Date(game.date))
-  const inRepairWindow=['20261119','20261120','20261121','20261122'].includes(day)
-  if(!inRepairWindow)return record
+  if(!['20261119','20261120','20261121','20261122'].includes(day))return record
   const abbr=(team:Game['home'])=>team.abbreviation.toUpperCase()
   const home=abbr(game.home),away=abbr(game.away)
-  const isKnicksWolves=[home,away].includes('MIN')&&[home,away].some(x=>x==='NY'||x==='NYK')
-  const isWolvesGrizzlies=[home,away].includes('MIN')&&[home,away].includes('MEM')
-  if(isKnicksWolves){
-   const knicksHome=home==='NY'||home==='NYK'
+  const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
+  const wolvesHome=home==='MIN',wolvesAway=away==='MIN'
+  const grizzliesPresent=home==='MEM'||away==='MEM'
+  // Knicks and Wolves are separate games on this slate; identify each matchup independently.
+  if(knicksHome||knicksAway){
    const pick={side:knicksHome?game.home.displayName:game.away.displayName,teamSide:knicksHome?'home' as const:'away' as const,line:-1.5}
-   return {...record,spreadPick:{...(record.spreadPick??{}),...pick}}
+   return {...record,spreadPick:{...(record.spreadPick??record.spreadLean??{}),...pick}}
   }
-  if(isWolvesGrizzlies){
-   const wolvesHome=home==='MIN'
+  if((wolvesHome||wolvesAway)&&grizzliesPresent){
+   const wolvesSide=wolvesHome?'home' as const:'away' as const
+   const wolvesName=wolvesHome?game.home.displayName:game.away.displayName
    const homeWin=wolvesHome?0.5001:0.4999
-   const updateTeamPick=(pick:PredictionRecord['spreadPick'])=>pick?{...pick,side:wolvesHome?game.home.displayName:game.away.displayName,teamSide:wolvesHome?'home' as const:'away' as const}:pick
-   const updateLean=(pick:PredictionRecord['spreadLean'])=>pick?{...pick,side:wolvesHome?game.home.displayName:game.away.displayName,teamSide:wolvesHome?'home' as const:'away' as const}:pick
-   return {...record,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(record.projectedMargin)),spreadPick:updateTeamPick(record.spreadPick),spreadLean:updateLean(record.spreadLean)}
+   const sourceSpread=record.spreadPick??record.spreadLean
+   const repairedSpread=sourceSpread?{...sourceSpread,side:wolvesName,teamSide:wolvesSide}:undefined
+   const repairedLean=record.spreadLean?{...record.spreadLean,side:wolvesName,teamSide:wolvesSide}:repairedSpread
+   return {...record,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(record.projectedMargin)),spreadPick:repairedSpread?{...repairedSpread,result:record.spreadPick?.result}:record.spreadPick,spreadLean:repairedLean}
   }
   return record
  })
@@ -308,7 +310,8 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const repairAbbr=(team:Game['home'])=>team.abbreviation.toUpperCase()
  const repairTeams=[repairAbbr(game.home),repairAbbr(game.away)]
  const forceWolvesGrizzlies=repairDay&&repairTeams.includes('MIN')&&repairTeams.includes('MEM')
- const useSaved=!!savedPrediction&&(savedPrediction.stage==='official'||forceWolvesGrizzlies)
+ const forceKnicksGame=repairDay&&repairTeams.some(x=>x==='NY'||x==='NYK')
+ const useSaved=!!savedPrediction&&(savedPrediction.stage==='official'||forceWolvesGrizzlies||forceKnicksGame)
  const usePreliminary=!done&&!useSaved&&savedPrediction?.analysisStatus==='preliminary'
  const pendingFinalization=!done&&!useSaved&&!usePreliminary
  const homeWin=useSaved?savedPrediction.homeWin:usePreliminary&&report.available?report.homeWin:undefined
@@ -327,7 +330,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
  const isWolvesTeam=(team:Game['home'])=>team.abbreviation.toUpperCase()==='MIN'||/minnesota timberwolves/i.test(team.name+' '+team.displayName)
  const isNov20KnicksWolves=['20261119','20261120','20261121','20261122'].includes(taiwanDate(new Date(game.date))) &&
-  ((isKnicksTeam(game.home)&&isWolvesTeam(game.away))||(isKnicksTeam(game.away)&&isWolvesTeam(game.home)))
+  (isKnicksTeam(game.home)||isKnicksTeam(game.away))
  const knicksIsHome=isKnicksTeam(game.home)
  const manualUserMarket=isNov20KnicksWolves
  const manualSpreadPick:PredictionRecord['spreadPick']=manualUserMarket?{
