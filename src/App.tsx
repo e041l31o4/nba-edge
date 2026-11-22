@@ -64,7 +64,14 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   // Knicks and Wolves are separate games on this slate; identify each matchup independently.
   if(knicksHome||knicksAway){
    const pick={side:knicksHome?game.home.displayName:game.away.displayName,teamSide:knicksHome?'home' as const:'away' as const,line:-1.5}
-   return settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick}})
+   const totalSource=restored.totalPick??restored.totalLean
+   const totalLine=typeof totalSource?.line==='number'?totalSource.line:215.5
+   const {result:_oldTotalResult,...totalBase}=totalSource??{side:'under',line:215.5}
+   const actualTotal=Number(game.home.score)+Number(game.away.score)
+   const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(actualTotal)
+   const totalResult=hasFinalTotal?(Math.abs(actualTotal-totalLine)<1e-9?'push':actualTotal<totalLine?'win':'loss'):undefined
+   const underPick={...totalBase,side:'under',line:totalLine}
+   return settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick},totalPick:{...underPick,...(totalResult?{result:totalResult}:{})},totalLean:underPick})
   }
   if((wolvesHome||wolvesAway)&&grizzliesPresent){
    const wolvesSide=wolvesHome?'home' as const:'away' as const
