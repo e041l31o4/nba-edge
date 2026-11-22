@@ -332,6 +332,7 @@ function DailySettlementReport({games,records,date}:{games:Game[];records:Predic
       <span className={report.complete?'daily-report-status complete':'daily-report-status pending'}>{report.complete?'已完成結算':'結算資料待補'}</span>
     </div>
     <p className="daily-report-summary">今日共 {report.gameCount} 場賽事，已完賽 {report.finalGameCount} 場；已完成正式預測結算 {report.settledRecordCount} 場{report.pendingCount? `，尚有 ${report.pendingCount} 場待補正式紀錄`:''}。</p>
+    {report.pendingGames.length>0 && <div className="notice"><CircleAlert size={17}/><span>以下場次在正式封存紀錄中缺資料，系統不會自行補造賽前預測：{report.pendingGames.join('、')}。請補回這些場次的正式封存紀錄後，才會納入全日結算。</span></div>}
     <div className="daily-report-grid">
       {rows.map(row=><article className="daily-report-market" key={row.key}>
         <b>{row.label}｜分析方向</b>
