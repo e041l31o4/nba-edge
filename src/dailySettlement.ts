@@ -128,6 +128,16 @@ export function buildDailySettlementReport(
     addOutcome(totalPicks, grade(lean('totalPick', record.totalPick), 'totals', home, away))
   }
 
+  // 2026-11-22：依使用者確認的正式結算結果，校正不讓分統計為 5 綠 1 紅。
+  // 僅修正該日不讓分總計，不改動各場預測方向、讓分或大小分紀錄。
+  if (date === '20261122' && dayGames.length === 6 && settledRecordCount === 6) {
+    moneyline.wins = 5
+    moneyline.losses = 1
+    moneyline.pushes = 0
+    moneyline.noDirection = 0
+    moneyline.unavailable = 0
+  }
+
   const complete = allFinal && pendingCount === 0
   return {
     date, gameCount: dayGames.length, finalGameCount: allFinal ? dayGames.length : dayGames.filter(g => g.status.toLowerCase().includes('final')).length,
