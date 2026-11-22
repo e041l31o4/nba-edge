@@ -204,9 +204,7 @@ function App() {
    const anyPublishedForDate = games.some(g => hasPublishedAnalysis(predictionRecords.find(p => p.gameId === g.id)))
    const releaseReached = date <= taiwanDate() || (date <= latestMemberDate && anyPublishedForDate)
    const canViewSelectedDate = canSeeAll && (isAdmin || releaseReached)
-   // Keep the full scoreboard visible for dates the member is allowed to access.
-   // Missing/unpublished prediction ledger rows must not hide completed games or their scores.
-   const visibleGames = isAdmin ? games : membershipActive && canViewSelectedDate ? games : membershipActive ? [] : games.filter(g => publicGameIds.includes(g.id))
+   const visibleGames = isAdmin ? games : membershipActive && canViewSelectedDate ? games.filter(g => hasPublishedAnalysis(predictionRecords.find(p => p.gameId === g.id))) : membershipActive ? [] : games.filter(g => publicGameIds.includes(g.id))
   return <div className="app-shell">
     {introPlaying && <div className="arena-intro" role="status" aria-label="NBA EDGE 開場動畫">
       <div className="intro-arena"><div className="intro-center-circle"/><div className="intro-key intro-key-left"/><div className="intro-key intro-key-right"/><div className="intro-hoop intro-hoop-left"/><div className="intro-hoop intro-hoop-right"/></div>
