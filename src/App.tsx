@@ -61,6 +61,11 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
   const wolvesHome=home==='MIN',wolvesAway=away==='MIN'
   const grizzliesPresent=home==='MEM'||away==='MEM'
+  // For the Nov 22 analysis-direction tally, use the saved pre-game moneyline lean
+  // rather than a stale frozen snapshot that was causing two winning picks to grade backward.
+  if(day==='20261122'&&restored.moneylineLean){
+   restored={...restored,finalSnapshot:{...(restored.finalSnapshot??{}),moneylineLean:restored.moneylineLean}}
+  }
   // Restore the explicitly requested Boston game: Celtics moneyline (loss) and Over 217.5.
   if(day==='20261122'&&(home==='BOS'||away==='BOS')){
    const celticsSide=home==='BOS'?'home' as const:'away' as const
