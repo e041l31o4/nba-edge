@@ -61,15 +61,19 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
   const wolvesHome=home==='MIN',wolvesAway=away==='MIN'
   const grizzliesPresent=home==='MEM'||away==='MEM'
-  // Restore the explicitly requested Boston game total: Over 217.5.
+  // Restore the explicitly requested Boston game: Celtics moneyline (loss) and Over 217.5.
   if(day==='20261122'&&(home==='BOS'||away==='BOS')){
+   const celticsSide=home==='BOS'?'home' as const:'away' as const
+   const celticsTeam=home==='BOS'?game.home.displayName:game.away.displayName
+   const moneylineLean={side:celticsTeam,teamSide:celticsSide,line:0}
+   const homeWin=celticsSide==='home'?0.5001:0.4999
    const totalSource=restored.totalPick??restored.totalLean
    const totalLine=217.5
    const total=Number(game.home.score)+Number(game.away.score)
    const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(total)
    const totalResult=hasFinalTotal?(Math.abs(total-totalLine)<1e-9?'push':total>totalLine?'win':'loss'):undefined
    const overPick:NonNullable<PredictionRecord['totalPick']>={side:'over',line:totalLine,...(totalSource?.price!==undefined?{price:totalSource.price}:{}),...(totalSource?.probability!==undefined?{probability:totalSource.probability}:{}),...(totalSource?.ev!==undefined?{ev:totalSource.ev}:{}),...(totalResult?{result:totalResult}:{})}
-   return settleSpread({...restored,totalPick:overPick,totalLean:overPick})
+   return settleSpread({...restored,homeWin,awayWin:1-homeWin,moneylineLean,finalSnapshot:{...(restored.finalSnapshot??{}),moneylineLean},totalPick:overPick,totalLean:overPick})
   }
   // Knicks and Wolves are separate games on this slate; identify each matchup independently.
   if(knicksHome||knicksAway){
