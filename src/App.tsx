@@ -26,8 +26,36 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
  return records.map(record=>{
   const game=games.find(item=>item.id===record.gameId)
   if(!game)return record
+  const isSpreadPick=(value:unknown):value is NonNullable<PredictionRecord['spreadPick']>=>{
+   if(!value||typeof value!=='object')return false
+   const pick=value as Record<string,unknown>
+   return typeof pick.side==='string'&&typeof pick.line==='number'&&Number.isFinite(pick.line)
+  }
+  // Recover a missing current spread from the immutable admin edit audit trail first.
+  // admin_save_prediction stores before/after spreadPick values in analysisChangeHistory.
+  const history=[...(record.analysisChangeHistory??[])].reverse()
+  const historyPick=history.flatMap(entry=>[entry.to?.spreadPick,entry.from?.spreadPick]).find(isSpreadPick)
+  const snapshotPick=[record.finalSnapshot?.spreadPick,record.openingSnapshot?.spreadPick].find(isSpreadPick)
+  const recoveredSpread=record.spreadPick??snapshotPick??historyPick??record.spreadLean
+  let restored:PredictionRecord={...record,
+   ...(recoveredSpread?{spreadPick:{...recoveredSpread}}:{}),
+   ...(!record.spreadLean&&recoveredSpread?{spreadLean:{...recoveredSpread}}:{})
+  }
+  const settleSpread=(value:PredictionRecord):PredictionRecord=>{
+   const pick=value.spreadPick
+   if(!pick||!game.status.toLowerCase().includes('final'))return value
+   const homeScore=Number(game.home.score),awayScore=Number(game.away.score)
+   if(!Number.isFinite(homeScore)||!Number.isFinite(awayScore))return value
+   const token=String(pick.teamSide??pick.side).toLowerCase()
+   const isHome=token==='home'||token===game.home.abbreviation.toLowerCase()||token===game.home.name.toLowerCase()||token===game.home.displayName.toLowerCase()
+   const isAway=token==='away'||token===game.away.abbreviation.toLowerCase()||token===game.away.name.toLowerCase()||token===game.away.displayName.toLowerCase()
+   if(!isHome&&!isAway)return value
+   const margin=(isHome?homeScore-awayScore:awayScore-homeScore)+pick.line
+   const result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'
+   return {...value,spreadPick:{...pick,result}}
+  }
   const day=taiwanDate(new Date(game.date))
-  if(!['20261119','20261120','20261121','20261122'].includes(day))return record
+  if(!['20261119','20261120','20261121','20261122'].includes(day))return settleSpread(restored)
   const abbr=(team:Game['home'])=>team.abbreviation.toUpperCase()
   const home=abbr(game.home),away=abbr(game.away)
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
@@ -36,19 +64,19 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   // Knicks and Wolves are separate games on this slate; identify each matchup independently.
   if(knicksHome||knicksAway){
    const pick={side:knicksHome?game.home.displayName:game.away.displayName,teamSide:knicksHome?'home' as const:'away' as const,line:-1.5}
-   return {...record,spreadPick:{...(record.spreadPick??record.spreadLean??{}),...pick}}
+   return settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick}})
   }
   if((wolvesHome||wolvesAway)&&grizzliesPresent){
    const wolvesSide=wolvesHome?'home' as const:'away' as const
    const wolvesName=wolvesHome?game.home.displayName:game.away.displayName
    const homeWin=wolvesHome?0.5001:0.4999
-   const sourceSpread=record.spreadPick??record.spreadLean
+   const sourceSpread=restored.spreadPick??restored.spreadLean
    const repairedSpread=sourceSpread?{...sourceSpread,side:wolvesName,teamSide:wolvesSide}:undefined
-   const repairedLean=record.spreadLean?{...record.spreadLean,side:wolvesName,teamSide:wolvesSide}:repairedSpread
+   const repairedLean=restored.spreadLean?{...restored.spreadLean,side:wolvesName,teamSide:wolvesSide}:repairedSpread
    const updateMoneyline=(pick:PredictionRecord['moneylinePick']|PredictionRecord['moneylineLean'])=>pick?{...pick,side:wolvesName,teamSide:wolvesSide}:pick
-   return {...record,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(record.projectedMargin)),moneylinePick:updateMoneyline(record.moneylinePick),moneylineLean:updateMoneyline(record.moneylineLean),spreadPick:repairedSpread?{...repairedSpread,result:record.spreadPick?.result}:record.spreadPick,spreadLean:repairedLean}
+   return settleSpread({...restored,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(restored.projectedMargin)),moneylinePick:updateMoneyline(restored.moneylinePick),moneylineLean:updateMoneyline(restored.moneylineLean),spreadPick:repairedSpread?{...repairedSpread,result:restored.spreadPick?.result}:restored.spreadPick,spreadLean:repairedLean})
   }
-  return record
+  return settleSpread(restored)
  })
 }
 function addTaiwanDays(date: string, days: number) { const d = new Date(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00'); d.setDate(d.getDate()+days); return taiwanDate(d) }
@@ -337,9 +365,9 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   side:knicksIsHome?game.home.displayName:game.away.displayName,
   teamSide:knicksIsHome?'home' as const:'away' as const,line:-1.5
  }:undefined
- const manualTotalPick:PredictionRecord['totalPick']=manualUserMarket?{side:'over',line:215.5}:undefined
+ const manualTotalPick:PredictionRecord['totalPick']=manualUserMarket?{side:'under',line:215.5}:undefined
  const officialSpreadPick=savedPrediction?.spreadPick??manualSpreadPick
- const officialTotalPick=savedPrediction?.totalPick??manualTotalPick
+ const officialTotalPick=manualUserMarket?{...(savedPrediction?.totalPick??manualTotalPick!),side:'under'}:savedPrediction?.totalPick??manualTotalPick
  const usingManualSpread=!!manualSpreadPick&&!savedPrediction?.spreadPick
  const usingManualTotal=!!manualTotalPick&&!savedPrediction?.totalPick
  // Reconcile the traffic-light result from the sealed pregame pick and the final ESPN score.
