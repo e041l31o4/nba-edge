@@ -93,14 +93,22 @@ export function buildDailySettlementReport(
 
   for (const game of dayGames) {
     const record = byId.get(game.id)
-    if (!record || record.stage !== 'official' || !record.settledAt ||
-      !Number.isFinite(record.actualHome) || !Number.isFinite(record.actualAway)) {
+    // A final ESPN scoreboard is the authoritative settlement source. Do not leave
+    // an official pre-game pick pending merely because the background settlement
+    // worker has not yet written settledAt/actualHome/actualAway to the ledger.
+    if (!record || record.stage !== 'official') {
+      pendingCount++
+      moneyline.unavailable++; spread.unavailable++; totals.unavailable++
+      continue
+    }
+    const home = Number.isFinite(record.actualHome) ? Number(record.actualHome) : Number(game.home.score)
+    const away = Number.isFinite(record.actualAway) ? Number(record.actualAway) : Number(game.away.score)
+    if (!Number.isFinite(home) || !Number.isFinite(away)) {
       pendingCount++
       moneyline.unavailable++; spread.unavailable++; totals.unavailable++
       continue
     }
     settledRecordCount++
-    const home = Number(record.actualHome), away = Number(record.actualAway)
     const frozen = (record.finalSnapshot ?? {}) as Record<string, unknown>
     const lean = (key: string, fallback?: unknown) => (frozen[key] ?? fallback ?? null) as Pick | null
     const moneylineLean = lean('moneylineLean', record.moneylineLean) ??
