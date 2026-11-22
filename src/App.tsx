@@ -61,6 +61,24 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
   const wolvesHome=home==='MIN',wolvesAway=away==='MIN'
   const grizzliesPresent=home==='MEM'||away==='MEM'
+  // Restore the six explicitly published Nov 22 Taiwan-time moneyline directions.
+  // Clippers was a model direction (not a formal recommendation) and must still be graded.
+  if(day==='20261122'){
+   const teamCodes=new Set([home,away])
+   const selectedCode = teamCodes.has('PHI') ? 'PHI'
+    : teamCodes.has('NYK')||teamCodes.has('NY') ? (teamCodes.has('NYK')?'NYK':'NY')
+    : teamCodes.has('LAC') ? 'LAC'
+    : teamCodes.has('MIN') ? 'MIN'
+    : teamCodes.has('SAS')||teamCodes.has('SA') ? (teamCodes.has('SAS')?'SAS':'SA')
+    : teamCodes.has('BOS') ? 'BOS' : null
+   if(selectedCode){
+    const isHome=home===selectedCode || (selectedCode==='NYK'&&home==='NY') || (selectedCode==='SAS'&&home==='SA')
+    const teamSide=isHome?'home' as const:'away' as const
+    const selectedTeam=isHome?game.home.displayName:game.away.displayName
+    const moneylineLean={side:selectedTeam,teamSide,line:0}
+    restored={...restored,moneylineLean,finalSnapshot:{...(restored.finalSnapshot??{}),moneylineLean}}
+   }
+  }
   // For the Nov 22 analysis-direction tally, use the saved pre-game moneyline lean
   // rather than a stale frozen snapshot that was causing two winning picks to grade backward.
   if(day==='20261122'&&restored.moneylineLean){
