@@ -1,7 +1,7 @@
 // Keep the postgame report grading test in the ledger workflow before each sync.
 import { strict as assert } from 'node:assert'
 import { buildDailySettlementReport } from '../src/dailySettlement'
-import type { PredictionRecord } from '../src/predictionLedger'
+import { summarizeTotalDirections, type PredictionRecord } from '../src/predictionLedger'
 
 const date='20261121'
 const games=[
@@ -32,4 +32,16 @@ assert.equal(report.recommendations.moneyline.noDirection,3)
 const incomplete=buildDailySettlementReport(records.slice(0,3),games,date)
 assert.equal(incomplete.complete,false)
 assert.equal(incomplete.pendingCount,1)
+
+// Overall totals accuracy must include every frozen analysis lean, even when no formal totalPick exists.
+const directionRecords = [
+  {...makeRecord('t1',110,100,{totalLean:{side:'over',line:205},totalPick:{side:'over',line:205}}),totalLean:{side:'over',line:205},totalPick:{side:'over',line:205}},
+  {...makeRecord('t2',99,101,{totalLean:{side:'under',line:205}}),totalLean:{side:'under',line:205}},
+  {...makeRecord('t3',98,100,{totalLean:{side:'under',line:205}}),totalLean:{side:'under',line:205}},
+  {...makeRecord('t4',100,95,{totalLean:{side:'over',line:195}}),totalLean:{side:'over',line:195}}
+] as unknown as PredictionRecord[]
+const totalsDirections = summarizeTotalDirections(directionRecords)
+assert.deepEqual([totalsDirections.wins,totalsDirections.losses,totalsDirections.pushes],[3,0,1])
+assert.equal(totalsDirections.decided,3)
+
 console.log('Daily settlement report tests passed.')
