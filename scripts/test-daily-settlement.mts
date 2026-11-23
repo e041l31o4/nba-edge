@@ -33,6 +33,9 @@ const nov22Games = Array.from({length:6},(_,i)=>({id:'n'+i,date:'2026-11-22T16:0
 const nov22Records = Array.from({length:6},(_,i)=>makeRecord('n'+i,110+i,100+i,{moneylineLean:{teamSide:'home',line:0},totalLean:{side:i===0?'under':'over',line:200}}))
 const nov22Report = buildDailySettlementReport(nov22Records,nov22Games,'20261122')
 assert.deepEqual([nov22Report.totals.wins,nov22Report.totals.losses,nov22Report.totals.pushes],[6,1,0])
+const nov22CumulativeRecords = nov22Records.map(record=>({...record,date:'2026-11-22T16:00:00Z'})) as PredictionRecord[]
+const nov22Cumulative = summarizeTotalDirections(nov22CumulativeRecords)
+assert.deepEqual([nov22Cumulative.total,nov22Cumulative.wins,nov22Cumulative.losses,nov22Cumulative.pushes],[7,6,1,0])
 const incomplete=buildDailySettlementReport(records.slice(0,3),games,date)
 assert.equal(incomplete.complete,false)
 assert.equal(incomplete.pendingCount,1)
