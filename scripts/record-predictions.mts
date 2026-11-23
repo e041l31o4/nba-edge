@@ -91,6 +91,14 @@ const byId = new Map(rows.map(x=>[x.gameId,x]))
 // Do not hard-code or print member-only picks in this public repository.
 let added=0, settled=0, refreshed=0
 const settledGames:Array<{gameId:string;home:string;away:string;actualHome:number;actualAway:number}> = []
+const stableValue=(value:unknown):unknown=>Array.isArray(value)?value.map(stableValue):value&&typeof value==='object'?Object.fromEntries(Object.entries(value as Record<string,unknown>).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>[k,stableValue(v)])):value
+const sameValue=(a:unknown,b:unknown)=>JSON.stringify(stableValue(a??null))===JSON.stringify(stableValue(b??null))
+const samePick=(a:MarketPick|undefined,b:MarketPick|undefined)=>{
+  if(!a||!b)return !a&&!b
+  return a.side===b.side&&a.teamSide===b.teamSide&&a.line===b.line&&a.price===b.price&&
+    (a.probability===undefined&&b.probability===undefined||typeof a.probability==='number'&&typeof b.probability==='number'&&Math.abs(a.probability-b.probability)<0.0005)&&
+    (a.ev===undefined&&b.ev===undefined||typeof a.ev==='number'&&typeof b.ev==='number'&&Math.abs(a.ev-b.ev)<0.0005)
+}
 const makeMarketPicks=(event:any,prediction:any)=>{
   const competitors=event.competitions?.[0]?.competitors??[]
   const h=competitors.find((x:any)=>x.homeAway==='home'),a=competitors.find((x:any)=>x.homeAway==='away')
@@ -349,7 +357,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       const reviewedMarkets=makeMarketPicks(event,rolling)
       const before={homeWin:existing.homeWin,awayWin:existing.awayWin,projectedMargin:existing.projectedMargin,projectedTotal:existing.projectedTotal,moneylineLean:existing.moneylineLean??null,moneylinePick:existing.moneylinePick??null,spreadLean:existing.spreadLean??null,totalLean:existing.totalLean??null,spreadPick:existing.spreadPick??null,totalPick:existing.totalPick??null,paceAdjustment:existing.paceAdjustment??null,totalTrend:existing.totalTrend??null,totalStdDev:existing.totalStdDev??null,homeInjuryImpact:existing.homeInjuryImpact??null,awayInjuryImpact:existing.awayInjuryImpact??null,injuryRisk:existing.injuryRisk??null}
       const after={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,moneylineLean:reviewedMarkets.moneylineLean??null,moneylinePick:reviewedMarkets.moneylinePick??null,spreadLean:reviewedMarkets.spreadLean??null,totalLean:reviewedMarkets.totalLean??null,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,paceAdjustment:rolling.paceAdjustment,totalTrend:rolling.totalTrend,totalStdDev:rolling.totalStdDev,homeInjuryImpact:rolling.homeInjuryImpact,awayInjuryImpact:rolling.awayInjuryImpact,injuryRisk:rolling.injuryRisk}
-      const changedKeys=Object.keys(after).filter(key=>JSON.stringify((before as any)[key])!==JSON.stringify((after as any)[key]))
+      const changedKeys=Object.keys(after).filter(key=>!sameValue((before as any)[key],(after as any)[key]))
       if(changedKeys.length){
         const history=existing.analysisChangeHistory??[]
         history.push({at:now.toISOString(),changedFields:changedKeys,from:before,to:after,reason:'賽前滾動更新：模型或盤口資料變動；此紀錄不代表單一因素造成'})
@@ -357,9 +365,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       }
       const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
       const marketHistory=existing.marketChangeHistory??[]
-      if(JSON.stringify(existing.moneylinePick??null)!==JSON.stringify(reviewedMarkets.moneylinePick??null)) marketHistory.push({at:now.toISOString(),market:'moneyline',from:existing.moneylinePick,to:reviewedMarkets.moneylinePick,reason:'不讓分盤口或模型重新計算；原方向與新方向均保留'})
-      if(JSON.stringify(existing.spreadPick??null)!==JSON.stringify(reviewedMarkets.spreadPick??null)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
-      if(JSON.stringify(existing.totalPick??null)!==JSON.stringify(reviewedMarkets.totalPick??null)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'盤口或模型重新計算；原方向與新方向均保留'})
+      if(!samePick(existing.moneylinePick,reviewedMarkets.moneylinePick)) marketHistory.push({at:now.toISOString(),market:'moneyline',from:existing.moneylinePick,to:reviewedMarkets.moneylinePick,reason:'不讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
+      if(!samePick(existing.spreadPick,reviewedMarkets.spreadPick)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
+      if(!samePick(existing.totalPick,reviewedMarkets.totalPick)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'大小分方向、盤口或模型機率有實質差異；保留前後值供核對'})
       existing.marketChangeHistory=marketHistory.slice(-200)
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
