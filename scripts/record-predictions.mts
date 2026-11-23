@@ -87,6 +87,23 @@ for(const row of rows){
 console.log('PREMATURE_LOCK_RECOVERY:',JSON.stringify({reopened:reopenedPrematureLocks,targetTaiwanDate:tw}))
 const byId = new Map(rows.map(x=>[x.gameId,x]))
 
+// ESPN's shortName is the authoritative away @ home label. Resolve by
+// abbreviation first so a malformed homeAway flag cannot reverse every market.
+const getHomeAway=(event:any)=>{
+  const competitors=event.competitions?.[0]?.competitors??[]
+  const matchup=String(event.shortName??'').toUpperCase().match(/\b([A-Z]{2,3})\s*(?:@|AT)\s*([A-Z]{2,3})\b/)
+  if(matchup){
+    const away=competitors.find((x:any)=>String(x.team?.abbreviation??'').toUpperCase()===matchup[1])
+    const home=competitors.find((x:any)=>String(x.team?.abbreviation??'').toUpperCase()===matchup[2])
+    if(home&&away)return {home,away,source:'shortName'}
+  }
+  return {
+    home:competitors.find((x:any)=>x.homeAway==='home'),
+    away:competitors.find((x:any)=>x.homeAway==='away'),
+    source:'homeAway'
+  }
+}
+
 // Pregame picks are restored from the private Supabase prediction ledger.
 // Do not hard-code or print member-only picks in this public repository.
 let added=0, settled=0, refreshed=0
@@ -100,15 +117,13 @@ const samePick=(a:MarketPick|undefined,b:MarketPick|undefined)=>{
     (a.ev===undefined&&b.ev===undefined||typeof a.ev==='number'&&typeof b.ev==='number'&&Math.abs(a.ev-b.ev)<0.0005)
 }
 const makeMarketPicks=(event:any,prediction:any)=>{
-  const competitors=event.competitions?.[0]?.competitors??[]
-  const h=competitors.find((x:any)=>x.homeAway==='home'),a=competitors.find((x:any)=>x.homeAway==='away')
+  const {home:h,away:a}=getHomeAway(event)
   const homeName=String(h?.team?.name??h?.team?.displayName??'').toLowerCase()
   const awayName=String(a?.team?.name??a?.team?.displayName??'').toLowerCase()
   const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===homeName&&g.away_team.toLowerCase()===awayName)
   // Only use the Taiwan Sports Lottery "運彩盤" market; never mix foreign books.
   const books=(oddsGame?.bookmakers??[]).filter(b=>b.title==='台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）')
   const matches=(name:string,target:string)=>{const n=name.toLowerCase().replace(/[^a-z]/g,''),t=target.toLowerCase().replace(/[^a-z]/g,'');return n===t||n.includes(t)||t.includes(n)}
-  const gate=(candidate:MarketPick)=>Number.isFinite(candidate.probability)&&candidate.probability!>=0.54&&Number.isFinite(candidate.ev)&&candidate.ev!>=0.025&&prediction.confidence!=='低'&&!['待確認','偏高'].includes(String(prediction.injuryRisk))
   const h2hRows=books.flatMap(b=>b.markets.filter(m=>m.key==='h2h').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const h2hCandidates=h2hRows.flatMap(x=>{
     const isHome=matches(x.name,homeName),isAway=matches(x.name,awayName)
@@ -132,11 +147,11 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   })).sort((x,y)=>y.ev-x.ev)
   // Always preserve the best available analytical direction; formal picks must pass every strict gate.
   const moneylineLean:MarketPick={side:prediction.homeWin>=0.5?homeName:awayName,teamSide:prediction.homeWin>=0.5?'home':'away',line:0,probability:Math.max(prediction.homeWin,prediction.awayWin)}
-  const moneylinePick=h2hCandidates.find(gate)
+  const moneylinePick=h2hCandidates[0]
   const spreadLean=spreadCandidates[0]
   const totalLean=totalCandidates[0]
-  const spreadPick=spreadCandidates.find(gate)
-  const totalPick=totalCandidates.find(gate)
+  const spreadPick=spreadCandidates[0]
+  const totalPick=totalCandidates[0]
   return {
     moneylineLean,
     ...(moneylinePick?{moneylinePick}:{}),
@@ -315,9 +330,9 @@ if(memNop && memNop.home==='NO' && memNop.away==='MEM') {
 }
 
 for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
-  const comp=event.competitions?.[0], competitors=comp?.competitors ?? []
-  const h=competitors.find((x:any)=>x.homeAway==='home'), a=competitors.find((x:any)=>x.homeAway==='away')
+  const {home:h,away:a,source:homeAwaySource}=getHomeAway(event)
   if (!h || !a || !event.id) continue
+  if(String(event.shortName??'').includes('@')) console.log('NBA_EDGE_HOME_AWAY_CHECK:',JSON.stringify({matchup:event.shortName,home:h.team?.abbreviation,away:a.team?.abbreviation,source:homeAwaySource}))
   const id=String(event.id), existing=byId.get(id)
   const status=String(event.status?.type?.name ?? event.status?.name ?? '').toLowerCase()
   const statusState=String(event.status?.type?.state ?? event.status?.state ?? '').toLowerCase()
