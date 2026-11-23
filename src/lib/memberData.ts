@@ -1,6 +1,8 @@
 import { supabase } from './supabase'
 
-const privateMode = import.meta.env.VITE_MEMBERSHIP_ENABLED === 'true'
+const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env ?? {}
+const privateMode = env.VITE_MEMBERSHIP_ENABLED === 'true'
+const baseUrl = env.BASE_URL ?? '/'
 
 export async function loadDataset<T>(key: string, publicFile: string): Promise<T | null> {
   if (privateMode) {
@@ -10,7 +12,7 @@ export async function loadDataset<T>(key: string, publicFile: string): Promise<T
     return data as T
   }
 
-  const response = await fetch(`${import.meta.env.BASE_URL}data/${publicFile}?t=${Date.now()}`, { cache: 'no-store' })
+  const response = await fetch(`${baseUrl}data/${publicFile}?t=${Date.now()}`, { cache: 'no-store' })
   if (!response.ok) return null
   if (publicFile.endsWith('.jsonl')) {
     const raw = await response.text()
