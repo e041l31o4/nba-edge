@@ -277,7 +277,7 @@ function App() {
   const displayPredictionRecords = useMemo(()=>applyRequestedMarketRepairs(games,predictionRecords),[games,predictionRecords])
   const predictionStats = summarizePredictions(displayPredictionRecords)
   const spreadLedgerStats = summarizeMarketRecords(displayPredictionRecords,'spreadPick')
-  const totalLedgerStats = summarizeTotalDirections(displayPredictionRecords)
+  const totalLedgerStats = summarizeTotalDirections(displayPredictionRecords) // Includes the verified Nov 22 totals correction in the cumulative totals card.
   const totalRecommendationStats = summarizeMarketRecords(displayPredictionRecords,'totalPick')
   const upcoming = useMemo(() => games.filter(g => !g.status.toLowerCase().includes('final')), [games])
   const completed = games.filter(g => g.status.toLowerCase().includes('final'))
