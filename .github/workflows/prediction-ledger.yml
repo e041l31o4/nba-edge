@@ -47,7 +47,7 @@ jobs:
         with:
           node-version: 20
       - name: Install project dependencies
-        run: npm ci
+        run: npm install --no-package-lock
       - name: Verify daily final report grading logic
         run: npx --yes tsx scripts/test-daily-settlement.mts
       - name: Capture pregame predictions and settle final scores
