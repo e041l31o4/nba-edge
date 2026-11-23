@@ -89,7 +89,8 @@ export function summarizeTotalDirections(records: PredictionRecord[]) {
   if (nov22Picks.length === 7) {
     for (const record of nov22Picks) {
       const frozen = (record.finalSnapshot ?? {}) as Record<string, unknown>;
-      const pick = (frozen.totalLean ?? record.totalLean ?? frozen.totalPick ?? record.totalPick) as { side?: string; line?: number };
+      const pick = (frozen.totalLean ?? record.totalLean ?? frozen.totalPick ?? record.totalPick) as { side?: string; line?: number } | null | undefined;
+      if (!pick || typeof pick.line !== 'number' || !Number.isFinite(pick.line)) continue;
       const actual = Number(record.actualHome) + Number(record.actualAway);
       const diff = actual - pick.line;
       if (Math.abs(diff) < 1e-9) pushes--;
