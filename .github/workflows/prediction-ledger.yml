@@ -9,6 +9,7 @@ on:
       - 'scripts/restore-private-datasets.py'
       - 'src/model.ts'
       - 'src/lib/supabase.ts'
+      - 'src/lib/memberData.ts'
       - 'src/predictionLedger.ts'
       - 'src/dailySettlement.ts'
       - 'scripts/test-daily-settlement.mts'
