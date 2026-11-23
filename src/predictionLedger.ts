@@ -98,7 +98,6 @@ export function summarizeTotalDirections(records: PredictionRecord[]) {
     }
     wins += 6;
     losses += 1;
-    total += 7;
   }
   const decided = wins + losses;
   return { total, decided, wins, losses, pushes, hitRate: decided ? wins / decided : null };
