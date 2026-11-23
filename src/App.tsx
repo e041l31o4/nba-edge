@@ -352,10 +352,10 @@ function DailySettlementReport({games,records,date}:{games:Game[];records:Predic
           <span className="daily-push">走 {row.analysis.pushes}</span>
         </div>
         <div className="daily-report-meta">方向命中率：{row.analysis.hitRate===null?'—':(row.analysis.hitRate*100).toFixed(1)+'%'} · 無方向 {row.analysis.noDirection} · 未結算 {row.analysis.unavailable}</div>
-        <div className="daily-report-recommendation">正式推薦：綠 {row.recommended.wins} · 紅 {row.recommended.losses} · 走 {row.recommended.pushes} · 未達門檻 {row.recommended.noDirection}</div>
+        <div className="daily-report-recommendation">正式推薦：綠 {row.recommended.wins} · 紅 {row.recommended.losses} · 走 {row.recommended.pushes} · 無可用方向 {row.recommended.noDirection}</div>
       </article>)}
     </div>
-    <p className="daily-report-footnote">綠／紅／走依賽前最終封存的分析方向判定；「正式推薦」只計入通過機率至少54%、EV至少+2.5%、信心及傷兵風險門檻的選項。無推薦不視為輸球，未完成正式結算不納入命中率。</p>
+    <p className="daily-report-footnote">綠／紅／走依賽前最終封存的三市場推薦方向判定；每場均保留不讓分、讓分與大小分方向，低期望值、低信心或傷兵未明會標示風險，不會因此隱藏推薦。無可用盤口才列為無方向，未完成正式結算不納入命中率。</p>
   </section>
 }
 function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, savedPrediction, ledgerStatus, onClick}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;teamMetrics:TeamMetricsData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;ledgerStatus:'loading'|'ready'|'error';onClick:()=>void}) {
@@ -509,7 +509,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const bestTotal=useSaved?(officialTotalPick?{isOver:/over|大/i.test(officialTotalPick.side),point:officialTotalPick.line,probability:officialTotalPick.probability??0,ev:officialTotalPick.ev??0}:!done?bestTotalCandidate:undefined):pendingFinalization?undefined:bestTotalCandidate
  const spreadQualified=qualifies(bestSpread)
  const totalQualified=qualifies(bestTotal)
- const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>{if(!pick)return '';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低';const prefix=useSaved?'即時模型參考':usePreliminary?'初步分析':'分析傾向';if(pick.ev<0.025)return prefix+'｜EV 未達 2.5%';if(pick.probability<0.54)return prefix+'｜模型機率未達 54%';if(report?.confidence==='低')return prefix+'｜模型信心不足';if(report?.injuryRisk==='偏高')return prefix+'｜傷兵風險偏高';if(report?.injuryRisk==='待確認')return prefix+'｜待官方傷兵資料確認';return usePreliminary?(qualified?'初步推薦｜'+(strong?'較強訊號':'一般訊號'):'初步觀察'):qualified?(strong?'正式推薦｜較強信號':'正式推薦｜一般信號'):'分析傾向｜未達正式推薦門檻'}
+ const confidenceLabel=(pick:{probability:number;ev:number}|undefined,qualified:boolean)=>{if(!pick)return '';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report?.confidence==='高'&&report.injuryRisk==='低';const prefix=useSaved?'賽前封存推薦':usePreliminary?'初步推薦':'推薦方向';const risks:string[]=[];if(pick.ev<0.025)risks.push('期望值偏低');if(pick.probability<0.54)risks.push('模型機率偏低');if(report?.confidence==='低')risks.push('信心偏低');if(report?.injuryRisk==='偏高')risks.push('傷兵風險偏高');if(report?.injuryRisk==='待確認')risks.push('傷兵狀態待確認');if(!qualified&&!risks.length)risks.push('優勢有限');return prefix+'｜'+(strong?'較強訊號':'一般訊號')+(risks.length?'（'+risks.join('、')+'）':'')}
  const spreadLabel=bestSpread?(bestSpread.isHome?game.home.abbreviation:game.away.abbreviation)+' '+(bestSpread.point!>0?'+':'')+bestSpread.point:''
  const totalLabel=bestTotal?(bestTotal.isOver?'大':'小')+' '+bestTotal.point:''
  const unverified=done&&!useSaved&&ledgerStatus==='ready'
