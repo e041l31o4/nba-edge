@@ -1,5 +1,6 @@
 import asyncio
 # Trigger a fresh verified PlaySport Taiwan Sports Lottery odds refresh.
+# 2026-11-24 NBA slate: refresh every scheduled matchup and all available Taiwan Sports Lottery markets.
 # Workflow refresh trigger: keep date-scoped odds and private member dataset current.
 import datetime as dt
 import json
