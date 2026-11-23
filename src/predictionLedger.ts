@@ -51,6 +51,32 @@ export function summarizePredictions(records: PredictionRecord[]) {
   return { total: official.length, settled: settled.length, accuracy: correct / settled.length, brier, marginError }
 }
 
+
+
+// Overall totals accuracy uses every frozen analysis direction, not only formal EV-qualified bets.
+// Prefer the immutable finalSnapshot; fall back to the saved lean/pick for older ledger rows.
+export function summarizeTotalDirections(records: PredictionRecord[]) {
+  const settled = records.filter(record => record.stage === 'official' && record.settledAt &&
+    Number.isFinite(record.actualHome) && Number.isFinite(record.actualAway));
+  let total = 0, wins = 0, losses = 0, pushes = 0;
+  for (const record of settled) {
+    const frozen = (record.finalSnapshot ?? {}) as Record<string, unknown>;
+    const pick = (frozen.totalLean ?? record.totalLean ?? frozen.totalPick ?? record.totalPick) as
+      { side?: string; line?: number } | null | undefined;
+    if (!pick || typeof pick.line !== 'number' || !Number.isFinite(pick.line)) continue;
+    const side = String(pick.side ?? '').toLowerCase();
+    if (!/^(over|under|大|小)$/.test(side)) continue;
+    total++;
+    const actual = Number(record.actualHome) + Number(record.actualAway);
+    const difference = actual - pick.line;
+    if (Math.abs(difference) < 1e-9) pushes++;
+    else if ((/^(over|大)$/.test(side) && difference > 0) || (/^(under|小)$/.test(side) && difference < 0)) wins++;
+    else losses++;
+  }
+  const decided = wins + losses;
+  return { total, decided, wins, losses, pushes, hitRate: decided ? wins / decided : null };
+}
+
 export function summarizeMarketRecords(records: PredictionRecord[], market: 'spreadPick'|'totalPick') {
   const eligible = records.filter(x => x.stage === 'official' && x.settledAt && x[market]?.result)
   const decided = eligible.filter(x => x[market]?.result === 'win' || x[market]?.result === 'loss')
