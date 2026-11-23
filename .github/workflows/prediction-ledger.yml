@@ -8,6 +8,7 @@ on:
       - 'scripts/record-predictions.mts'
       - 'scripts/restore-private-datasets.py'
       - 'src/model.ts'
+      - 'src/lib/supabase.ts'
       - 'src/predictionLedger.ts'
       - 'src/dailySettlement.ts'
       - 'scripts/test-daily-settlement.mts'
