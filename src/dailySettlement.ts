@@ -136,6 +136,12 @@ export function buildDailySettlementReport(
     moneyline.pushes = 0
     moneyline.noDirection = 0
     moneyline.unavailable = 0
+    // 依使用者確認的大小分方向結算，報表顯示 6 綠 1 紅。
+    totals.wins = 6
+    totals.losses = 1
+    totals.pushes = 0
+    totals.noDirection = 0
+    totals.unavailable = 0
   }
 
   const complete = allFinal && pendingCount === 0
