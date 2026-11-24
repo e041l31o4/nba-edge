@@ -5,6 +5,66 @@
 -- and immutable result-settlement RPC.
 
 -- NBA EDGE: private UCL football prediction ledger with immutable 21:00 Taiwan lock.
+-- Football page release switch: default closed; only admins can change it.
+create table if not exists public.football_access_settings (
+  singleton boolean primary key default true check (singleton),
+  members_enabled boolean not null default false,
+  updated_at timestamptz not null default now(),
+  updated_by uuid references auth.users(id)
+);
+insert into public.football_access_settings(singleton,members_enabled)
+values (true,false)
+on conflict (singleton) do nothing;
+alter table public.football_access_settings enable row level security;
+revoke all on public.football_access_settings from anon, authenticated;
+
+create or replace function public.get_football_member_access()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $
+  select coalesce((
+    select s.members_enabled
+    from public.football_access_settings s
+    where s.singleton = true
+  ),false);
+$;
+revoke all on function public.get_football_member_access() from public,anon;
+grant execute on function public.get_football_member_access() to authenticated;
+
+create or replace function public.admin_set_football_member_access(p_enabled boolean)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required' using errcode = '28000';
+  end if;
+  if not exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.role = 'admin'
+  ) then
+    raise exception 'Administrator permission required' using errcode = '42501';
+  end if;
+  update public.football_access_settings
+  set members_enabled = coalesce(p_enabled,false),
+      updated_at = now(),
+      updated_by = auth.uid()
+  where singleton = true;
+  if not found then
+    insert into public.football_access_settings(singleton,members_enabled,updated_at,updated_by)
+    values (true,coalesce(p_enabled,false),now(),auth.uid());
+  end if;
+  return coalesce(p_enabled,false);
+end;
+$;
+revoke all on function public.admin_set_football_member_access(boolean) from public,anon;
+grant execute on function public.admin_set_football_member_access(boolean) to authenticated;
+
 alter table public.member_datasets
   drop constraint if exists member_datasets_dataset_key_check;
 
@@ -31,6 +91,11 @@ begin
   end if;
   select exists(select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
     into v_is_admin;
+  if p_dataset_key = 'football-prediction-ledger'
+     and not v_is_admin
+     and not public.get_football_member_access() then
+    raise exception 'Football page is currently private to administrators' using errcode = '42501';
+  end if;
   if not public.has_active_membership() and not v_is_admin then
     raise exception 'Active membership required' using errcode = '42501';
   end if;
