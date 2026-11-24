@@ -244,6 +244,45 @@ for(const row of rows){
   row.recoverySource=[row.recoverySource,rollbackTag].filter(Boolean).join(';')
   restoredRowCount++
 }
+// The website's moneyline card reads homeWin/awayWin, not only moneylinePick.
+// Restore those display-driving probabilities as well as the saved market lean/pick fields.
+let restoredDisplayProbabilities=0
+for(const row of rows){
+  if(taiwanDateKey(row.date)!=='2026-11-24' || !String(row.recoverySource??'').includes(rollbackTag)) continue
+  const moneylineChange=(row.marketChangeHistory??[]).find(change=>change.at===rollbackAt && change.market==='moneyline' && change.from && typeof change.from.probability==='number')
+  if(moneylineChange?.from){
+    const oldPick={...(moneylineChange.from as MarketPick)}
+    const homeProbability=oldPick.teamSide==='home'?oldPick.probability!:1-oldPick.probability!
+    row.homeWin=homeProbability
+    row.awayWin=1-homeProbability
+    row.moneylinePick=oldPick
+    row.moneylineLean=oldPick
+    if(row.latestMarketReview) row.latestMarketReview.moneylinePick=oldPick
+    if(row.finalSnapshot){
+      row.finalSnapshot.homeWin=homeProbability
+      row.finalSnapshot.awayWin=1-homeProbability
+      row.finalSnapshot.moneylinePick=oldPick
+      row.finalSnapshot.moneylineLean=oldPick
+    }
+    restoredDisplayProbabilities++
+  }
+  for(const market of ['spread','total'] as const){
+    const change=(row.marketChangeHistory??[]).find(item=>item.at===rollbackAt && item.market===market && item.from)
+    if(!change?.from) continue
+    const oldPick={...(change.from as MarketPick)}
+    const pickField=market==='spread'?'spreadPick':'totalPick'
+    const leanField=market==='spread'?'spreadLean':'totalLean'
+    ;(row as any)[pickField]=oldPick
+    ;(row as any)[leanField]=oldPick
+    if(row.latestMarketReview) (row.latestMarketReview as any)[pickField]=oldPick
+    if(row.finalSnapshot){
+      ;(row.finalSnapshot as any)[pickField]=oldPick
+      ;(row.finalSnapshot as any)[leanField]=oldPick
+    }
+  }
+}
+console.log('NBA_EDGE_2026_11_24_DISPLAY_FIELDS_RESTORED:',JSON.stringify({restoredDisplayProbabilities,websiteMoneylineSource:'homeWin/awayWin',allThreeMarkets:true}))
+
 const alreadyRestoredRows=rows.filter(row=>taiwanDateKey(row.date)==='2026-11-24' && String(row.recoverySource??'').includes(rollbackTag))
 const alreadyRestoredMarkets=alreadyRestoredRows.reduce((count,row)=>count+(row.marketChangeHistory??[]).filter(change=>change.reason==='依使用者要求，撤銷 2026-11-24 06:42:49 自動更新，恢復更新前原始推薦與燈號').length,0)
 const totalRestoredRows=restoredRowCount+alreadyRestoredRows.length
