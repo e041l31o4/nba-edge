@@ -207,6 +207,48 @@ const settleMarkets=(row:Row,home:number,away:number)=>{
   }
 }
 
+// Roll back the 2026-11-24 06:42:49 Asia/Taipei refresh for the current day's slate.
+// The exact prior picks are preserved in each row's marketChangeHistory.from value.
+// Restore those values (including odds/probability/EV) and keep the official slate immutable.
+const rollbackAt='2026-11-23T22:42:49.124Z'
+const rollbackTag='rollback-2026-11-24-064249-to-pre-refresh'
+let restoredMarketCount=0
+let restoredRowCount=0
+for(const row of rows){
+  if(taiwanDateKey(row.date)!=='2026-11-24' || String(row.recoverySource??'').includes(rollbackTag)) continue
+  const changes=(row.marketChangeHistory??[]).filter(change=>change.at===rollbackAt && change.from && ['moneyline','spread','total'].includes(change.market))
+  if(!changes.length) continue
+  for(const change of changes){
+    const field=change.market==='moneyline'?'moneylinePick':change.market==='spread'?'spreadPick':'totalPick'
+    const current=(row as any)[field] as MarketPick|undefined
+    const restored={...(change.from as MarketPick)}
+    if(current?.result) restored.result=current.result
+    ;(row as any)[field]=restored
+    if(row.latestMarketReview) (row.latestMarketReview as any)[field]=restored
+    if(row.finalSnapshot) (row.finalSnapshot as any)[field]=restored
+    row.marketChangeHistory=[...(row.marketChangeHistory??[]),{
+      at:now.toISOString(),market:change.market,from:current??change.to,to:restored,
+      reason:'依使用者要求，撤銷 2026-11-24 06:42:49 自動更新，恢復更新前原始推薦與燈號'
+    }].slice(-200)
+    restoredMarketCount++
+  }
+  const [y,m,d]=taiwanDateKey(row.date).split('-').map(Number)
+  const previousDay=new Date(Date.UTC(y,m-1,d-1)).toISOString().slice(0,10)
+  const cutoffAt=new Date(previousDay+'T21:00:00+08:00').toISOString()
+  row.stage='official'
+  row.lockedAt=row.lockedAt??cutoffAt
+  row.finalizedAt=row.finalizedAt??row.lockedAt
+  row.finalAt=row.finalAt??row.lockedAt
+  row.analysisStatus='final'
+  ensureFinalSnapshot(row)
+  row.recoverySource=[row.recoverySource,rollbackTag].filter(Boolean).join(';')
+  restoredRowCount++
+}
+if(restoredMarketCount!==25 || restoredRowCount!==10){
+  throw new Error('Rollback safety check failed: expected 25 original market picks across 10 games; restored '+restoredMarketCount+' picks across '+restoredRowCount+' games. No partial rollback will be published.')
+}
+console.log('NBA_EDGE_2026_11_24_064249_ROLLBACK:',JSON.stringify({restoredRows:restoredRowCount,restoredMarkets:restoredMarketCount,sourceTimestamp:rollbackAt,trafficLightPicksRestored:true}))
+
 // User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
 let manuallyRecovered=0
 let denNopRestored=false
@@ -364,6 +406,22 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     continue
   }
   if (existing && existing.stage==='official') continue
+  // Freeze at exactly 21:00 Taiwan time on the previous calendar day.
+  // Do not run one last rolling refresh after the agreed cutoff.
+  if(existing?.stage==='draft' && isFinalReviewReached(event.date)){
+    const localDate=taiwanDateKey(event.date)
+    const [y,m,d]=localDate.split('-').map(Number)
+    const previousDay=new Date(Date.UTC(y,m-1,d-1)).toISOString().slice(0,10)
+    const cutoffAt=new Date(previousDay+'T21:00:00+08:00').toISOString()
+    existing.stage='official'
+    existing.lockedAt=existing.lockedAt??cutoffAt
+    existing.finalizedAt=existing.finalizedAt??existing.lockedAt
+    existing.finalAt=existing.finalAt??existing.lockedAt
+    existing.analysisStatus='final'
+    ensureFinalSnapshot(existing)
+    added++
+    continue
+  }
   if (existing?.stage==='draft') {
     if (existing.recoverySource) continue
     const game={date:event.date,home:{id:String(h.team?.id??''),abbreviation:String(h.team?.abbreviation??'—')},away:{id:String(a.team?.id??''),abbreviation:String(a.team?.abbreviation??'—')}}
@@ -447,7 +505,7 @@ for (const row of rows) {
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
 // Keep per-game predictions and market picks out of public Actions logs.
-if (added || settled || refreshed || regraded || manuallyRecovered || !previousPayload) {
+if (added || settled || refreshed || regraded || manuallyRecovered || restoredMarketCount || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
   await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
