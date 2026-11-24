@@ -43,7 +43,33 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
 }
 function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
-function parseEvents(json:any):FootballMatch[]{return (json.events??[]).map((e:any)=>{const c=e.competitions?.[0],teams=c?.competitors??[],h=teams.find((x:any)=>x.homeAway==='home'),a=teams.find((x:any)=>x.homeAway==='away');const team=(x:any)=>({id:String(x?.team?.id??''),name:x?.team?.displayName??x?.team?.name??'待確認',abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo,score:x?.score!==undefined&&x?.score!==null?Number(x.score):undefined});return {id:String(e.id),date:e.date,status:e.status?.type?.name??'',detail:e.status?.type?.shortDetail??'',venue:c?.venue?.fullName,home:team(h),away:team(a)}}).filter((g:FootballMatch)=>g.id&&g.home.id&&g.away.id)}
+function parseEvents(json:any):FootballMatch[]{return (json.events??[]).map((e:any)=>{const c=e.competitions?.[0],teams=c?.competitors??[],h=teams.find((x:any)=>x.homeAway==='home'),a=teams.find((x:any)=>x.homeAway==='away');const team=(x:any)=>({id:String(x?.team?.id??''),name:x?.team?.displayName??x?.team?.name??'待確認',abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo??x?.team?.logos?.[0]?.href,score:(x?.score?.value??x?.score?.displayValue??x?.score)!==undefined&&(x?.score?.value??x?.score?.displayValue??x?.score)!==null?Number(x?.score?.value??x?.score?.displayValue??x?.score):undefined});return {id:String(e.id),date:e.date,status:e.status?.type?.name??'',detail:e.status?.type?.shortDetail??'',venue:c?.venue?.fullName,home:team(h),away:team(a)}}).filter((g:FootballMatch)=>g.id&&g.home.id&&g.away.id)}
+const TEAM_DOMESTIC_LEAGUE:Record<string,string>={
+ 'arsenal':'eng.1','astonvilla':'eng.1','liverpool':'eng.1','manchestercity':'eng.1','manchesterunited':'eng.1',
+ 'atleticodemadrid':'esp.1','atleticomadrid':'esp.1','barcelona':'esp.1','realbetis':'esp.1','realmadrid':'esp.1','villarreal':'esp.1',
+ 'bayernmunchen':'ger.1','bayernmunich':'ger.1','borussiadortmund':'ger.1','leipzig':'ger.1','rbleipzig':'ger.1','stuttgart':'ger.1','vfbstuttgart':'ger.1',
+ 'como':'ita.1','inter':'ita.1','internazionale':'ita.1','napoli':'ita.1','roma':'ita.1','asroma':'ita.1',
+ 'lens':'fra.1','lille':'fra.1','paris':'fra.1','parissaintgermain':'fra.1','psg':'fra.1',
+ 'feyenoord':'ned.1','psv':'ned.1','psveindhoven':'ned.1',
+ 'porto':'por.1','fcporto':'por.1','sportingcp':'por.1',
+ 'fenerbahce':'tur.1','galatasaray':'tur.1',
+ 'bodoglimt':'nor.1','viking':'nor.1','vikingfk':'nor.1',
+ 'lask':'aut.1','lasklinz':'aut.1',
+ 'aekathens':'gre.1',
+ 'slovanbratislava':'svk.1',
+ 'sabah':'aze.1','sabahfk':'aze.1',
+ 'shakhtar':'ukr.1','shakhtardonetsk':'ukr.1',
+ 'clubbrugge':'bel.1','brugge':'bel.1',
+ 'slaviapraha':'cze.1','slaviaprague':'cze.1'
+}
+async function teamSchedule(team:FootballTeam):Promise<FootballMatch[]>{
+ const league=TEAM_DOMESTIC_LEAGUE[normalizeName(team.name)]
+ if(!league)return []
+ const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/teams/${team.id}/schedule`
+ const response=await fetch(url)
+ if(!response.ok)throw new Error(`Team schedule unavailable: ${team.name}`)
+ return parseEvents(await response.json())
+}
 async function scoreboard(dates:string,league='uefa.champions'){const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=500`;const r=await fetch(url);if(!r.ok)throw new Error('UEFA Champions League 賽程來源暫時無法連線');return r.json()}
 const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27','2027-02-16','2027-02-17','2027-02-23','2027-02-24','2027-03-09','2027-03-10','2027-03-16','2027-03-17','2027-04-06','2027-04-07','2027-04-13','2027-04-14','2027-04-27','2027-04-28','2027-05-04','2027-05-05','2027-06-05']
 function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
@@ -52,8 +78,13 @@ export async function getUclMatches(taiwanDate:string):Promise<{matches:Football
   const results=await Promise.allSettled(days.map(day=>scoreboard(espnDate(day),'uefa.champions')))
   const fulfilled=results.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
   if(!fulfilled.length)throw new Error('歐冠賽程來源暫時無法連線')
-  const all=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
-  const matches=all.filter(game=>taiwanDay(game.date)===taiwanDate)
-  const history=all.filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&game.status.toLowerCase().includes('final'))
+  const uclGames=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
+  const matches=uclGames.filter(game=>taiwanDay(game.date)===taiwanDate)
+  const teams=Array.from(new Map(matches.flatMap(game=>[game.home,game.away]).map(team=>[team.id,team])).values())
+  const schedules=await Promise.allSettled(teams.map(team=>teamSchedule(team)))
+  const domesticGames=schedules.flatMap(result=>result.status==='fulfilled'?result.value:[])
+  const history=Array.from(new Map([...uclGames,...domesticGames]
+    .filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&game.status.toLowerCase().includes('final'))
+    .map(game=>[game.id,game])).values())
   return {matches,history}
 }
