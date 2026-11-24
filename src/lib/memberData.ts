@@ -20,3 +20,5 @@ export async function loadDataset<T>(key: string, publicFile: string): Promise<T
   }
   return response.json() as Promise<T>
 }
+
+// 2026-11-24: redeploy the member-facing app after restoring the private prediction ledger.
