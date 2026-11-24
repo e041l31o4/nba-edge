@@ -1,0 +1,21 @@
+name: Verify UCL and domestic football data feeds
+on:
+  push:
+    paths:
+      - 'scripts/verify-ucl-data.mjs'
+      - 'src/football.ts'
+      - '.github/workflows/verify-ucl-data.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify UCL and domestic scoreboards
+        run: node scripts/verify-ucl-data.mjs
