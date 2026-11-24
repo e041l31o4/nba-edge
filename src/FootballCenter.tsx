@@ -55,7 +55,7 @@ export default function FootballCenter({date,canAccess,isAdmin}:Props){
   catch(e){setError(e instanceof Error?e.message:'足球預測封存失敗')}
   finally{setSaving(false)}
  }
- if(!canAccess)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>歐洲冠軍聯賽的勝平負、總進球大小與正確比數分析，僅開放已啟用會員及管理員查看。</p></section>
+ if(!canAccess)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>會員僅可在賽事前一日台灣時間 21:00 正式預測封存後查看；管理員可提前預覽。</p></section>
  return <div className="football-center">
   <section className="football-hero"><div><span className="football-eyebrow">FOOTBALL INTELLIGENCE / 2026—27</span><h2>UEFA <b>CHAMPIONS LEAGUE</b></h2><p>歐洲冠軍聯賽｜勝平負・總進球・正確比數</p></div><div className="football-ball">⚽</div></section>
   <section className="football-performance"><div><small>已結算賽事</small><b>{performance.settled}</b></div><div><small>勝平負命中</small><b>{performance.moneyline.rate===null?'—':pct(performance.moneyline.rate)}</b><em>{performance.moneyline.wins}/{performance.moneyline.decided}</em></div><div><small>大小球命中</small><b>{performance.total.rate===null?'—':pct(performance.total.rate)}</b><em>{performance.total.wins}/{performance.total.decided}</em></div><div><small>正確比數命中</small><b>{performance.correctScore.rate===null?'—':pct(performance.correctScore.rate)}</b><em>{performance.correctScore.wins}/{performance.correctScore.decided}</em></div></section>
