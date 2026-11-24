@@ -19,7 +19,7 @@ const clubSchedules=await Promise.all([
 console.log(JSON.stringify({
  taiwanDate:date,
  uclSingleDay:days.map((d,i)=>({date:d,status:uclResults[i].status,count:uclResults[i].events.length,events:uclResults[i].events.slice(0,3).map(e=>e.name)})),
- verifiedClubSchedules:clubSchedules.map(x=>({status:x.status,count:x.events.length,firstEvent:x.events[0]?.name,firstFinal:(x.events.find(e=>String(e.status?.type?.name??'').toLowerCase().includes('final')))?.name,scoreShape:(x.events.find(e=>String(e.status?.type?.name??'').toLowerCase().includes('final'))?.competitions?.[0]?.competitors??[]).map(c=>c.score)}))
+ verifiedClubSchedules:clubSchedules.map(x=>({status:x.status,count:x.events.length,firstEvent:x.events[0]?.name,firstEventStatus:x.events[0]?.status,firstEventCompetitors:x.events[0]?.competitions?.[0]?.competitors?.map(c=>({homeAway:c.homeAway,score:c.score,team:c.team?.displayName})),firstFinal:(x.events.find(e=>String(e.status?.type?.name??'').toLowerCase().includes('final')))?.name,scoreShape:(x.events.find(e=>String(e.status?.type?.name??'').toLowerCase().includes('final'))?.competitions?.[0]?.competitors??[]).map(c=>c.score)}))
 },null,2))
 if(uclEvents.length===0)throw new Error('Single-day ESPN UCL scoreboard returned no events')
 if(!clubSchedules.some(x=>x.events.length>0))throw new Error('No domestic club schedule returned events')
