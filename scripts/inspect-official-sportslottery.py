@@ -97,6 +97,25 @@ async def main():
                     # Probe plausible public sport/league identifiers inferred from official UI labels.
                     # Read-only requests only; no login, CAPTCHA, or access-control bypass.
                     if index == 2:
+                        try:
+                            browser_api_result = await page.evaluate("""async () => {
+                              const fn = window.abp?.services?.app?.preGames?.getListBySport;
+                              if (!fn) return { available: false };
+                              const ids = ["1","2","3","4","5","441","442","443","444","445"];
+                              const results = [];
+                              for (const id of ids) {
+                                try {
+                                  const value = await fn(id);
+                                  results.push({ id, ok: true, keys: Object.keys(value || {}), body: JSON.stringify(value).slice(0, 3000) });
+                                } catch (error) {
+                                  results.push({ id, ok: false, error: String(error).slice(0, 300) });
+                                }
+                              }
+                              return { available: true, results };
+                            }""")
+                            print("OFFICIAL_BROWSER_API " + str(browser_api_result)[:16000])
+                        except Exception as browser_api_exc:
+                            print(f"OFFICIAL_BROWSER_API_ERROR {type(browser_api_exc).__name__}: {browser_api_exc}")
                         candidates = [
                             *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02", "Football", "football", "Soccer", "soccer", "FTB", "ftb", "1", "01", "441", "442", "443", "444", "445"]),
                             *(f"Pre/ListByLeague/{value}.json" for value in ["NBA", "nba", "Basketball", "basketball", "UEFA Champions League", "UEFA-Champions-League", "Champions League", "champions-league", "UCL", "ucl", "Football", "football", "Soccer", "soccer"]),
