@@ -7,7 +7,7 @@ async function get(url){
  const body=await r.text()
  let data={}
  try{data=JSON.parse(body)}catch{}
- return {status:r.status,count:Array.isArray(data.events)?data.events.length:0,events:data.events??[],body:body.slice(0,500)}
+ return {status:r.status,count:Array.isArray(data.events)?data.events.length:0,events:data.events??[],body:body.slice(0,8000)}
 }
 const days=[shift(date,-1),date,shift(date,1)]
 const uclResults=await Promise.all(days.map(d=>get('https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates='+d.replaceAll('-',''))))
