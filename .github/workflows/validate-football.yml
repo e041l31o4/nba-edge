@@ -1,0 +1,21 @@
+name: Validate NBA EDGE + UCL football
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'supabase/migrations/**'
+      - 'package.json'
+      - 'vite.config.ts'
+      - '.github/workflows/validate-football.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
