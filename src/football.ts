@@ -44,14 +44,14 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
 function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 function parseEvents(json:any):FootballMatch[]{return (json.events??[]).map((e:any)=>{const c=e.competitions?.[0],teams=c?.competitors??[],h=teams.find((x:any)=>x.homeAway==='home'),a=teams.find((x:any)=>x.homeAway==='away');const team=(x:any)=>({id:String(x?.team?.id??''),name:x?.team?.displayName??x?.team?.name??'待確認',abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo,score:x?.score!==undefined&&x?.score!==null?Number(x.score):undefined});return {id:String(e.id),date:e.date,status:e.status?.type?.name??'',detail:e.status?.type?.shortDetail??'',venue:c?.venue?.fullName,home:team(h),away:team(a)}}).filter((g:FootballMatch)=>g.id&&g.home.id&&g.away.id)}
-async function scoreboard(dates:string,league='uefa.champions-league'){const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=500`;const r=await fetch(url);if(!r.ok)throw new Error('UEFA Champions League 賽程來源暫時無法連線');return r.json()}
+async function scoreboard(dates:string,league='uefa.champions'){const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=500`;const r=await fetch(url);if(!r.ok)throw new Error('UEFA Champions League 賽程來源暫時無法連線');return r.json()}
 function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
 export async function getUclMatches(taiwanDate:string):Promise<{matches:FootballMatch[];history:FootballMatch[]}>{
   const domesticLeagues=['eng.1','esp.1','ger.1','ita.1','fra.1','ned.1','por.1','tur.1','nor.1','bel.1','aut.1','ukr.1']
   const uclRange=`${espnDate(dateShift(taiwanDate,-120))}-${espnDate(dateShift(taiwanDate,1))}`
   const domesticRange=`${espnDate(dateShift(taiwanDate,-45))}-${espnDate(taiwanDate)}`
   const [uclResult,...domesticResults]=await Promise.allSettled([
-    scoreboard(uclRange,'uefa.champions-league'),
+    scoreboard(uclRange,'uefa.champions'),
     ...domesticLeagues.map(league=>scoreboard(domesticRange,league))
   ])
   if(uclResult.status==='rejected')throw new Error('歐冠賽程來源暫時無法連線')
