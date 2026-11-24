@@ -16,7 +16,7 @@ export function buildFootballModel(match:FootballMatch, history:FootballMatch[],
   const form=(id:string):TeamGoalForm=>{
     const rows=history.filter(g=>g.status.toLowerCase().includes('final')&&(g.home.id===id||g.away.id===id)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
     let scored=0,conceded=0
-    for(const g of rows){const home=g.home.id===id;scored+=Number(home?g.home.score:g.away.score??0);conceded+=Number(home?g.away.score:g.home.score??0)}
+    for(const g of rows){const home=g.home.id===id;scored+=Number((home?g.home.score:g.away.score)??0);conceded+=Number((home?g.away.score:g.home.score)??0)}
     return {played:rows.length,scored,conceded,lastFive:rows.map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
   }
   const h=form(match.home.id),a=form(match.away.id)
