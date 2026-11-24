@@ -18,11 +18,14 @@ security definer
 set search_path = ''
 as $$
 declare v_payload jsonb;
+  v_is_admin boolean := false;
 begin
   if auth.uid() is null then
     raise exception 'Authentication required' using errcode = '28000';
   end if;
-  if not public.has_active_membership() then
+  select exists(select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+    into v_is_admin;
+  if not public.has_active_membership() and not v_is_admin then
     raise exception 'Active membership required' using errcode = '42501';
   end if;
   if p_dataset_key not in (
@@ -36,9 +39,21 @@ begin
   if v_payload is null then
     raise exception 'Dataset not published yet' using errcode = 'P0002';
   end if;
+  if p_dataset_key = 'football-prediction-ledger' and not v_is_admin then
+    return jsonb_build_object(
+      'records',
+      coalesce((
+        select jsonb_agg(record_value)
+        from jsonb_array_elements(coalesce(v_payload->'records','[]'::jsonb)) as items(record_value)
+        where (record_value->>'lockedAt')::timestamptz <= now()
+          and (((record_value->>'date')::timestamptz at time zone 'Asia/Taipei')::date)
+              <= ((now() at time zone 'Asia/Taipei')::date + 1)
+      ),'[]'::jsonb)
+    );
+  end if;
   return v_payload;
 end;
-$$;
+$;
 revoke all on function public.get_member_dataset(text) from public, anon;
 grant execute on function public.get_member_dataset(text) to authenticated;
 
