@@ -1,4 +1,8 @@
 -- UCL result settlement is separate from frozen pre-match predictions.
+insert into public.member_datasets(dataset_key,payload,updated_at)
+values ('football-prediction-ledger',jsonb_build_object('records','[]'::jsonb),now())
+on conflict (dataset_key) do nothing;
+
 create or replace function public.admin_settle_football_prediction(
   p_game_id text,
   p_home_goals integer,
