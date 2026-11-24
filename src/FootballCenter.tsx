@@ -6,7 +6,7 @@ import { supabase } from './lib/supabase'
 import './football.css'
 
 type Props={date:string;canAccess:boolean;isAdmin:boolean}
-type RecordRow={gameId:string;date:string;home:string;away:string;homeWin:number;draw:number;awayWin:number;homeXg:number;awayXg:number;totalPick:{side:'over'|'under';line:number;probability:number};correctScores:Array<{score:string;probability:number}>;sportsLotteryOdds:{home:number;draw:number;away:number;over:number;under:number;totalLine:number};sampleHome:number;sampleAway:number;stage:'official';analysisStatus:'final';lockedAt:string;publishedAt?:string}
+type RecordRow={gameId:string;date:string;home:string;away:string;homeWin:number;draw:number;awayWin:number;homeXg:number;awayXg:number;moneylinePick:{side:'home'|'draw'|'away';probability:number};totalPick:{side:'over'|'under';line:number;probability:number};correctScores:Array<{score:string;probability:number}>;sportsLotteryOdds:{home:number;draw:number;away:number;over:number;under:number;totalLine:number};sampleHome:number;sampleAway:number;stage:'official';analysisStatus:'final';lockedAt:string;publishedAt?:string;actualHome?:number;actualAway?:number;settledAt?:string;settlement?:{moneyline:'win'|'loss';total:'win'|'loss'|'push';correctScore:'win'|'loss'}}
 type OddsForm={home:string;draw:string;away:string;over:string;under:string}
 const pct=(n:number)=>(n*100).toFixed(1)+'%'
 const localTime=(value:string)=>new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(value))
@@ -31,13 +31,21 @@ export default function FootballCenter({date,canAccess,isAdmin}:Props){
  const active=rows.find(x=>x.match.id===selected)
  const locked=Date.now()>=new Date(lockTime(date)).getTime()
  const oddsReady=Object.values(odds).every(v=>v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>1)
+ const settleOfficial=async(match:FootballMatch)=>{
+  if(!supabase||match.home.score===undefined||match.away.score===undefined||!match.status.toLowerCase().includes('final'))return
+  setSaving(true);setError('');setNotice('')
+  try{const result=await supabase.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score});if(result.error)throw result.error;setRecords(current=>[...current.filter(x=>x.gameId!==match.id),result.data as RecordRow]);setNotice('正式賽果已結算；原始推薦與鎖定時間均未更動。')}
+  catch(e){setError(e instanceof Error?e.message:'足球賽果結算失敗')}
+  finally{setSaving(false)}
+ }
  const saveOfficial=async(match:FootballMatch,model:FootballModel)=>{
   if(!supabase){setError('會員資料庫尚未設定，無法封存足球預測。');return}
   if(!oddsReady){setError('請先輸入並核對台灣運彩官方勝平負及大小球賠率，再發布會員預測。');return}
   if(Date.now()>=new Date(lockTime(date)).getTime()){setError('已超過台灣時間 21:00 鎖定時間，本場不得新增或修改正式預測。');return}
   setSaving(true);setError('');setNotice('')
   const pOdds={home:Number(odds.home),draw:Number(odds.draw),away:Number(odds.away),over:Number(odds.over),under:Number(odds.under),totalLine:line}
-  const record:RecordRow={gameId:match.id,date:match.date,home:match.home.name,away:match.away.name,homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,totalPick:{side:model.over>=model.under?'over':'under',line:line,probability:Math.max(model.over,model.under)},correctScores:model.topScores,sportsLotteryOdds:pOdds,sampleHome:model.sampleHome,sampleAway:model.sampleAway,stage:'official',analysisStatus:'final',lockedAt:lockTime(date)}
+  const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0];
+  const record:RecordRow={gameId:match.id,date:match.date,home:match.home.name,away:match.away.name,homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,moneylinePick:{side:winner.side,probability:winner.probability},totalPick:{side:model.over>=model.under?'over':'under',line:line,probability:Math.max(model.over,model.under)},correctScores:model.topScores,sportsLotteryOdds:pOdds,sampleHome:model.sampleHome,sampleAway:model.sampleAway,stage:'official',analysisStatus:'final',lockedAt:lockTime(date)}
   try{const result=await supabase.rpc('admin_save_football_prediction',{p_game_id:match.id,p_record:record});if(result.error)throw result.error;setRecords(current=>[...current.filter(x=>x.gameId!==match.id),result.data as RecordRow]);setNotice('已封存並發布。資料庫將在台灣時間 21:00 後拒絕修改。')}
   catch(e){setError(e instanceof Error?e.message:'足球預測封存失敗')}
   finally{setSaving(false)}
