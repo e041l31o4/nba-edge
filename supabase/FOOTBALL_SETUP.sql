@@ -75,6 +75,21 @@ begin
      or p_record is null or p_record->>'gameId' <> p_game_id then
     raise exception 'Invalid football prediction payload' using errcode = '22023';
   end if;
+
+  if p_record->'moneylinePick'->>'side' not in ('home','draw','away')
+     or p_record->'totalPick'->>'side' not in ('over','under')
+     or jsonb_typeof(p_record->'correctScores') <> 'array'
+     or jsonb_array_length(coalesce(p_record->'correctScores','[]'::jsonb)) = 0 then
+    raise exception 'Invalid football market recommendations' using errcode = '22023';
+  end if;
+  if coalesce((p_record#>>'{sportsLotteryOdds,home}')::numeric,0) <= 1
+     or coalesce((p_record#>>'{sportsLotteryOdds,draw}')::numeric,0) <= 1
+     or coalesce((p_record#>>'{sportsLotteryOdds,away}')::numeric,0) <= 1
+     or coalesce((p_record#>>'{sportsLotteryOdds,over}')::numeric,0) <= 1
+     or coalesce((p_record#>>'{sportsLotteryOdds,under}')::numeric,0) <= 1
+     or coalesce((p_record#>>'{sportsLotteryOdds,totalLine}')::numeric,0) <= 0 then
+    raise exception '官方運彩五項賠率與大小球盤口均須有效填寫' using errcode = '22023';
+  end if;
   begin
     v_match_date := ((p_record->>'date')::timestamptz at time zone 'Asia/Taipei')::date;
   exception when others then
