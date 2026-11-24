@@ -56,6 +56,12 @@ begin
   if not v_found then
     raise exception 'Official football prediction not found' using errcode = 'P0002';
   end if;
+  if v_old->>'stage' <> 'official' then
+    raise exception 'Only frozen official predictions can be settled' using errcode = '55000';
+  end if;
+  if now() < (v_old->>'date')::timestamptz then
+    raise exception 'Match kickoff has not occurred yet' using errcode = '55000';
+  end if;
   if v_old->>'settledAt' is not null then
     if (v_old->>'actualHome')::integer=p_home_goals and (v_old->>'actualAway')::integer=p_away_goals then
       return v_old;
