@@ -35,8 +35,14 @@ function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 function parseEvents(json:any):FootballMatch[]{return (json.events??[]).map((e:any)=>{const c=e.competitions?.[0],teams=c?.competitors??[],h=teams.find((x:any)=>x.homeAway==='home'),a=teams.find((x:any)=>x.homeAway==='away');const team=(x:any)=>({id:String(x?.team?.id??''),name:x?.team?.displayName??x?.team?.name??'待確認',abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo,score:x?.score!==undefined&&x?.score!==null?Number(x.score):undefined});return {id:String(e.id),date:e.date,status:e.status?.type?.name??'',detail:e.status?.type?.shortDetail??'',venue:c?.venue?.fullName,home:team(h),away:team(a)}}).filter((g:FootballMatch)=>g.id&&g.home.id&&g.away.id)}
 async function scoreboard(dates:string){const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions-league/scoreboard?dates=${dates}`;const r=await fetch(url);if(!r.ok)throw new Error('UEFA Champions League 賽程來源暫時無法連線');return r.json()}
+const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27']
+function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
 export async function getUclMatches(taiwanDate:string):Promise<{matches:FootballMatch[];history:FootballMatch[]}>{
-  const from=espnDate(dateShift(taiwanDate,-120)),to=espnDate(dateShift(taiwanDate,1)),target=espnDate(taiwanDate)
-  const [current,history]=await Promise.all([scoreboard(target),scoreboard(`${from}-${to}`)])
-  return {matches:parseEvents(current),history:parseEvents(history)}
+  const recentDays=UCL_MATCH_DAYS.filter(day=>day<=taiwanDate&&day>=dateShift(taiwanDate,-120))
+  const requestDays=Array.from(new Set([...recentDays,dateShift(taiwanDate,-1),taiwanDate,dateShift(taiwanDate,1)]))
+  const payloads=await Promise.all(requestDays.map(day=>scoreboard(espnDate(day))))
+  const all=Array.from(new Map(payloads.flatMap(parseEvents).map(game=>[game.id,game])).values())
+  const matches=all.filter(game=>taiwanDay(game.date)===taiwanDate)
+  const history=all.filter(game=>taiwanDay(game.date)<=taiwanDate&&game.status.toLowerCase().includes('final'))
+  return {matches,history}
 }
