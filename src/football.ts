@@ -63,19 +63,3 @@ export async function getUclMatches(taiwanDate:string):Promise<{matches:Football
     .map(game=>[game.id,game])).values())
   return {matches,history}
 }
-  const recentDays=UCL_MATCH_DAYS.filter(day=>day<=taiwanDate&&day>=dateShift(taiwanDate,-120))
-  const requestDays=Array.from(new Set([...recentDays,dateShift(taiwanDate,-1),taiwanDate,dateShift(taiwanDate,1)]))
-  const domesticLeagues=['eng.1','esp.1','ger.1','ita.1','fra.1','ned.1','por.1','tur.1','nor.1','bel.1','aut.1','ukr.1']
-  const historyRange=`${espnDate(dateShift(taiwanDate,-45))}-${espnDate(taiwanDate)}`
-  const requests=[
-    ...requestDays.map(day=>scoreboard(espnDate(day),'uefa.champions-league')),
-    ...domesticLeagues.map(league=>scoreboard(historyRange,league))
-  ]
-  const payloads=await Promise.allSettled(requests)
-  const fulfilled=payloads.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
-  const all=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
-  const matches=all.filter(game=>taiwanDay(game.date)===taiwanDate&&game.id)
-  const history=all.filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-45)&&game.status.toLowerCase().includes('final'))
-  if(!matches.length&&payloads.every(x=>x.status==='rejected'))throw new Error('歐冠賽程與近期戰績來源暫時無法連線')
-  return {matches,history}
-}
