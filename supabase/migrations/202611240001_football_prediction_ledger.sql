@@ -57,6 +57,7 @@ declare
   v_item jsonb;
   v_now timestamptz := now();
   v_lock timestamptz;
+  v_match_date date;
   v_found boolean := false;
 begin
   if v_user is null then
@@ -70,14 +71,26 @@ begin
     raise exception 'Invalid football prediction payload' using errcode = '22023';
   end if;
   begin
-    v_lock := (p_record->>'lockedAt')::timestamptz;
+    v_match_date := ((p_record->>'date')::timestamptz at time zone 'Asia/Taipei')::date;
   exception when others then
-    raise exception 'Invalid prediction lock time' using errcode = '22023';
+    raise exception 'Invalid match date' using errcode = '22023';
   end;
-  if v_lock is null then
-    raise exception 'Prediction lock time is required' using errcode = '22023';
+  if v_match_date is null then
+    raise exception 'Match date is required' using errcode = '22023';
+  end if;
+  -- Derive the lock on the server: 21:00 Taiwan time on the calendar day
+  -- before the match's Taiwan-local kickoff date. Never trust a client lock.
+  v_lock := (((v_match_date - 1)::timestamp + time '21:00') at time zone 'Asia/Taipei');
+  if (p_record->>'lockedAt')::timestamptz is distinct from v_lock then
+    raise exception 'Prediction lock timestamp does not match the official Taiwan-time lock' using errcode = '22023';
+  end if;
+  if v_now >= v_lock then
+    raise exception '已超過台灣時間 21:00 鎖定時間，不能新增或修改正式預測' using errcode = '55000';
   end if;
 
+  insert into public.member_datasets(dataset_key,payload,updated_at)
+  values ('football-prediction-ledger',jsonb_build_object('records','[]'::jsonb),v_now)
+  on conflict (dataset_key) do nothing;
   select d.payload into v_payload
   from public.member_datasets d
   where d.dataset_key = 'football-prediction-ledger'
@@ -93,15 +106,8 @@ begin
     end if;
   end loop;
 
-  if v_found and v_old->>'lockedAt' is not null
-     and v_now >= (v_old->>'lockedAt')::timestamptz then
-    raise exception '本場足球預測已於台灣時間 21:00 鎖定，不允許修改' using errcode = '55000';
-  end if;
-  if not v_found and v_now >= v_lock then
-    raise exception '已超過台灣時間 21:00 鎖定時間，不能補建或修改正式預測' using errcode = '55000';
-  end if;
-
   v_new := p_record || jsonb_build_object(
+    'lockedAt',v_lock,
     'stage','official',
     'analysisStatus','final',
     'updatedAt',v_now,
