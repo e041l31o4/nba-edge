@@ -17,16 +17,17 @@ const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replac
 function sameTeam(a:FootballTeam,b:FootballTeam){return (!!a.id&&!!b.id&&a.id===b.id)||normalizeName(a.name)===normalizeName(b.name)}
 function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
   const rows=history.filter(g=>g.status.toLowerCase().includes('final')&&(sameTeam(g.home,team)||sameTeam(g.away,team))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8)
-  let scored=0,conceded=0,totalWeight=0,homePlayed=0,awayPlayed=0,homeScored=0,homeConceded=0,awayScored=0,awayConceded=0,homeWeight=0,awayWeight=0
+  let scored=0,conceded=0,totalWeight=0,validPlayed=0,homePlayed=0,awayPlayed=0,homeScored=0,homeConceded=0,awayScored=0,awayConceded=0,homeWeight=0,awayWeight=0
   for(let i=0;i<rows.length;i++){
     const g=rows[i],isHome=sameTeam(g.home,team),gf=Number((isHome?g.home.score:g.away.score)??NaN),ga=Number((isHome?g.away.score:g.home.score)??NaN)
     if(!Number.isFinite(gf)||!Number.isFinite(ga))continue
+    validPlayed++
     const weight=Math.pow(0.88,i)
     scored+=gf*weight;conceded+=ga*weight;totalWeight+=weight
     if(isHome){homePlayed++;homeScored+=gf*weight;homeConceded+=ga*weight;homeWeight+=weight}
     else{awayPlayed++;awayScored+=gf*weight;awayConceded+=ga*weight;awayWeight+=weight}
   }
-  return {played:rows.length,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,homePlayed,awayPlayed,homeScored:homeWeight?homeScored/homeWeight:0,homeConceded:homeWeight?homeConceded/homeWeight:0,awayScored:awayWeight?awayScored/awayWeight:0,awayConceded:awayWeight?awayConceded/awayWeight:0,lastFive:rows.slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
+  return {played:validPlayed,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,homePlayed,awayPlayed,homeScored:homeWeight?homeScored/homeWeight:0,homeConceded:homeWeight?homeConceded/homeWeight:0,awayScored:awayWeight?awayScored/awayWeight:0,awayConceded:awayWeight?awayConceded/awayWeight:0,lastFive:rows.filter(g=>g.home.score!==undefined&&g.away.score!==undefined).slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
 }
 export function buildFootballModel(match:FootballMatch,history:FootballMatch[],totalLine=2.5):FootballModel{
   const h=weightedForm(match.home,history),a=weightedForm(match.away,history)
