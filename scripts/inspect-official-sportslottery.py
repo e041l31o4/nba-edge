@@ -98,8 +98,8 @@ async def main():
                     # Read-only requests only; no login, CAPTCHA, or access-control bypass.
                     if index == 2:
                         candidates = [
-                            *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02"]),
-                            *(f"Pre/ListByLeague/{value}.json" for value in ["NBA", "nba", "Basketball", "basketball", "USAB", "USA-Basketball"]),
+                            *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02", "Football", "football", "Soccer", "soccer", "FTB", "ftb", "1", "01"]),
+                            *(f"Pre/ListByLeague/{value}.json" for value in ["NBA", "nba", "Basketball", "basketball", "UEFA Champions League", "UEFA-Champions-League", "Champions League", "champions-league", "UCL", "ucl", "Football", "football", "Soccer", "soccer"]),
                         ]
                         for candidate_path in candidates:
                             candidate_url = "https://blob.sportslottery.com.tw/apidata/" + candidate_path
@@ -107,9 +107,10 @@ async def main():
                                 candidate = await page.request.get(candidate_url, timeout=10000)
                                 candidate_text = await candidate.text()
                                 has_nba = "NBA" in candidate_text or "美國職籃" in candidate_text
-                                print(f"PREGAME_PATH_CANDIDATE path={candidate_path} status={candidate.status} content_type={candidate.headers.get('content-type')} bytes={len(candidate_text)} has_nba={has_nba}")
-                                if candidate.status == 200 and ("json" in (candidate.headers.get("content-type") or "").lower()):
-                                    print(f"PREGAME_PATH_BODY path={candidate_path} body={candidate_text[:12000]}")
+                                has_football = any(term in candidate_text.lower() for term in ["football", "soccer", "歐洲冠軍聯賽", "冠軍聯賽", "足球", "ucl"])
+                                print(f"PREGAME_PATH_CANDIDATE path={candidate_path} status={candidate.status} content_type={candidate.headers.get('content-type')} bytes={len(candidate_text)} has_nba={has_nba} has_football={has_football}")
+                                if candidate.status == 200 and ("json" in (candidate.headers.get("content-type") or "").lower()) and (has_nba or has_football):
+                                    print(f"PREGAME_PATH_BODY path={candidate_path} body={candidate_text[:16000]}")
                             except Exception as candidate_exc:
                                 print(f"PREGAME_PATH_ERROR path={candidate_path}: {type(candidate_exc).__name__}: {candidate_exc}")
                     # Inspect only JavaScript already loaded by the official public homepage.
