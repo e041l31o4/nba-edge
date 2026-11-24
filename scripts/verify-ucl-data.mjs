@@ -10,7 +10,7 @@ async function get(url){
  return {status:r.status,count:Array.isArray(data.events)?data.events.length:0,events:data.events??[],body:body.slice(0,500)}
 }
 const days=[shift(date,-1),date,shift(date,1)]
-const uclResults=await Promise.all(days.map(d=>get('https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions-league/scoreboard?dates='+d.replaceAll('-',''))))
+const uclResults=await Promise.all(days.map(d=>get('https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates='+d.replaceAll('-',''))))
 const uclEvents=uclResults.flatMap(x=>x.events)
 const teamIds=[...new Set(uclEvents.flatMap(e=>(e.competitions?.[0]?.competitors??[]).map(c=>String(c.team?.id??''))).filter(Boolean))].slice(0,2)
 const leagues=['eng.1','esp.1','ger.1','ita.1','fra.1']
