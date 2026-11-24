@@ -1,7 +1,7 @@
-export type FootballTeam = { id: string; name: string; abbreviation: string; logo?: string }
+export type FootballTeam = { id: string; name: string; abbreviation: string; logo?: string; score?: number }
 export type FootballMatch = {
   id: string; date: string; status: string; detail: string; venue?: string;
-  home: FootballTeam & { score?: number }; away: FootballTeam & { score?: number };
+  home: FootballTeam; away: FootballTeam;
 }
 export type TeamGoalForm = { played: number; scored: number; conceded: number; lastFive: string[] }
 export type FootballModel = {
