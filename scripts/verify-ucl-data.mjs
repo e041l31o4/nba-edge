@@ -21,9 +21,15 @@ const correctClubSchedules=await Promise.all([
 const uclRange=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates='+shift(date,-120).replaceAll('-','')+'-'+shift(date,1).replaceAll('-','')+'&limit=500')
 const domesticRange=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates='+shift(date,-45).replaceAll('-','')+'-'+date.replaceAll('-','')+'&limit=500')
 const domesticSingle=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates='+shift(date,-3).replaceAll('-',''))
-const scheduleTests=await Promise.all(teamIds.flatMap(id=>leagues.map(async league=>{
- const result=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/'+league+'/teams/'+id+'/schedule')
- return {id,league,status:result.status,count:result.count,body:result.body}
-})))
-console.log(JSON.stringify({date,days:days.map((d,i)=>({date:d,status:uclResults[i].status,count:uclResults[i].count,events:uclResults[i].events.slice(0,2).map(e=>e.name)})),teamIds,scheduleTests,uclRange:{status:uclRange.status,count:uclRange.count,body:uclRange.body},domesticRange:{status:domesticRange.status,count:domesticRange.count,body:domesticRange.body},domesticSingle:{status:domesticSingle.status,count:domesticSingle.count,body:domesticSingle.body},correctClubSchedules:correctClubSchedules.map(x=>({status:x.status,count:x.count,body:x.body}))},null,2))
+const correctClubSchedules=await Promise.all([
+ get('https://site.api.espn.com/apis/site/v2/sports/soccer/nor.1/teams/2980/schedule'),
+ get('https://site.api.espn.com/apis/site/v2/sports/soccer/aut.1/teams/4411/schedule')
+])
+console.log(JSON.stringify({
+ date,
+ uclSingleDay:days.map((d,i)=>({date:d,status:uclResults[i].status,count:uclResults[i].count,events:uclResults[i].events.slice(0,3).map(e=>e.name)})),
+ clubSchedules:correctClubSchedules.map(x=>({status:x.status,count:x.count,body:x.body.slice(0,1200)}))
+},null,2))
+
 if(uclEvents.length===0)throw new Error('Single-day ESPN UCL scoreboard returned no events')
+if(!correctClubSchedules.some(x=>x.count>0))throw new Error('No domestic club schedule returned events')
