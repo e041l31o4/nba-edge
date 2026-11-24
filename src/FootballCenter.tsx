@@ -14,7 +14,7 @@ export default function FootballCenter({date,canAccess,isAdmin}:Props){
  const [line,setLine]=useState(2.5)
  const [selected,setSelected]=useState<string|null>(null)
  const [updated,setUpdated]=useState('')
- useEffect(()=>{let alive=true;setLoading(true);setError('');setSelected(null);getUclMatches(date).then(data=>{if(!alive)return;setMatches(data.matches);setHistory(data.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>{if(alive)setError(e instanceof Error?e.message:'足球賽程讀取失敗')}).finally(()=>{if(alive)setLoading(false)});return()=>{alive=false}},[date])
+ useEffect(()=>{let alive=true;setLoading(true);setError('');setSelected(null);getUclMatches(date.length===8 ? date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8) : date).then(data=>{if(!alive)return;setMatches(data.matches);setHistory(data.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>{if(alive)setError(e instanceof Error?e.message:'足球賽程讀取失敗')}).finally(()=>{if(alive)setLoading(false)});return()=>{alive=false}},[date])
  const rows=useMemo(()=>matches.map(match=>({match,model:buildFootballModel(match,history,line)})),[matches,history,line])
  const active=rows.find(x=>x.match.id===selected)
  if(!canAccess)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>歐洲冠軍聯賽的勝平負、總進球大小與正確比數分析，僅開放已啟用會員及管理員查看。</p></section>
