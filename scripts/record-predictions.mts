@@ -244,10 +244,14 @@ for(const row of rows){
   row.recoverySource=[row.recoverySource,rollbackTag].filter(Boolean).join(';')
   restoredRowCount++
 }
-if(restoredMarketCount!==25 || restoredRowCount!==10){
-  throw new Error('Rollback safety check failed: expected 25 original market picks across 10 games; restored '+restoredMarketCount+' picks across '+restoredRowCount+' games. No partial rollback will be published.')
+const alreadyRestoredRows=rows.filter(row=>taiwanDateKey(row.date)==='2026-11-24' && String(row.recoverySource??'').includes(rollbackTag))
+const alreadyRestoredMarkets=alreadyRestoredRows.reduce((count,row)=>count+(row.marketChangeHistory??[]).filter(change=>change.reason==='依使用者要求，撤銷 2026-11-24 06:42:49 自動更新，恢復更新前原始推薦與燈號').length,0)
+const totalRestoredRows=restoredRowCount+alreadyRestoredRows.length
+const totalRestoredMarkets=restoredMarketCount+alreadyRestoredMarkets
+if(totalRestoredMarkets!==25 || totalRestoredRows!==10){
+  throw new Error('Rollback safety check failed: expected 25 original market picks across 10 games; verified '+totalRestoredMarkets+' picks across '+totalRestoredRows+' games. No partial rollback will be published.')
 }
-console.log('NBA_EDGE_2026_11_24_064249_ROLLBACK:',JSON.stringify({restoredRows:restoredRowCount,restoredMarkets:restoredMarketCount,sourceTimestamp:rollbackAt,trafficLightPicksRestored:true}))
+console.log('NBA_EDGE_2026_11_24_064249_ROLLBACK:',JSON.stringify({restoredRows:totalRestoredRows,restoredMarkets:totalRestoredMarkets,alreadyRestoredRows:alreadyRestoredRows.length,sourceTimestamp:rollbackAt,trafficLightPicksRestored:true}))
 
 // User-confirmed recovery: restore the original pregame Pelicans home-underdog spread.
 let manuallyRecovered=0
