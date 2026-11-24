@@ -98,9 +98,20 @@ async def main():
                     # Read-only requests only; no login, CAPTCHA, or access-control bypass.
                     if index == 2:
                         candidates = [
-                            *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02", "Football", "football", "Soccer", "soccer", "FTB", "ftb", "1", "01"]),
+                            *(f"Pre/ListBySport/{value}.json" for value in ["Basketball", "basketball", "NBA", "nba", "BB", "bb", "2", "02", "Football", "football", "Soccer", "soccer", "FTB", "ftb", "1", "01", "441", "442", "443", "444", "445"]),
                             *(f"Pre/ListByLeague/{value}.json" for value in ["NBA", "nba", "Basketball", "basketball", "UEFA Champions League", "UEFA-Champions-League", "Champions League", "champions-league", "UCL", "ucl", "Football", "football", "Soccer", "soccer"]),
                         ]
+                        for sport_id in ["441", "442", "443", "444", "445"]:
+                            candidate_url = f"https://member2.sportslottery.com.tw/api/services/app/PreGames/GetListBySport?id={sport_id}"
+                            try:
+                                candidate = await page.request.get(candidate_url, timeout=10000)
+                                candidate_text = await candidate.text()
+                                has_football = any(term in candidate_text.lower() for term in ["football", "soccer", "歐洲冠軍聯賽", "冠軍聯賽", "足球", "ucl"])
+                                print(f"OFFICIAL_API_SPORT_ID id={sport_id} status={candidate.status} content_type={candidate.headers.get('content-type')} bytes={len(candidate_text)} has_football={has_football}")
+                                if candidate.status == 200:
+                                    print(f"OFFICIAL_API_SPORT_BODY id={sport_id} body={candidate_text[:16000]}")
+                            except Exception as candidate_exc:
+                                print(f"OFFICIAL_API_SPORT_ERROR id={sport_id}: {type(candidate_exc).__name__}: {candidate_exc}")
                         for candidate_path in candidates:
                             candidate_url = "https://blob.sportslottery.com.tw/apidata/" + candidate_path
                             try:
