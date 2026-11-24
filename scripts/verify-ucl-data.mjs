@@ -14,9 +14,12 @@ const uclResults=await Promise.all(days.map(d=>get('https://site.api.espn.com/ap
 const uclEvents=uclResults.flatMap(x=>x.events)
 const teamIds=[...new Set(uclEvents.flatMap(e=>(e.competitions?.[0]?.competitors??[]).map(c=>String(c.team?.id??''))).filter(Boolean))].slice(0,2)
 const leagues=['eng.1','esp.1','ger.1','ita.1','fra.1']
+const uclRange=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates='+shift(date,-120).replaceAll('-','')+'-'+shift(date,1).replaceAll('-','')+'&limit=500')
+const domesticRange=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates='+shift(date,-45).replaceAll('-','')+'-'+date.replaceAll('-','')+'&limit=500')
+const domesticSingle=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates='+shift(date,-3).replaceAll('-',''))
 const scheduleTests=await Promise.all(teamIds.flatMap(id=>leagues.map(async league=>{
  const result=await get('https://site.api.espn.com/apis/site/v2/sports/soccer/'+league+'/teams/'+id+'/schedule')
  return {id,league,status:result.status,count:result.count,body:result.body}
 })))
-console.log(JSON.stringify({date,days:days.map((d,i)=>({date:d,status:uclResults[i].status,count:uclResults[i].count,events:uclResults[i].events.slice(0,2).map(e=>e.name)})),teamIds,scheduleTests},null,2))
+console.log(JSON.stringify({date,days:days.map((d,i)=>({date:d,status:uclResults[i].status,count:uclResults[i].count,events:uclResults[i].events.slice(0,2).map(e=>e.name)})),teamIds,scheduleTests,uclRange:{status:uclRange.status,count:uclRange.count,body:uclRange.body},domesticRange:{status:domesticRange.status,count:domesticRange.count,body:domesticRange.body},domesticSingle:{status:domesticSingle.status,count:domesticSingle.count,body:domesticSingle.body}},null,2))
 if(uclEvents.length===0)throw new Error('Single-day ESPN UCL scoreboard returned no events')
