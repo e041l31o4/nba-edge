@@ -3,11 +3,11 @@ export type FootballMatch = {
   id: string; date: string; status: string; detail: string; venue?: string;
   home: FootballTeam; away: FootballTeam;
 }
-export type TeamGoalForm = { played: number; scored: number; conceded: number; lastFive: string[] }
+export type TeamGoalForm = { played: number; scored: number; conceded: number; homePlayed:number; awayPlayed:number; homeScored:number; homeConceded:number; awayScored:number; awayConceded:number; lastFive: string[] }
 export type FootballModel = {
   homeXg: number; awayXg: number; homeWin: number; draw: number; awayWin: number;
   over: number; under: number; topScores: Array<{score:string; probability:number}>;
-  sampleHome: number; sampleAway: number; confidence: '低'|'中'|'高';
+  sampleHome: number; sampleAway: number; confidence: '低'|'中'|'高'; dataReady:boolean; dataWarnings:string[];
   homeRecent: string[]; awayRecent: string[];
 }
 const clamp=(n:number,min:number,max:number)=>Math.max(min,Math.min(max,n))
@@ -16,21 +16,30 @@ export function poisson(lambda:number,k:number){return Math.exp(-lambda)*Math.po
 const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^a-z0-9]/g,'')
 function sameTeam(a:FootballTeam,b:FootballTeam){return (!!a.id&&!!b.id&&a.id===b.id)||normalizeName(a.name)===normalizeName(b.name)}
 function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
-  const rows=history.filter(g=>g.status.toLowerCase().includes('final')&&(sameTeam(g.home,team)||sameTeam(g.away,team))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6)
-  let scored=0,conceded=0,totalWeight=0
+  const rows=history.filter(g=>g.status.toLowerCase().includes('final')&&(sameTeam(g.home,team)||sameTeam(g.away,team))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8)
+  let scored=0,conceded=0,totalWeight=0,homePlayed=0,awayPlayed=0,homeScored=0,homeConceded=0,awayScored=0,awayConceded=0,homeWeight=0,awayWeight=0
   for(let i=0;i<rows.length;i++){
-    const g=rows[i],isHome=sameTeam(g.home,team),gf=Number((isHome?g.home.score:g.away.score)??0),ga=Number((isHome?g.away.score:g.home.score)??0)
-    const weight=Math.pow(0.86,i);scored+=gf*weight;conceded+=ga*weight;totalWeight+=weight
+    const g=rows[i],isHome=sameTeam(g.home,team),gf=Number((isHome?g.home.score:g.away.score)??NaN),ga=Number((isHome?g.away.score:g.home.score)??NaN)
+    if(!Number.isFinite(gf)||!Number.isFinite(ga))continue
+    const weight=Math.pow(0.88,i)
+    scored+=gf*weight;conceded+=ga*weight;totalWeight+=weight
+    if(isHome){homePlayed++;homeScored+=gf*weight;homeConceded+=ga*weight;homeWeight+=weight}
+    else{awayPlayed++;awayScored+=gf*weight;awayConceded+=ga*weight;awayWeight+=weight}
   }
-  return {played:rows.length,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,lastFive:rows.slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
+  return {played:rows.length,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,homePlayed,awayPlayed,homeScored:homeWeight?homeScored/homeWeight:0,homeConceded:homeWeight?homeConceded/homeWeight:0,awayScored:awayWeight?awayScored/awayWeight:0,awayConceded:awayWeight?awayConceded/awayWeight:0,lastFive:rows.slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
 }
 export function buildFootballModel(match:FootballMatch,history:FootballMatch[],totalLine=2.5):FootballModel{
   const h=weightedForm(match.home,history),a=weightedForm(match.away,history)
   const leagueGoalBaseline=1.42
   const shrink=(value:number,n:number)=>n?((value*n+leagueGoalBaseline*2)/(n+2)):leagueGoalBaseline
-  const hGF=shrink(h.scored,h.played),hGA=shrink(h.conceded,h.played),aGF=shrink(a.scored,a.played),aGA=shrink(a.conceded,a.played)
-  const homeXg=clamp(leagueGoalBaseline*(hGF/leagueGoalBaseline)*(aGA/leagueGoalBaseline)*1.08,0.2,4.2)
-  const awayXg=clamp(leagueGoalBaseline*(aGF/leagueGoalBaseline)*(hGA/leagueGoalBaseline),0.2,4.0)
+  // Overall recent form is blended with venue-specific form only when the venue sample is usable.
+  const blendVenue=(overall:number,venue:number,n:number)=>n>=2?overall*0.65+venue*0.35:overall
+  const homeAttack=blendVenue(shrink(h.scored,h.played),shrink(h.homeScored,h.homePlayed),h.homePlayed)
+  const homeDefence=blendVenue(shrink(h.conceded,h.played),shrink(h.homeConceded,h.homePlayed),h.homePlayed)
+  const awayAttack=blendVenue(shrink(a.scored,a.played),shrink(a.awayScored,a.played),a.awayPlayed)
+  const awayDefence=blendVenue(shrink(a.conceded,a.played),shrink(a.awayConceded,a.awayPlayed),a.awayPlayed)
+  const homeXg=clamp(leagueGoalBaseline*(homeAttack/leagueGoalBaseline)*(awayDefence/leagueGoalBaseline)*1.08,0.2,4.2)
+  const awayXg=clamp(leagueGoalBaseline*(awayAttack/leagueGoalBaseline)*(homeDefence/leagueGoalBaseline),0.2,4.0)
   const maxGoals=10,hp=Array.from({length:maxGoals+1},(_,i)=>poisson(homeXg,i)),ap=Array.from({length:maxGoals+1},(_,i)=>poisson(awayXg,i))
   const raw:Array<{home:number;away:number;p:number}>=[]
   for(let i=0;i<=maxGoals;i++)for(let j=0;j<=maxGoals;j++)raw.push({home:i,away:j,p:hp[i]*ap[j]})
@@ -38,8 +47,13 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   let homeWin=0,draw=0,awayWin=0,over=0
   const scores:Array<{score:string;probability:number}>=[]
   for(const x of raw){const p=x.p/mass;if(x.home>x.away)homeWin+=p;else if(x.home===x.away)draw+=p;else awayWin+=p;if(x.home+x.away>totalLine)over+=p;scores.push({score:`${x.home}:${x.away}`,probability:p})}
-  const confidence:FootballModel['confidence']=h.played>=5&&a.played>=5?'高':h.played>=3&&a.played>=3?'中':'低'
-  return {homeXg,awayXg,homeWin,draw,awayWin,over,under:1-over,topScores:scores.sort((x,y)=>y.probability-x.probability).slice(0,3),sampleHome:h.played,sampleAway:a.played,confidence,homeRecent:h.lastFive,awayRecent:a.lastFive}
+  const warnings:string[]=[]
+  if(h.played<5)warnings.push(`${match.home.name} 近況樣本僅 ${h.played} 場，至少需要 5 場`)
+  if(a.played<5)warnings.push(`${match.away.name} 近況樣本僅 ${a.played} 場，至少需要 5 場`)
+  if(h.homePlayed<2)warnings.push(`${match.home.name} 主場樣本不足（${h.homePlayed} 場）`)
+  if(a.awayPlayed<2)warnings.push(`${match.away.name} 客場樣本不足（${a.awayPlayed} 場）`)
+  const confidence:FootballModel['confidence']=h.played>=6&&a.played>=6&&h.homePlayed>=2&&a.awayPlayed>=2?'高':h.played>=5&&a.played>=5?'中':'低'
+  return {homeXg,awayXg,homeWin,draw,awayWin,over,under:1-over,topScores:scores.sort((x,y)=>y.probability-x.probability).slice(0,3),sampleHome:h.played,sampleAway:a.played,confidence,dataReady:warnings.length===0,dataWarnings:warnings,homeRecent:h.lastFive,awayRecent:a.lastFive}
 }
 function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
