@@ -36,7 +36,7 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   const blendVenue=(overall:number,venue:number,n:number)=>n>=2?overall*0.65+venue*0.35:overall
   const homeAttack=blendVenue(shrink(h.scored,h.played),shrink(h.homeScored,h.homePlayed),h.homePlayed)
   const homeDefence=blendVenue(shrink(h.conceded,h.played),shrink(h.homeConceded,h.homePlayed),h.homePlayed)
-  const awayAttack=blendVenue(shrink(a.scored,a.played),shrink(a.awayScored,a.played),a.awayPlayed)
+  const awayAttack=blendVenue(shrink(a.scored,a.played),shrink(a.awayScored,a.awayPlayed),a.awayPlayed)
   const awayDefence=blendVenue(shrink(a.conceded,a.played),shrink(a.awayConceded,a.awayPlayed),a.awayPlayed)
   const homeXg=clamp(leagueGoalBaseline*(homeAttack/leagueGoalBaseline)*(awayDefence/leagueGoalBaseline)*1.08,0.2,4.2)
   const awayXg=clamp(leagueGoalBaseline*(awayAttack/leagueGoalBaseline)*(homeDefence/leagueGoalBaseline),0.2,4.0)
