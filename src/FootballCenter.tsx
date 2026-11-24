@@ -29,6 +29,11 @@ export default function FootballCenter({date,canAccess,isAdmin}:Props){
  useEffect(()=>{let alive=true;if(!canAccess){setRecords([]);return()=>{alive=false}};loadDataset<{records:RecordRow[]}>('football-prediction-ledger','football-prediction-ledger.json').then(data=>{if(alive)setRecords(Array.isArray(data?.records)?data!.records:[])}).catch(()=>{if(alive)setRecords([])});return()=>{alive=false}},[canAccess,date])
  const rows=useMemo(()=>matches.map(match=>({match,model:buildFootballModel(match,history,line),record:records.find(r=>r.gameId===match.id)})),[matches,history,line,records])
  const active=rows.find(x=>x.match.id===selected)
+ const performance=useMemo(()=>{
+  const settled=records.filter(x=>!!x.settledAt&&!!x.settlement)
+  const tally=(key:'moneyline'|'total'|'correctScore')=>{const wins=settled.filter(x=>x.settlement?.[key]==='win').length;const decided=settled.filter(x=>x.settlement?.[key]==='win'||x.settlement?.[key]==='loss').length;return {wins,decided,rate:decided?wins/decided:null}}
+  return {settled:settled.length,moneyline:tally('moneyline'),total:tally('total'),correctScore:tally('correctScore')}
+ },[records])
  const locked=Date.now()>=new Date(lockTime(date)).getTime()
  const oddsReady=Object.values(odds).every(v=>v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>1)
  const settleOfficial=async(match:FootballMatch)=>{
@@ -53,6 +58,7 @@ export default function FootballCenter({date,canAccess,isAdmin}:Props){
  if(!canAccess)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>歐洲冠軍聯賽的勝平負、總進球大小與正確比數分析，僅開放已啟用會員及管理員查看。</p></section>
  return <div className="football-center">
   <section className="football-hero"><div><span className="football-eyebrow">FOOTBALL INTELLIGENCE / 2026—27</span><h2>UEFA <b>CHAMPIONS LEAGUE</b></h2><p>歐洲冠軍聯賽｜勝平負・總進球・正確比數</p></div><div className="football-ball">⚽</div></section>
+  <section className="football-performance"><div><small>已結算賽事</small><b>{performance.settled}</b></div><div><small>勝平負命中</small><b>{performance.moneyline.rate===null?'—':pct(performance.moneyline.rate)}</b><em>{performance.moneyline.wins}/{performance.moneyline.decided}</em></div><div><small>大小球命中</small><b>{performance.total.rate===null?'—':pct(performance.total.rate)}</b><em>{performance.total.wins}/{performance.total.decided}</em></div><div><small>正確比數命中</small><b>{performance.correctScore.rate===null?'—':pct(performance.correctScore.rate)}</b><em>{performance.correctScore.wins}/{performance.correctScore.decided}</em></div></section>
   <div className="football-status"><span><i/> ESPN 賽程／比分來源</span><span><Activity size={14}/> 近期歐冠樣本 {history.filter(x=>x.status.toLowerCase().includes('final')).length} 場</span><span className="football-updated">更新 {updated||'—'}</span></div>
   {error&&<div className="football-error"><AlertTriangle size={17}/>{error}</div>}{notice&&<div className="football-success"><ShieldCheck size={17}/>{notice}</div>}
   <div className="football-toolbar"><div><b>當日賽事</b><small>{isoDate(date).replace(/-/g,'/')} · 台灣時間</small></div><button onClick={()=>{setLoading(true);getUclMatches(isoDate(date)).then(d=>{setMatches(d.matches);setHistory(d.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>setError(e.message)).finally(()=>setLoading(false))}}><RefreshCw size={15}/> 重新整理</button></div>
