@@ -145,13 +145,15 @@ const makeMarketPicks=(event:any,prediction:any)=>{
     const over=pair.find(x=>/over|大/i.test(x.name)),under=pair.find(x=>/under|小/i.test(x.name));if(!over||!under)return []
     return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,prediction.totalStdDev);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
   })).sort((x,y)=>y.ev-x.ev)
-  // Always preserve the best available analytical direction; formal picks must pass every strict gate.
+  // Keep a model direction for all three markets, but only mark a formal recommendation
+  // when probability, EV, confidence and injury-risk gates are all satisfied.
+  const qualifies=(candidate:{probability:number;ev:number}|undefined)=>!!candidate&&candidate.probability>=0.54&&candidate.ev>=0.025&&prediction.confidence!=='低'&&prediction.injuryRisk!=='偏高'&&prediction.injuryRisk!=='待確認'
   const moneylineLean:MarketPick={side:prediction.homeWin>=0.5?homeName:awayName,teamSide:prediction.homeWin>=0.5?'home':'away',line:0,probability:Math.max(prediction.homeWin,prediction.awayWin)}
-  const moneylinePick=h2hCandidates[0]
+  const moneylinePick=h2hCandidates.find(qualifies)
   const spreadLean=spreadCandidates[0]
   const totalLean=totalCandidates[0]
-  const spreadPick=spreadCandidates[0]
-  const totalPick=totalCandidates[0]
+  const spreadPick=spreadCandidates.find(qualifies)
+  const totalPick=totalCandidates.find(qualifies)
   return {
     moneylineLean,
     ...(moneylinePick?{moneylinePick}:{}),
@@ -495,7 +497,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
        const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
        if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
-      existing.modelVersion='recent-form-pace-v2.1-all-market-directions'
+      existing.modelVersion='recent-form-pace-v2.2-backtest-aligned-total-uncertainty-qualified-picks'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
     if(isFinalReviewReached(event.date)){
