@@ -62,8 +62,6 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
   const tally=(key:'moneyline'|'total'|'correctScore')=>{const wins=settled.filter(x=>x.settlement?.[key]==='win').length;const decided=settled.filter(x=>x.settlement?.[key]==='win'||x.settlement?.[key]==='loss').length;return {wins,decided,rate:decided?wins/decided:null}}
   return {settled:settled.length,moneyline:tally('moneyline'),total:tally('total'),correctScore:tally('correctScore')}
  },[rows])
- const locked=now>=new Date(lockTime(date)).getTime()
- const oddsReady=Object.values(odds).every(v=>v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>1)
  if(!canViewFootball)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>會員僅可在賽事前一日台灣時間 21:00 正式預測封存後查看；管理員可提前預覽。</p></section>
  return <div className="football-center">
   {isAdmin&&<section className="football-odds-entry"><div className="football-market-title"><ShieldCheck size={16}/> 足球頁面存取權限</div><p>預設只有管理員可查看。關閉時，其他會員無法看到足球分頁，也無法讀取足球預測紀錄。</p><div className="football-lock-row"><span>{membersEnabled?'目前：已開放符合資格會員':'目前：僅管理員可查看'}</span><button disabled={accessSaving} onClick={()=>void toggleMemberAccess()}>{accessSaving?'更新中…':membersEnabled?'關閉會員查看':'開放給會員查看'}</button></div></section>}
