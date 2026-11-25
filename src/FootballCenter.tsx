@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Activity, AlertTriangle, CalendarDays, RefreshCw, ShieldCheck, Target, Trophy, LockKeyhole, Save } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Activity, AlertTriangle, CalendarDays, RefreshCw, ShieldCheck, Target, Trophy, LockKeyhole } from 'lucide-react'
 import { buildFootballModel, getUclMatches, isFinalStatus, type FootballMatch, type FootballModel } from './football'
 import { supabase } from './lib/supabase'
 import { loadDataset } from './lib/memberData'
@@ -7,7 +7,6 @@ import './football.css'
 
 type Props={date:string;canAccess:boolean;isAdmin:boolean;membersEnabled:boolean;onReleaseChanged:(enabled:boolean)=>void}
 type RecordRow={gameId:string;date:string;home:string;away:string;homeWin:number;draw:number;awayWin:number;homeXg:number;awayXg:number;moneylinePick:{side:'home'|'draw'|'away';probability:number};totalPick:{side:'over'|'under';line:number;probability:number};correctScores:Array<{score:string;probability:number}>;sportsLotteryOdds?:{home:number;draw:number;away:number;over:number;under:number;totalLine:number};sampleHome:number;sampleAway:number;confidence?:'低'|'中'|'高';dataWarnings?:string[];capturedAt?:string;source?:string;stage:'official';analysisStatus:'final';lockedAt:string;publishedAt?:string;actualHome?:number;actualAway?:number;settledAt?:string;settlement?:{moneyline:'win'|'loss';total:'win'|'loss'|'push';correctScore:'win'|'loss'}}
-type OddsForm={home:string;draw:string;away:string;over:string;under:string}
 const pct=(n:number)=>(n*100).toFixed(1)+'%'
 const localTime=(value:string)=>new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(value))
 const isoDate=(date:string)=>date.length===8?date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8):date
@@ -35,14 +34,11 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  const [records,setRecords]=useState<RecordRow[]>([])
  const [loading,setLoading]=useState(false)
  const [error,setError]=useState('')
- const [line,setLine]=useState(2.5)
+ const line=2.5
  const [selected,setSelected]=useState<string|null>(null)
  const [updated,setUpdated]=useState('')
- const [saving,setSaving]=useState(false)
  const [accessSaving,setAccessSaving]=useState(false)
- const [odds,setOdds]=useState<OddsForm>({home:'',draw:'',away:'',over:'',under:''})
  const [notice,setNotice]=useState('')
- const autoSettling=useRef<Set<string>>(new Set())
  useEffect(()=>{const timer=window.setInterval(()=>setNow(Date.now()),30_000);return()=>window.clearInterval(timer)},[])
  const taiwanToday=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))
  const memberDateAllowed=isoDate(date)<=shiftDate(taiwanToday,1)&&now>=new Date(lockTime(date)).getTime()
@@ -52,40 +48,14 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  useEffect(()=>{
   let alive=true
   if(!canViewFootball){setRecords([]);return()=>{alive=false}}
-  const refresh=()=>loadDataset<{records:RecordRow[]}>('football-prediction-ledger','football-prediction-ledger.json')
-   .then(data=>{if(alive&&Array.isArray(data?.records))setRecords(data.records)})
+  const refresh=()=>loadDataset<{footballRecords:RecordRow[]}>('prediction-ledger','prediction-ledger.json')
+   .then(data=>{if(alive&&Array.isArray(data?.footballRecords))setRecords(data.footballRecords)})
    .catch(()=>{ /* Keep the last known frozen predictions; do not replace them with a read-error screen. */ })
   void refresh()
   const timer=window.setInterval(()=>void refresh(),60_000)
   return()=>{alive=false;window.clearInterval(timer)}
  },[canViewFootball,date])
  const rows=useMemo(()=>{const visible=Array.from(new Map([...matches,...history.filter(match=>isFinalStatus(match.status))].map(match=>[match.id,match])).values()).sort((a,b)=>b.date.localeCompare(a.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);const model=buildFootballModel(match,history,line);return {match,model,record,settlement:calculateSettlement(record,match)}})},[matches,history,line,records])
- useEffect(()=>{
-  if(!isAdmin||!canViewFootball||!supabase)return
-  const client=supabase
-  const pending=rows.filter(row=>{
-   const {match,record}=row
-   return !!record&&record.stage==='official'&&!record.settledAt&&isFinalStatus(match.status)&&match.home.score!==undefined&&match.away.score!==undefined&&!autoSettling.current.has(match.id)
-  }).map(row=>row.match)
-  if(!pending.length)return
-  let cancelled=false
-  const run=async()=>{
-   for(const match of pending){
-    autoSettling.current.add(match.id)
-    try{
-     const result=await client.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score})
-     if(result.error)throw result.error
-     if(!cancelled)setRecords(current=>[...current.filter(item=>item.gameId!==match.id),result.data as RecordRow])
-    }catch(e){
-     autoSettling.current.delete(match.id)
-     if(!cancelled)setError(e instanceof Error?e.message:'足球自動結算失敗，請管理員檢查賽果')
-    }
-   }
-  }
-  void run()
-  return()=>{cancelled=true}
- },[isAdmin,canViewFootball,rows])
-
  const active=rows.find(x=>x.match.id===selected)
  const performance=useMemo(()=>{
   const settled=rows.filter(x=>!!x.settlement)
@@ -94,26 +64,6 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  },[rows])
  const locked=now>=new Date(lockTime(date)).getTime()
  const oddsReady=Object.values(odds).every(v=>v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>1)
- const settleOfficial=async(match:FootballMatch)=>{
-  if(!supabase||match.home.score===undefined||match.away.score===undefined||!isFinalStatus(match.status))return
-  setSaving(true);setError('');setNotice('')
-  try{const result=await supabase.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score});if(result.error)throw result.error;setRecords(current=>[...current.filter(x=>x.gameId!==match.id),result.data as RecordRow]);setNotice('正式賽果已結算；原始推薦與鎖定時間均未更動。')}
-  catch(e){setError(e instanceof Error?e.message:'足球賽果結算失敗')}
-  finally{setSaving(false)}
- }
- const saveOfficial=async(match:FootballMatch,model:FootballModel)=>{
-  if(!supabase){setError('會員資料庫尚未設定，無法封存足球預測。');return}
-  if(!model.dataReady){setError('本場近期資料或主客場樣本不足，禁止發布正式推薦：'+model.dataWarnings.join('；'));return}
-  if(!oddsReady){setError('請先輸入並核對台灣運彩官方勝平負及大小球賠率，再發布會員預測。');return}
-  if(Date.now()>=new Date(lockTime(date)).getTime()){setError('已超過台灣時間 21:00 鎖定時間，本場不得新增或修改正式預測。');return}
-  setSaving(true);setError('');setNotice('')
-  const pOdds={home:Number(odds.home),draw:Number(odds.draw),away:Number(odds.away),over:Number(odds.over),under:Number(odds.under),totalLine:line}
-  const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0];
-  const record:RecordRow={gameId:match.id,date:match.date,home:match.home.name,away:match.away.name,homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,moneylinePick:{side:winner.side,probability:winner.probability},totalPick:{side:model.over>=model.under?'over':'under',line:line,probability:Math.max(model.over,model.under)},correctScores:model.topScores,sportsLotteryOdds:pOdds,sampleHome:model.sampleHome,sampleAway:model.sampleAway,stage:'official',analysisStatus:'final',lockedAt:lockTime(date)}
-  try{const result=await supabase.rpc('admin_save_football_prediction',{p_game_id:match.id,p_record:record});if(result.error)throw result.error;setRecords(current=>[...current.filter(x=>x.gameId!==match.id),result.data as RecordRow]);setNotice('已封存並發布。資料庫將在台灣時間 21:00 後拒絕修改。')}
-  catch(e){setError(e instanceof Error?e.message:'足球預測封存失敗')}
-  finally{setSaving(false)}
- }
  if(!canViewFootball)return <section className="football-lock"><ShieldCheck size={30}/><h2>足球賽前分析｜會員專區</h2><p>會員僅可在賽事前一日台灣時間 21:00 正式預測封存後查看；管理員可提前預覽。</p></section>
  return <div className="football-center">
   {isAdmin&&<section className="football-odds-entry"><div className="football-market-title"><ShieldCheck size={16}/> 足球頁面存取權限</div><p>預設只有管理員可查看。關閉時，其他會員無法看到足球分頁，也無法讀取足球預測紀錄。</p><div className="football-lock-row"><span>{membersEnabled?'目前：已開放符合資格會員':'目前：僅管理員可查看'}</span><button disabled={accessSaving} onClick={()=>void toggleMemberAccess()}>{accessSaving?'更新中…':membersEnabled?'關閉會員查看':'開放給會員查看'}</button></div></section>}
@@ -125,13 +75,12 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
   {loading?<div className="football-empty"><RefreshCw className="spin" size={20}/> 正在同步歐冠賽程與近期戰績…</div>:rows.length===0?<div className="football-empty"><CalendarDays size={22}/><b>這一天沒有讀取到歐冠賽事</b><span>可切換日期查看其他比賽；賽程以 UEFA 公布資訊為準。</span></div>:<div className="football-match-grid">{rows.map(({match,model,record,settlement:rowSettlement})=><button className={'football-match '+(selected===match.id?'selected':'')} key={match.id} onClick={()=>{setSelected(match.id);setError('');setNotice('')}}><div className="football-match-top"><span>UEFA CHAMPIONS LEAGUE</span><small>{localTime(match.date)}</small></div><div className="football-teams"><div><img src={match.home.logo} onError={e=>{e.currentTarget.style.display='none'}}/><b>{match.home.name}</b></div><span>VS</span><div><img src={match.away.logo} onError={e=>{e.currentTarget.style.display='none'}}/><b>{match.away.name}</b></div></div><div className="football-pick-hero"><span>預測勝方</span><strong>{record?(record.moneylinePick.side==='home'?match.home.name:record.moneylinePick.side==='away'?match.away.name:'和局'):isAdmin?(direction(model)==='主勝'?match.home.name:direction(model)==='客勝'?match.away.name:'和局'):'尚未發布'}</strong><b>{record?pct(record.moneylinePick.probability):isAdmin?pct(Math.max(model.homeWin,model.draw,model.awayWin)):'—'}</b><small>{record?'21:00 正式封存推薦':isAdmin?'目前模型預覽':'等待正式封存'}</small></div><div className="football-mini-picks"><span>主勝／和局／客勝 <b>{record?pct(record.homeWin)+' / '+pct(record.draw)+' / '+pct(record.awayWin):isAdmin?pct(model.homeWin)+' / '+pct(model.draw)+' / '+pct(model.awayWin):'尚未發布'}</b></span><span>首選比數 <b>{record?(record.correctScores?.[0]?.score??'—'):isAdmin?(model.topScores[0]?.score??'—'):'待發布'}</b></span></div>{rowSettlement&&<div className="football-traffic-row"><span className={'football-light '+(rowSettlement.moneyline==='win'?'is-green':'is-red')}>● 勝平負：{rowSettlement.moneyline==='win'?'命中':'未中'}</span><span className={'football-light '+(rowSettlement.total==='win'?'is-green':rowSettlement.total==='push'?'is-yellow':'is-red')}>● 大小球：{rowSettlement.total==='win'?'命中':rowSettlement.total==='push'?'走盤':'未中'}</span><span className={'football-light '+(rowSettlement.correctScore==='win'?'is-green':'is-red')}>● 正確比數：{rowSettlement.correctScore==='win'?'命中':'未中'}</span></div>}<div className="football-match-bottom"><span>{isFinalStatus(match.status)?'已完賽':match.detail||'未開賽'}</span><b>{record?'已封存':isAdmin?'管理員預覽':'尚未發布'} · 查看 →</b></div></button>)}</div>}
   {active&&<section className="football-analysis"><div className="football-analysis-head"><div><span className="football-eyebrow">MATCH ANALYSIS</span><h3>{active.match.home.name} <small>vs</small> {active.match.away.name}</h3></div><button onClick={()=>setSelected(null)}>收合</button></div>
    {isAdmin&&!active.record?<><div className="football-market-grid"><article><div className="football-market-title"><Trophy size={16}/> 不讓分｜勝平負</div><div className="football-outcomes"><div><small>主勝</small><b>{pct(active.model.homeWin)}</b></div><div><small>和局</small><b>{pct(active.model.draw)}</b></div><div><small>客勝</small><b>{pct(active.model.awayWin)}</b></div></div><p>模型方向：<strong>{direction(active.model)}</strong></p></article>
-    <article><div className="football-market-title"><Activity size={16}/> 總進球大小</div><label className="football-line">分析盤口 <select value={line} onChange={e=>setLine(Number(e.target.value))}><option value={1.5}>1.5 球</option><option value={2.5}>2.5 球</option><option value={3.5}>3.5 球</option><option value={4.5}>4.5 球</option></select></label><div className="football-outcomes"><div><small>大於 {line}</small><b>{pct(active.model.over)}</b></div><div><small>小於 {line}</small><b>{pct(active.model.under)}</b></div></div><p>預期進球：<strong>{active.model.homeXg.toFixed(2)} : {active.model.awayXg.toFixed(2)}</strong></p></article>
+    <article><div className="football-market-title"><Activity size={16}/> 總進球大小</div><label className="football-line">固定分析盤口 <b>2.5 球</b></label><div className="football-outcomes"><div><small>大於 {line}</small><b>{pct(active.model.over)}</b></div><div><small>小於 {line}</small><b>{pct(active.model.under)}</b></div></div><p>預期進球：<strong>{active.model.homeXg.toFixed(2)} : {active.model.awayXg.toFixed(2)}</strong></p></article>
     <article><div className="football-market-title"><Target size={16}/> 正確比數｜機率前三</div><div className="football-score-list">{active.model.topScores.map(x=><div key={x.score}><b>{x.score}</b><span>{pct(x.probability)}</span></div>)}</div><p>比分為機率排序，不代表保證命中。</p></article></div>
-    <section className="football-odds-entry"><div className="football-market-title">台灣運彩盤口核對｜管理員輸入</div><p>請依官方台灣運彩當場盤口輸入賠率；未核對完成前，不可發布給會員。</p><div className="football-odds-fields"><label>主勝賠率<input inputMode="decimal" value={odds.home} onChange={e=>setOdds(v=>({...v,home:e.target.value}))} placeholder="例：1.85"/></label><label>和局賠率<input inputMode="decimal" value={odds.draw} onChange={e=>setOdds(v=>({...v,draw:e.target.value}))} placeholder="例：3.40"/></label><label>客勝賠率<input inputMode="decimal" value={odds.away} onChange={e=>setOdds(v=>({...v,away:e.target.value}))} placeholder="例：4.20"/></label><label>大分賠率<input inputMode="decimal" value={odds.over} onChange={e=>setOdds(v=>({...v,over:e.target.value}))} placeholder="例：1.90"/></label><label>小分賠率<input inputMode="decimal" value={odds.under} onChange={e=>setOdds(v=>({...v,under:e.target.value}))} placeholder="例：1.80"/></label></div><div className="football-lock-row"><span><LockKeyhole size={15}/> 鎖定時間：{new Date(lockTime(date)).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}</span><button disabled={saving||!oddsReady||locked||!active.model.dataReady} onClick={()=>void saveOfficial(active.match,active.model)}><Save size={15}/>{saving?'封存中…':active.record?'更新正式預測':'封存並發布會員'}</button></div>{locked&&<small className="football-warning">已超過鎖定時間，禁止新增或修改。</small>}{!oddsReady&&<small className="football-warning">五項賠率皆需填寫且大於 1.00，才可封存。</small>}</section>
-    <div className="football-model-note"><b>模型透明度</b><span>近期樣本：主隊 {active.model.sampleHome} 場／客隊 {active.model.sampleAway} 場；信心等級：{active.model.confidence}。</span>{!active.model.dataReady&&<span className="football-warning">禁止發布：{active.model.dataWarnings.join('；')}</span>}<span>主隊近期：{active.model.homeRecent.join('｜')||'尚無足夠紀錄'}</span><span>客隊近期：{active.model.awayRecent.join('｜')||'尚無足夠紀錄'}</span><span>以近 120 日歐冠及球隊所屬聯賽完賽進失球資料加權，並納入主客場分項；樣本不足 5 場或主隊主場／客隊客場樣本不足 2 場時，禁止發布正式預測。再以 Poisson 分布計算勝平負、大小球及比分機率。這是進球率估值，不等同官方射門品質 xG。</span><span className="football-warning">目前尚未自動串接台灣運彩足球盤口；此版本由管理員核對官方頁面後輸入，未輸入前不發布會員。</span></div>
+    <section className="football-odds-entry"><div className="football-market-title"><LockKeyhole size={16}/> 每日正式預測封存</div><p>系統依照目前模型結果，於台灣時間每日 21:00 自動保存勝平負、2.5 球大小、前三組正確比分與機率。封存後不再改動原始推薦，只更新賽果及紅綠燈。</p><div className="football-lock-row"><span>本場預定封存：{new Date(lockTime(date)).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}</span><b>{active.record?'已完成封存':'等待自動封存'}</b></div></section>
+    <div className="football-model-note"><b>模型透明度</b><span>近期樣本：主隊 {active.model.sampleHome} 場／客隊 {active.model.sampleAway} 場；信心等級：{active.model.confidence}。</span>{!active.model.dataReady&&<span className="football-warning">樣本不足提醒：{active.model.dataWarnings.join('；')}；系統仍會保存模型方向並標示樣本風險。</span>}<span>主隊近期：{active.model.homeRecent.join('｜')||'尚無足夠紀錄'}</span><span>客隊近期：{active.model.awayRecent.join('｜')||'尚無足夠紀錄'}</span><span>以近 120 日歐冠及球隊所屬聯賽完賽進失球資料加權，並納入主客場分項；再以 Poisson 分布計算勝平負、大小球及比分機率。</span></div>
    </>:active.record?<><div className="football-market-grid"><article><div className="football-market-title"><Trophy size={16}/> 正式封存｜勝平負</div><div className="football-outcomes"><div><small>主勝</small><b>{pct(active.record.homeWin)}</b></div><div><small>和局</small><b>{pct(active.record.draw)}</b></div><div><small>客勝</small><b>{pct(active.record.awayWin)}</b></div></div><p>正式方向：<strong>{active.record.moneylinePick.side==='home'?'主勝':active.record.moneylinePick.side==='draw'?'和局':'客勝'}</strong>（{pct(active.record.moneylinePick.probability)}）</p></article><article><div className="football-market-title"><Activity size={16}/> 總進球大小</div><div className="football-outcomes"><div><small>盤口</small><b>{active.record.totalPick.line}</b></div><div><small>推薦</small><b>{active.record.totalPick.side==='over'?'大分':'小分'}</b></div><div><small>機率</small><b>{pct(active.record.totalPick.probability)}</b></div></div></article><article><div className="football-market-title"><Target size={16}/> 正確比數｜前三</div><div className="football-score-list">{active.record.correctScores.map(x=><div key={x.score}><b>{x.score}</b><span>{pct(x.probability)}</span></div>)}</div></article></div><div className="football-model-note"><b>正式版本已鎖定</b>{active.record.sportsLotteryOdds?<><span>台灣運彩勝平負：主勝 {active.record.sportsLotteryOdds.home.toFixed(2)}／和局 {active.record.sportsLotteryOdds.draw.toFixed(2)}／客勝 {active.record.sportsLotteryOdds.away.toFixed(2)}</span><span>總進球盤口 {active.record.sportsLotteryOdds.totalLine}：大 {active.record.sportsLotteryOdds.over.toFixed(2)}／小 {active.record.sportsLotteryOdds.under.toFixed(2)}</span></>:<span>本次封存依模型預測保存，官方運彩賠率未提供。</span>}<span>鎖定時間：{new Date(active.record.lockedAt).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})}</span><span>封存來源：{active.record.source==='automatic_21_00_taiwan_snapshot'?'每日 21:00 自動封存':'管理員封存'}</span>{active.settlement&&<><span>最終比分：{active.match.home.score}-{active.match.away.score}</span><div className="football-traffic-row football-traffic-detail"><span className={'football-light '+(active.settlement.moneyline==='win'?'is-green':'is-red')}>● 勝平負：{active.settlement.moneyline==='win'?'命中':'未中'}</span><span className={'football-light '+(active.settlement.total==='win'?'is-green':active.settlement.total==='push'?'is-yellow':'is-red')}>● 大小球：{active.settlement.total==='win'?'命中':active.settlement.total==='push'?'走盤':'未中'}</span><span className={'football-light '+(active.settlement.correctScore==='win'?'is-green':'is-red')}>● 正確比數：{active.settlement.correctScore==='win'?'命中':'未中'}</span></div></>}</div></>:<div className="football-empty"><LockKeyhole size={22}/><b>本場正式預測尚未發布</b><span>管理員完成盤口核對並在鎖定時間前封存後，會員才會看到正式推薦。</span></div>}
   </section>}
-  {isAdmin&&active?.record&&isFinalStatus(active.match.status)&&<div className="football-settle-row"><span>官方賽果：{active.match.home.score??'—'} - {active.match.away.score??'—'}</span><button disabled={saving||!!active.record.settledAt||active.match.home.score===undefined||active.match.away.score===undefined} onClick={()=>void settleOfficial(active.match)}>{active.record.settledAt?'已完成結算':saving?'結算中…':'依正式比分結算'}</button></div>}
-  <div className="football-disclaimer">足球賽果具高度不確定性，模型機率僅供參考。正式推薦以已封存版本為準；鎖定後不修改方向，後續僅更新賽果與結算。</div>
+    <div className="football-disclaimer">足球賽果具高度不確定性，模型機率僅供參考。正式推薦以已封存版本為準；鎖定後不修改方向，後續僅更新賽果與結算。</div>
  </div>
 }
