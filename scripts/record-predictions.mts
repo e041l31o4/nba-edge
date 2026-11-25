@@ -547,6 +547,37 @@ for (const row of rows) {
     regraded++
   }
 }
+// Read-only audit of the frozen ledger: compare market directions with formal qualified picks.
+// This prints historical hit rates without changing any prediction or settlement.
+const summarizeMarket=(items:Row[],market:'moneyline'|'spread'|'total',field:'lean'|'pick')=>{
+  const tally={wins:0,losses:0,pushes:0,noDirection:0}
+  for(const row of items){
+    const frozen=(row.finalSnapshot??{}) as Record<string,unknown>
+    const key=market==='moneyline'?(field==='lean'?'moneylineLean':'moneylinePick'):market==='spread'?(field==='lean'?'spreadLean':'spreadPick'):(field==='lean'?'totalLean':'totalPick')
+    const raw=Object.prototype.hasOwnProperty.call(frozen,key)?frozen[key]:row[key as keyof Row]
+    const pick=raw&&typeof raw==='object'?raw as MarketPick:undefined
+    if(!pick || (market!=='total'&&!pick.teamSide) || (market!=='moneyline'&&typeof pick.line!=='number') || (market==='total'&&!['over','under'].includes(String(pick.side)))){tally.noDirection++;continue}
+    let result:'win'|'loss'|'push'
+    if(market==='moneyline') result=(pick.teamSide==='home'?Number(row.actualHome)>Number(row.actualAway):Number(row.actualAway)>Number(row.actualHome))?'win':'loss'
+    else if(market==='spread'){
+      const margin=pick.teamSide==='away'?Number(row.actualAway)-Number(row.actualHome)+Number(pick.line):Number(row.actualHome)-Number(row.actualAway)+Number(pick.line)
+      result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'
+    } else {
+      const diff=Number(row.actualHome)+Number(row.actualAway)-Number(pick.line)
+      result=Math.abs(diff)<1e-9?'push':((pick.side==='over'&&diff>0)||(pick.side==='under'&&diff<0))?'win':'loss'
+    }
+    tally[result]++
+  }
+  const decided=tally.wins+tally.losses
+  return {...tally,hitRate:decided?Number((tally.wins/decided*100).toFixed(1)):null}
+}
+for(const date of ['20261123','20261124']){
+  const dayRows=rows.filter(row=>taiwanDateKey(row.date)===date)
+  const scored=dayRows.filter(row=>row.stage==='official'&&Number.isFinite(row.actualHome)&&Number.isFinite(row.actualAway))
+  const settled= scored.filter(row=>!!row.settledAt)
+  console.log('NBA_EDGE_FROZEN_DAILY_AUDIT:',JSON.stringify({date,gameRecords:dayRows.length,officialScoredGames:scored.length,settledGames:settled.length,pendingScores:dayRows.length-scored.length,directions:{moneyline:summarizeMarket(scored,'moneyline','lean'),spread:summarizeMarket(scored,'spread','lean'),total:summarizeMarket(scored,'total','lean')},qualifiedRecommendations:{moneyline:summarizeMarket(scored,'moneyline','pick'),spread:summarizeMarket(scored,'spread','pick'),total:summarizeMarket(scored,'total','pick')}}))
+}
+
 // Keep the complete ledger; do not silently discard historical predictions.
 const output=rows
 // Keep per-game predictions and market picks out of public Actions logs.
