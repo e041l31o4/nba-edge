@@ -39,6 +39,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  const rows=useMemo(()=>matches.map(match=>({match,model:buildFootballModel(match,history,line),record:records.find(r=>r.gameId===match.id)})),[matches,history,line,records])
  useEffect(()=>{
   if(!isAdmin||!canViewFootball||!supabase)return
+  const client=supabase
   const pending=matches.filter(match=>{
    const record=records.find(item=>item.gameId===match.id)
    return !!record&&record.stage==='official'&&!record.settledAt&&isFinalStatus(match.status)&&match.home.score!==undefined&&match.away.score!==undefined&&!autoSettling.current.has(match.id)
@@ -49,7 +50,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
    for(const match of pending){
     autoSettling.current.add(match.id)
     try{
-     const result=await supabase.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score})
+     const result=await client.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score})
      if(result.error)throw result.error
      if(!cancelled)setRecords(current=>[...current.filter(item=>item.gameId!==match.id),result.data as RecordRow])
     }catch(e){
