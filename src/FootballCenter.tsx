@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Activity, AlertTriangle, CalendarDays, RefreshCw, ShieldCheck, Target, Trophy, LockKeyhole, Save } from 'lucide-react'
 import { buildFootballModel, getUclMatches, isFinalStatus, type FootballMatch, type FootballModel } from './football'
 import { loadDataset } from './lib/memberData'
@@ -28,6 +28,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  const [accessSaving,setAccessSaving]=useState(false)
  const [odds,setOdds]=useState<OddsForm>({home:'',draw:'',away:'',over:'',under:''})
  const [notice,setNotice]=useState('')
+ const autoSettling=useRef<Set<string>>(new Set())
  useEffect(()=>{const timer=window.setInterval(()=>setNow(Date.now()),30_000);return()=>window.clearInterval(timer)},[])
  const taiwanToday=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))
  const memberDateAllowed=isoDate(date)<=shiftDate(taiwanToday,1)&&now>=new Date(lockTime(date)).getTime()
@@ -36,6 +37,31 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  useEffect(()=>{let alive=true;setLoading(true);setError('');setSelected(null);getUclMatches(isoDate(date)).then(data=>{if(!alive)return;setMatches(data.matches);setHistory(data.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>{if(alive)setError(e instanceof Error?e.message:'足球賽程讀取失敗')}).finally(()=>{if(alive)setLoading(false)});return()=>{alive=false}},[date])
  useEffect(()=>{let alive=true;if(!canViewFootball){setRecords([]);return()=>{alive=false}};loadDataset<{records:RecordRow[]}>('football-prediction-ledger','football-prediction-ledger.json').then(data=>{if(alive)setRecords(Array.isArray(data?.records)?data!.records:[])}).catch(()=>{if(alive)setRecords([])});return()=>{alive=false}},[canViewFootball,date])
  const rows=useMemo(()=>matches.map(match=>({match,model:buildFootballModel(match,history,line),record:records.find(r=>r.gameId===match.id)})),[matches,history,line,records])
+ useEffect(()=>{
+  if(!isAdmin||!canViewFootball||!supabase)return
+  const pending=matches.filter(match=>{
+   const record=records.find(item=>item.gameId===match.id)
+   return !!record&&record.stage==='official'&&!record.settledAt&&isFinalStatus(match.status)&&match.home.score!==undefined&&match.away.score!==undefined&&!autoSettling.current.has(match.id)
+  })
+  if(!pending.length)return
+  let cancelled=false
+  const run=async()=>{
+   for(const match of pending){
+    autoSettling.current.add(match.id)
+    try{
+     const result=await supabase.rpc('admin_settle_football_prediction',{p_game_id:match.id,p_home_goals:match.home.score,p_away_goals:match.away.score})
+     if(result.error)throw result.error
+     if(!cancelled)setRecords(current=>[...current.filter(item=>item.gameId!==match.id),result.data as RecordRow])
+    }catch(e){
+     autoSettling.current.delete(match.id)
+     if(!cancelled)setError(e instanceof Error?e.message:'足球自動結算失敗，請管理員檢查賽果')
+    }
+   }
+  }
+  void run()
+  return()=>{cancelled=true}
+ },[isAdmin,canViewFootball,matches,records])
+
  const active=rows.find(x=>x.match.id===selected)
  const performance=useMemo(()=>{
   const settled=records.filter(x=>!!x.settledAt&&!!x.settlement)
