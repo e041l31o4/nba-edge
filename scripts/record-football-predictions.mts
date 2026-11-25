@@ -39,8 +39,12 @@ for(const day of dueDates){
   if(now.getTime()<lockFor(day).getTime())continue
   const result=resultsByDate.get(day)!
   for(const match of result.matches){
-    if(new Date(match.date).getTime()<=now.getTime()||byId.get(match.id)?.stage==='official')continue
-    const model=buildFootballModel(match,result.history,2.5)
+    if(byId.get(match.id)?.stage==='official')continue
+    // For already-finished fixtures missing a frozen record, reconstruct a clearly-labelled
+    // retrospective baseline using only matches completed before this kickoff.
+    const retrospective=isFinalStatus(match.status)||new Date(match.date).getTime()<=now.getTime()
+    const preKickoffHistory=result.history.filter(game=>new Date(game.date).getTime()<new Date(match.date).getTime())
+    const model=buildFootballModel(match,preKickoffHistory,2.5)
     const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0]
     const record:FootballRecord={
       gameId:match.id,date:match.date,home:match.home.name,away:match.away.name,
@@ -48,7 +52,7 @@ for(const day of dueDates){
       moneylinePick:winner,totalPick:{side:model.over>=model.under?'over':'under',line:2.5,probability:Math.max(model.over,model.under)},
       correctScores:model.topScores,sampleHome:model.sampleHome,sampleAway:model.sampleAway,
       stage:'official',analysisStatus:'final',lockedAt:lockFor(day).toISOString(),publishedAt:now.toISOString(),capturedAt:now.toISOString(),
-      source:'automatic_21_00_taiwan_snapshot',confidence:model.confidence,dataWarnings:model.dataWarnings
+      source:retrospective?'retrospective_backfill':'automatic_21_00_taiwan_snapshot',confidence:model.confidence,dataWarnings:retrospective?[...model.dataWarnings,'歷史補算：非賽前原始封存，使用開賽前可取得的歷史賽事資料重建。']:model.dataWarnings
     }
     byId.set(match.id,record);added++
   }
