@@ -14,6 +14,8 @@ on:
       - 'src/predictionLedger.ts'
       - 'src/dailySettlement.ts'
       - 'scripts/test-daily-settlement.mts'
+      - 'scripts/record-football-predictions.mts'
+      - 'src/football.ts'
       - 'public/data/team-form.json'
       - 'public/data/injuries.json'
       - 'public/data/backtest.json'
