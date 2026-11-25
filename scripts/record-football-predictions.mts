@@ -76,7 +76,7 @@ for(const record of byId.values()){
   }
 }
 const next=[...byId.values()].sort((a,b)=>b.date.localeCompare(a.date))
-if(added||settled||!Array.isArray(ledger.footballRecords)){
+if(added||settled||regraded||!Array.isArray(ledger.footballRecords)){
   ledger.footballRecords=next
   ledger.footballUpdatedAt=now.toISOString()
   await writeFile(path,JSON.stringify(ledger,null,2)+'\n')
