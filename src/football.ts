@@ -70,7 +70,7 @@ const TEAM_ZH:Record<string,string>={
  celtic:'塞爾提克',rangers:'格拉斯哥流浪者',galatasaray:'加拉塔薩雷',fenerbahce:'費內巴切',besiktas:'貝西克塔斯',
  shakhtardonetsk:'頓內次克礦工',shakhtar:'頓內次克礦工',clubbrugge:'布魯日',brugge:'布魯日',slaviapraha:'布拉格斯拉維亞',slaviaprague:'布拉格斯拉維亞',spartaprague:'布拉格斯巴達',
  redbullsalzburg:'薩爾斯堡紅牛',salzburg:'薩爾斯堡紅牛',youngboys:'伯恩年輕人',basel:'巴塞爾',olympiacos:'奧林匹亞科斯',dinamozagreb:'薩格勒布迪納摩',crvenazvezda:'貝爾格勒紅星',
- bodoglimt:'波杜基林特',bodoglimt:'波杜基林特',lask:'LASK 林茨',lasklinz:'LASK 林茨',kobenhavn:'哥本哈根',copenhagen:'哥本哈根',unionsg:'聖吉羅聯',unionsaintgilloise:'聖吉羅聯',qarabag:'卡拉巴克',monterrey:'蒙特雷',intermiami:'邁阿密國際'
+ bodoglimt:'波杜基林特',lask:'LASK 林茨',lasklinz:'LASK 林茨',kobenhavn:'哥本哈根',copenhagen:'哥本哈根',unionsg:'聖吉羅聯',unionsaintgilloise:'聖吉羅聯',qarabag:'卡拉巴克',monterrey:'蒙特雷',intermiami:'邁阿密國際'
 };
 function teamFor(x:any,scoreValue:(x:any)=>number|undefined):FootballTeam{
  const raw=x?.team?.displayName??x?.team?.name??'待確認';
