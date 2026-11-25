@@ -1,4 +1,4 @@
-import { buildFootballModel, getUclMatches, UCL_MATCH_DAYS } from '../src/football'
+import { buildFootballModel, getUclMatches } from '../src/football'
 
 type FrozenRecord = {
   gameId:string; date:string; home:string; away:string
@@ -17,9 +17,9 @@ const now=new Date()
 const twDate=(d:Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(d)
 const shift=(value:string,days:number)=>{const d=new Date(value+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 const today=twDate(now)
-const targets=[today,shift(today,1)].filter(day=>UCL_MATCH_DAYS.includes(day))
 const lockFor=(day:string)=>new Date(`${shift(day,-1)}T21:00:00+08:00`)
-const dueTargets=targets.filter(day=>now.getTime()>=lockFor(day).getTime())
+const tomorrow=shift(today,1)
+const dueTargets=[today,...(now.getTime()>=lockFor(tomorrow).getTime()?[tomorrow]:[])]
 const headers={apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'}
 const read=await fetch(base+'/rest/v1/member_datasets?select=payload&dataset_key=eq.football-prediction-ledger',{headers})
 if(!read.ok) throw new Error(`Cannot read football prediction ledger (HTTP ${read.status}); apply migration 202611240001 first.`)
