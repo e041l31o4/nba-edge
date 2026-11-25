@@ -15,7 +15,6 @@ function lockTime(date:string){const p=isoDate(date).split('-').map(Number);retu
 function direction(m:FootballModel){return m.homeWin>=m.draw&&m.homeWin>=m.awayWin?'主勝':m.draw>=m.awayWin?'和局':'客勝'}
 function calculateSettlement(record:RecordRow|undefined,match:FootballMatch){
  if(!record)return undefined
- if(record.settlement)return record.settlement
  if(!isFinalStatus(match.status)||match.home.score===undefined||match.away.score===undefined)return undefined
  const home=match.home.score,away=match.away.score,total=home+away,line=record.totalPick.line
  const winner=home>away?'home':home<away?'away':'draw'
