@@ -50,14 +50,14 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  const toggleMemberAccess=async()=>{if(!supabase){setError('會員資料庫尚未設定，無法變更足球開放權限。');return}setAccessSaving(true);setError('');setNotice('');try{const result=await supabase.rpc('admin_set_football_member_access',{p_enabled:!membersEnabled});if(result.error)throw result.error;onReleaseChanged(result.data===true);setNotice(result.data===true?'已開放足球頁面給符合會員資格的會員。':'已關閉足球會員權限，目前只有管理員可以查看。')}catch(e){setError(e instanceof Error?e.message:'足球會員開放設定失敗；請先確認已執行 FOOTBALL_SETUP.sql。')}finally{setAccessSaving(false)}}
  useEffect(()=>{let alive=true;setLoading(true);setError('');setSelected(null);getUclMatches(isoDate(date)).then(data=>{if(!alive)return;setMatches(data.matches);setHistory(data.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>{if(alive)setError(e instanceof Error?e.message:'足球賽程讀取失敗')}).finally(()=>{if(alive)setLoading(false)});return()=>{alive=false}},[date])
  useEffect(()=>{let alive=true;if(!canViewFootball){setRecords([]);return()=>{alive=false}};loadDataset<{records:RecordRow[]}>('football-prediction-ledger','football-prediction-ledger.json').then(data=>{if(alive)setRecords(Array.isArray(data?.records)?data!.records:[]) }).catch(e=>{if(alive){setRecords([]);setError(e instanceof Error?'足球預測紀錄讀取失敗：'+e.message:'足球預測紀錄讀取失敗，請確認資料庫遷移已執行。')}});return()=>{alive=false}},[canViewFootball,date])
- const rows=useMemo(()=>matches.map(match=>{const record=records.find(r=>r.gameId===match.id);return {match,model:buildFootballModel(match,history,line),record,settlement:calculateSettlement(record,match)}}),[matches,history,line,records])
+ const rows=useMemo(()=>{const historical=history.filter(match=>records.some(record=>record.gameId===match.id));const visible=Array.from(new Map([...matches,...historical].map(match=>[match.id,match])).values()).sort((a,b)=>b.date.localeCompare(a.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);return {match,model:buildFootballModel(match,history,line),record,settlement:calculateSettlement(record,match)}})},[matches,history,line,records])
  useEffect(()=>{
   if(!isAdmin||!canViewFootball||!supabase)return
   const client=supabase
-  const pending=matches.filter(match=>{
-   const record=records.find(item=>item.gameId===match.id)
+  const pending=rows.filter(row=>{
+   const {match,record}=row
    return !!record&&record.stage==='official'&&!record.settledAt&&isFinalStatus(match.status)&&match.home.score!==undefined&&match.away.score!==undefined&&!autoSettling.current.has(match.id)
-  })
+  }).map(row=>row.match)
   if(!pending.length)return
   let cancelled=false
   const run=async()=>{
@@ -75,7 +75,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
   }
   void run()
   return()=>{cancelled=true}
- },[isAdmin,canViewFootball,matches,records])
+ },[isAdmin,canViewFootball,rows])
 
  const active=rows.find(x=>x.match.id===selected)
  const performance=useMemo(()=>{
