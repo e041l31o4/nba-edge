@@ -83,7 +83,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
    const totalPick=savedPrediction.totalPick??savedPrediction.totalLean
    const spread=spreadPick?{...spreadPick,label:`${spreadPick.side} ${spreadPick.line>0?'+':''}${spreadPick.line}`,qualified:!!savedPrediction.spreadPick}:null
    const total=totalPick?{...totalPick,label:`${totalPick.side==='over'?'大分':'小分'} ${totalPick.line}`,qualified:!!savedPrediction.totalPick}:null
-   return {spread,total,blocked:false,spreadGrade:'賽前封存方向',totalGrade:'賽前封存方向'}
+   return {spread,total,blocked:false,spreadGrade:spread?.qualified?'推薦資格通過':'觀察方向（未達推薦門檻）',totalGrade:total?.qualified?'推薦資格通過':'觀察方向（未達推薦門檻）'}
   }
   if(!report.available)return {spread:null,total:null,blocked:true}
   const spreadGroups=new Map<string,typeof homeSpread>()
@@ -129,7 +129,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   const spread=choose(spreadCandidates),total=choose(totalCandidates)
   const spreadBacktestCount=marketBacktest?.spreads?.decided??0
   const totalBacktestCount=marketBacktest?.totals?.decided??0
-  const grade=(pick:any,count:number)=>{if(!pick)return '無完整配對盤口';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低';const risks:string[]=[];if(pick.ev<0.025)risks.push('EV偏低');if(pick.probability<0.54)risks.push('模型機率偏低');if(report.confidence==='低')risks.push('信心偏低');if(report.injuryRisk==='偏高')risks.push('傷兵風險偏高');if(report.injuryRisk==='待確認')risks.push('傷兵狀態待確認');const label='推薦方向｜'+(strong?'較強':'一般')+(risks.length?'（'+risks.join('、')+'）':'');return count<30?label+'（歷史回測 '+count+' 場，樣本持續累積）':label}
+  const grade=(pick:any,count:number)=>{if(!pick)return '無完整配對盤口';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低';const risks:string[]=[];if(pick.ev<0.025)risks.push('EV偏低');if(pick.probability<0.54)risks.push('模型機率偏低');if(report.confidence==='低')risks.push('信心偏低');if(report.injuryRisk==='偏高')risks.push('傷兵風險偏高');if(report.injuryRisk==='待確認')risks.push('傷兵狀態待確認');const label='推薦資格｜'+(pick.qualified?'通過':'未通過；保留模型方向')+'｜信心'+(strong?'較強':'一般')+(risks.length?'（'+risks.join('、')+'）':'');return count<30?label+'（歷史回測 '+count+' 場，樣本持續累積）':label}
   return {spread,total,spreadGrade:grade(spread,spreadBacktestCount),totalGrade:grade(total,totalBacktestCount),blocked:false}
  },[report,homeSpread,totals,marketBacktest,hasFrozenMemberPrediction,savedPrediction])
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
