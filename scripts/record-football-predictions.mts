@@ -1,6 +1,8 @@
-import { buildFootballModel, getUclMatches } from '../src/football'
+import { readFile, writeFile } from 'node:fs/promises'
+import { buildFootballModel, getUclMatches, isFinalStatus } from '../src/football'
+import type { FootballMatch } from '../src/football'
 
-type FrozenRecord = {
+type FootballRecord = {
   gameId:string; date:string; home:string; away:string
   homeWin:number; draw:number; awayWin:number; homeXg:number; awayXg:number
   moneylinePick:{side:'home'|'draw'|'away';probability:number}
@@ -9,39 +11,36 @@ type FrozenRecord = {
   sampleHome:number;sampleAway:number;stage:'official';analysisStatus:'final'
   lockedAt:string;publishedAt:string;capturedAt:string;source:string
   confidence:'低'|'中'|'高';dataWarnings:string[]
+  actualHome?:number;actualAway?:number;settledAt?:string
+  settlement?:{moneyline:'win'|'loss';total:'win'|'loss'|'push';correctScore:'win'|'loss'}
 }
-const base=(process.env.SUPABASE_URL??'').replace(/\/$/,'')
-const key=(process.env.SUPABASE_SERVICE_ROLE_KEY??'').replace(/\s/g,'')
-if(!base||!key) throw new Error('Missing Supabase service credentials; football snapshots were not written.')
+type Ledger={records:unknown[];footballRecords?:FootballRecord[];[key:string]:unknown}
+const path='public/data/prediction-ledger.json'
+const raw=await readFile(path,'utf8')
+const ledger=JSON.parse(raw) as Ledger
+const records:Array<FootballRecord>=Array.isArray(ledger.footballRecords)?ledger.footballRecords:[]
 const now=new Date()
 const twDate=(d:Date)=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(d)
 const shift=(value:string,days:number)=>{const d=new Date(value+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 const today=twDate(now)
-const lockFor=(day:string)=>new Date(`${shift(day,-1)}T21:00:00+08:00`)
 const tomorrow=shift(today,1)
-const dueTargets=[today,...(now.getTime()>=lockFor(tomorrow).getTime()?[tomorrow]:[])]
-const headers={apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'}
-const read=await fetch(base+'/rest/v1/member_datasets?select=payload&dataset_key=eq.football-prediction-ledger',{headers})
-if(!read.ok) throw new Error(`Cannot read football prediction ledger (HTTP ${read.status}); apply migration 202611240001 first.`)
-const existingRows=await read.json() as Array<{payload?:{records?:FrozenRecord[]}}>
-const records:FrozenRecord[]=Array.isArray(existingRows[0]?.payload?.records)?existingRows[0].payload!.records!:[]
-if(existingRows.length===0){
-  const init=await fetch(base+'/rest/v1/member_datasets?on_conflict=dataset_key',{
-    method:'POST',headers:{...headers,Prefer:'resolution=merge-duplicates,return=minimal'},
-    body:JSON.stringify({dataset_key:'football-prediction-ledger',payload:{records:[]},updated_at:now.toISOString()})
-  })
-  if(!init.ok) throw new Error(`Football ledger table is not ready (HTTP ${init.status}): ${await init.text()}. Apply migration 202611240001 before automatic 21:00 saves.`)
-  console.log('FOOTBALL_LEDGER_INITIALIZED')
+const lockFor=(day:string)=>new Date(`${shift(day,-1)}T21:00:00+08:00`)
+const dueDates=[today,...(now.getTime()>=lockFor(tomorrow).getTime()?[tomorrow]:[])]
+const matchMap=new Map<string,FootballMatch>()
+for(const day of dueDates){
+  const result=await getUclMatches(day)
+  for(const match of [...result.matches,...result.history])matchMap.set(match.id,match)
 }
-const known=new Set(records.filter(x=>x.stage==='official').map(x=>x.gameId))
-const additions:FrozenRecord[]=[]
-for(const day of dueTargets){
-  const {matches,history}=await getUclMatches(day)
-  for(const match of matches){
-    if(new Date(match.date).getTime()<=now.getTime()||known.has(match.id)) continue
-    const model=buildFootballModel(match,history,2.5)
+let added=0,settled=0
+const byId=new Map(records.map(record=>[record.gameId,record]))
+for(const day of dueDates){
+  if(now.getTime()<lockFor(day).getTime())continue
+  const result=await getUclMatches(day)
+  for(const match of result.matches){
+    if(new Date(match.date).getTime()<=now.getTime()||byId.get(match.id)?.stage==='official')continue
+    const model=buildFootballModel(match,result.history,2.5)
     const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0]
-    const record:FrozenRecord={
+    const record:FootballRecord={
       gameId:match.id,date:match.date,home:match.home.name,away:match.away.name,
       homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,
       moneylinePick:winner,totalPick:{side:model.over>=model.under?'over':'under',line:2.5,probability:Math.max(model.over,model.under)},
@@ -49,14 +48,30 @@ for(const day of dueTargets){
       stage:'official',analysisStatus:'final',lockedAt:lockFor(day).toISOString(),publishedAt:now.toISOString(),capturedAt:now.toISOString(),
       source:'automatic_21_00_taiwan_snapshot',confidence:model.confidence,dataWarnings:model.dataWarnings
     }
-    additions.push(record);known.add(match.id)
+    byId.set(match.id,record);added++
   }
 }
-if(!additions.length){console.log('FOOTBALL_SNAPSHOT: no new UCL fixtures due for 21:00 Taiwan lock.');process.exit(0)}
-const nextRecords=[...records,...additions]
-const write=await fetch(base+'/rest/v1/member_datasets?on_conflict=dataset_key',{
-  method:'POST',headers:{...headers,Prefer:'resolution=merge-duplicates,return=representation'},
-  body:JSON.stringify({dataset_key:'football-prediction-ledger',payload:{records:nextRecords},updated_at:now.toISOString()})
-})
-if(!write.ok) throw new Error(`Could not save frozen football predictions (HTTP ${write.status}): ${await write.text()}`)
-console.log('FOOTBALL_SNAPSHOT_SAVED:',JSON.stringify(additions.map(x=>({date:twDate(new Date(x.date)),home:x.home,away:x.away,win:x.moneylinePick.side,total:x.totalPick.side+' '+x.totalPick.line,correctScores:x.correctScores.map(s=>s.score),lockedAt:x.lockedAt}))))
+for(const record of byId.values()){
+  if(record.settledAt)continue
+  const match=matchMap.get(record.gameId)
+  if(!match||!isFinalStatus(match.status)||match.home.score===undefined||match.away.score===undefined)continue
+  const home=match.home.score,away=match.away.score,total=home+away
+  const winner=home>away?'home':home<away?'away':'draw'
+  const correct=record.correctScores.some(item=>item.score.replace(':','-')===`${home}-${away}`)
+  const line=record.totalPick.line
+  record.actualHome=home;record.actualAway=away;record.settledAt=now.toISOString()
+  record.settlement={
+    moneyline:record.moneylinePick.side===winner?'win':'loss',
+    total:total===line?'push':((record.totalPick.side==='over'&&total>line)||(record.totalPick.side==='under'&&total<line))?'win':'loss',
+    correctScore:correct?'win':'loss'
+  }
+  settled++
+}
+const next=[...byId.values()].sort((a,b)=>b.date.localeCompare(a.date))
+if(added||settled||!Array.isArray(ledger.footballRecords)){
+  ledger.footballRecords=next
+  ledger.footballUpdatedAt=now.toISOString()
+  await writeFile(path,JSON.stringify(ledger,null,2)+'\n')
+}
+console.log('FOOTBALL_LEDGER:',JSON.stringify({taiwanDate:today,checkedDates:dueDates,added,settled,total:next.length}))
+if(added)console.log('FOOTBALL_FROZEN_PICKS:',JSON.stringify(next.filter(x=>x.publishedAt===now.toISOString()).map(x=>({gameId:x.gameId,home:x.home,away:x.away,winner:x.moneylinePick.side,total:x.totalPick.side+' '+x.totalPick.line,scores:x.correctScores.map(y=>y.score)}))))
