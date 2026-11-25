@@ -60,7 +60,23 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
 function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 function parseEvents(json:any):FootballMatch[]{return (json.events??[]).map((e:any)=>{const c=e.competitions?.[0],teams=c?.competitors??[],h=teams.find((x:any)=>x.homeAway==='home'),a=teams.find((x:any)=>x.homeAway==='away');const scoreValue=(x:any)=>{const raw=x?.score?.value??x?.score?.displayValue??x?.score;if(raw===undefined||raw===null||raw==='')return undefined;const parsed=Number(raw);return Number.isFinite(parsed)?parsed:undefined};const home=teamFor(h,scoreValue),away=teamFor(a,scoreValue);const explicitStatus=e.status?.type?.name??c?.status?.type?.name??'';const completed=e.status?.type?.completed===true||c?.status?.type?.completed===true;const normalizedStatus=isFinalStatus(explicitStatus)||completed?'STATUS_FINAL':explicitStatus;const fallbackFinal=!explicitStatus&&home.score!==undefined&&away.score!==undefined&&new Date(e.date).getTime()<Date.now()-3*60*60*1000;return {id:String(e.id),date:e.date,status:normalizedStatus||(fallbackFinal?'STATUS_FINAL':''),detail:e.status?.type?.shortDetail??(fallbackFinal?'完賽':''),venue:c?.venue?.fullName,home,away}}).filter((g:FootballMatch)=>g.id&&g.home.id&&g.away.id)}
-function teamFor(x:any,scoreValue:(x:any)=>number|undefined):FootballTeam{return {id:String(x?.team?.id??''),name:x?.team?.displayName??x?.team?.name??'待確認',abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo??x?.team?.logos?.[0]?.href,score:scoreValue(x)}}
+const TEAM_ZH:Record<string,string>={
+ arsenal:'阿森納',astonvilla:'阿斯頓維拉',liverpool:'利物浦',mancity:'曼城',manchestercity:'曼城',manutd:'曼聯',manunited:'曼聯',manchesterunited:'曼聯',chelsea:'切爾西',tottenham:'托特納姆熱刺',tottenhamhotspur:'托特納姆熱刺',newcastle:'紐卡索聯',newcastleunited:'紐卡索聯',
+ realmadrid:'皇家馬德里',realmadird:'皇家馬德里',barcelona:'巴塞隆納',atleticodemadrid:'馬德里競技',atleticomadrid:'馬德里競技',girona:'赫羅納',sevilla:'塞維亞',villarreal:'比利亞雷亞爾',athleticclub:'畢爾包',
+ bayernmunchen:'拜仁慕尼黑',bayernmunich:'拜仁慕尼黑',borussiadortmund:'多特蒙德',dortmund:'多特蒙德',leipzig:'RB 萊比錫',rbleipzig:'RB 萊比錫',leverkusen:'勒沃庫森',bayerleverkusen:'勒沃庫森',stuttgart:'斯圖加特',vfbstuttgart:'斯圖加特',eintrachtfrankfurt:'法蘭克福',
+ inter:'國際米蘭',internazionale:'國際米蘭',acmilan:'AC 米蘭',milan:'AC 米蘭',juventus:'尤文圖斯',napoli:'拿坡里',roma:'羅馬',asroma:'羅馬',atalanta:'亞特蘭大',lazio:'拉齊奧',
+ psg:'巴黎聖日耳曼',parissaintgermain:'巴黎聖日耳曼',marseille:'馬賽',monaco:'摩納哥',lille:'里爾',lyon:'里昂',
+ ajax:'阿賈克斯',psv:'PSV 燕豪芬',psveindhoven:'PSV 燕豪芬',feyenoord:'飛燕諾',benfica:'本菲卡',sportingcp:'里斯本競技',sporting:'里斯本競技',porto:'波圖',fcporto:'波圖',
+ celtic:'塞爾提克',rangers:'格拉斯哥流浪者',galatasaray:'加拉塔薩雷',fenerbahce:'費內巴切',besiktas:'貝西克塔斯',
+ shakhtardonetsk:'頓內次克礦工',shakhtar:'頓內次克礦工',clubbrugge:'布魯日',brugge:'布魯日',slaviapraha:'布拉格斯拉維亞',slaviaprague:'布拉格斯拉維亞',spartaPrague:'布拉格斯巴達',
+ redbullsalzburg:'薩爾斯堡紅牛',salzburg:'薩爾斯堡紅牛',youngboys:'伯恩年輕人',basel:'巴塞爾',olympiacos:'奧林匹亞科斯',dinamozagreb:'薩格勒布迪納摩',crvenazvezda:'貝爾格勒紅星',
+ bodoGlimt:'波杜基林特',bodoglimt:'波杜基林特',kobenhavn:'哥本哈根',copenhagen:'哥本哈根',unionsg:'聖吉羅聯',unionsaintgilloise:'聖吉羅聯',qarabag:'卡拉巴克',monterrey:'蒙特雷',intermiami:'邁阿密國際'
+};
+function teamFor(x:any,scoreValue:(x:any)=>number|undefined):FootballTeam{
+ const raw=x?.team?.displayName??x?.team?.name??'待確認';
+ const key=normalizeName(raw);
+ return {id:String(x?.team?.id??''),name:TEAM_ZH[key]??raw,abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo??x?.team?.logos?.[0]?.href,score:scoreValue(x)}
+}
 const TEAM_DOMESTIC_LEAGUE:Record<string,string>={
  'arsenal':'eng.1','astonvilla':'eng.1','liverpool':'eng.1','mancity':'eng.1','manchestercity':'eng.1','manutd':'eng.1','manunited':'eng.1','manchesterutd':'eng.1','manchesterunited':'eng.1',
  'atleticodemadrid':'esp.1','atleticomadrid':'esp.1','barcelona':'esp.1','realbetis':'esp.1','realmadrid':'esp.1','villarreal':'esp.1',
