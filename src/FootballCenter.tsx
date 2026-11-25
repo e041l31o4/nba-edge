@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Activity, AlertTriangle, CalendarDays, RefreshCw, ShieldCheck, Target, Trophy, LockKeyhole, Save } from 'lucide-react'
 import { buildFootballModel, getUclMatches, isFinalStatus, type FootballMatch, type FootballModel } from './football'
-import { loadDataset } from './lib/memberData'
 import { supabase } from './lib/supabase'
 import './football.css'
 
@@ -14,6 +13,15 @@ const isoDate=(date:string)=>date.length===8?date.slice(0,4)+'-'+date.slice(4,6)
 function shiftDate(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
 function lockTime(date:string){const p=isoDate(date).split('-').map(Number);return new Date(Date.UTC(p[0],p[1]-1,p[2]-1,13,0,0)).toISOString()}
 function direction(m:FootballModel){return m.homeWin>=m.draw&&m.homeWin>=m.awayWin?'主勝':m.draw>=m.awayWin?'和局':'客勝'}
+function calculateModelSettlement(model:FootballModel,match:FootballMatch,line:number){
+ if(!isFinalStatus(match.status)||match.home.score===undefined||match.away.score===undefined)return undefined
+ const home=match.home.score,away=match.away.score,total=home+away
+ const winner=home>away?'home':home<away?'away':'draw'
+ const predicted=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0]
+ const totalSide=model.over>=model.under?'over':'under'
+ const correct=model.topScores.some(item=>item.score.replace(':','-')===`${home}-${away}`)
+ return {moneyline:predicted.side===winner?'win' as const:'loss' as const,total:total===line?'push' as const:((totalSide==='over'&&total>line)||(totalSide==='under'&&total<line))?'win' as const:'loss' as const,correctScore:correct?'win' as const:'loss' as const}
+}
 function calculateSettlement(record:RecordRow|undefined,match:FootballMatch){
  if(!record)return undefined
  if(record.settlement)return record.settlement
@@ -49,8 +57,8 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
  const canViewFootball=isAdmin||(canAccess&&memberDateAllowed)
  const toggleMemberAccess=async()=>{if(!supabase){setError('會員資料庫尚未設定，無法變更足球開放權限。');return}setAccessSaving(true);setError('');setNotice('');try{const result=await supabase.rpc('admin_set_football_member_access',{p_enabled:!membersEnabled});if(result.error)throw result.error;onReleaseChanged(result.data===true);setNotice(result.data===true?'已開放足球頁面給符合會員資格的會員。':'已關閉足球會員權限，目前只有管理員可以查看。')}catch(e){setError(e instanceof Error?e.message:'足球會員開放設定失敗；請先確認已執行 FOOTBALL_SETUP.sql。')}finally{setAccessSaving(false)}}
  useEffect(()=>{let alive=true;setLoading(true);setError('');setSelected(null);getUclMatches(isoDate(date)).then(data=>{if(!alive)return;setMatches(data.matches);setHistory(data.history);setUpdated(new Date().toLocaleTimeString('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}))}).catch(e=>{if(alive)setError(e instanceof Error?e.message:'足球賽程讀取失敗')}).finally(()=>{if(alive)setLoading(false)});return()=>{alive=false}},[date])
- useEffect(()=>{let alive=true;if(!canViewFootball){setRecords([]);return()=>{alive=false}};loadDataset<{records:RecordRow[]}>('football-prediction-ledger','football-prediction-ledger.json').then(data=>{if(alive)setRecords(Array.isArray(data?.records)?data!.records:[]) }).catch(e=>{if(alive){setRecords([]);setError(e instanceof Error?'足球預測紀錄讀取失敗：'+e.message:'足球預測紀錄讀取失敗，請確認資料庫遷移已執行。')}});return()=>{alive=false}},[canViewFootball,date])
- const rows=useMemo(()=>{const historical=history.filter(match=>records.some(record=>record.gameId===match.id));const visible=Array.from(new Map([...matches,...historical].map(match=>[match.id,match])).values()).sort((a,b)=>b.date.localeCompare(a.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);return {match,model:buildFootballModel(match,history,line),record,settlement:calculateSettlement(record,match)}})},[matches,history,line,records])
+ useEffect(()=>{if(!canViewFootball)setRecords([])},[canViewFootball])
+ const rows=useMemo(()=>{const visible=Array.from(new Map([...matches,...history.filter(match=>isFinalStatus(match.status))].map(match=>[match.id,match])).values()).sort((a,b)=>b.date.localeCompare(a.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);const model=buildFootballModel(match,history,line);return {match,model,record,settlement:calculateSettlement(record,match)??calculateModelSettlement(model,match,line)}})},[matches,history,line,records])
  useEffect(()=>{
   if(!isAdmin||!canViewFootball||!supabase)return
   const client=supabase
@@ -79,7 +87,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
 
  const active=rows.find(x=>x.match.id===selected)
  const performance=useMemo(()=>{
-  const settled=rows.filter(x=>!!x.record&&!!x.settlement)
+  const settled=rows.filter(x=>!!x.settlement)
   const tally=(key:'moneyline'|'total'|'correctScore')=>{const wins=settled.filter(x=>x.settlement?.[key]==='win').length;const decided=settled.filter(x=>x.settlement?.[key]==='win'||x.settlement?.[key]==='loss').length;return {wins,decided,rate:decided?wins/decided:null}}
   return {settled:settled.length,moneyline:tally('moneyline'),total:tally('total'),correctScore:tally('correctScore')}
  },[rows])
