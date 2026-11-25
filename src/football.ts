@@ -88,7 +88,7 @@ async function teamSchedule(team:FootballTeam):Promise<FootballMatch[]>{
  return parseEvents(await response.json())
 }
 async function scoreboard(dates:string,league='uefa.champions'){const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=500`;const r=await fetch(url);if(!r.ok)throw new Error('UEFA Champions League 賽程來源暫時無法連線');return r.json()}
-const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27','2027-02-16','2027-02-17','2027-02-23','2027-02-24','2027-03-09','2027-03-10','2027-03-16','2027-03-17','2027-04-06','2027-04-07','2027-04-13','2027-04-14','2027-04-27','2027-04-28','2027-05-04','2027-05-05','2027-06-05']
+export const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27','2027-02-16','2027-02-17','2027-02-23','2027-02-24','2027-03-09','2027-03-10','2027-03-16','2027-03-17','2027-04-06','2027-04-07','2027-04-13','2027-04-14','2027-04-27','2027-04-28','2027-05-04','2027-05-05','2027-06-05']
 function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
 export async function getUclMatches(taiwanDate:string):Promise<{matches:FootballMatch[];history:FootballMatch[]}>{
   const days=UCL_MATCH_DAYS.filter(day=>day<=dateShift(taiwanDate,1)&&day>=dateShift(taiwanDate,-120))
