@@ -27,7 +27,7 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<TeamMetricsData>('public/data/team-metrics.json'),
   readJson<{currentSeason?:{calibrator?:ProbabilityCalibrator|null};seasonResults?:{calibrator?:ProbabilityCalibrator|null;candidateV2Calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
-  readJson<{records:Row[]}>('public/data/prediction-ledger.json'),
+  readJson<{records:Row[];footballRecords?:Record<string,unknown>[]}>('public/data/prediction-ledger.json'),
   readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
 if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
@@ -551,7 +551,7 @@ const output=rows
 if (added || settled || refreshed || regraded || manuallyRecovered || restoredMarketCount || !previousPayload) {
   const target='public/data/prediction-ledger.json'
   const temp=target+'.tmp'
-  await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output},null,2)+'\n')
+  await writeFile(temp,JSON.stringify({updatedAt:now.toISOString(),source:'NBA EDGE pregame model + ESPN final scores',records:output,footballRecords:previousPayload?.footballRecords??[]},null,2)+'\n')
   const { rename } = await import('node:fs/promises')
   await rename(temp,target)
 }
