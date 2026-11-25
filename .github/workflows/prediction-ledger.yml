@@ -55,6 +55,11 @@ jobs:
         run: npm install --no-package-lock
       - name: Verify daily final report grading logic
         run: npx --yes tsx scripts/test-daily-settlement.mts
+      - name: Freeze official UEFA football predictions after 21:00 Taiwan time
+        env:
+          SUPABASE_URL: https://hlbwnsndusuwbkqrvcig.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx --yes tsx scripts/record-football-predictions.mts
       - name: Capture pregame predictions and settle final scores
         run: npx --yes tsx scripts/record-predictions.mts
       - name: Publish private prediction ledger
