@@ -82,7 +82,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
   const settled=rows.filter(x=>!!x.record&&!!x.settlement)
   const tally=(key:'moneyline'|'total'|'correctScore')=>{const wins=settled.filter(x=>x.settlement?.[key]==='win').length;const decided=settled.filter(x=>x.settlement?.[key]==='win'||x.settlement?.[key]==='loss').length;return {wins,decided,rate:decided?wins/decided:null}}
   return {settled:settled.length,moneyline:tally('moneyline'),total:tally('total'),correctScore:tally('correctScore')}
- },[records])
+ },[rows])
  const locked=now>=new Date(lockTime(date)).getTime()
  const oddsReady=Object.values(odds).every(v=>v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>1)
  const settleOfficial=async(match:FootballMatch)=>{
