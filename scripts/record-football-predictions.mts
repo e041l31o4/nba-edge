@@ -27,15 +27,17 @@ const tomorrow=shift(today,1)
 const lockFor=(day:string)=>new Date(`${shift(day,-1)}T21:00:00+08:00`)
 const dueDates=[today,...(now.getTime()>=lockFor(tomorrow).getTime()?[tomorrow]:[])]
 const matchMap=new Map<string,FootballMatch>()
+const resultsByDate=new Map<string,Awaited<ReturnType<typeof getUclMatches>>>()
 for(const day of dueDates){
   const result=await getUclMatches(day)
+  resultsByDate.set(day,result)
   for(const match of [...result.matches,...result.history])matchMap.set(match.id,match)
 }
 let added=0,settled=0
 const byId=new Map(records.map(record=>[record.gameId,record]))
 for(const day of dueDates){
   if(now.getTime()<lockFor(day).getTime())continue
-  const result=await getUclMatches(day)
+  const result=resultsByDate.get(day)!
   for(const match of result.matches){
     if(new Date(match.date).getTime()<=now.getTime()||byId.get(match.id)?.stage==='official')continue
     const model=buildFootballModel(match,result.history,2.5)
