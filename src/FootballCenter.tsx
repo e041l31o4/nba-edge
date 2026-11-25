@@ -55,7 +55,7 @@ export default function FootballCenter({date,canAccess,isAdmin,membersEnabled,on
   const timer=window.setInterval(()=>void refresh(),60_000)
   return()=>{alive=false;window.clearInterval(timer)}
  },[canViewFootball,date])
- const rows=useMemo(()=>{const visible=Array.from(new Map([...matches,...history.filter(match=>isFinalStatus(match.status))].map(match=>[match.id,match])).values()).sort((a,b)=>b.date.localeCompare(a.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);const model=buildFootballModel(match,history,line);return {match,model,record,settlement:calculateSettlement(record,match)}})},[matches,history,line,records])
+ const rows=useMemo(()=>{const visible=[...matches].sort((a,b)=>a.date.localeCompare(b.date));return visible.map(match=>{const record=records.find(r=>r.gameId===match.id);const model=buildFootballModel(match,history,line);return {match,model,record,settlement:calculateSettlement(record,match)}})},[matches,history,line,records])
  const active=rows.find(x=>x.match.id===selected)
  const performance=useMemo(()=>{
   const settled=rows.filter(x=>!!x.settlement)
