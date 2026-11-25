@@ -25,6 +25,14 @@ const read=await fetch(base+'/rest/v1/member_datasets?select=payload&dataset_key
 if(!read.ok) throw new Error(`Cannot read football prediction ledger (HTTP ${read.status}); apply migration 202611240001 first.`)
 const existingRows=await read.json() as Array<{payload?:{records?:FrozenRecord[]}}>
 const records:FrozenRecord[]=Array.isArray(existingRows[0]?.payload?.records)?existingRows[0].payload!.records!:[]
+if(existingRows.length===0){
+  const init=await fetch(base+'/rest/v1/member_datasets?on_conflict=dataset_key',{
+    method:'POST',headers:{...headers,Prefer:'resolution=merge-duplicates,return=minimal'},
+    body:JSON.stringify({dataset_key:'football-prediction-ledger',payload:{records:[]},updated_at:now.toISOString()})
+  })
+  if(!init.ok) throw new Error(`Football ledger table is not ready (HTTP ${init.status}): ${await init.text()}. Apply migration 202611240001 before automatic 21:00 saves.`)
+  console.log('FOOTBALL_LEDGER_INITIALIZED')
+}
 const known=new Set(records.filter(x=>x.stage==='official').map(x=>x.gameId))
 const additions:FrozenRecord[]=[]
 for(const day of dueTargets){
