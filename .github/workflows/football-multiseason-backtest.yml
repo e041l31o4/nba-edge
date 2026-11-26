@@ -1,0 +1,21 @@
+name: SPORT EDGE football multi-season validation
+on:
+  push:
+    paths:
+      - 'scripts/backtest-football-multiseason.mts'
+      - 'src/football.ts'
+      - '.github/workflows/football-multiseason-backtest.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run multi-season chronological model benchmark
+        run: npx --yes tsx scripts/backtest-football-multiseason.mts
