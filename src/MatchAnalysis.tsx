@@ -124,13 +124,14 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
    if(!candidate)return null
    // Do not promote spread/total probabilities until the independent prior-season residual calibration passes its temporal holdout.
    const calibrationReady=marketType==='spread'?marketErrorCalibration?.spreadValidated===true:marketErrorCalibration?.totalsValidated===true
-   const qualified=calibrationReady&&candidate.ev>=0.025&&candidate.probability>=0.54&&report.confidence!=='低'&&report.injuryRisk!=='偏高'&&report.injuryRisk!=='待確認'
-   return {...candidate,qualified,calibrationReady}
+   const recommendationReady=marketType==='spread'?marketErrorCalibration?.spreadRecommendationReady===true:marketErrorCalibration?.totalsRecommendationReady===true
+   const qualified=recommendationReady&&candidate.ev>=0.025&&candidate.probability>=0.54&&report.confidence!=='低'&&report.injuryRisk!=='偏高'&&report.injuryRisk!=='待確認'
+   return {...candidate,qualified,calibrationReady,recommendationReady}
   }
   const spread=choose(spreadCandidates,'spread'),total=choose(totalCandidates,'total')
   const spreadBacktestCount=marketBacktest?.spreads?.decided??0
   const totalBacktestCount=marketBacktest?.totals?.decided??0
-  const grade=(pick:any,count:number)=>{if(!pick)return '無完整配對盤口';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低';const risks:string[]=[];if(pick.ev<0.025)risks.push('EV偏低');if(pick.probability<0.54)risks.push('模型機率偏低');if(report.confidence==='低')risks.push('信心偏低');if(report.injuryRisk==='偏高')risks.push('傷兵風險偏高');if(report.injuryRisk==='待確認')risks.push('傷兵狀態待確認');if(!pick.calibrationReady)risks.push('市場機率尚未通過跨季校準');const label='推薦資格｜'+(pick.qualified?'通過':'未通過；保留模型方向')+'｜信心'+(strong?'較強':'一般')+(risks.length?'（'+risks.join('、')+'）':'');return count<30?label+'（歷史回測 '+count+' 場，樣本持續累積）':label}
+  const grade=(pick:any,count:number)=>{if(!pick)return '無完整配對盤口';const strong=pick.ev>=0.08&&pick.probability>=0.60&&report.confidence==='高'&&report.injuryRisk==='低';const risks:string[]=[];if(pick.ev<0.025)risks.push('EV偏低');if(pick.probability<0.54)risks.push('模型機率偏低');if(report.confidence==='低')risks.push('信心偏低');if(report.injuryRisk==='偏高')risks.push('傷兵風險偏高');if(report.injuryRisk==='待確認')risks.push('傷兵狀態待確認');if(!pick.calibrationReady)risks.push('市場機率尚未通過跨季校準');if(!pick.recommendationReady)risks.push('市場實績樣本／ROI 尚未達正式推薦門檻');const label='推薦資格｜'+(pick.qualified?'通過':'未通過；保留模型方向')+'｜信心'+(strong?'較強':'一般')+(risks.length?'（'+risks.join('、')+'）':'');return count<30?label+'（歷史回測 '+count+' 場，樣本持續累積）':label}
   return {spread,total,spreadGrade:grade(spread,spreadBacktestCount),totalGrade:grade(total,totalBacktestCount),blocked:false}
  },[report,homeSpread,totals,marketBacktest,marketErrorCalibration,hasFrozenMemberPrediction,savedPrediction])
  const singleRecommendation=useMemo(()=>{
@@ -144,12 +145,12 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
    const tt=savedPrediction.totalPick
    if(tt)add('大小分',(tt.side==='over'?'大':'小')+' '+tt.line,tt.probability,tt.ev,tt.result)
   }else if(report.available&&report.confidence!=='低'&&report.injuryRisk!=='偏高'&&report.injuryRisk!=='待確認'){
-   moneyline.forEach(x=>{const n=x.name.toLowerCase();const home=n.includes(game.home.abbreviation.toLowerCase())||n.includes(game.home.displayName.toLowerCase())||n===game.home.name.toLowerCase();const away=n.includes(game.away.abbreviation.toLowerCase())||n.includes(game.away.displayName.toLowerCase())||n===game.away.name.toLowerCase();const p=home?report.homeWin:away?report.awayWin:undefined;if(p!==undefined)add('不讓分',x.name+' 勝',p,decimalExpectedValue(p,x.price))})
+   if(marketErrorCalibration?.moneylineRecommendationReady)moneyline.forEach(x=>{const n=x.name.toLowerCase();const home=n.includes(game.home.abbreviation.toLowerCase())||n.includes(game.home.displayName.toLowerCase())||n===game.home.name.toLowerCase();const away=n.includes(game.away.abbreviation.toLowerCase())||n.includes(game.away.displayName.toLowerCase())||n===game.away.name.toLowerCase();const p=home?report.homeWin:away?report.awayWin:undefined;if(p!==undefined)add('不讓分',x.name+' 勝',p,decimalExpectedValue(p,x.price))})
    if(marketPicks.spread?.qualified)add('讓分',marketPicks.spread.label,marketPicks.spread.probability,marketPicks.spread.ev)
    if(marketPicks.total?.qualified)add('大小分',marketPicks.total.label,marketPicks.total.probability,marketPicks.total.ev)
   }
   return candidates.sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]??null
- },[hasFrozenMemberPrediction,savedPrediction,report,moneyline,game,marketPicks])
+ },[hasFrozenMemberPrediction,savedPrediction,report,moneyline,game,marketPicks,marketErrorCalibration])
  const archivedSpreadPick=savedPrediction?.spreadPick??savedPrediction?.spreadLean
  const archivedTotalPick=savedPrediction?.totalPick??savedPrediction?.totalLean
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
