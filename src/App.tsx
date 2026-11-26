@@ -332,7 +332,7 @@ function App() {
       <section className="toolbar"><div className="date-nav"><button className="icon-btn" onClick={() => moveDate(-1)}><ChevronLeft size={18}/></button><div><CalendarDays size={17}/><b>{date.slice(0,4)}/{date.slice(4,6)}/{date.slice(6,8)}</b><small>{dateLabel(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8)+'T12:00:00+08:00')}</small></div><button className="icon-btn" onClick={() => moveDate(1)}><ChevronRight size={18}/></button><button className="today-btn" onClick={() => setDate(taiwanDate())}>今天</button></div><div className="tabs"><button className={tab==='games'?'active':''} onClick={()=>setTab('games')}>NBA 賽事</button>{(canViewSelectedDate || publicGameIds.length>0)&&<button className={tab==='analysis'?'active':''} onClick={()=>setTab('analysis')}>NBA 分析{!canViewSelectedDate?'（公開場次）':''}</button>}{(isAdmin||(membershipActive&&footballMembersEnabled))&&<button className={tab==='football'?'active':''} onClick={()=>setTab('football')}>⚽ 足球 UCL</button>}{isAdmin&&<button className={tab==='performance'?'active':''} onClick={()=>setTab('performance')}>模型績效</button>}</div></section>
       {error && <div className="notice error"><CircleAlert size={17}/>{error}</div>}
       {tab==='games' && <><section className="section-heading"><div><span className="eyebrow">MATCH CENTER</span><h2>賽事總覽 <small>{date.slice(4,6)}/{date.slice(6,8)}</small></h2></div><div className="legend"><span><i className="green"/>進行中／未開賽</span><span><i className="gray"/>已完賽</span></div></section>
-        {loading || !accessReady ? <div className="empty"><RefreshCw className="spin" size={22}/>正在同步 NBA 賽程…</div> : visibleGames.length===0 ? <div className="empty"><CalendarDays size={25}/><b>{canViewSelectedDate?'當日沒有賽事':'目前尚未設定免費公開賽事'}</b><span>{canViewSelectedDate?'可切換日期查看其他比賽。':membershipActive?'每日賽事於前一日台灣時間 21:00 完成最終分析並封存；封存後不再更改預測方向，只更新比分與結算。':'免費訪客可查看管理員指定的兩場公開賽事；登入並完成會員開通即可查看全部。'}</span></div> : <div className="game-grid">{visibleGames.map(g => {const publicData=publicGameData[g.id];const publicSelected=publicGameIds.includes(g.id);return <GameCard key={g.id} game={g} odds={canViewSelectedDate?odds:publicData?.odds??null} teamForm={canViewSelectedDate?teamForm:publicData?.teamForm??null} injuryData={canViewSelectedDate?injuryData:publicData?.injuryData??null} teamMetrics={canViewSelectedDate?teamMetrics:publicData?.teamMetrics??null} calibrator={canViewSelectedDate?probabilityCalibrator:publicData?.calibrator??null} savedPrediction={canViewSelectedDate?displayPredictionRecords.find(p=>p.gameId===g.id):publicData?.savedPrediction??undefined} ledgerStatus={ledgerStatus} onClick={()=>{if(canViewSelectedDate||publicSelected){setSelected(g.id);setTab('analysis')}}}/>})}</div>}</>}
+        {loading || !accessReady ? <div className="empty"><RefreshCw className="spin" size={22}/>正在同步 NBA 賽程…</div> : visibleGames.length===0 ? <div className="empty"><CalendarDays size={25}/><b>{canViewSelectedDate?'當日沒有賽事':'目前尚未設定免費公開賽事'}</b><span>{canViewSelectedDate?'可切換日期查看其他比賽。':membershipActive?'每日賽事於前一日台灣時間 21:00 完成最終分析並封存；封存後不再更改預測方向，只更新比分與結算。':'免費訪客可查看管理員指定的兩場公開賽事；登入並完成會員開通即可查看全部。'}</span></div> : <div className="game-grid">{visibleGames.map(g => {const publicData=publicGameData[g.id];const publicSelected=publicGameIds.includes(g.id);return <GameCard key={g.id} game={g} odds={canViewSelectedDate?odds:publicData?.odds??null} teamForm={canViewSelectedDate?teamForm:publicData?.teamForm??null} injuryData={canViewSelectedDate?injuryData:publicData?.injuryData??null} teamMetrics={canViewSelectedDate?teamMetrics:publicData?.teamMetrics??null} calibrator={canViewSelectedDate?probabilityCalibrator:publicData?.calibrator??null} savedPrediction={canViewSelectedDate?displayPredictionRecords.find(p=>p.gameId===g.id):publicData?.savedPrediction??undefined} ledgerStatus={ledgerStatus} isAdmin={isAdmin} onClick={()=>{if(canViewSelectedDate||publicSelected){setSelected(g.id);setTab('analysis')}}}/>})}</div>}</>}
       {tab==='games' && isAdmin && <DailySettlementReport games={games} records={displayPredictionRecords} date={date}/>}
       {tab==='analysis' && (canViewSelectedDate || (!!active && publicGameIds.includes(active.id))) && <><section className="section-heading"><div><span className="eyebrow">PRE-GAME INTELLIGENCE</span><h2>賽前分析</h2></div><span className="muted">{canViewSelectedDate?upcoming.length:upcoming.filter(g=>publicGameIds.includes(g.id)).length} 場可查看</span></section>{active ? (()=>{const publicData=publicGameData[active.id];return <MatchAnalysis game={active} odds={canViewSelectedDate?odds:publicData?.odds??null} oddsHistory={canViewSelectedDate?oddsHistory:publicData?.oddsHistory??[]} teamForm={canViewSelectedDate?teamForm:publicData?.teamForm??null} injuryData={canViewSelectedDate?injuryData:publicData?.injuryData??null} rosterData={canViewSelectedDate?rosterData:publicData?.rosterData??null} teamMetrics={canViewSelectedDate?teamMetrics:publicData?.teamMetrics??null} calibrator={canViewSelectedDate?probabilityCalibrator:publicData?.calibrator??null} marketBacktest={canViewSelectedDate?backtest?.marketBacktest??null:publicData?.marketBacktest??null} savedPrediction={canViewSelectedDate?displayPredictionRecords.find(p=>p.gameId===active.id):publicData?.savedPrediction??undefined} isAdmin={isAdmin} onBack={()=>setSelected(null)} onPredictionSaved={record=>setPredictionRecords(current=>[...current.filter(item=>item.gameId!==record.gameId),record])}/>})() : <div className="analysis-list">{upcoming.filter(g=>canViewSelectedDate||publicGameIds.includes(g.id)).map(g=><button className="analysis-row" key={g.id} onClick={()=>setSelected(g.id)}><span>{g.away.abbreviation} @ {g.home.abbreviation}</span><b>{g.away.displayName} 對 {g.home.displayName}</b><span>{g.detail || '待開賽'} <ChevronRight size={15}/></span></button>)}</div>}{!active && upcoming.filter(g=>canViewSelectedDate||publicGameIds.includes(g.id)).length===0 && <div className="empty">目前沒有可分析的公開賽事，請切換日期。</div>}</>}
       {tab==='football' && <FootballCenter date={date} canAccess={membershipActive&&footballMembersEnabled} isAdmin={isAdmin} membersEnabled={footballMembersEnabled} onReleaseChanged={setFootballMembersEnabled}/>}
@@ -392,7 +392,7 @@ function DailySettlementReport({games,records,date}:{games:Game[];records:Predic
     <p className="daily-report-footnote">綠／紅／走依賽前最終封存的三市場推薦方向判定；每場均保留不讓分、讓分與大小分方向，低期望值、低信心或傷兵未明會標示風險，不會因此隱藏推薦。無可用盤口才列為無方向，未完成正式結算不納入命中率。</p>
   </section>
 }
-function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, savedPrediction, ledgerStatus, onClick}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;teamMetrics:TeamMetricsData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;ledgerStatus:'loading'|'ready'|'error';onClick:()=>void}) {
+function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, savedPrediction, ledgerStatus, isAdmin, onClick}:{game:Game;odds:OddsRecord|null;teamForm:TeamFormData|null;injuryData:InjuryData|null;teamMetrics:TeamMetricsData|null;calibrator:ProbabilityCalibrator|null;savedPrediction?:PredictionRecord;ledgerStatus:'loading'|'ready'|'error';isAdmin:boolean;onClick:()=>void}) {
  const done=game.status.toLowerCase().includes('final')
  const hasScore=game.home.score!==undefined&&game.away.score!==undefined&&game.home.score!==''&&game.away.score!==''
  const live=!done&&hasScore
@@ -581,7 +581,26 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
  // Retain detailed internal settlement calculations while the member card shows one pick.
  void [pickCorrect,pickProbability,usingManualSpread,usingManualTotal,spreadSettlement,totalSettlement,sourceTotalSettlement,spreadQualified,totalQualified,confidenceLabel,spreadLabel,totalLabel]
- return <button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
+ const frozenMarkets=(savedPrediction?.finalSnapshot??{}) as Record<string,unknown>
+ const adminMoneyline=(frozenMarkets.moneylinePick??savedPrediction?.moneylinePick??frozenMarkets.moneylineLean??savedPrediction?.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
+ const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
+ const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
+ const adminGrade=(market:'moneyline'|'spread'|'totals',pick:{side:string;teamSide?:'home'|'away';line:number;result?:string}|undefined)=>{
+  if(!pick||!done||!hasScore||savedPrediction?.stage!=='official'||!savedPrediction.settledAt)return pick?.result
+  const h=Number(game.home.score),a=Number(game.away.score)
+  if(!Number.isFinite(h)||!Number.isFinite(a))return pick.result
+  if(market==='moneyline')return pick.teamSide==='home'?(h>a?'win':'loss'):pick.teamSide==='away'?(a>h?'win':'loss'):pick.result
+  if(market==='spread'&&pick.teamSide){const margin=(pick.teamSide==='home'?h-a:a-h)+pick.line;return Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
+  if(market==='totals'){const diff=h+a-pick.line;return Math.abs(diff)<1e-9?'push':((/^(over|大)$/i.test(pick.side)&&diff>0)||(/^(under|小)$/i.test(pick.side)&&diff<0))?'win':'loss'}
+  return pick.result
+ }
+ const adminRows=[
+  {key:'moneyline',label:'不讓分',pick:adminMoneyline,result:adminGrade('moneyline',adminMoneyline),direction:adminMoneyline?.side??'無方向'},
+  {key:'spread',label:'讓分',pick:adminSpread,result:adminGrade('spread',adminSpread),direction:adminSpread?adminSpread.side+' '+(adminSpread.line>0?'+':'')+adminSpread.line:'無方向'},
+  {key:'totals',label:'大小分',pick:adminTotal,result:adminGrade('totals',adminTotal),direction:adminTotal?((/over|大/i.test(adminTotal.side)?'大 ':'小 ')+adminTotal.line):'無方向'}
+ ]
+ const adminResultText=(result?:string)=>result==='win'?'🟢 過關':result==='loss'?'🔴 未過':result==='push'?'⚪ 走水':done?'待核對':'待結算'
+ return <><button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
   <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className="game-prediction-summary single-pick-summary">
@@ -589,6 +608,15 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
    <div><small>模型預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'正式封存':pendingFinalization?'等待賽前最終確認':'模型初估'}</em></div>
   </div>
  </button>
+ {isAdmin&&<section className="admin-market-inline" aria-label="管理員三市場分析">
+  <div className="admin-market-inline-title"><b>管理員專用｜三市場完整分析</b><span>{savedPrediction?.stage==='official'?'正式封存':usePreliminary?'初步分析':'尚無正式封存'}</span></div>
+  <div className="admin-market-inline-grid">{adminRows.map(row=><div className="admin-market-inline-item" key={row.key}>
+   <div className="admin-market-inline-head"><b>{row.label}</b><strong>{adminResultText(row.result)}</strong></div>
+   <div className="admin-market-inline-direction">{row.direction}</div>
+   <div className="admin-market-inline-meta">勝率 {typeof row.pick?.probability==='number'?(row.pick.probability*100).toFixed(1)+'%':'—'} · EV {typeof row.pick?.ev==='number'?(row.pick.ev*100).toFixed(1)+'%':'—'} · 賠率 {typeof row.pick?.price==='number'?row.pick.price.toFixed(2):'—'}</div>
+  </div>)}</div>
+ </section>}
+ </>
 }
 function TeamLine({team}:{team:Game['home']}) { return <div className="team-line">{team.logo?<img src={team.logo} alt="" />:<span className="team-placeholder">{team.abbreviation}</span>}<div><b>{team.abbreviation}</b><small>{team.displayName}</small></div></div> }
 export default App
