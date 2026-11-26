@@ -70,8 +70,9 @@ def fetch_season(season):
             print('schedule skipped', season, team_id, str(error)[:120])
     return sorted(events_by_id.values(), key=lambda x: x.get('date') or '')
 
-def run_walk_forward(games, recent_weight=0.6):
+def run_walk_forward(games, recent_weight=0.6, elo_weight=0.0):
     history = {}
+    elo_ratings = {}
     predictions = []
     def team_rows(team_id):
         return history.get(team_id, [])[-10:]
@@ -104,7 +105,10 @@ def run_walk_forward(games, recent_weight=0.6):
             b2b_adj = (-1.3 if hb else 0) + (1.3 if ab else 0)
             hs, ass = sos(home_rows), sos(away_rows)
             sos_adj = 0 if hs is None or ass is None else (hs - ass) * 0.18
-            margin = (raw_home - raw_away) * 0.78 + rest_adj + b2b_adj + sos_adj
+            score_based_margin = (raw_home - raw_away) * 0.78
+            home_elo, away_elo = elo_ratings.get(game['homeId'], 1500.0), elo_ratings.get(game['awayId'], 1500.0)
+            elo_margin = (home_elo - away_elo) * 0.055 + 2.2
+            margin = (1 - elo_weight) * score_based_margin + elo_weight * elo_margin + rest_adj + b2b_adj + sos_adj
             score_total = raw_home + raw_away - (1.3 if hb else 0) - (1.3 if ab else 0)
             # Keep the totals backtest aligned with the live model: 75% matchup
             # score projection + 25% independent recent game-total environment.
@@ -126,12 +130,23 @@ def run_walk_forward(games, recent_weight=0.6):
                 'awayWin': 1 - p_home,
                 'actualHomeWin': 1 if game['homeScore'] > game['awayScore'] else 0,
                 'predictedMargin': margin,
+                'scoreBasedMargin': score_based_margin,
+                'eloMargin': elo_margin,
+                'eloWeight': elo_weight,
                 'actualMargin': game['homeScore'] - game['awayScore'],
                 'predictedTotal': total,
                 'totalTrend': total_trend,
                 'totalStdDev': total_std_dev,
                 'actualTotal': game['homeScore'] + game['awayScore']
             })
+        home_rating, away_rating = elo_ratings.get(game['homeId'], 1500.0), elo_ratings.get(game['awayId'], 1500.0)
+        expected_home = 1.0 / (1.0 + 10 ** (-((home_rating + 65.0) - away_rating) / 400.0))
+        actual_home = 1.0 if game['homeScore'] > game['awayScore'] else 0.5 if game['homeScore'] == game['awayScore'] else 0.0
+        margin_of_victory = abs(game['homeScore'] - game['awayScore'])
+        mov_multiplier = math.log(margin_of_victory + 1.0) * (2.2 / (2.2 + 0.001 * abs(home_rating - away_rating))) if margin_of_victory else 1.0
+        elo_delta = 20.0 * mov_multiplier * (actual_home - expected_home)
+        elo_ratings[game['homeId']] = home_rating + elo_delta
+        elo_ratings[game['awayId']] = away_rating - elo_delta
         history.setdefault(game['homeId'], []).append({
             'date': game['date'], 'pointsFor': game['homeScore'], 'pointsAgainst': game['awayScore'],
             'win': game['homeScore'] > game['awayScore'], 'opponentId': game['awayId']
