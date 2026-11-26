@@ -161,11 +161,26 @@ async def read_page(target_date):
 
 async def main():
     now = dt.datetime.now(TAIPEI)
-    target_text = (__import__("os").environ.get("TARGET_TAIWAN_DATE","").strip()
-        or (now.date()+dt.timedelta(days=1)).strftime("%Y%m%d"))
-    target_date = dt.datetime.strptime(target_text,"%Y%m%d").date()
+    target_text = __import__("os").environ.get("TARGET_TAIWAN_DATE","").strip()
+    if target_text:
+        target_date = dt.datetime.strptime(target_text,"%Y%m%d").date()
+    else:
+        # NBA games are commonly on the next Taiwan calendar day because of US evening tip-offs.
+        # Skip empty holidays (for example US Thanksgiving) and select the next Taiwan date
+        # that ESPN actually lists, rather than assuming tomorrow always has games.
+        target_date = None
+        for offset in range(1,9):
+            candidate = now.date()+dt.timedelta(days=offset)
+            if fetch_espn_games(candidate):
+                target_date = candidate
+                break
+        if target_date is None:
+            raise SystemExit("No NBA games found in the next 8 Taiwan dates; odds refresh safely skipped.")
+        target_text = target_date.strftime("%Y%m%d")
     title, body = await read_page(target_date)
     espn_games = fetch_espn_games(target_date)
+    if not espn_games:
+        raise SystemExit(f"ESPN lists no NBA games for Taiwan date {target_text}; refusing an empty schedule comparison.")
     games, unmatched = parse_blocks(body,espn_games)
     expected_ids = {row["id"] for row in espn_games.values()}
     captured_ids = {row["id"] for row in games}
