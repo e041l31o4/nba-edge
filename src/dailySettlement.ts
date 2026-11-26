@@ -28,6 +28,8 @@ export type DailySettlementReport = {
   moneyline: MarketTally
   spread: MarketTally
   totals: MarketTally
+  allMarkets: MarketTally
+  selectedRecommendation: MarketTally
   recommendations: {
     moneyline: MarketTally
     spread: MarketTally
@@ -90,6 +92,7 @@ export function buildDailySettlementReport(
   const byId = new Map(records.map(record => [record.gameId, record]))
   const moneyline = tally(), spread = tally(), totals = tally()
   const moneylinePicks = tally(), spreadPicks = tally(), totalPicks = tally()
+  const allMarkets = tally(), selectedRecommendation = tally()
   let settledRecordCount = 0, pendingCount = 0
   const pendingGames: string[] = []
 
@@ -102,6 +105,7 @@ export function buildDailySettlementReport(
       pendingGames.push(`${game.away.abbreviation} @ ${game.home.abbreviation}`)
       pendingCount++
       moneyline.unavailable++; spread.unavailable++; totals.unavailable++
+      allMarkets.unavailable += 3; selectedRecommendation.unavailable++
       continue
     }
     const home = Number.isFinite(record.actualHome) ? Number(record.actualHome) : Number(game.home.score)
@@ -122,6 +126,16 @@ export function buildDailySettlementReport(
     addOutcome(moneyline, grade(moneylineLean, 'moneyline', home, away))
     addOutcome(spread, grade(spreadLean, 'spread', home, away))
     addOutcome(totals, grade(totalLean, 'totals', home, away))
+    for (const result of [grade(moneylineLean, 'moneyline', home, away), grade(spreadLean, 'spread', home, away), grade(totalLean, 'totals', home, away)]) addOutcome(allMarkets, result)
+
+    const candidates = [
+      { market: 'moneyline' as const, pick: lean('moneylinePick', record.moneylinePick) as (Pick & { probability?: number; ev?: number }) | null },
+      { market: 'spread' as const, pick: lean('spreadPick', record.spreadPick) as (Pick & { probability?: number; ev?: number }) | null },
+      { market: 'totals' as const, pick: lean('totalPick', record.totalPick) as (Pick & { probability?: number; ev?: number }) | null }
+    ].filter(item => !!item.pick && typeof item.pick.probability === 'number' && item.pick.probability >= 0.54 && typeof item.pick.ev === 'number' && item.pick.ev >= 0.025)
+      .sort((a,b) => (b.pick?.ev ?? -Infinity) - (a.pick?.ev ?? -Infinity) || (b.pick?.probability ?? 0) - (a.pick?.probability ?? 0))
+    const selected = candidates[0]
+    addOutcome(selectedRecommendation, selected ? grade(selected.pick, selected.market, home, away) : null)
 
     addOutcome(moneylinePicks, grade(lean('moneylinePick', record.moneylinePick), 'moneyline', home, away))
     addOutcome(spreadPicks, grade(lean('spreadPick', record.spreadPick), 'spread', home, away))
@@ -149,6 +163,8 @@ export function buildDailySettlementReport(
     date, gameCount: dayGames.length, finalGameCount: allFinal ? dayGames.length : dayGames.filter(g => g.status.toLowerCase().includes('final')).length,
     settledRecordCount, pendingCount, pendingGames, complete,
     moneyline: finishTally(moneyline), spread: finishTally(spread), totals: finishTally(totals),
+    allMarkets: finishTally(allMarkets),
+    selectedRecommendation: finishTally(selectedRecommendation),
     recommendations: {
       moneyline: finishTally(moneylinePicks), spread: finishTally(spreadPicks), totals: finishTally(totalPicks)
     }
