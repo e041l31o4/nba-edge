@@ -59,7 +59,7 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   if(a.played<5)warnings.push(`${match.away.name} 近況樣本僅 ${a.played} 場，至少需要 5 場`)
   if(h.homePlayed<2)warnings.push(`${match.home.name} 主場樣本不足（${h.homePlayed} 場）`)
   if(a.awayPlayed<2)warnings.push(`${match.away.name} 客場樣本不足（${a.awayPlayed} 場）`)
-  const confidence:FootballModel['confidence']=h.played>=6&&a.played>=6&&h.homePlayed>=2&&a.awayPlayed>=2?'高':h.played>=5&&a.played>=5?'中':'低'
+  const confidence:FootballModel['confidence']=warnings.length===0&&h.played>=6&&a.played>=6?'高':warnings.length===0&&h.played>=5&&a.played>=5?'中':'低'
   return {homeXg,awayXg,homeWin,draw,awayWin,over,under:1-over,topScores:scores.sort((x,y)=>y.probability-x.probability).slice(0,3),sampleHome:h.played,sampleAway:a.played,confidence,dataReady:warnings.length===0,dataWarnings:warnings,homeRecent:h.lastFive,awayRecent:a.lastFive}
 }
 function espnDate(date:string){return date.replace(/-/g,'')}
