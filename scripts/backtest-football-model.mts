@@ -86,6 +86,7 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
     actualHome: number; actualAway: number; top3Hit: boolean;
     confidence: string; sampleHome: number; sampleAway: number;
     homeExpectedGoals: number; awayExpectedGoals: number;
+    baselineHomeWin:number; baselineDraw:number; baselineAwayWin:number; baselineOver:number;
   }> = []
   let notReady = 0
   let insufficientHome = 0
@@ -103,6 +104,15 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
       new Date(row.date).getTime() < kickoff
     )
     const model = buildFootballModel(game, priorHistory, 2.5, priorLeague)
+    const priorHomeWins=priorLeague.filter(row=>Number(row.home.score)>Number(row.away.score)).length
+    const priorDraws=priorLeague.filter(row=>Number(row.home.score)===Number(row.away.score)).length
+    const priorAwayWins=priorLeague.filter(row=>Number(row.home.score)<Number(row.away.score)).length
+    const priorOver25=priorLeague.filter(row=>Number(row.home.score)+Number(row.away.score)>2.5).length
+    const baselineDenominator=priorLeague.length+3
+    const baselineHomeWin=(priorHomeWins+1)/baselineDenominator
+    const baselineDraw=(priorDraws+1)/baselineDenominator
+    const baselineAwayWin=(priorAwayWins+1)/baselineDenominator
+    const baselineOver=(priorOver25+1)/(priorLeague.length+2)
     if (!model.dataReady) {
       notReady++
       if (model.sampleHome < 5) insufficientHome++
@@ -125,7 +135,8 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
       sampleHome: model.sampleHome,
       sampleAway: model.sampleAway,
       homeExpectedGoals: model.homeXg,
-      awayExpectedGoals: model.awayXg
+      awayExpectedGoals: model.awayXg,
+      baselineHomeWin, baselineDraw, baselineAwayWin, baselineOver
     })
   }
 
@@ -141,6 +152,19 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
   })
   const totalBrier = predictions.map(row =>
     (row.over - (row.actualHome + row.actualAway > 2.5 ? 1 : 0)) ** 2
+  )
+  const baselineOneX2Brier = predictions.map(row =>
+    (row.baselineHomeWin - (row.actualHome > row.actualAway ? 1 : 0)) ** 2 +
+    (row.baselineDraw - (row.actualHome === row.actualAway ? 1 : 0)) ** 2 +
+    (row.baselineAwayWin - (row.actualHome < row.actualAway ? 1 : 0)) ** 2
+  )
+  const baselineOneX2LogLoss = predictions.map(row => {
+    const probability = row.actualHome > row.actualAway ? row.baselineHomeWin :
+      row.actualHome === row.actualAway ? row.baselineDraw : row.baselineAwayWin
+    return -Math.log(Math.max(1e-9, probability))
+  })
+  const baselineTotalBrier = predictions.map(row =>
+    (row.baselineOver - (row.actualHome + row.actualAway > 2.5 ? 1 : 0)) ** 2
   )
   const homeGoalErrors = predictions.map(row => Math.abs(row.homeExpectedGoals - row.actualHome))
   const awayGoalErrors = predictions.map(row => Math.abs(row.awayExpectedGoals - row.actualAway))
@@ -174,6 +198,12 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
     oneX2Brier: brier(oneX2Brier),
     oneX2LogLoss: brier(oneX2LogLoss),
     over25Brier: brier(totalBrier),
+    leagueBaseline: {
+      oneX2Brier: brier(baselineOneX2Brier),
+      oneX2LogLoss: brier(baselineOneX2LogLoss),
+      over25Brier: brier(baselineTotalBrier),
+      oneX2BrierSkill: predictions.length && brier(baselineOneX2Brier)! > 0 ? Number((1 - brier(oneX2Brier)! / brier(baselineOneX2Brier)!).toFixed(4)) : null
+    },
     correctScoreTop3HitRate: predictions.length
       ? Number((predictions.filter(row => row.top3Hit).length / predictions.length).toFixed(4))
       : null,
