@@ -545,7 +545,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
    <div className="pick-team-cell"><small>本場唯一推薦</small><b className={done?settlementClass(singleRecommendation?.result):''}>{singleRecommendation ? singleRecommendation.label : done ? '本場無封存合格推薦' : '等待三市場評估完成'}</b><strong>{singleRecommendation?.pick.probability!==undefined?(singleRecommendation.pick.probability*100).toFixed(1)+'%':'—'}</strong><em>{singleRecommendation ? singleRecommendation.market+' · EV '+((singleRecommendation.pick.ev??0)*100).toFixed(1)+'%'+(done?' · '+settlementLabel(singleRecommendation.result):'') : '不以低於門檻的方向湊數；三市場仍保留內部分析與結算'}</em></div>
    <div><small>模型預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'正式封存':pendingFinalization?'等待賽前最終確認':'模型初估'}</em></div>
   </div>
-
+ </button>
 }
 function TeamLine({team}:{team:Game['home']}) { return <div className="team-line">{team.logo?<img src={team.logo} alt="" />:<span className="team-placeholder">{team.abbreviation}</span>}<div><b>{team.abbreviation}</b><small>{team.displayName}</small></div></div> }
 export default App
