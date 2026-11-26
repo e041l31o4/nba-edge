@@ -8,7 +8,7 @@ export type RosterData = { updatedAt: string; source: string; teams: Record<stri
 export type TeamMetricRow = { teamId: string; abbreviation: string; updatedAt: string; stale?: boolean; offensiveRating?: number; defensiveRating?: number; netRating?: number; pace?: number; trueShootingPct?: number; turnoverPct?: number; reboundPct?: number; gamesPlayed?: number }
 export type TeamMetricsData = { updatedAt: string; season: string; source: string; status: string; teams: Record<string, TeamMetricRow> }
 export type ProbabilityCalibrator = { a: number; b: number; trainingSamples: number }
-export type MarketErrorCalibration = { marginMean:number; marginStdDev:number; totalMean:number; totalStdDev:number; trainingSamples:number; spreadValidated:boolean; totalsValidated:boolean; spread?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; totals?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; evaluationMethod?:string }
+export type MarketErrorCalibration = { marginMean:number; marginStdDev:number; totalMean:number; totalStdDev:number; trainingSamples:number; spreadValidated:boolean; totalsValidated:boolean; moneylineRecommendationReady?:boolean; spreadRecommendationReady?:boolean; totalsRecommendationReady?:boolean; spread?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; totals?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; evaluationMethod?:string }
 export type ModelResult = {
   available: boolean; reason?: string; homeRecord: string; awayRecord: string;
   homePpg: number; homeOppPpg: number; awayPpg: number; awayOppPpg: number;
