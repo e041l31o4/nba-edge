@@ -538,6 +538,8 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   })()
   const unverified=done&&!useSaved&&ledgerStatus==='ready'
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
+ // Retain detailed internal settlement calculations while the member card shows one pick.
+ void [pickCorrect,pickProbability,usingManualSpread,usingManualTotal,spreadSettlement,totalSettlement,sourceTotalSettlement,spreadQualified,totalQualified,confidenceLabel,spreadLabel,totalLabel]
  return <button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
   <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
