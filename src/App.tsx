@@ -550,12 +550,32 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
   // stored and graded independently; only an EV-qualified pick is eligible here.
   const singleRecommendation = (() => {
    if (!savedPrediction || !useSaved) return undefined
+   const frozen=(savedPrediction.finalSnapshot??{}) as Record<string,unknown>
+   const moneyline=(frozen.moneylinePick??savedPrediction.moneylinePick) as NonNullable<PredictionRecord['moneylinePick']>|undefined
+   const spread=(frozen.spreadPick??savedPrediction.spreadPick) as NonNullable<PredictionRecord['spreadPick']>|undefined
+   const total=(frozen.totalPick??savedPrediction.totalPick) as NonNullable<PredictionRecord['totalPick']>|undefined
    const candidates = [
-    ...(savedPrediction.moneylinePick ? [{market:'不讓分', label:savedPrediction.moneylinePick.side, pick:savedPrediction.moneylinePick, result:savedPrediction.moneylinePick.result}] : []),
-    ...(savedPrediction.spreadPick ? [{market:'讓分', label:savedPrediction.spreadPick.side+' '+(savedPrediction.spreadPick.line>0?'+':'')+savedPrediction.spreadPick.line, pick:savedPrediction.spreadPick, result:savedPrediction.spreadPick.result}] : []),
-    ...(savedPrediction.totalPick ? [{market:'大小分', label:(/over|大/i.test(savedPrediction.totalPick.side)?'大 ':'小 ')+savedPrediction.totalPick.line, pick:savedPrediction.totalPick, result:savedPrediction.totalPick.result}] : [])
+    ...(moneyline ? [{market:'不讓分', key:'moneyline' as const, label:moneyline.side, pick:moneyline}] : []),
+    ...(spread ? [{market:'讓分', key:'spread' as const, label:spread.side+' '+(spread.line>0?'+':'')+spread.line, pick:spread}] : []),
+    ...(total ? [{market:'大小分', key:'totals' as const, label:(/over|大/i.test(total.side)?'大 ':'小 ')+total.line, pick:total}] : [])
    ].filter(x => typeof x.pick.probability==='number' && x.pick.probability>=0.54 && typeof x.pick.ev==='number' && x.pick.ev>=0.025)
-   return candidates.sort((a,b)=>(b.pick.ev??-Infinity)-(a.pick.ev??-Infinity)||(b.pick.probability??0)-(a.pick.probability??0))[0]
+   const selected=candidates.sort((a,b)=>(b.pick.ev??-Infinity)-(a.pick.ev??-Infinity)||(b.pick.probability??0)-(a.pick.probability??0))[0]
+   if(!selected)return undefined
+   let result=selected.pick.result
+   if(done&&hasScore&&savedPrediction.stage==='official'&&savedPrediction.settledAt){
+    const home=Number(game.home.score),away=Number(game.away.score)
+    if(Number.isFinite(home)&&Number.isFinite(away)){
+     if(selected.key==='moneyline')result=selected.pick.teamSide==='home'?(home>away?'win':'loss'):(away>home?'win':'loss')
+     else if(selected.key==='spread'&&selected.pick.teamSide){
+      const margin=(selected.pick.teamSide==='home'?home-away:away-home)+selected.pick.line
+      result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'
+     }else if(selected.key==='totals'){
+      const diff=home+away-selected.pick.line
+      result=Math.abs(diff)<1e-9?'push':((/^(over|大)$/i.test(selected.pick.side)&&diff>0)||(/^(under|小)$/i.test(selected.pick.side)&&diff<0))?'win':'loss'
+     }
+    }
+   }
+   return {...selected,result}
   })()
   const unverified=done&&!useSaved&&ledgerStatus==='ready'
  const time = new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit'}).format(new Date(game.date))
