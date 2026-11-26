@@ -78,3 +78,11 @@
 .football-actual-score span{font-size:10px;font-weight:800;color:#63796b}
 .football-actual-score strong{font:800 23px 'DM Mono',monospace;letter-spacing:1px;color:#174f35}
 .football-actual-score small{font:700 9px 'DM Mono',monospace;letter-spacing:1px;color:#73877a}
+
+
+/* Independent settlement indicators beside their corresponding football markets. */
+.football-market-result{display:flex;align-items:center;margin-top:9px;padding:7px 9px;border:1px solid #e7ece8;border-radius:7px;background:#fafcfb}
+.football-market-result span{font-size:11px;font-weight:850}
+.football-market-result .is-green{color:#16834b}
+.football-market-result .is-red{color:#c44747}
+.football-market-result .is-yellow{color:#a97817}
