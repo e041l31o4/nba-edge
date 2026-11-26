@@ -163,7 +163,6 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   const totalDiff=memberHomeScore+memberAwayScore-pick.line
   return Math.abs(totalDiff)<1e-9?'push':((/^(over|大)$/i.test(pick.side)&&totalDiff>0)||(/^(under|小)$/i.test(pick.side)&&totalDiff<0))?'win':'loss'
  }
- ]
  const archivedSpreadPick=savedPrediction?.spreadPick??savedPrediction?.spreadLean
  const archivedTotalPick=savedPrediction?.totalPick??savedPrediction?.totalLean
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
