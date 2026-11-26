@@ -30,3 +30,15 @@
 .football-analysis-placeholder span{max-width:320px;font-size:12px;line-height:1.7}
 @media(max-width:900px){.football-workspace{grid-template-columns:minmax(0,1fr);gap:12px}.football-analysis-column{position:static}.football-analysis-column .football-analysis{max-height:none}.football-fixture-column .football-match-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.football-fixture-column .football-match-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Every football fixture displays its analysis immediately beside its prediction. */
+.football-match-grid{display:flex;flex-direction:column;gap:14px}
+.football-match-row{display:grid;grid-template-columns:minmax(270px,.78fr) minmax(0,1.5fr);gap:14px;align-items:stretch}
+.football-match-row>.football-match{width:100%;height:100%;text-align:left}
+.football-inline-analysis{margin:0;min-width:0}
+.football-inline-analysis .football-market-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.football-inline-analysis .football-market-grid article{min-width:0}
+.football-analysis-state{font-size:11px;color:#64756b;white-space:nowrap}
+@media(max-width:1050px){.football-match-row{grid-template-columns:minmax(0,1fr)}.football-inline-analysis .football-market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.football-inline-analysis .football-market-grid{grid-template-columns:minmax(0,1fr)}}
