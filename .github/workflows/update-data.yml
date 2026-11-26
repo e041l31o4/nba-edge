@@ -47,6 +47,7 @@ jobs:
       - name: Install Chromium for public Taiwan lottery odds page
         run: playwright install --with-deps chromium
       - name: Fetch authorized official feed and preserve timestamped snapshots
+        continue-on-error: true
         env:
           SPORTSLOTTERY_FEED_URL: ${{ secrets.SPORTSLOTTERY_FEED_URL }}
         run: |
@@ -144,6 +145,8 @@ jobs:
             python scripts/publish-private-datasets.py
           fi
       - name: Refresh team form and NBA official injury report
+        id: analysis_refresh
+        continue-on-error: true
         run: python scripts/update-analysis-data.py
       - name: Set up Node.js for immutable prediction ledger
         uses: actions/setup-node@v4
@@ -152,12 +155,15 @@ jobs:
       - name: Capture pregame predictions and settle completed games
         env:
           NBA_EDGE_ODDS_REFRESH_SUCCESS: ${{ steps.playsport_refresh.outcome == 'success' }}
+          NBA_EDGE_ANALYSIS_REFRESH_SUCCESS: ${{ steps.analysis_refresh.outcome == 'success' }}
         run: npx --yes tsx scripts/record-predictions.mts
       - name: Diagnose every totals market against the independent model
+        continue-on-error: true
         env:
           TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
         run: npx --yes tsx scripts/diagnose-totals.mts
       - name: Audit settled official total forecasts for systematic bias
+        continue-on-error: true
         run: python scripts/diagnose-ledger-totals.py
       - name: Report odds source policy
         run: |
