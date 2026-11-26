@@ -114,6 +114,7 @@ export function buildDailySettlementReport(
       pendingGames.push(`${game.away.abbreviation} @ ${game.home.abbreviation}（缺少完賽比分）`)
       pendingCount++
       moneyline.unavailable++; spread.unavailable++; totals.unavailable++
+      allMarkets.unavailable += 3; selectedRecommendation.unavailable++
       continue
     }
     settledRecordCount++
