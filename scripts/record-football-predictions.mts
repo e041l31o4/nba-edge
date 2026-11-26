@@ -48,7 +48,8 @@ for(const day of dueDates){
    if(byId.get(key)?.stage==='official')continue
    const retrospective=isFinalStatus(match.status)||new Date(match.date).getTime()<=now.getTime()
    const preKickoffHistory=result.history.filter(game=>new Date(game.date).getTime()<new Date(match.date).getTime())
-   const model=buildFootballModel(match,preKickoffHistory,2.5)
+   const preKickoffLeague=result.leagueHistory.filter(game=>new Date(game.date).getTime()<new Date(match.date).getTime())
+   const model=buildFootballModel(match,preKickoffHistory,2.5,preKickoffLeague)
    const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0]
    const record:FootballRecord={
     gameId:match.id,competition,date:match.date,home:match.home.name,away:match.away.name,
