@@ -1,6 +1,7 @@
 const tz='Asia/Taipei'
 const day=(d)=>new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).format(d)
 const shift=(value,n)=>{const d=new Date(value+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
+const compact=(value)=>value.replaceAll('-','')
 const date=day(new Date())
 const competitions=[
  ['ucl','uefa.champions'],
@@ -10,19 +11,24 @@ const competitions=[
  ['europa','uefa.europa']
 ]
 async function get(url){
- const response=await fetch(url,{headers:{'User-Agent':'SPORT-EDGE-Football-Data-Check/1.0','Accept':'application/json'}})
- const body=await response.text()
- let data={}
- try{data=JSON.parse(body)}catch{}
- return {status:response.status,events:Array.isArray(data.events)?data.events:[],body:body.slice(0,500)}
+ const response=await fetch(url,{headers:{'User-Agent':'SPORT-EDGE-Football-Data-Check/2.0','Accept':'application/json'}})
+ if(!response.ok)throw new Error(`HTTP ${response.status} for ${url}`)
+ const data=await response.json()
+ return Array.isArray(data.events)?data.events:[]
 }
-const days=[shift(date,-1),date,shift(date,1)]
+const windows=[]
+for(let offset=-120;offset<=1;offset+=14){
+ const from=shift(date,offset),to=shift(date,Math.min(offset+13,1))
+ windows.push(`${compact(from)}-${compact(to)}`)
+}
 const results=await Promise.all(competitions.map(async([key,league])=>{
- const checks=await Promise.all(days.map(d=>get(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${d.replaceAll('-','')}&limit=500`)))
- return {key,league,checks:checks.map((x,i)=>({date:days[i],status:x.status,count:x.events.length,events:x.events.slice(0,2).map(e=>e.name)}))}
+ const batches=await Promise.all(windows.map(range=>get(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${range}&limit=500`)))
+ const unique=new Map(batches.flat().map(event=>[String(event.id),event]))
+ const events=[...unique.values()]
+ const completed=events.filter(event=>event.status?.type?.completed===true||/FINAL|FULL_TIME|STATUS_FINAL/i.test(event.status?.type?.name??''))
+ const sample=events.slice(0,3).map(event=>event.name)
+ return {key,league,events:events.length,completed:completed.length,windows:windows.length,sample}
 }))
-console.log(JSON.stringify({taiwanDate:date,competitions:results},null,2))
-const failed=results.filter(row=>row.checks.every(check=>check.status!==200))
-if(failed.length)throw new Error('Competition scoreboards unavailable: '+failed.map(x=>x.key).join(', '))
-const empty=results.filter(row=>row.checks.reduce((sum,check)=>sum+check.count,0)===0)
-if(empty.length)throw new Error('No fixtures returned for competitions: '+empty.map(x=>x.key).join(', '))
+console.log(JSON.stringify({taiwanDate:date,historyWindowDays:120,competitions:results},null,2))
+const failed=results.filter(row=>row.events===0||row.completed===0)
+if(failed.length)throw new Error('Missing completed league history: '+failed.map(x=>x.key).join(', '))
