@@ -139,7 +139,7 @@ export async function getFootballMatches(taiwanDate:string,competition:FootballC
  let fulfilled=results.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
  if(!fulfilled.length)throw new Error(`${config.zh}賽程與近期戰績來源暫時無法連線`)
  let leagueGames=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
- // If the provider rejects date ranges, fall back to daily scoreboards for fixtures.
+ // If a calendar-year query returns no events, fall back to daily scoreboards for the selected date.
  if(!leagueGames.length&&competition!=='ucl'){
   const fallbackDays=[dateShift(taiwanDate,-1),taiwanDate,dateShift(taiwanDate,1)]
   const fallback=await Promise.allSettled(fallbackDays.map(day=>scoreboard(espnDate(day),config.espn)))
