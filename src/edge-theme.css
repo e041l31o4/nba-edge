@@ -1105,3 +1105,63 @@ footer:before{background:#2463eb!important}
 .admin-editor-actions>span{font-size:11px;color:#54718f}
 @media(max-width:760px){.admin-edit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.admin-edit-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* SPORT EDGE — premium all-sports identity */
+:root{
+  color-scheme:dark;
+  --page:#080d16;--surface:#111a27;--surface-2:#172334;
+  --ink:#f3f6fb;--muted:#91a0b4;--line:#26364a;
+  --blue:#35a7ff;--blue-soft:#102c46;--orange:#ff6a35;
+  background:var(--page);color:var(--ink);
+}
+html,body{background:#080d16!important;color:#f3f6fb!important}
+body{background:radial-gradient(ellipse at 50% -20%,#18314b 0%,#0b1421 44%,#080d16 78%)!important;background-attachment:fixed}
+.app-shell{background:transparent!important}
+.topbar{background:rgba(8,13,22,.92)!important;border-bottom:1px solid #26364a!important;box-shadow:0 8px 28px #0005!important}
+.brand{color:#f3f6fb!important;font-weight:900;letter-spacing:1.2px}
+.brand-mark{background:linear-gradient(135deg,#35a7ff,#1263c5)!important;color:#fff!important;border-radius:10px!important;box-shadow:0 5px 22px #168cff40!important}
+.brand small{color:#8295ad!important;letter-spacing:2px}
+.top-right,.top-meta,.top-right span{color:#91a0b4!important}
+.icon-btn{background:#111a27!important;border-color:#2a3b51!important;color:#c5d1df!important}
+main{max-width:1440px}
+.hero{background:linear-gradient(115deg,#101b2a 0%,#14263a 58%,#10233a 100%)!important;border:1px solid #29435e!important;box-shadow:0 20px 60px #0004!important;position:relative;overflow:hidden}
+.hero:before{background:linear-gradient(110deg,transparent 40%,#35a7ff18)!important}
+.hero:after{border-color:#35a7ff30!important;box-shadow:0 0 0 30px #35a7ff0b,0 0 0 62px #35a7ff07!important}
+.hero .eyebrow,.section-heading .eyebrow{color:#55b7ff!important;letter-spacing:2.5px}
+.hero h1{color:#f5f8fc!important;font-weight:900!important;letter-spacing:-1.5px!important}
+.hero h1 em{color:#55b7ff!important;-webkit-text-fill-color:#55b7ff!important}
+.hero p{color:#b4c2d3!important;max-width:660px}
+.hero-tags span{background:#172d43!important;border:1px solid #31516f!important;color:#a9d9ff!important}
+.hero-stat{background:#0d1724!important;border:1px solid #2b4762!important;box-shadow:0 10px 35px #0005!important}
+.hero-stat span,.hero-stat small{color:#8ea3ba!important}
+.hero .hero-stat strong,.hero-stat strong{color:#55b7ff!important;-webkit-text-fill-color:#55b7ff!important}
+.hero-visual-label{color:#8ccfff!important}
+.hero-orbit{border-color:#55b7ff30!important}
+.hero-ball{color:#55b7ff!important;opacity:.12!important}
+.ticker,.date-nav,.game-card,.analysis-card,.market-backtest-card,.notice,.admin-market-inline{background:#111a27!important;border-color:#26384d!important;color:#e5edf6!important}
+.ticker{box-shadow:0 5px 18px #0003!important}
+.ticker-label,.section-heading h2,.game-card b,.team-line b{color:#edf4fb!important}
+.ticker-time,.muted,.legend,.game-top,.team-line small{color:#8fa1b7!important}
+.status-ok{color:#49d69a!important}.status-warn{color:#ffb45e!important}
+.toolbar{border-color:#26364a!important}
+.date-nav{color:#e5edf6!important}.date-nav b{color:#f3f6fb!important}
+.tabs{background:#0e1723!important;border:1px solid #26364a!important}
+.tabs button{color:#9eafc3!important}
+.tabs button.active{background:#1d3550!important;color:#69c1ff!important;box-shadow:inset 0 0 0 1px #3a6d99!important}
+.section-heading h2{color:#f3f6fb!important}
+.game-card{box-shadow:0 8px 24px #0003!important}
+.game-card:hover{border-color:#3c83b8!important;box-shadow:0 14px 34px #0005!important}
+.game-card:before{background:linear-gradient(90deg,#35a7ff,#ff6a35)!important}
+.game-top{border-color:#26364a!important}
+.game-state{background:#12382f!important;color:#63e3ad!important}
+.game-state.done{background:#263344!important;color:#aab8c8!important}
+.game-state.live{background:#46251f!important;color:#ff947b!important}
+.team-placeholder{background:#1d2b3c!important;color:#a9c4df!important}
+.versus,.versus small{color:#91a0b4!important}
+.versus b,.final-score b{color:#fff!important}
+.game-prediction-summary,.single-pick-summary,.admin-market-inline-item{background:#0d1724!important;border-color:#26384d!important;color:#e9f1fa!important}
+footer{border-color:#26364a!important;color:#8fa1b7!important}
+.footer-brand{color:#f3f6fb!important;letter-spacing:1.2px}
+button, a{transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
+@media(max-width:700px){.hero{padding:25px 20px!important}.hero h1{font-size:30px!important}.brand small{font-size:8px!important}}
