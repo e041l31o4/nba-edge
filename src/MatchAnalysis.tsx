@@ -163,12 +163,7 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   const totalDiff=memberHomeScore+memberAwayScore-pick.line
   return Math.abs(totalDiff)<1e-9?'push':((/^(over|大)$/i.test(pick.side)&&totalDiff>0)||(/^(under|小)$/i.test(pick.side)&&totalDiff<0))?'win':'loss'
  }
- const memberTrafficRows=[
-  {key:'moneyline',label:'不讓分',pick:memberMoneyline,direction:memberMoneyline?(memberMoneyline.side+' 勝'):(savedPrediction?((savedPrediction.homeWin>=0.5?game.home.displayName:game.away.displayName)+' 勝'):'未設定'),probability:memberMoneyline?.probability??(memberMoneylineSide==='home'?savedPrediction?.homeWin:memberMoneylineSide==='away'?savedPrediction?.awayWin:undefined),result:memberMarketGrade('moneyline',memberMoneyline)},
-  {key:'spread',label:'讓分',pick:memberSpread,direction:memberSpread?memberSpread.side+' '+(memberSpread.line>0?'+':'')+memberSpread.line:'未設定方向',probability:memberSpread?.probability,result:memberMarketGrade('spread',memberSpread)},
-  {key:'total',label:'大小分',pick:memberTotal,direction:memberTotal?((/^(over|大)$/i.test(memberTotal.side)?'大 ':'小 ')+memberTotal.line):'未設定方向',probability:memberTotal?.probability,result:memberMarketGrade('total',memberTotal)}
  ]
- const memberResultLabel=(result?:string)=>result==='win'?'🟢 過關':result==='loss'?'🔴 未過':result==='push'?'⚪ 走水':memberSettlementReady?'待核對':'尚未結算'
  const archivedSpreadPick=savedPrediction?.spreadPick??savedPrediction?.spreadLean
  const archivedTotalPick=savedPrediction?.totalPick??savedPrediction?.totalLean
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
