@@ -96,7 +96,8 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const b2bAdjustment=(homeBackToBack?-1.3:0)+(awayBackToBack?1.3:0)
  const homeSOS=scheduleStrength(hs,form!),awaySOS=scheduleStrength(as,form!)
  const sosAdjustment=homeSOS===null||awaySOS===null?0:(homeSOS-awaySOS)*0.18
- const hImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?hi:[]),aImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?ai:[])
+ const officialInjuryReportIsFresh=hasFreshOfficialInjuryReport(injuries)
+ const hImpact=injuryImpact(officialInjuryReportIsFresh?hi:[]),aImpact=injuryImpact(officialInjuryReportIsFresh?ai:[])
  // Estimate only the un-replaced share of missing production. Replacement gap scales from 25% to 45%; a dynamic 10–20 point cap rises with distinct major absences and a 25+ PPG star.
  const homeInjuryImpact=hImpact.points,awayInjuryImpact=aImpact.points
  const projectedMargin=(rawHome-rawAway)*0.78+restAdjustment+b2bAdjustment+sosAdjustment-homeInjuryImpact+awayInjuryImpact
