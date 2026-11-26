@@ -1,4 +1,4 @@
-import json, re, datetime, urllib.request, pathlib, html, sys, time, unicodedata
+import json, re, datetime, urllib.request, pathlib, html, sys, time, unicodedata, math
 
 BASE = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 HEAD = {'User-Agent': 'Mozilla/5.0 NBA-EDGE/1.1'}
@@ -59,11 +59,52 @@ def event_row(event, team_id):
         'homeAway': str(own.get('homeAway') or '').lower()
     }
 
+def event_game(event):
+    competitions = event.get('competitions') or []
+    comp = competitions[0] if competitions else event
+    competitors = comp.get('competitors') or []
+    home = next((x for x in competitors if str(x.get('homeAway') or '').lower() == 'home'), None)
+    away = next((x for x in competitors if str(x.get('homeAway') or '').lower() == 'away'), None)
+    if not home or not away:
+        return None
+    home_id = str((home.get('team') or {}).get('id') or home.get('id') or '')
+    away_id = str((away.get('team') or {}).get('id') or away.get('id') or '')
+    home_score, away_score = score_value(home.get('score')), score_value(away.get('score'))
+    if not home_id or not away_id or home_score is None or away_score is None or not completed_event(event):
+        return None
+    event_season = event.get('season') or {}
+    competition_season = comp.get('season') or {}
+    season_type = event_season.get('type') or competition_season.get('type')
+    if season_type is not None and str(season_type) != '2':
+        return None
+    return {'id':str(event.get('id') or ''),'date':event.get('date') or comp.get('date'),'homeId':home_id,'awayId':away_id,'homeScore':home_score,'awayScore':away_score}
+
+
+def compute_current_season_elo(events):
+    ratings = {}
+    ordered = sorted(events, key=lambda row: row.get('date') or '')
+    for event in ordered:
+        game = event_game(event)
+        if not game:
+            continue
+        home_rating = ratings.get(game['homeId'], 1500.0)
+        away_rating = ratings.get(game['awayId'], 1500.0)
+        expected_home = 1.0 / (1.0 + 10 ** (-((home_rating + 65.0) - away_rating) / 400.0))
+        actual_home = 1.0 if game['homeScore'] > game['awayScore'] else 0.5 if game['homeScore'] == game['awayScore'] else 0.0
+        margin = abs(game['homeScore'] - game['awayScore'])
+        mov_multiplier = math.log(margin + 1.0) * (2.2 / (2.2 + 0.001 * abs(home_rating - away_rating))) if margin else 1.0
+        delta = 20.0 * mov_multiplier * (actual_home - expected_home)
+        ratings[game['homeId']] = home_rating + delta
+        ratings[game['awayId']] = away_rating - delta
+    return ratings
+
+
 now = datetime.datetime.now(datetime.timezone.utc)
 season = now.year + 1 if now.month >= 7 else now.year
 league = get(BASE + '/teams?limit=40')
 teams = league.get('sports', [{}])[0].get('leagues', [{}])[0].get('teams', [])
 forms = {}
+all_events_by_id = {}
 roster_map = {}
 rosters_by_team = {}
 
@@ -85,6 +126,10 @@ for item in teams:
         if not events:
             schedule = get(f'{BASE}/teams/{team_id}/schedule')
             events = extract_events(schedule)
+        for event in events:
+            event_id = str(event.get('id') or '')
+            if event_id:
+                all_events_by_id[event_id] = event
         rows = []
         for event in events:
             if not completed_event(event):
@@ -143,6 +188,11 @@ for item in teams:
             print('roster skipped', team_id, str(error)[:100])
     except Exception as error:
         print('schedule skipped', team_id, str(error)[:120])
+
+
+current_season_elo = compute_current_season_elo(list(all_events_by_id.values()))
+for team_id, form in forms.items():
+    form['eloRating'] = round(current_season_elo.get(str(team_id), 1500.0), 2)
 
 
 # Current-season team efficiency metrics from ESPN's public Core API.
