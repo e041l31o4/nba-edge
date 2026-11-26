@@ -1165,3 +1165,57 @@ footer{border-color:#26364a!important;color:#8fa1b7!important}
 .footer-brand{color:#f3f6fb!important;letter-spacing:1.2px}
 button, a{transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
 @media(max-width:700px){.hero{padding:25px 20px!important}.hero h1{font-size:30px!important}.brand small{font-size:8px!important}}
+
+
+/* SPORT EDGE light canvas: restore the original white page background */
+:root{
+  color-scheme:light;
+  --page:#f4f5f2;--surface:#ffffff;--surface-2:#f7f9fc;
+  --ink:#182333;--muted:#687789;--line:#e2e7ed;
+  --blue:#1678c8;--blue-soft:#eaf4fc;--orange:#f07842;
+  background:var(--page);color:var(--ink);
+}
+html,body{background:#f4f5f2!important;color:#182333!important}
+body{background:#f4f5f2!important;background-attachment:initial}
+.app-shell{background:transparent!important}
+.topbar{background:rgba(255,255,255,.94)!important;border-bottom:1px solid #e2e7ed!important;box-shadow:0 5px 20px #172b3d0b!important}
+.brand{color:#182333!important}
+.brand small{color:#778597!important}
+.top-right,.top-meta,.top-right span{color:#687789!important}
+.icon-btn{background:#fff!important;border-color:#dce3ea!important;color:#415267!important}
+.hero{background:linear-gradient(115deg,#ffffff 0%,#f4f8fc 58%,#edf5fc 100%)!important;border:1px solid #dce6ef!important;box-shadow:0 14px 40px #172b3d0d!important}
+.hero:before{background:linear-gradient(110deg,transparent 40%,#35a7ff0c)!important}
+.hero:after{border-color:#35a7ff24!important;box-shadow:0 0 0 30px #35a7ff08,0 0 0 62px #35a7ff05!important}
+.hero .eyebrow,.section-heading .eyebrow{color:#1678c8!important}
+.hero h1{color:#182333!important}
+.hero h1 em{color:#1678c8!important;-webkit-text-fill-color:#1678c8!important}
+.hero p{color:#647488!important}
+.hero-tags span{background:#eef5fb!important;border:1px solid #d6e6f3!important;color:#28638f!important}
+.hero-stat{background:#fff!important;border:1px solid #e0e8ef!important;box-shadow:0 8px 24px #172b3d0b!important}
+.hero-stat span,.hero-stat small{color:#748396!important}
+.hero .hero-stat strong,.hero-stat strong{color:#1678c8!important;-webkit-text-fill-color:#1678c8!important}
+.hero-visual-label{color:#397ba9!important}
+.hero-orbit{border-color:#1678c824!important}
+.hero-ball{color:#1678c8!important;opacity:.09!important}
+.ticker,.date-nav,.game-card,.analysis-card,.market-backtest-card,.notice,.admin-market-inline{background:#fff!important;border-color:#e2e7ed!important;color:#263548!important}
+.ticker{box-shadow:0 4px 16px #172b3d08!important}
+.ticker-label,.section-heading h2,.game-card b,.team-line b{color:#1d2b3b!important}
+.ticker-time,.muted,.legend,.game-top,.team-line small{color:#748396!important}
+.date-nav{color:#263548!important}.date-nav b{color:#182333!important}
+.tabs{background:#edf1f5!important;border:1px solid #e0e6ec!important}
+.tabs button{color:#687789!important}
+.tabs button.active{background:#fff!important;color:#1678c8!important;box-shadow:0 1px 5px #172b3d16!important}
+.section-heading h2{color:#182333!important}
+.game-card{box-shadow:0 5px 18px #172b3d09!important}
+.game-card:hover{border-color:#a9cde8!important;box-shadow:0 10px 26px #172b3d12!important}
+.game-card:before{background:linear-gradient(90deg,#1678c8,#f07842)!important}
+.game-top{border-color:#edf0f3!important}
+.game-state{background:#e8f7f0!important;color:#19865d!important}
+.game-state.done{background:#edf1f5!important;color:#687789!important}
+.game-state.live{background:#fff0eb!important;color:#c65336!important}
+.team-placeholder{background:#edf2f7!important;color:#526a83!important}
+.versus,.versus small{color:#8492a2!important}
+.versus b,.final-score b{color:#182333!important}
+.game-prediction-summary,.single-pick-summary,.admin-market-inline-item{background:#f7f9fb!important;border-color:#e3e9ef!important;color:#263548!important}
+footer{border-color:#e2e7ed!important;color:#748396!important}
+.footer-brand{color:#182333!important}
