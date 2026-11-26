@@ -387,7 +387,6 @@ function DailySettlementReport({games,records,date}:{games:Game[];records:Predic
           <span className="daily-push">走 {row.analysis.pushes}</span>
         </div>
         <div className="daily-report-meta">方向命中率：{row.analysis.hitRate===null?'—':(row.analysis.hitRate*100).toFixed(1)+'%'} · 無方向 {row.analysis.noDirection} · 未結算 {row.analysis.unavailable}</div>
-        <div className="daily-report-recommendation">正式推薦：綠 {row.recommended.wins} · 紅 {row.recommended.losses} · 走 {row.recommended.pushes} · 無可用方向 {row.recommended.noDirection}</div>
       </article>)}
     </div>
     <p className="daily-report-footnote">綠／紅／走依賽前最終封存的三市場推薦方向判定；每場均保留不讓分、讓分與大小分方向，低期望值、低信心或傷兵未明會標示風險，不會因此隱藏推薦。無可用盤口才列為無方向，未完成正式結算不納入命中率。</p>
