@@ -56,7 +56,7 @@ for(const day of dueDates){
     gameId:match.id,competition,date:match.date,home:match.home.name,away:match.away.name,
     homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,
     moneylinePick:winner,totalPick:{side:model.over>=model.under?'over':'under',line:2.5,probability:Math.max(model.over,model.under)},
-    correctScores:model.topScores,sampleHome:model.sampleHome,sampleAway:model.sampleAway,homeEloRating:model.homeEloRating,awayEloRating:model.awayEloRating,eloMargin:model.eloMargin,modelVersion:'football-elo-blend-v3.0-team-identity-corrected',
+    correctScores:model.topScores,sampleHome:model.sampleHome,sampleAway:model.sampleAway,homeEloRating:model.homeEloRating,awayEloRating:model.awayEloRating,eloMargin:model.eloMargin,modelVersion:'football-poisson-elo40-v3.0',
     stage:'official',analysisStatus:'final',lockedAt:lockFor(day).toISOString(),publishedAt:now.toISOString(),capturedAt:now.toISOString(),
     source:retrospective?'retrospective_backfill':'automatic_21_00_taiwan_snapshot',confidence:model.confidence,dataWarnings:retrospective?[...model.dataWarnings,'歷史補算：非賽前原始封存，使用開賽前可取得的歷史賽事資料重建。']:model.dataWarnings
    }
