@@ -371,7 +371,7 @@ def market_backtest(predictions, error_calibration=None):
             'roi': round(profit/n,5) if n else None,
             'netUnits': round(profit,3),
             'averageEV': round(avg([b['ev'] for b in bets]),5) if bets else None,
-            'method':'每場僅取開賽前最後一筆台灣運彩快照；僅選擇模型機率至少54%、EV至少+2.5%的方向；歷史傷兵官方確認與信心門檻無法重建，故不計入此回測；固定每注1單位，不含手續費與盤口滑價。'
+            'method':'每場僅取開賽前最後一筆台灣運彩快照；僅選擇模型機率至少54%、EV至少+2.5%的方向；歷史傷兵官方確認與信心門檻無法重建，故不計入此回測；固定每注1單位，不含手續費與盤口滑價。正式推薦另須該市場至少50個有效樣本、命中率至少55%、ROI至少+2%，未達標只顯示觀察方向、不列會員推薦。'
         }
     return result
 
