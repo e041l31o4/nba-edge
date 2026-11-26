@@ -13,7 +13,7 @@ export type FootballModel = {
 const clamp=(n:number,min:number,max:number)=>Math.max(min,Math.min(max,n))
 const factorial=(n:number)=>{let v=1;for(let i=2;i<=n;i++)v*=i;return v}
 export function poisson(lambda:number,k:number){return Math.exp(-lambda)*Math.pow(lambda,k)/factorial(k)}
-const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^\\p{L}\\p{N}]/gu,'')
+const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'')
 export function isFinalStatus(status:string){const value=status.trim().toUpperCase();return value.includes('FINAL')||value.includes('FULL_TIME')||value==='FT'||value==='AET'||value==='PEN'}
 export function sameFootballTeam(a:FootballTeam,b:FootballTeam){if(a.id&&b.id)return a.id===b.id;const aName=normalizeName(a.englishName??a.name),bName=normalizeName(b.englishName??b.name);return aName.length>0&&aName===bName}
 function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
