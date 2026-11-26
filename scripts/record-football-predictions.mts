@@ -8,7 +8,7 @@ type FootballRecord = {
   moneylinePick:{side:'home'|'draw'|'away';probability:number}
   totalPick:{side:'over'|'under';line:number;probability:number}
   correctScores:Array<{score:string;probability:number}>
-  sampleHome:number;sampleAway:number;stage:'official';analysisStatus:'final'
+  sampleHome:number;sampleAway:number;modelVersion:string;stage:'official';analysisStatus:'final'
   lockedAt:string;publishedAt:string;capturedAt:string;source:string
   confidence:'低'|'中'|'高';dataWarnings:string[]
   actualHome?:number;actualAway?:number;settledAt?:string
