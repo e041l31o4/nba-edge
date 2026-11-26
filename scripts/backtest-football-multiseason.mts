@@ -133,7 +133,7 @@ for(const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetiti
 
 console.log('SPORT_EDGE_FOOTBALL_MULTISEASON_WALK_FORWARD:',JSON.stringify({
   years,
-  model:'Current score-based Poisson model, chronological walk-forward by match; cup form augmented with supported domestic league score histories',
+  model:'1X2 uses 60% Poisson plus 40% chronological Elo blend; total-goals and correct-score remain score-based Poisson; cup form uses supported domestic league score histories',
   evaluation:'Per-competition 1X2 Brier and Over 2.5 Brier compared against expanding historical league-rate baseline; exact-score top-3 hit rate and expected-goals MAE',
   limitations:[
     'Score-only inputs: no true xG, lineups, suspensions, injuries, or bookmaker closing odds.',
