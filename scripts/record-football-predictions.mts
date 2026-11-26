@@ -37,7 +37,7 @@ for(const day of dueDates){
   for(const match of [...result.matches,...result.history])matchMap.set(ledgerKey(competition,match.id),match)
  }
 }
-let added=0,settled=0,regraded=0
+let added=0,settled=0,regraded=0,skippedForDataQuality=0
 const byId=new Map(records.map(record=>[ledgerKey(record.competition??'ucl',record.gameId),record]))
 for(const day of dueDates){
  if(now.getTime()<lockFor(day).getTime())continue
@@ -50,12 +50,13 @@ for(const day of dueDates){
    const preKickoffHistory=result.history.filter(game=>new Date(game.date).getTime()<new Date(match.date).getTime())
    const preKickoffLeague=result.leagueHistory.filter(game=>new Date(game.date).getTime()<new Date(match.date).getTime())
    const model=buildFootballModel(match,preKickoffHistory,2.5,preKickoffLeague)
+   if(!model.dataReady){skippedForDataQuality++;continue}
    const winner=[{side:'home' as const,probability:model.homeWin},{side:'draw' as const,probability:model.draw},{side:'away' as const,probability:model.awayWin}].sort((a,b)=>b.probability-a.probability)[0]
    const record:FootballRecord={
     gameId:match.id,competition,date:match.date,home:match.home.name,away:match.away.name,
     homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,homeXg:model.homeXg,awayXg:model.awayXg,
     moneylinePick:winner,totalPick:{side:model.over>=model.under?'over':'under',line:2.5,probability:Math.max(model.over,model.under)},
-    correctScores:model.topScores,sampleHome:model.sampleHome,sampleAway:model.sampleAway,
+    correctScores:model.topScores,sampleHome:model.sampleHome,sampleAway:model.sampleAway,modelVersion:'football-poisson-form-v2.2-team-identity-corrected',
     stage:'official',analysisStatus:'final',lockedAt:lockFor(day).toISOString(),publishedAt:now.toISOString(),capturedAt:now.toISOString(),
     source:retrospective?'retrospective_backfill':'automatic_21_00_taiwan_snapshot',confidence:model.confidence,dataWarnings:retrospective?[...model.dataWarnings,'歷史補算：非賽前原始封存，使用開賽前可取得的歷史賽事資料重建。']:model.dataWarnings
    }
@@ -87,5 +88,5 @@ if(added||settled||regraded||!Array.isArray(ledger.footballRecords)){
  ledger.footballUpdatedAt=now.toISOString()
  await writeFile(path,JSON.stringify(ledger,null,2)+'\n')
 }
-console.log('FOOTBALL_LEDGER:',JSON.stringify({taiwanDate:today,competitions,checkedDates:dueDates,added,settled,regraded,total:next.length,byCompetition:Object.fromEntries(competitions.map(c=>[c,next.filter(x=>(x.competition??'ucl')===c).length]))}))
+console.log('FOOTBALL_LEDGER:',JSON.stringify({taiwanDate:today,competitions,checkedDates:dueDates,added,settled,regraded,skippedForDataQuality,total:next.length,byCompetition:Object.fromEntries(competitions.map(c=>[c,next.filter(x=>(x.competition??'ucl')===c).length]))}))
 if(added)console.log('FOOTBALL_FROZEN_PICKS:',JSON.stringify(next.filter(x=>x.publishedAt===now.toISOString()).map(x=>({competition:x.competition,gameId:x.gameId,home:x.home,away:x.away,winner:x.moneylinePick.side,total:x.totalPick.side+' '+x.totalPick.line,scores:x.correctScores.map(y=>y.score)}))))
