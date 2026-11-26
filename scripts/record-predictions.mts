@@ -154,11 +154,11 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   // when probability, EV, confidence and injury-risk gates are all satisfied.
   const qualifies=(candidate:{probability:number;ev:number}|undefined)=>!!candidate&&candidate.probability>=0.54&&candidate.ev>=0.025&&prediction.confidence!=='低'&&prediction.injuryRisk!=='偏高'&&prediction.injuryRisk!=='待確認'
   const moneylineLean:MarketPick={side:prediction.homeWin>=0.5?homeName:awayName,teamSide:prediction.homeWin>=0.5?'home':'away',line:0,probability:Math.max(prediction.homeWin,prediction.awayWin)}
-  const moneylinePick=h2hCandidates.find(qualifies)
+  const moneylinePick=marketErrorCalibration?.moneylineRecommendationReady?h2hCandidates.find(qualifies):undefined
   const spreadLean=spreadCandidates[0]
   const totalLean=totalCandidates[0]
-  const spreadPick=marketErrorCalibration?.spreadValidated?spreadCandidates.find(qualifies):undefined
-  const totalPick=marketErrorCalibration?.totalsValidated?totalCandidates.find(qualifies):undefined
+  const spreadPick=marketErrorCalibration?.spreadRecommendationReady?spreadCandidates.find(qualifies):undefined
+  const totalPick=marketErrorCalibration?.totalsRecommendationReady?totalCandidates.find(qualifies):undefined
   return {
     moneylineLean,
     ...(moneylinePick?{moneylinePick}:{}),
