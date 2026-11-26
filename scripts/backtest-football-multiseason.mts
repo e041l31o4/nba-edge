@@ -74,8 +74,8 @@ for(const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetiti
     if(!model.dataReady)skipped++
     else rows.push({
       year:new Date(game.date).getUTCFullYear(),
-      homeWin:model.homeWin,draw:model.draw,awayWin:model.awayWin,over:model.over,
-      eloHomeWin:eloBlendHomeWin,eloDraw:eloBlendDraw,eloAwayWin:eloBlendAwayWin,
+      homeWin:model.poissonHomeWin,draw:model.poissonDraw,awayWin:model.poissonAwayWin,over:model.over,
+      eloHomeWin:model.homeWin,eloDraw:model.draw,eloAwayWin:model.awayWin,
       actualHome:home,actualAway:away,homeXg:model.homeXg,awayXg:model.awayXg,
       baselineHome:(h+1)/(n+3),baselineDraw:(d+1)/(n+3),baselineAway:(a+1)/(n+3),baselineOver:(o+1)/(n+2),
       top3Hit:model.topScores.some(item=>item.score===`${home}:${away}`),
