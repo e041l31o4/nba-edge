@@ -25,6 +25,7 @@ if (!sameFootballTeam({ id: '', name: '阿森納', abbreviation: 'ARS' }, { id: 
 const taiwanDate = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit'
 }).format(new Date())
+const cutoff = new Date(new Date(taiwanDate + 'T00:00:00+08:00').getTime() - 120 * 86400000).getTime()
 
 const uniqueMatches = (items: FootballMatch[]) =>
   [...new Map(items.map(item => [item.id, item])).values()]
@@ -40,6 +41,7 @@ const reports: Record<string, unknown>[] = []
 for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetition[]) {
   const data = await getFootballMatches(taiwanDate, competition)
   const leagueHistory = uniqueMatches(data.leagueHistory).filter(game =>
+    new Date(game.date).getTime() >= cutoff &&
     isFinalStatus(game.status) &&
     Number.isFinite(game.home.score) &&
     Number.isFinite(game.away.score)
@@ -70,6 +72,7 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
       }
     }
     domesticHistory = schedules.filter(game =>
+      new Date(game.date).getTime() >= cutoff &&
       isFinalStatus(game.status) &&
       Number.isFinite(game.home.score) &&
       Number.isFinite(game.away.score)
