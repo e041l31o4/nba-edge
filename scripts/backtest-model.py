@@ -408,6 +408,7 @@ candidate_calibration_training = []
 elo_calibration_training = []
 calibrated_predictions = []
 candidate_calibrated_predictions = []
+elo_calibrated_predictions = []
 for season_year in season_years:
     games = fetch_season(season_year)
     if len(games) < 500:
@@ -442,6 +443,17 @@ for season_year in season_years:
         candidate_calibrated_metrics = probability_metrics(candidate_calibrated, 'calibratedHomeWin')
     else:
         candidate_calibrated_metrics = None
+    elo_calibrator_for_season = fit_platt(elo_calibration_training)
+    if elo_calibrator_for_season:
+        elo_calibrated = []
+        for row in elo_predictions:
+            item = dict(row)
+            item['calibratedHomeWin'] = sigmoid(elo_calibrator_for_season['a'] * logit(row['homeWin']) + elo_calibrator_for_season['b'])
+            elo_calibrated.append(item)
+        elo_calibrated_predictions.extend(elo_calibrated)
+        elo_calibrated_metrics = probability_metrics(elo_calibrated, 'calibratedHomeWin')
+    else:
+        elo_calibrated_metrics = None
     season_results.append({
         'season': season_name,
         'completedGames': len(games),
@@ -457,7 +469,10 @@ for season_year in season_years:
         'baselineCalibratedMetrics': calibrated_metrics,
         'candidateV2CalibrationTrainingSamples': len(candidate_calibration_training),
         'candidateV2Calibrator': candidate_calibrator,
-        'candidateV2CalibratedMetrics': candidate_calibrated_metrics
+        'candidateV2CalibratedMetrics': candidate_calibrated_metrics,
+        'eloCandidateCalibrationTrainingSamples': len(elo_calibration_training),
+        'eloCandidateCalibrator': elo_calibrator_for_season,
+        'eloCandidateCalibratedMetrics': elo_calibrated_metrics
     })
     calibration_training.extend(predictions)
     candidate_calibration_training.extend(candidate_predictions)
@@ -468,6 +483,7 @@ for season_year in season_years:
 
 current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
 candidate_calibrator = next((row.get('candidateV2Calibrator') for row in reversed(season_results) if row.get('candidateV2Calibrator')), None)
+elo_calibrator = next((row.get('eloCandidateCalibrator') for row in reversed(season_results) if row.get('eloCandidateCalibrator')), None)
 market_predictions = []
 for row in current_season_predictions:
     item = dict(row)
@@ -478,7 +494,7 @@ for row in current_season_candidate:
     item = dict(row)
     item['marketHomeWin'] = sigmoid(candidate_calibrator['a'] * logit(row['homeWin']) + candidate_calibrator['b']) if candidate_calibrator else row['homeWin']
     candidate_market_predictions.append(item)
-elo_calibrator = fit_platt(elo_calibration_training)
+elo_calibrator = fit_platt(elo_calibration_training) or elo_calibrator
 elo_market_predictions = []
 for row in current_season_elo_candidate:
     item = dict(row)
