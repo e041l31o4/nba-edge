@@ -71,3 +71,10 @@
  .football-inline-analysis .football-market-grid{grid-template-columns:minmax(0,1fr)}
  .football-match-row{gap:9px}
 }
+
+
+/* Actual live/final score shown directly on the left fixture card. */
+.football-actual-score{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 12px;padding:9px 12px;border:1px solid #dce9e0;border-radius:8px;background:#f3f8f5}
+.football-actual-score span{font-size:10px;font-weight:800;color:#63796b}
+.football-actual-score strong{font:800 23px 'DM Mono',monospace;letter-spacing:1px;color:#174f35}
+.football-actual-score small{font:700 9px 'DM Mono',monospace;letter-spacing:1px;color:#73877a}
