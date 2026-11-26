@@ -580,7 +580,7 @@ const summarizeMarket=(items:Row[],market:'moneyline'|'spread'|'total',field:'le
 }
 const auditDates=Array.from({length:7},(_,i)=>new Date(Date.UTC(year,month-1,day-i)).toISOString().slice(0,10).replace(/-/g,'')).reverse()
 for(const date of auditDates){
-  const dayRows=rows.filter(row=>taiwanDateKey(row.date)===date)
+  const dayRows=rows.filter(row=>taiwanDateKey(row.date).replace(/-/g,'')===date)
   const scored=dayRows.filter(row=>row.stage==='official'&&Number.isFinite(row.actualHome)&&Number.isFinite(row.actualAway))
   const settled= scored.filter(row=>!!row.settledAt)
   console.log('NBA_EDGE_FROZEN_DAILY_AUDIT:',JSON.stringify({date,gameRecords:dayRows.length,officialScoredGames:scored.length,settledGames:settled.length,pendingScores:dayRows.length-scored.length,directions:{moneyline:summarizeMarket(scored,'moneyline','lean'),spread:summarizeMarket(scored,'spread','lean'),total:summarizeMarket(scored,'total','lean')},qualifiedRecommendations:{moneyline:summarizeMarket(scored,'moneyline','pick'),spread:summarizeMarket(scored,'spread','pick'),total:summarizeMarket(scored,'total','pick')}}))
