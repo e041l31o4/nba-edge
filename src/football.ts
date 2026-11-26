@@ -110,7 +110,7 @@ async function teamSchedule(team:FootballTeam,leagueOverride?:string):Promise<Fo
  return parseEvents(await response.json())
 }
 async function scoreboard(dates:string,league='uefa.champions'){
- const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=500`
+ const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=1000`
  const r=await fetch(url)
  if(!r.ok)throw new Error(`${league} 賽程來源暫時無法連線（${r.status}）`)
  return r.json()
@@ -131,14 +131,9 @@ export async function getFootballMatches(taiwanDate:string,competition:FootballC
  if(competition==='ucl'){
   dateRanges=UCL_MATCH_DAYS.filter(day=>day<=dateShift(taiwanDate,1)&&day>=dateShift(taiwanDate,-120)).map(espnDate)
  }else{
-  // Fetch the full rolling competition history in 14-day windows. A single 120-day
-  // scoreboard request can be truncated by the provider's event limit.
-  dateRanges=[]
-  for(let offset=-120;offset<=1;offset+=14){
-   const from=dateShift(taiwanDate,offset)
-   const to=dateShift(taiwanDate,Math.min(offset+13,1))
-   dateRanges.push(`${espnDate(from)}-${espnDate(to)}`)
-  }
+  // ESPN soccer rejects explicit date ranges on the scoreboard. Request each
+  // calendar year once, then filter to the rolling 120-day form window below.
+  dateRanges=Array.from(new Set([dateShift(taiwanDate,-120).slice(0,4),taiwanDate.slice(0,4),dateShift(taiwanDate,1).slice(0,4)]))
  }
  let results=await Promise.allSettled(dateRanges.map(range=>scoreboard(range,config.espn)))
  let fulfilled=results.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
