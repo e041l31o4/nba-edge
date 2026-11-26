@@ -13,14 +13,14 @@ export type FootballModel = {
 const clamp=(n:number,min:number,max:number)=>Math.max(min,Math.min(max,n))
 const factorial=(n:number)=>{let v=1;for(let i=2;i<=n;i++)v*=i;return v}
 export function poisson(lambda:number,k:number){return Math.exp(-lambda)*Math.pow(lambda,k)/factorial(k)}
-const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^a-z0-9]/g,'')
+const normalizeName=(value:string)=>value.normalize('NFKD').toLowerCase().replace(/[^\\p{L}\\p{N}]/gu,'')
 export function isFinalStatus(status:string){const value=status.trim().toUpperCase();return value.includes('FINAL')||value.includes('FULL_TIME')||value==='FT'||value==='AET'||value==='PEN'}
-function sameTeam(a:FootballTeam,b:FootballTeam){return (!!a.id&&!!b.id&&a.id===b.id)||normalizeName(a.name)===normalizeName(b.name)}
+export function sameFootballTeam(a:FootballTeam,b:FootballTeam){if(a.id&&b.id)return a.id===b.id;const aName=normalizeName(a.englishName??a.name),bName=normalizeName(b.englishName??b.name);return aName.length>0&&aName===bName}
 function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
-  const rows=history.filter(g=>isFinalStatus(g.status)&&(sameTeam(g.home,team)||sameTeam(g.away,team))&&Number.isFinite(g.home.score)&&Number.isFinite(g.away.score)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8)
+  const rows=history.filter(g=>isFinalStatus(g.status)&&(sameFootballTeam(g.home,team)||sameFootballTeam(g.away,team))&&Number.isFinite(g.home.score)&&Number.isFinite(g.away.score)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8)
   let scored=0,conceded=0,totalWeight=0,validPlayed=0,homePlayed=0,awayPlayed=0,homeScored=0,homeConceded=0,awayScored=0,awayConceded=0,homeWeight=0,awayWeight=0
   for(let i=0;i<rows.length;i++){
-    const g=rows[i],isHome=sameTeam(g.home,team),gf=Number((isHome?g.home.score:g.away.score)??NaN),ga=Number((isHome?g.away.score:g.home.score)??NaN)
+    const g=rows[i],isHome=sameFootballTeam(g.home,team),gf=Number((isHome?g.home.score:g.away.score)??NaN),ga=Number((isHome?g.away.score:g.home.score)??NaN)
     if(!Number.isFinite(gf)||!Number.isFinite(ga))continue
     validPlayed++
     const weight=Math.pow(0.88,i)
