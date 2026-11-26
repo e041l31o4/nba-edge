@@ -4,10 +4,23 @@ import {
   getFootballMatches,
   getFootballTeamSchedule,
   isFinalStatus,
+  sameFootballTeam,
   type FootballCompetition,
   type FootballMatch,
   type FootballTeam
 } from '../src/football'
+
+const arsenal: FootballTeam = { id: '1', name: '兵工廠', englishName: 'Arsenal', abbreviation: 'ARS' }
+const manCity: FootballTeam = { id: '2', name: '曼城', englishName: 'Manchester City', abbreviation: 'MCI' }
+if (sameFootballTeam(arsenal, manCity)) {
+  throw new Error('Team identity regression: different Chinese team names were treated as the same team.')
+}
+if (!sameFootballTeam(arsenal, { id: '1', name: '阿森納', abbreviation: 'ARS' })) {
+  throw new Error('Team identity regression: matching ESPN team IDs were not recognized.')
+}
+if (!sameFootballTeam({ id: '', name: '阿森納', abbreviation: 'ARS' }, { id: '', name: '阿森納', abbreviation: 'ARS' })) {
+  throw new Error('Team identity regression: Unicode name fallback failed.')
+}
 
 const taiwanDate = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit'
