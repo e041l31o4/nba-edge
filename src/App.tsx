@@ -608,6 +608,12 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
    <div><small>模型預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'正式封存':pendingFinalization?'等待賽前最終確認':'模型初估'}</em></div>
   </div>
  </button>
+ {!isAdmin&&useSaved&&savedPrediction&&<section className="admin-market-inline member-market-inline" aria-label="會員三市場結算燈號">
+  <div className="admin-market-inline-title"><b>三市場最終結果</b><span>只顯示結算</span></div>
+  <div className="member-market-light-row">{adminRows.map(row=><div className="member-market-light" key={row.key}>
+   <b>{row.label}</b><strong className={row.result==='win'?'member-result-win':row.result==='loss'?'member-result-loss':row.result==='push'?'member-result-push':'member-result-pending'}>{adminResultText(row.result)}</strong>
+  </div>)}</div>
+ </section>}
  {isAdmin&&<section className="admin-market-inline" aria-label="管理員三市場分析">
   <div className="admin-market-inline-title"><b>管理員專用｜三市場完整分析</b><span>{savedPrediction?.stage==='official'?'正式封存':usePreliminary?'初步分析':'尚無正式封存'}</span></div>
   <div className="admin-market-inline-grid">{adminRows.map(row=><div className="admin-market-inline-item" key={row.key}>
