@@ -130,6 +130,15 @@ export const FOOTBALL_COMPETITIONS={
  europa:{id:'europa',espn:'uefa.europa',short:'歐聯',name:'UEFA EUROPA LEAGUE',zh:'歐洲聯賽',kind:'cup'}
 } as const
 export type FootballCompetition=keyof typeof FOOTBALL_COMPETITIONS
+export function getFootballDomesticLeagueIds(){return [...new Set(Object.values(TEAM_DOMESTIC_LEAGUE))]}
+export async function getFootballLeagueHistory(leagueId:string,years:number[]):Promise<FootballMatch[]>{
+ const results=await Promise.allSettled(years.map(year=>scoreboard(String(year),leagueId)))
+ const payloads=results.filter((item):item is PromiseFulfilledResult<any>=>item.status==='fulfilled').map(item=>item.value)
+ return [...new Map(payloads.flatMap(parseEvents).filter(game=>isFinalStatus(game.status)).map(game=>[game.id,game])).values()]
+}
+export async function getFootballHistoricalMatches(competition:FootballCompetition,years:number[]):Promise<FootballMatch[]>{
+ return getFootballLeagueHistory(FOOTBALL_COMPETITIONS[competition].espn,years)
+}
 export const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27','2027-02-16','2027-02-17','2027-02-23','2027-02-24','2027-03-09','2027-03-10','2027-03-16','2027-03-17','2027-04-06','2027-04-07','2027-04-13','2027-04-14','2027-04-27','2027-04-28','2027-05-04','2027-05-05','2027-06-05']
 function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
 export async function getFootballMatches(taiwanDate:string,competition:FootballCompetition='ucl'):Promise<{matches:FootballMatch[];history:FootballMatch[];leagueHistory:FootballMatch[]}>{
