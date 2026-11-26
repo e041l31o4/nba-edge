@@ -114,6 +114,7 @@ async function teamSchedule(team:FootballTeam,leagueOverride?:string):Promise<Fo
  if(!response.ok)throw new Error(`Team schedule unavailable: ${team.name}`)
  return parseEvents(await response.json())
 }
+export const getFootballTeamSchedule=teamSchedule
 async function scoreboard(dates:string,league='uefa.champions'){
  const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${dates}&limit=1000`
  const r=await fetch(url)
