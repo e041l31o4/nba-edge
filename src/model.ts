@@ -28,13 +28,21 @@ const record=(rows:RecentGame[])=>{const wins=rows.filter(x=>x.win).length;retur
 const net=(rows:RecentGame[])=>avg(rows.map(x=>x.pointsFor-x.pointsAgainst))
 const scheduleStrength=(rows:RecentGame[],form:TeamFormData)=>{const values=rows.map(x=>x.opponentId?form.teams[String(x.opponentId)]?.last10:null).filter((x):x is RecentGame[]=>!!x&&x.length>=5).map(net);return values.length>=3?avg(values):null}
 function absenceProbability(status:string){const s=status.toLowerCase();if(/out|inactive|suspended/.test(s))return 1;if(/doubtful/.test(s))return 0.8;if(/questionable|game.time|day.to.day/.test(s))return 0.5;if(/probable/.test(s))return 0.15;if(/available|active/.test(s))return 0;return 0}
+// Fail closed when the official NBA injury report is missing, unverified, or older than 24 hours.
+// Stale injury statuses must not move projections or pass the recommendation risk gate.
+function hasFreshOfficialInjuryReport(injuries:InjuryData|null){
+ if(!injuries||injuries.status!=='available'||!injuries.source?.includes('NBA Official Injury Report'))return false
+ const updated=Date.parse(injuries.updatedAt)
+ const age=Date.now()-updated
+ return Number.isFinite(updated)&&age>=-5*60*1000&&age<=24*60*60*1000
+}
 function normalizeInjuryTeamAbbreviation(value:string){
  const key=(value??'').toUpperCase().trim()
  const aliases:Record<string,string>={GS:'GSW',SA:'SAS',NO:'NOP',NY:'NYK',UTAH:'UTA',PHO:'PHX'}
  return aliases[key]??key
 }
 function injuryRiskLevel(injuries:InjuryData|null, rows:InjuryRow[]):ModelResult['injuryRisk']{
- if(!injuries||injuries.status!=='available'||!injuries.source?.includes('NBA Official Injury Report'))return '待確認'
+ if(!hasFreshOfficialInjuryReport(injuries))return '待確認'
  const keyPlayers=[...new Map(rows.filter(isMajorUnavailable).map(x=>[x.athleteId?String(x.athleteId):x.player.trim().toLowerCase(),x])).values()]
  return keyPlayers.length>=3?'偏高':keyPlayers.length>=1?'中等':'低'
 }
@@ -61,7 +69,7 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
   const pace=paceValues.length?avg(paceValues):99
   const rawHome=((hm!.offensiveRating!+am!.defensiveRating!)/2)*pace/100+2.0
   const rawAway=((am!.offensiveRating!+hm!.defensiveRating!)/2)*pace/100
-  const hiImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?hi:[]),aiImpact=injuryImpact(injuries?.source?.includes('NBA Official Injury Report')?ai:[])
+  const hiImpact=injuryImpact(hasFreshOfficialInjuryReport(injuries)?hi:[]),aiImpact=injuryImpact(hasFreshOfficialInjuryReport(injuries)?ai:[])
   const projectedHome=Math.max(70,rawHome-hiImpact.points),projectedAway=Math.max(70,rawAway-aiImpact.points)
   const projectedMargin=projectedHome-projectedAway,projectedTotal=projectedHome+projectedAway
   const games=Math.min(hm!.gamesPlayed??0,am!.gamesPlayed??0)
