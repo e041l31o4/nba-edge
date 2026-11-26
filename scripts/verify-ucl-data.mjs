@@ -16,19 +16,15 @@ async function get(url){
  const data=await response.json()
  return Array.isArray(data.events)?data.events:[]
 }
-const windows=[]
-for(let offset=-120;offset<=1;offset+=14){
- const from=shift(date,offset),to=shift(date,Math.min(offset+13,1))
- windows.push(`${compact(from)}-${compact(to)}`)
-}
+const years=[...new Set([shift(date,-120).slice(0,4),date.slice(0,4),shift(date,1).slice(0,4)])]
 const results=await Promise.all(competitions.map(async([key,league])=>{
- const batches=await Promise.all(windows.map(range=>get(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${range}&limit=500`)))
+ const batches=await Promise.all(years.map(year=>get(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${year}&limit=1000`)))
  const unique=new Map(batches.flat().map(event=>[String(event.id),event]))
  const events=[...unique.values()]
  const completed=events.filter(event=>event.status?.type?.completed===true||/FINAL|FULL_TIME|STATUS_FINAL/i.test(event.status?.type?.name??''))
  const sample=events.slice(0,3).map(event=>event.name)
- return {key,league,events:events.length,completed:completed.length,windows:windows.length,sample}
+ return {key,league,events:events.length,completed:completed.length,years,sample}
 }))
-console.log(JSON.stringify({taiwanDate:date,historyWindowDays:120,competitions:results},null,2))
+console.log(JSON.stringify({taiwanDate:date,historyWindowDays:120,calendarYears:years,competitions:results},null,2))
 const failed=results.filter(row=>row.events===0||row.completed===0)
 if(failed.length)throw new Error('Missing completed league history: '+failed.map(x=>x.key).join(', '))
