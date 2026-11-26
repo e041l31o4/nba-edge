@@ -115,3 +115,67 @@ export function summarizeMarketRecords(records: PredictionRecord[], market: 'spr
   const pushes = eligible.filter(x => x[market]?.result === 'push').length
   return { total: eligible.length, decided: decided.length, wins, losses, pushes, hitRate: decided.length ? wins / decided.length : null }
 }
+
+type LedgerMarket = 'moneyline'|'spread'|'totals'
+type LedgerPick = { side?:string; teamSide?:'home'|'away'; line?:number; probability?:number; ev?:number }
+function gradeLedgerPick(pick:LedgerPick|null|undefined,market:LedgerMarket,home:number,away:number):'win'|'loss'|'push'|null {
+  if(!pick || (market!=='totals'&&!pick.teamSide) || (market!=='moneyline'&&typeof pick.line!=='number')) return null
+  if(market==='moneyline') return (pick.teamSide==='home'?home>away:away>home)?'win':'loss'
+  if(market==='spread'){
+    const margin=pick.teamSide==='away'?away-home+Number(pick.line):home-away+Number(pick.line)
+    return Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'
+  }
+  const diff=home+away-Number(pick.line)
+  return Math.abs(diff)<1e-9?'push':((/^(over|大)$/i.test(String(pick.side))&&diff>0)||(/^(under|小)$/i.test(String(pick.side))&&diff<0))?'win':'loss'
+}
+function frozenPick(record:PredictionRecord,key:string,fallback?:unknown):LedgerPick|null {
+  const snapshot=(record.finalSnapshot??{}) as Record<string,unknown>
+  return (snapshot[key]??fallback??null) as LedgerPick|null
+}
+function blankTally(){return {total:0,decided:0,wins:0,losses:0,pushes:0,noDirection:0,hitRate:null as number|null}}
+function tallyOutcome(tally:ReturnType<typeof blankTally>,result:'win'|'loss'|'push'|null){
+  tally.total++
+  if(result==='win')tally.wins++
+  else if(result==='loss')tally.losses++
+  else if(result==='push')tally.pushes++
+  else tally.noDirection++
+  tally.decided=tally.wins+tally.losses
+  tally.hitRate=tally.decided?tally.wins/tally.decided:null
+}
+export function summarizeAllMarketDirections(records:PredictionRecord[]){
+  const tally=blankTally()
+  const byMarket={moneyline:blankTally(),spread:blankTally(),totals:blankTally()}
+  for(const record of records){
+    if(record.stage!=='official'||!record.settledAt||!Number.isFinite(record.actualHome)||!Number.isFinite(record.actualAway))continue
+    const home=Number(record.actualHome),away=Number(record.actualAway)
+    const picks=[
+      {key:'moneyline',market:'moneyline' as const,pick:frozenPick(record,'moneylineLean',record.moneylineLean??{teamSide:record.homeWin>=0.5?'home':'away',line:0})},
+      {key:'spread',market:'spread' as const,pick:frozenPick(record,'spreadLean',record.spreadLean??record.spreadPick)},
+      {key:'totals',market:'totals' as const,pick:frozenPick(record,'totalLean',record.totalLean??record.totalPick)}
+    ]
+    for(const item of picks){
+      const result=gradeLedgerPick(item.pick,item.market,home,away)
+      tallyOutcome(tally,result);tallyOutcome(byMarket[item.key],result)
+    }
+  }
+  return {all:tally,byMarket}
+}
+export function summarizeSelectedRecommendations(records:PredictionRecord[]){
+  const tally=blankTally()
+  let gamesWithOfficialResult=0
+  for(const record of records){
+    if(record.stage!=='official'||!record.settledAt||!Number.isFinite(record.actualHome)||!Number.isFinite(record.actualAway))continue
+    gamesWithOfficialResult++
+    const home=Number(record.actualHome),away=Number(record.actualAway)
+    const candidates=[
+      {market:'moneyline' as const,pick:frozenPick(record,'moneylinePick',record.moneylinePick)},
+      {market:'spread' as const,pick:frozenPick(record,'spreadPick',record.spreadPick)},
+      {market:'totals' as const,pick:frozenPick(record,'totalPick',record.totalPick)}
+    ].filter(item=>!!item.pick&&typeof item.pick.probability==='number'&&item.pick.probability>=0.54&&typeof item.pick.ev==='number'&&item.pick.ev>=0.025)
+      .sort((a,b)=>(b.pick?.ev??-Infinity)-(a.pick?.ev??-Infinity)||(b.pick?.probability??0)-(a.pick?.probability??0))
+    const selected=candidates[0]
+    tallyOutcome(tally,selected?gradeLedgerPick(selected.pick,selected.market,home,away):null)
+  }
+  return {...tally,gamesWithOfficialResult}
+}
+
