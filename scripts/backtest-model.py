@@ -542,28 +542,39 @@ if len(all_predictions) < 900 or len(season_results) < 2:
 
 v1_metrics = metrics(all_predictions)
 candidate_metrics = metrics(all_candidate_predictions)
+elo_metrics = metrics(all_elo_predictions)
 candidate_improves = bool(candidate_metrics['winnerAccuracy'] is not None and v1_metrics['winnerAccuracy'] is not None
                           and candidate_metrics['winnerAccuracy'] > v1_metrics['winnerAccuracy']
                           and candidate_metrics['brierScore'] is not None and v1_metrics['brierScore'] is not None
                           and candidate_metrics['brierScore'] < v1_metrics['brierScore'])
+elo_improves = bool(elo_metrics['winnerAccuracy'] is not None and v1_metrics['winnerAccuracy'] is not None
+                    and elo_metrics['winnerAccuracy'] > v1_metrics['winnerAccuracy']
+                    and elo_metrics['brierScore'] is not None and v1_metrics['brierScore'] is not None
+                    and elo_metrics['brierScore'] < v1_metrics['brierScore'])
+production_metrics = elo_metrics if elo_improves else candidate_metrics
+production_market_backtest = elo_market_backtest if elo_improves else candidate_market_backtest
+production_market_error_calibration = elo_market_error_calibration if elo_improves else candidate_market_error_calibration
+production_calibrator = fit_platt(elo_calibration_training + current_season_elo_candidate) if elo_improves else fit_platt(candidate_calibration_training + current_season_candidate)
 result = {
     'updatedAt': now.isoformat(),
     'source': 'ESPN completed regular-season schedules',
     'seasons': [row['season'] for row in season_results],
-    'method': 'Three-season walk-forward: each game is predicted only from games completed earlier in that same season; current result is appended after prediction.',
-    'modelVersion': 'recent-form-pace-v2.0-walkforward-calibration',
+    'method': 'Three-season walk-forward: each game is predicted only from games completed earlier in that same season; current result is appended after prediction. Production candidate includes a 25% Elo margin blend when it improves both accuracy and Brier.',
+    'modelVersion': 'recent-form-pace-elo-v2.4-walkforward-calibrated' if elo_improves else 'recent-form-pace-v2.3-walkforward-calibrated',
     'sampleSize': len(all_predictions),
-    'metrics': candidate_metrics,
+    'metrics': production_metrics,
     'baselineMetrics': v1_metrics,
-    'marketBacktest': candidate_market_backtest,
+    'marketBacktest': production_market_backtest,
     'marketBacktestBaselineV1': current_market_backtest,
     'marketBacktestCandidateV2': candidate_market_backtest,
+    'marketBacktestEloCandidate': elo_market_backtest,
     'modelComparison': {
         'baseline': {'version': 'recent-form-pace-v1 (60% last-10 / 40% last-5)', 'metrics': v1_metrics},
         'candidateV2': {'version': 'recent-form-pace-v2-candidate (80% last-10 / 20% last-5)', 'metrics': candidate_metrics},
-        'eloCandidate': {'version': 'recent-form-pace-v2-elo-25pct', 'metrics': metrics(all_elo_predictions)},
+        'eloCandidate': {'version': 'recent-form-pace-v2-elo-25pct', 'metrics': elo_metrics},
         'candidateImprovesBothAccuracyAndBrier': candidate_improves,
-        'decision': 'candidateV2-promoted-after-improving-walk-forward-accuracy-and-Brier' if candidate_improves else 'keep-baseline; candidate-not-proven-better',
+        'eloCandidateImprovesBothAccuracyAndBrier': elo_improves,
+        'decision': 'eloCandidate-selected-for-live-integration' if elo_improves else 'candidateV2-selected' if candidate_improves else 'keep-baseline; candidates-not-proven-better',
         'policy': 'Do not replace production model unless the candidate improves both walk-forward winner accuracy and Brier Score on identical samples; this is a comparison, not a 70% guarantee.'
     },
     'marketBacktestSeason': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
@@ -572,26 +583,26 @@ result = {
         'season': f'{current_season_end_year}-{str(current_season_end_year + 1)[-2:]}',
         'completedGames': len(current_season_games),
         'predictionSample': len(current_season_predictions),
-        'metrics': metrics(current_season_candidate),
+        'metrics': metrics(current_season_elo_candidate) if elo_improves else metrics(current_season_candidate),
         'baselineMetrics': metrics(current_season_predictions),
         'candidateV2Metrics': metrics(current_season_candidate),
         'eloCandidateMetrics': metrics(current_season_elo_candidate),
         'eloMarketBacktest': elo_market_backtest,
         'eloMarketErrorCalibration': elo_market_error_calibration,
-        'calibrator': fit_platt(candidate_calibration_training + current_season_candidate),
-        'calibrationTrainingSamples': len(candidate_calibration_training) + len(current_season_candidate),
-        'marketErrorCalibration': candidate_market_error_calibration
+        'calibrator': production_calibrator,
+        'calibrationTrainingSamples': (len(elo_calibration_training) + len(current_season_elo_candidate)) if elo_improves else (len(candidate_calibration_training) + len(current_season_candidate)),
+        'marketErrorCalibration': production_market_error_calibration
     },
     'seasonResults': season_results,
-    'calibration': calibration(all_candidate_predictions),
+    'calibration': calibration(all_elo_predictions) if elo_improves else calibration(all_candidate_predictions),
     'baselineCalibration': calibration(all_predictions),
     'calibrationEvaluation': {
         'method': 'Regularized Platt scaling; each season is calibrated only with predictions from earlier seasons. The first season is excluded because no prior-season training data exists.',
         'trainingPolicy': 'strictly chronological; no same-season outcomes are used to fit that season calibrator',
-        'sampleSize': len(candidate_calibrated_predictions),
-        'rawMetrics': probability_metrics(candidate_calibrated_predictions, 'homeWin') if candidate_calibrated_predictions else None,
-        'calibratedMetrics': probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin') if candidate_calibrated_predictions else None,
-        'improvedBrier': (probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(candidate_calibrated_predictions, 'homeWin')['brierScore']) if candidate_calibrated_predictions else None
+        'sampleSize': len(elo_calibrated_predictions) if elo_improves else len(candidate_calibrated_predictions),
+        'rawMetrics': probability_metrics(elo_calibrated_predictions, 'homeWin') if elo_improves and elo_calibrated_predictions else probability_metrics(candidate_calibrated_predictions, 'homeWin') if candidate_calibrated_predictions else None,
+        'calibratedMetrics': probability_metrics(elo_calibrated_predictions, 'calibratedHomeWin') if elo_improves and elo_calibrated_predictions else probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin') if candidate_calibrated_predictions else None,
+        'improvedBrier': (probability_metrics(elo_calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(elo_calibrated_predictions, 'homeWin')['brierScore']) if elo_improves and elo_calibrated_predictions else (probability_metrics(candidate_calibrated_predictions, 'calibratedHomeWin')['brierScore'] < probability_metrics(candidate_calibrated_predictions, 'homeWin')['brierScore']) if candidate_calibrated_predictions else None
     },
     'candidateV2CalibrationEvaluation': {
         'sampleSize': len(candidate_calibrated_predictions),
@@ -601,6 +612,7 @@ result = {
     },
     'limitations': [
         'Candidate V2 changes only the last-10 versus last-5 weighting from 60/40 to 80/20; all other model factors and chronological samples are held constant.',
+        'Elo candidate adds a 25% Elo-derived margin component using K=20, 65-point home advantage and margin-of-victory multiplier; Elo is reset to 1500 at each season boundary in this backtest.',
         'Historical injury reports and player availability are not reconstructed; injury adjustment is not included in this historical test.',
         '獨贏三季回測與市場盤口回測分開：讓分及大小分只使用當季可配對的開賽前台灣運彩快照；沒有歷史盤口的往季不補造盤口。',
         'Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.',
