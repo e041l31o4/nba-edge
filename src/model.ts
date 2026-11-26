@@ -8,6 +8,7 @@ export type RosterData = { updatedAt: string; source: string; teams: Record<stri
 export type TeamMetricRow = { teamId: string; abbreviation: string; updatedAt: string; stale?: boolean; offensiveRating?: number; defensiveRating?: number; netRating?: number; pace?: number; trueShootingPct?: number; turnoverPct?: number; reboundPct?: number; gamesPlayed?: number }
 export type TeamMetricsData = { updatedAt: string; season: string; source: string; status: string; teams: Record<string, TeamMetricRow> }
 export type ProbabilityCalibrator = { a: number; b: number; trainingSamples: number }
+export type MarketErrorCalibration = { marginMean:number; marginStdDev:number; totalMean:number; totalStdDev:number; trainingSamples:number; spreadValidated:boolean; totalsValidated:boolean; spread?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; totals?:{sampleSize:number;rawBrier:number;calibratedBrier:number;improved:boolean}; evaluationMethod?:string }
 export type ModelResult = {
   available: boolean; reason?: string; homeRecord: string; awayRecord: string;
   homePpg: number; homeOppPpg: number; awayPpg: number; awayOppPpg: number;
@@ -123,8 +124,8 @@ export function analyzeMatch(game:{date:string;home:{id:string;abbreviation:stri
  const confidence:ModelResult['confidence']=sample>=8?'高':sample>=5?'中':'低'
  return {available:true,...empty,homeRecord:record(hs),awayRecord:record(as),homePpg:hpf,homeOppPpg:hpa,awayPpg:apf,awayOppPpg:apa,homeLast5:record(h5),awayLast5:record(a5),homeNet:net(hs),awayNet:net(as),projectedHome,projectedAway,projectedMargin,projectedTotal,homeWin:calibrateProbability(cdf(projectedMargin/12.2),calibrator),awayWin:1-calibrateProbability(cdf(projectedMargin/12.2),calibrator),confidence,sample,homeRestDays,awayRestDays,homeGamesLast3Days,awayGamesLast3Days,homeGamesLast5Days,awayGamesLast5Days,homeGamesLast7Days,awayGamesLast7Days,homeRoadStreak,awayRoadStreak,homeBackToBack,awayBackToBack,injuryRisk,homeSOS,awaySOS,homeInjuryImpact,awayInjuryImpact,homeImpactPlayers:hImpact.players,awayImpactPlayers:aImpact.players,homeInjuryCap:hImpact.cap,awayInjuryCap:aImpact.cap,totalTrend,totalStdDev,paceAdjustment}
 }
-export function coverProbability(projectedMargin:number,point:number,isHome:boolean){const margin=isHome?projectedMargin:-projectedMargin;return cdf((margin+point)/11.8)}
-export function totalProbability(projectedTotal:number,point:number,isOver:boolean,stdDev=18.6){const sigma=Math.max(10,Math.min(22,Number.isFinite(stdDev)?stdDev:14.2));return isOver?cdf((projectedTotal-point)/sigma):cdf((point-projectedTotal)/sigma)}
+export function coverProbability(projectedMargin:number,point:number,isHome:boolean,marginStdDev=11.8,marginMean=0){const margin=isHome?projectedMargin:-projectedMargin;const sigma=Math.max(8,Math.min(25,Number.isFinite(marginStdDev)?marginStdDev:14.6));const bias=Number.isFinite(marginMean)?marginMean:0;return cdf((margin+point+bias)/sigma)}
+export function totalProbability(projectedTotal:number,point:number,isOver:boolean,stdDev=18.6,mean=0){const sigma=Math.max(10,Math.min(30,Number.isFinite(stdDev)?stdDev:20));const bias=Number.isFinite(mean)?mean:0;return isOver?cdf((projectedTotal+bias-point)/sigma):cdf((point-projectedTotal-bias)/sigma)}
 export function americanToDecimal(price:number){return price>0?1+price/100:1+100/Math.abs(price)}
 export function impliedProbability(price:number){const d=americanToDecimal(price);return 1/d}
 export function expectedValue(probability:number,price:number){return probability*americanToDecimal(price)-1}
