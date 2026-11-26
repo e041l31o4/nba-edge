@@ -84,7 +84,7 @@ const next=[...byId.values()].sort((a,b)=>b.date.localeCompare(a.date))
 if(added||settled||regraded||!Array.isArray(ledger.footballRecords)){
  ledger.footballRecords=next
  ledger.footballUpdatedAt=now.toISOString()
- await writeFile(path,JSON.stringify(ledger,null,2)+'\\n')
+ await writeFile(path,JSON.stringify(ledger,null,2)+'\n')
 }
 console.log('FOOTBALL_LEDGER:',JSON.stringify({taiwanDate:today,competitions,checkedDates:dueDates,added,settled,regraded,total:next.length,byCompetition:Object.fromEntries(competitions.map(c=>[c,next.filter(x=>(x.competition??'ucl')===c).length]))}))
 if(added)console.log('FOOTBALL_FROZEN_PICKS:',JSON.stringify(next.filter(x=>x.publishedAt===now.toISOString()).map(x=>({competition:x.competition,gameId:x.gameId,home:x.home,away:x.away,winner:x.moneylinePick.side,total:x.totalPick.side+' '+x.totalPick.line,scores:x.correctScores.map(y=>y.score)}))))
