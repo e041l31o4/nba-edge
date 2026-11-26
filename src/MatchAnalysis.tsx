@@ -151,18 +151,9 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
  },[hasFrozenMemberPrediction,savedPrediction,report,moneyline,game,marketPicks])
  const memberFrozenMarkets=(savedPrediction?.finalSnapshot??{}) as Record<string,unknown>
  const memberMoneyline=(memberFrozenMarkets.moneylinePick??savedPrediction?.moneylinePick??memberFrozenMarkets.moneylineLean??savedPrediction?.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
- const memberSpread=(memberFrozenMarkets.spreadPick??savedPrediction?.spreadPick??memberFrozenMarkets.spreadLean??savedPrediction?.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
- const memberTotal=(memberFrozenMarkets.totalPick??savedPrediction?.totalPick??memberFrozenMarkets.totalLean??savedPrediction?.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
  const memberSettlementReady=game.status.toLowerCase().includes('final')&&game.home.score!==undefined&&game.away.score!==undefined&&savedPrediction?.stage==='official'&&!!savedPrediction.settledAt
  const memberHomeScore=Number(game.home.score),memberAwayScore=Number(game.away.score)
  const memberMoneylineSide=memberMoneyline?.teamSide??(memberMoneyline?.side===game.home.displayName||memberMoneyline?.side===game.home.name||memberMoneyline?.side===game.home.abbreviation?'home':memberMoneyline?.side===game.away.displayName||memberMoneyline?.side===game.away.name||memberMoneyline?.side===game.away.abbreviation?'away':undefined)
- const memberMarketGrade=(marketType:'moneyline'|'spread'|'total',pick:any):string|undefined=>{
-  if(!pick||!memberSettlementReady||!Number.isFinite(memberHomeScore)||!Number.isFinite(memberAwayScore))return undefined
-  if(marketType==='moneyline')return memberMoneylineSide==='home'?(memberHomeScore>memberAwayScore?'win':'loss'):memberMoneylineSide==='away'?(memberAwayScore>memberHomeScore?'win':'loss'):undefined
-  if(marketType==='spread'){const side=pick.teamSide??(pick.side===game.home.displayName||pick.side===game.home.name||pick.side===game.home.abbreviation?'home':pick.side===game.away.displayName||pick.side===game.away.name||pick.side===game.away.abbreviation?'away':undefined);if(!side)return undefined;const margin=(side==='home'?memberHomeScore-memberAwayScore:memberAwayScore-memberHomeScore)+pick.line;return Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
-  const totalDiff=memberHomeScore+memberAwayScore-pick.line
-  return Math.abs(totalDiff)<1e-9?'push':((/^(over|大)$/i.test(pick.side)&&totalDiff>0)||(/^(under|小)$/i.test(pick.side)&&totalDiff<0))?'win':'loss'
- }
  const archivedSpreadPick=savedPrediction?.spreadPick??savedPrediction?.spreadLean
  const archivedTotalPick=savedPrediction?.totalPick??savedPrediction?.totalLean
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
