@@ -76,7 +76,7 @@ const TEAM_ZH:Record<string,string>={
  celtic:'塞爾提克',rangers:'格拉斯哥流浪者',galatasaray:'加拉塔薩雷',fenerbahce:'費內巴切',besiktas:'貝西克塔斯',
  shakhtardonetsk:'頓內次克礦工',shakhtar:'頓內次克礦工',clubbrugge:'布魯日',brugge:'布魯日',slaviapraha:'布拉格斯拉維亞',slaviaprague:'布拉格斯拉維亞',spartaprague:'布拉格斯巴達',
  redbullsalzburg:'薩爾斯堡紅牛',salzburg:'薩爾斯堡紅牛',youngboys:'伯恩年輕人',basel:'巴塞爾',olympiacos:'奧林匹亞科斯',dinamozagreb:'薩格勒布迪納摩',crvenazvezda:'貝爾格勒紅星',
- bodoglimt:'波杜基林特',lask:'LASK 林茨',lasklinz:'LASK 林茨',kobenhavn:'哥本哈根',copenhagen:'哥本哈根',unionsg:'聖吉羅聯',unionsaintgilloise:'聖吉羅聯',qarabag:'卡拉巴克',monterrey:'蒙特雷',intermiami:'邁阿密國際'
+ bodoglimt:'波杜基林特',lask:'LASK 林茨',lasklinz:'LASK 林茨',kobenhavn:'哥本哈根',copenhagen:'哥本哈根',unionsg:'聖吉羅聯',unionsaintgilloise:'聖吉羅聯',qarabag:'卡拉巴克',monterrey:'蒙特雷',intermiami:'邁阿密國際',araratarmenia:'阿拉拉特亞美尼亞',spartaprague:'布拉格斯巴達',omonia:'尼科西亞奧摩尼亞',anderlecht:'安德萊赫特',nkcelje:'塞列',hapoelbeersheva:'貝爾謝巴工人',jagielloniabialystok:'比亞韋斯托克',sturm:'格拉茨風暴',sksturmgratz:'格拉茨風暴',staderennais:'雷恩',azalkmaar:'阿爾克馬爾',levskisofia:'索菲亞列夫斯基',oficrete:'OFI 克里特',tsghoffenheim:'霍芬海姆',ferencvaros:'費倫茨瓦羅斯',lechpoznan:'波茲南萊赫',necnijmegen:'奈梅亨',lillestrom:'利勒斯特倫',torreense:'托雷恩塞',viktoriaplzen:'比爾森勝利',feyenoordrotterdam:'飛燕諾',slovanbratislava:'斯洛萬布拉提斯拉瓦',sabahfk:'薩巴赫',slaviaprague:'布拉格斯拉維亞',unionsaintgilloise:'聖吉羅聯'
 };
 function teamFor(x:any,scoreValue:(x:any)=>number|undefined):FootballTeam{
  const raw=x?.team?.displayName??x?.team?.name??'待確認';
@@ -104,7 +104,8 @@ const TEAM_DOMESTIC_LEAGUE:Record<string,string>={
  'sabah':'aze.1','sabahfk':'aze.1',
  'shakhtar':'ukr.1','shakhtardonetsk':'ukr.1',
  'clubbrugge':'bel.1','brugge':'bel.1',
- 'slaviapraha':'cze.1','slaviaprague':'cze.1'
+ 'slaviapraha':'cze.1','slaviaprague':'cze.1',
+ 'feyenoordrotterdam':'ned.1','slovanbratislava':'svk.1','sabahfk':'aze.1','spartaprague':'cze.1','omonia':'cyp.1','benfica':'por.1','anderlecht':'bel.1','nkcelje':'svn.1','hapoelbeersheva':'isr.1','dinamozagreb':'cro.1','olympiacos':'gre.1','jagielloniabialystok':'pol.1','sturm':'aut.1','sksturmgratz':'aut.1','staderennais':'fra.1','azalkmaar':'ned.1','levskisofia':'bul.1','rbsalzburg':'aut.1','oficrete':'gre.1','tsghoffenheim':'ger.1','besiktas':'tur.1','celtic':'sco.1','ferencvaros':'hun.1','lechpoznan':'pol.1','necnijmegen':'ned.1','lillestrom':'nor.1','torreense':'por.2','viktoriaplzen':'cze.1','unionsaintgilloise':'bel.1','araratarmenia':'arm.1'
 }
 async function teamSchedule(team:FootballTeam,leagueOverride?:string):Promise<FootballMatch[]>{
  const league=leagueOverride??TEAM_DOMESTIC_LEAGUE[normalizeName(team.englishName??team.name)]
