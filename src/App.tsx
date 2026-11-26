@@ -603,20 +603,12 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, sa
  return <><button className={'game-card'+(unverified?' prediction-unverified':'')} onClick={onClick}>
   <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
-  <div className="game-prediction-summary single-pick-summary">
-   <div className="pick-team-cell"><small>本場唯一推薦</small><b className={done?settlementClass(singleRecommendation?.result):''}>{singleRecommendation ? singleRecommendation.label : done ? '本場無封存合格推薦' : '等待三市場評估完成'}</b><strong>{singleRecommendation?.pick.probability!==undefined?(singleRecommendation.pick.probability*100).toFixed(1)+'%':'—'}</strong><em>{singleRecommendation ? singleRecommendation.market+' · EV '+((singleRecommendation.pick.ev??0)*100).toFixed(1)+'%'+(done?' · '+settlementLabel(singleRecommendation.result):'') : '不以低於門檻的方向湊數；三市場仍保留內部分析與結算'}</em></div>
+  <div className={"game-prediction-summary single-pick-summary"+(done&&singleRecommendation?.result==="win"?" pick-correct":done&&singleRecommendation?.result==="loss"?" pick-wrong":done&&singleRecommendation?.result==="push"?" pick-push":"")}>
+   <div className="pick-team-cell"><small>本場唯一推薦</small><b className={done?settlementClass(singleRecommendation?.result):''}>{singleRecommendation ? singleRecommendation.label : done ? '本場無封存合格推薦' : '等待三市場評估完成'}</b><strong>{singleRecommendation?.pick.probability!==undefined?(singleRecommendation.pick.probability*100).toFixed(1)+'%':'—'}</strong><em>{singleRecommendation ? singleRecommendation.market+' · EV '+((singleRecommendation.pick.ev??0)*100).toFixed(1)+'% · '+(done?settlementLabel(singleRecommendation.result):'待結算') : '不以低於門檻的方向湊數；會員只顯示最終唯一推薦'}</em></div>
    <div><small>模型預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'正式封存':pendingFinalization?'等待賽前最終確認':'模型初估'}</em></div>
   </div>
  </button>
- {!isAdmin&&<section className="admin-market-inline member-market-inline" aria-label="會員三市場結算燈號">
-  <div className="admin-market-inline-title"><b>三市場最終結果</b><span>只顯示結算</span></div>
-  <div className="member-market-light-row">{adminRows.map(row=>{
-   const memberStatus=!savedPrediction||savedPrediction.stage!=='official'?(done?'尚無正式封存':'等待正式封存'):!row.pick?'無可結算方向':adminResultText(row.result)
-   return <div className="member-market-light" key={row.key}>
-    <b>{row.label}</b><strong className={row.result==='win'?'member-result-win':row.result==='loss'?'member-result-loss':row.result==='push'?'member-result-push':'member-result-pending'}>{memberStatus}</strong>
-   </div>
-  })}</div>
- </section>}
+
  {isAdmin&&<section className="admin-market-inline" aria-label="管理員三市場分析">
   <div className="admin-market-inline-title"><b>管理員專用｜三市場完整分析</b><span>{savedPrediction?.stage==='official'?'正式封存':usePreliminary?'初步分析':'尚無正式封存'}</span></div>
   <div className="admin-market-inline-grid">{adminRows.map(row=><div className="admin-market-inline-item" key={row.key}>
