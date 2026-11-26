@@ -571,7 +571,8 @@ const summarizeMarket=(items:Row[],market:'moneyline'|'spread'|'total',field:'le
   const decided=tally.wins+tally.losses
   return {...tally,hitRate:decided?Number((tally.wins/decided*100).toFixed(1)):null}
 }
-for(const date of ['20261123','20261124']){
+const auditDates=Array.from({length:7},(_,i)=>new Date(Date.UTC(year,month-1,day-i)).toISOString().slice(0,10).replace(/-/g,'')).reverse()
+for(const date of auditDates){
   const dayRows=rows.filter(row=>taiwanDateKey(row.date)===date)
   const scored=dayRows.filter(row=>row.stage==='official'&&Number.isFinite(row.actualHome)&&Number.isFinite(row.actualAway))
   const settled= scored.filter(row=>!!row.settledAt)
