@@ -30,18 +30,22 @@ function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
   }
   return {played:validPlayed,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,homePlayed,awayPlayed,homeScored:homeWeight?homeScored/homeWeight:0,homeConceded:homeWeight?homeConceded/homeWeight:0,awayScored:awayWeight?awayScored/awayWeight:0,awayConceded:awayWeight?awayConceded/awayWeight:0,lastFive:rows.filter(g=>g.home.score!==undefined&&g.away.score!==undefined).slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
 }
-export function buildFootballModel(match:FootballMatch,history:FootballMatch[],totalLine=2.5):FootballModel{
+export function buildFootballModel(match:FootballMatch,history:FootballMatch[],totalLine=2.5,baselineHistory:FootballMatch[]=history):FootballModel{
   const h=weightedForm(match.home,history),a=weightedForm(match.away,history)
-  const leagueGoalBaseline=1.42
-  const shrink=(value:number,n:number)=>n?((value*n+leagueGoalBaseline*2)/(n+2)):leagueGoalBaseline
-  // Overall recent form is blended with venue-specific form only when the venue sample is usable.
-  const blendVenue=(overall:number,venue:number,n:number)=>n>=2?overall*0.65+venue*0.35:overall
-  const homeAttack=blendVenue(shrink(h.scored,h.played),shrink(h.homeScored,h.homePlayed),h.homePlayed)
-  const homeDefence=blendVenue(shrink(h.conceded,h.played),shrink(h.homeConceded,h.homePlayed),h.homePlayed)
-  const awayAttack=blendVenue(shrink(a.scored,a.played),shrink(a.awayScored,a.awayPlayed),a.awayPlayed)
-  const awayDefence=blendVenue(shrink(a.conceded,a.played),shrink(a.awayConceded,a.awayPlayed),a.awayPlayed)
-  const homeXg=clamp(leagueGoalBaseline*(homeAttack/leagueGoalBaseline)*(awayDefence/leagueGoalBaseline)*1.08,0.2,4.2)
-  const awayXg=clamp(leagueGoalBaseline*(awayAttack/leagueGoalBaseline)*(homeDefence/leagueGoalBaseline),0.2,4.0)
+  // Estimate this competition's home/away scoring environment from its own completed matches.
+  const baselineRows=baselineHistory.filter(g=>isFinalStatus(g.status)&&Number.isFinite(g.home.score)&&Number.isFinite(g.away.score)).sort((x,y)=>y.date.localeCompare(x.date)).slice(0,300)
+  const avg=(values:number[],fallback:number)=>values.length?values.reduce((sum,value)=>sum+value,0)/values.length:fallback
+  const leagueHomeAvg=clamp(avg(baselineRows.map(g=>Number(g.home.score)),1.42),0.85,2.15)
+  const leagueAwayAvg=clamp(avg(baselineRows.map(g=>Number(g.away.score)),1.18),0.65,1.95)
+  const shrink=(value:number,n:number,baseline:number)=>n?((value*n+baseline*3)/(n+3)):baseline
+  // Venue-specific form is blended only after two or more venue samples.
+  const blendVenue=(overall:number,venue:number,n:number)=>n>=2?overall*0.55+venue*0.45:overall
+  const homeAttack=blendVenue(shrink(h.scored,h.played,leagueHomeAvg),shrink(h.homeScored,h.homePlayed,leagueHomeAvg),h.homePlayed)
+  const homeDefence=blendVenue(shrink(h.conceded,h.played,leagueAwayAvg),shrink(h.homeConceded,h.homePlayed,leagueAwayAvg),h.homePlayed)
+  const awayAttack=blendVenue(shrink(a.scored,a.played,leagueAwayAvg),shrink(a.awayScored,a.awayPlayed,leagueAwayAvg),a.awayPlayed)
+  const awayDefence=blendVenue(shrink(a.conceded,a.played,leagueHomeAvg),shrink(a.awayConceded,a.awayPlayed,leagueHomeAvg),a.awayPlayed)
+  const homeXg=clamp(leagueHomeAvg*(homeAttack/leagueHomeAvg)*(awayDefence/leagueHomeAvg)*1.08,0.2,4.2)
+  const awayXg=clamp(leagueAwayAvg*(awayAttack/leagueAwayAvg)*(homeDefence/leagueAwayAvg),0.2,4.0)
   const maxGoals=10,hp=Array.from({length:maxGoals+1},(_,i)=>poisson(homeXg,i)),ap=Array.from({length:maxGoals+1},(_,i)=>poisson(awayXg,i))
   const raw:Array<{home:number;away:number;p:number}>=[]
   for(let i=0;i<=maxGoals;i++)for(let j=0;j<=maxGoals;j++)raw.push({home:i,away:j,p:hp[i]*ap[j]})
@@ -50,6 +54,7 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   const scores:Array<{score:string;probability:number}>=[]
   for(const x of raw){const p=x.p/mass;if(x.home>x.away)homeWin+=p;else if(x.home===x.away)draw+=p;else awayWin+=p;if(x.home+x.away>totalLine)over+=p;scores.push({score:`${x.home}:${x.away}`,probability:p})}
   const warnings:string[]=[]
+  if(baselineRows.length<12)warnings.push(`聯賽完賽樣本僅 ${baselineRows.length} 場，基準值可信度有限`)
   if(h.played<5)warnings.push(`${match.home.name} 近況樣本僅 ${h.played} 場，至少需要 5 場`)
   if(a.played<5)warnings.push(`${match.away.name} 近況樣本僅 ${a.played} 場，至少需要 5 場`)
   if(h.homePlayed<2)warnings.push(`${match.home.name} 主場樣本不足（${h.homePlayed} 場）`)
@@ -120,23 +125,42 @@ export const FOOTBALL_COMPETITIONS={
 export type FootballCompetition=keyof typeof FOOTBALL_COMPETITIONS
 export const UCL_MATCH_DAYS=['2026-09-08','2026-09-09','2026-09-10','2026-10-13','2026-10-14','2026-10-20','2026-10-21','2026-11-03','2026-11-04','2026-11-24','2026-11-25','2026-12-08','2026-12-09','2027-01-19','2027-01-20','2027-01-27','2027-02-16','2027-02-17','2027-02-23','2027-02-24','2027-03-09','2027-03-10','2027-03-16','2027-03-17','2027-04-06','2027-04-07','2027-04-13','2027-04-14','2027-04-27','2027-04-28','2027-05-04','2027-05-05','2027-06-05']
 function taiwanDay(value:string){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
-export async function getFootballMatches(taiwanDate:string,competition:FootballCompetition='ucl'):Promise<{matches:FootballMatch[];history:FootballMatch[]}>{
+export async function getFootballMatches(taiwanDate:string,competition:FootballCompetition='ucl'):Promise<{matches:FootballMatch[];history:FootballMatch[];leagueHistory:FootballMatch[]}>{
  const config=FOOTBALL_COMPETITIONS[competition]
- const days=competition==='ucl'
-  ?UCL_MATCH_DAYS.filter(day=>day<=dateShift(taiwanDate,1)&&day>=dateShift(taiwanDate,-120))
-  :[dateShift(taiwanDate,-1),taiwanDate,dateShift(taiwanDate,1)]
- const results=await Promise.allSettled(days.map(day=>scoreboard(espnDate(day),config.espn)))
- const fulfilled=results.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
- if(!fulfilled.length)throw new Error(`${config.zh}賽程來源暫時無法連線`)
- const leagueGames=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
+ let dateRanges:string[]
+ if(competition==='ucl'){
+  dateRanges=UCL_MATCH_DAYS.filter(day=>day<=dateShift(taiwanDate,1)&&day>=dateShift(taiwanDate,-120)).map(espnDate)
+ }else{
+  // Fetch the full rolling competition history in 14-day windows. A single 120-day
+  // scoreboard request can be truncated by the provider's event limit.
+  dateRanges=[]
+  for(let offset=-120;offset<=1;offset+=14){
+   const from=dateShift(taiwanDate,offset)
+   const to=dateShift(taiwanDate,Math.min(offset+13,1))
+   dateRanges.push(`${espnDate(from)}-${espnDate(to)}`)
+  }
+ }
+ let results=await Promise.allSettled(dateRanges.map(range=>scoreboard(range,config.espn)))
+ let fulfilled=results.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').map(x=>x.value)
+ if(!fulfilled.length)throw new Error(`${config.zh}賽程與近期戰績來源暫時無法連線`)
+ let leagueGames=Array.from(new Map(fulfilled.flatMap(parseEvents).map(game=>[game.id,game])).values())
+ // If the provider rejects date ranges, fall back to daily scoreboards for fixtures.
+ if(!leagueGames.length&&competition!=='ucl'){
+  const fallbackDays=[dateShift(taiwanDate,-1),taiwanDate,dateShift(taiwanDate,1)]
+  const fallback=await Promise.allSettled(fallbackDays.map(day=>scoreboard(espnDate(day),config.espn)))
+  leagueGames=Array.from(new Map(fallback.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').flatMap(x=>parseEvents(x.value)).map(game=>[game.id,game])).values())
+ }
  const matches=leagueGames.filter(game=>taiwanDay(game.date)===taiwanDate)
- const teams=Array.from(new Map(matches.flatMap(game=>[game.home,game.away]).map(team=>[team.id,team])).values())
- // Domestic leagues use their own league schedule for form; UEFA competitions use each club's domestic schedule.
- const schedules=await Promise.allSettled(teams.map(team=>teamSchedule(team,config.kind==='league'?config.espn:undefined)))
- const teamGames=schedules.flatMap(result=>result.status==='fulfilled'?result.value:[])
- const history=Array.from(new Map([...leagueGames,...teamGames]
-  .filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&isFinalStatus(game.status))
-  .map(game=>[game.id,game])).values())
- return {matches,history}
+ const leagueHistory=leagueGames.filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
+ let history=leagueHistory
+ if(config.kind==='cup'){
+  const teams=Array.from(new Map(matches.flatMap(game=>[game.home,game.away]).map(team=>[team.id,team])).values())
+  const schedules=await Promise.allSettled(teams.map(team=>teamSchedule(team)))
+  const teamGames=schedules.flatMap(result=>result.status==='fulfilled'?result.value:[])
+  history=Array.from(new Map([...leagueHistory,...teamGames]
+   .filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
+   .map(game=>[game.id,game])).values())
+ }
+ return {matches,history,leagueHistory}
 }
 export async function getUclMatches(taiwanDate:string){return getFootballMatches(taiwanDate,'ucl')}
