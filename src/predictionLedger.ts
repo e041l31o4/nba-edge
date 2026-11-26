@@ -155,7 +155,7 @@ export function summarizeAllMarketDirections(records:PredictionRecord[]){
     ]
     for(const item of picks){
       const result=gradeLedgerPick(item.pick,item.market,home,away)
-      tallyOutcome(tally,result);tallyOutcome(byMarket[item.key],result)
+      tallyOutcome(tally,result);tallyOutcome(byMarket[item.key as keyof typeof byMarket],result)
     }
   }
   return {all:tally,byMarket}
