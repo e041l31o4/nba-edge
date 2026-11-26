@@ -86,3 +86,12 @@
 .football-market-result .is-green{color:#16834b}
 .football-market-result .is-red{color:#c44747}
 .football-market-result .is-yellow{color:#a97817}
+
+
+/* Multi-competition football navigation, matching the original UCL page layout. */
+.football-competition-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.football-competition-tabs button{border:1px solid #dce7e1;background:#fff;color:#607368;border-radius:8px;padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer;transition:.16s}
+.football-competition-tabs button:hover{border-color:#80b59a;color:#246b49}
+.football-competition-tabs button.active{background:#176b48;border-color:#176b48;color:#fff;box-shadow:0 3px 10px #176b4825}
+.football-hero h2{overflow-wrap:anywhere}
+@media(max-width:600px){.football-competition-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.football-competition-tabs button{padding:10px 6px}}
