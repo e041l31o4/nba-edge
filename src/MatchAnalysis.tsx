@@ -149,11 +149,6 @@ export default function MatchAnalysis({game,odds,oddsHistory,teamForm,injuryData
   }
   return candidates.sort((a,b)=>b.ev-a.ev||b.probability-a.probability)[0]??null
  },[hasFrozenMemberPrediction,savedPrediction,report,moneyline,game,marketPicks])
- const memberFrozenMarkets=(savedPrediction?.finalSnapshot??{}) as Record<string,unknown>
- const memberMoneyline=(memberFrozenMarkets.moneylinePick??savedPrediction?.moneylinePick??memberFrozenMarkets.moneylineLean??savedPrediction?.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
- const memberSettlementReady=game.status.toLowerCase().includes('final')&&game.home.score!==undefined&&game.away.score!==undefined&&savedPrediction?.stage==='official'&&!!savedPrediction.settledAt
- const memberHomeScore=Number(game.home.score),memberAwayScore=Number(game.away.score)
- const memberMoneylineSide=memberMoneyline?.teamSide??(memberMoneyline?.side===game.home.displayName||memberMoneyline?.side===game.home.name||memberMoneyline?.side===game.home.abbreviation?'home':memberMoneyline?.side===game.away.displayName||memberMoneyline?.side===game.away.name||memberMoneyline?.side===game.away.abbreviation?'away':undefined)
  const archivedSpreadPick=savedPrediction?.spreadPick??savedPrediction?.spreadLean
  const archivedTotalPick=savedPrediction?.totalPick??savedPrediction?.totalLean
  return <div className="analysis-detail"><button className="back-btn" onClick={onBack}>← 返回賽事列表</button>
