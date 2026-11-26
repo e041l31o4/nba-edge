@@ -31,6 +31,8 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
   readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
 if (!form) throw new Error('Missing team-form data; keep existing ledger unchanged.')
+const oddsRefreshSucceeded = process.env.NBA_EDGE_ODDS_REFRESH_SUCCESS !== 'false'
+if (!oddsRefreshSucceeded) console.warn('PlaySport odds refresh failed: settlement-only mode enabled; no new predictions or pregame market refreshes will be generated from retained odds.')
 
 // Fetch each local-date scoreboard independently. A single transient ESPN error
 // must not cancel capture for every other date in the 9-day window.
@@ -451,6 +453,9 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     continue
   }
   if (existing && existing.stage==='official') continue
+  // If the Taiwan Sports Lottery refresh failed, continue grading completed games above,
+  // but never create or refresh pregame recommendations from retained/stale odds.
+  if (!oddsRefreshSucceeded) continue
   // Freeze at exactly 21:00 Taiwan time on the previous calendar day.
   // Do not run one last rolling refresh after the agreed cutoff.
   if(existing?.stage==='draft' && isFinalReviewReached(event.date)){
