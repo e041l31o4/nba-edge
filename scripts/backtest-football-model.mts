@@ -48,6 +48,7 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
   let domesticHistory: FootballMatch[] = []
   let mappedTeams = 0
   let unmappedTeams = 0
+  const unmappedTeamNames: string[] = []
 
   if (FOOTBALL_COMPETITIONS[competition].kind === 'cup') {
     const teams = [...new Map(
@@ -64,6 +65,7 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
           schedules.push(...result.value)
         } else {
           unmappedTeams++
+          unmappedTeamNames.push(batch[j].englishName ?? batch[j].name)
         }
       }
     }
@@ -161,6 +163,7 @@ for (const competition of Object.keys(FOOTBALL_COMPETITIONS) as FootballCompetit
     domesticHistoryMatches: domesticHistory.length,
     mappedTeams,
     unmappedTeams,
+    unmappedTeamNames,
     readyPredictions: predictions.length,
     skippedForDataQuality: notReady,
     skippedHomeSample: insufficientHome,
