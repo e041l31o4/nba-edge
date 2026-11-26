@@ -357,6 +357,26 @@ function DailySettlementReport({games,records,date}:{games:Game[];records:Predic
     <p className="daily-report-summary">今日共 {report.gameCount} 場賽事，已完賽 {report.finalGameCount} 場；已完成正式預測結算 {report.settledRecordCount} 場{report.pendingCount? `，尚有 ${report.pendingCount} 場待補正式紀錄`:''}。</p>
     {report.pendingGames.length>0 && <div className="notice"><CircleAlert size={17}/><span>以下場次在正式封存紀錄中缺資料，系統不會自行補造賽前預測：{report.pendingGames.join('、')}。請補回這些場次的正式封存紀錄後，才會納入全日結算。</span></div>}
     <div className="daily-report-grid">
+      <article className="daily-report-market">
+        <b>三市場比較後｜唯一最佳推薦</b>
+        <div className="daily-report-lights">
+          <span className="daily-green">綠 {report.selectedRecommendation.wins}</span>
+          <span className="daily-red">紅 {report.selectedRecommendation.losses}</span>
+          <span className="daily-push">走 {report.selectedRecommendation.pushes}</span>
+        </div>
+        <div className="daily-report-meta">已推選 {report.selectedRecommendation.wins+report.selectedRecommendation.losses+report.selectedRecommendation.pushes} 場 · 命中率 {report.selectedRecommendation.hitRate===null?'—':(report.selectedRecommendation.hitRate*100).toFixed(1)+'%'}</div>
+        <div className="daily-report-recommendation">無合格推薦 {report.selectedRecommendation.noDirection} 場 · 待結算 {report.selectedRecommendation.unavailable} 場</div>
+      </article>
+      <article className="daily-report-market">
+        <b>三市場全部分析方向｜合併統計</b>
+        <div className="daily-report-lights">
+          <span className="daily-green">綠 {report.allMarkets.wins}</span>
+          <span className="daily-red">紅 {report.allMarkets.losses}</span>
+          <span className="daily-push">走 {report.allMarkets.pushes}</span>
+        </div>
+        <div className="daily-report-meta">共 {report.allMarkets.wins+report.allMarkets.losses+report.allMarkets.pushes} 個市場方向 · 命中率 {report.allMarkets.hitRate===null?'—':(report.allMarkets.hitRate*100).toFixed(1)+'%'}</div>
+        <div className="daily-report-recommendation">無方向 {report.allMarkets.noDirection} 個 · 待結算 {report.allMarkets.unavailable} 個</div>
+      </article>
       {rows.map(row=><article className="daily-report-market" key={row.key}>
         <b>{row.label}｜分析方向</b>
         <div className="daily-report-lights">
