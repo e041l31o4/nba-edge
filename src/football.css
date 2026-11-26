@@ -42,3 +42,32 @@
 .football-analysis-state{font-size:11px;color:#64756b;white-space:nowrap}
 @media(max-width:1050px){.football-match-row{grid-template-columns:minmax(0,1fr)}.football-inline-analysis .football-market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.football-inline-analysis .football-market-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Fix width after moving each match analysis inline: use the full content width. */
+.football-workspace{display:block!important;width:100%;max-width:100%;min-width:0;margin-top:4px}
+.football-fixture-column{display:block;width:100%;max-width:100%;min-width:0}
+.football-fixture-column .football-match-grid{display:flex;flex-direction:column;width:100%;max-width:100%;gap:14px}
+.football-match-row{display:grid;width:100%;max-width:100%;min-width:0;grid-template-columns:minmax(260px, .36fr) minmax(0, .64fr);gap:14px;align-items:stretch;box-sizing:border-box}
+.football-match-row>*{min-width:0;max-width:100%;box-sizing:border-box}
+.football-match-row>.football-match{width:100%;padding:14px;overflow:hidden}
+.football-inline-analysis{width:100%;margin:0;padding:16px;overflow:hidden}
+.football-inline-analysis .football-analysis-head{min-width:0;gap:8px}
+.football-inline-analysis .football-analysis-head h3{font-size:17px;overflow-wrap:anywhere}
+.football-inline-analysis .football-market-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%}
+.football-inline-analysis .football-market-grid article{padding:11px;min-width:0;overflow-wrap:anywhere}
+.football-inline-analysis .football-market-title{font-size:11px;gap:6px}
+.football-inline-analysis .football-outcomes{gap:4px}
+.football-inline-analysis .football-outcomes>div{padding:7px 3px}
+.football-inline-analysis .football-outcomes b{font-size:15px}
+.football-inline-analysis .football-model-note{overflow-wrap:anywhere}
+@media(max-width:1100px){
+ .football-match-row{grid-template-columns:minmax(0,1fr)}
+ .football-match-row>.football-match{height:auto}
+ .football-inline-analysis .football-market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:640px){
+ .football-inline-analysis{padding:13px}
+ .football-inline-analysis .football-market-grid{grid-template-columns:minmax(0,1fr)}
+ .football-match-row{gap:9px}
+}
