@@ -1,4 +1,4 @@
-export type FootballTeam = { id: string; name: string; abbreviation: string; logo?: string; score?: number }
+export type FootballTeam = { id: string; name: string; englishName?: string; abbreviation: string; logo?: string; score?: number }
 export type FootballMatch = {
   id: string; date: string; status: string; detail: string; venue?: string;
   home: FootballTeam; away: FootballTeam;
@@ -81,14 +81,19 @@ const TEAM_ZH:Record<string,string>={
 function teamFor(x:any,scoreValue:(x:any)=>number|undefined):FootballTeam{
  const raw=x?.team?.displayName??x?.team?.name??'待確認';
  const key=normalizeName(raw);
- return {id:String(x?.team?.id??''),name:TEAM_ZH[key]??raw,abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo??x?.team?.logos?.[0]?.href,score:scoreValue(x)}
+ return {id:String(x?.team?.id??''),name:TEAM_ZH[key]??raw,englishName:raw,abbreviation:x?.team?.abbreviation??'—',logo:x?.team?.logo??x?.team?.logos?.[0]?.href,score:scoreValue(x)}
 }
 const TEAM_DOMESTIC_LEAGUE:Record<string,string>={
  'arsenal':'eng.1','astonvilla':'eng.1','liverpool':'eng.1','mancity':'eng.1','manchestercity':'eng.1','manutd':'eng.1','manunited':'eng.1','manchesterutd':'eng.1','manchesterunited':'eng.1',
+ 'chelsea':'eng.1','tottenham':'eng.1','tottenhamhotspur':'eng.1','newcastle':'eng.1','newcastleunited':'eng.1','brighton':'eng.1','brightonandhovealbion':'eng.1','westham':'eng.1','westhamunited':'eng.1','fulham':'eng.1','crystalpalace':'eng.1','everton':'eng.1','brentford':'eng.1','wolves':'eng.1','wolverhamptonwanderers':'eng.1','bournemouth':'eng.1','afcbournemouth':'eng.1','nottinghamforest':'eng.1','sunderland':'eng.1','leedsunited':'eng.1','burnley':'eng.1',
  'atleticodemadrid':'esp.1','atleticomadrid':'esp.1','barcelona':'esp.1','realbetis':'esp.1','realmadrid':'esp.1','villarreal':'esp.1',
+ 'sevilla':'esp.1','athleticclub':'esp.1','girona':'esp.1','real sociedad':'esp.1','realsociedad':'esp.1','celta vigo':'esp.1','celtavigo':'esp.1','valencia':'esp.1','getafe':'esp.1',
  'bayernmunchen':'ger.1','bayernmunich':'ger.1','borussiadortmund':'ger.1','leipzig':'ger.1','rbleipzig':'ger.1','stuttgart':'ger.1','vfbstuttgart':'ger.1',
+ 'leverkusen':'ger.1','bayerleverkusen':'ger.1','eintrachtfrankfurt':'ger.1','frankfurt':'ger.1','freiburg':'ger.1','wolfsburg':'ger.1','hoffenheim':'ger.1','mainz':'ger.1','unionberlin':'ger.1',
  'como':'ita.1','inter':'ita.1','internazionale':'ita.1','napoli':'ita.1','roma':'ita.1','asroma':'ita.1',
+ 'juventus':'ita.1','milan':'ita.1','acmilan':'ita.1','atalanta':'ita.1','lazio':'ita.1','fiorentina':'ita.1','bologna':'ita.1','torino':'ita.1',
  'lens':'fra.1','lille':'fra.1','paris':'fra.1','parissaintgermain':'fra.1','psg':'fra.1',
+ 'marseille':'fra.1','monaco':'fra.1','lyon':'fra.1','nice':'fra.1','rennes':'fra.1','strasbourg':'fra.1','toulouse':'fra.1',
  'feyenoord':'ned.1','psv':'ned.1','psveindhoven':'ned.1',
  'porto':'por.1','fcporto':'por.1','sportingcp':'por.1',
  'fenerbahce':'tur.1','galatasaray':'tur.1',
@@ -102,7 +107,7 @@ const TEAM_DOMESTIC_LEAGUE:Record<string,string>={
  'slaviapraha':'cze.1','slaviaprague':'cze.1'
 }
 async function teamSchedule(team:FootballTeam,leagueOverride?:string):Promise<FootballMatch[]>{
- const league=leagueOverride??TEAM_DOMESTIC_LEAGUE[normalizeName(team.name)]
+ const league=leagueOverride??TEAM_DOMESTIC_LEAGUE[normalizeName(team.englishName??team.name)]
  if(!league)return []
  const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/teams/${team.id}/schedule`
  const response=await fetch(url)
