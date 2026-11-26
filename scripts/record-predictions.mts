@@ -1,6 +1,6 @@
 // Trigger a fresh verified scoreboard settlement pass.
 import { readFile, writeFile } from 'node:fs/promises'
-import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator } from '../src/model'
+import { analyzeMatch, coverProbability, totalProbability, decimalExpectedValue, type TeamFormData, type InjuryData, type TeamMetricsData, type ProbabilityCalibrator, type MarketErrorCalibration } from '../src/model'
 
 type MarketPick = { side:string; teamSide?:'home'|'away'; line:number; price?:number; probability?:number; ev?:number; result?:'win'|'loss'|'push'|'ungraded' }
 type Row = { gameId:string; date:string; home:string; away:string; homeWin:number; awayWin:number; projectedMargin:number; projectedTotal:number; moneylineLean?:MarketPick; moneylinePick?:MarketPick; spreadLean?:MarketPick; totalLean?:MarketPick; spreadPick?:MarketPick; totalPick?:MarketPick; latestMarketReview?:{moneylinePick?:MarketPick;spreadPick?:MarketPick;totalPick?:MarketPick;updatedAt:string}; marketChangeHistory?:Array<{at:string;market:'moneyline'|'spread'|'total';from?:MarketPick;to?:MarketPick;reason:string}>; analysisChangeHistory?:Array<{at:string;changedFields:string[];from:Record<string,unknown>;to:Record<string,unknown>;reason:string}>; paceAdjustment?:number; totalTrend?:number|null; totalStdDev?:number; homeInjuryImpact?:number; awayInjuryImpact?:number; injuryRisk?:string; modelVersion?:string; stage?:'draft'|'official'; analysisStatus?:'draft'|'preliminary'|'final'; preliminaryAt?:string; finalAt?:string; openingSnapshot?:Record<string,unknown>; finalSnapshot?:Record<string,unknown>; capturedAt:string; lockedAt?:string; actualHome?:number; actualAway?:number; settledAt?:string; recoverySource?:string }
@@ -26,7 +26,7 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
   readJson<TeamFormData>('public/data/team-form.json'),
   readJson<InjuryData>('public/data/injuries.json'),
   readJson<TeamMetricsData>('public/data/team-metrics.json'),
-  readJson<{currentSeason?:{calibrator?:ProbabilityCalibrator|null};seasonResults?:{calibrator?:ProbabilityCalibrator|null;candidateV2Calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
+  readJson<{currentSeason?:{calibrator?:ProbabilityCalibrator|null;marketErrorCalibration?:MarketErrorCalibration|null};seasonResults?:{calibrator?:ProbabilityCalibrator|null;candidateV2Calibrator?:ProbabilityCalibrator|null}[]}>('public/data/backtest.json'),
   readJson<{records:Row[];footballRecords?:Record<string,unknown>[]}>('public/data/prediction-ledger.json'),
   readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
@@ -56,6 +56,7 @@ const fetchScoreboard = async (date:string) => {
   return {date,events:[] as any[],ok:false as const}
 }
 const calibrator = backtest?.currentSeason?.calibrator ?? backtest?.seasonResults?.slice().reverse().find(x=>x.candidateV2Calibrator)?.candidateV2Calibrator ?? backtest?.seasonResults?.slice().reverse().find(x=>x.calibrator)?.calibrator ?? null
+const marketErrorCalibration:MarketErrorCalibration|null=backtest?.currentSeason?.marketErrorCalibration??null
 const rows:Row[] = Array.isArray(previousPayload?.records) ? previousPayload.records : []
 // Revisit unresolved official records outside the rolling 9-day capture window.
 const unresolvedHistoricalDates = [...new Set(rows
@@ -140,14 +141,14 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   for(const x of spreadRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+Math.abs(x.point);spreadGroups.set(k,[...(spreadGroups.get(k)??[]),x])}
   const spreadCandidates=([...spreadGroups.values()].flatMap(pair=>{
     const home=pair.find(x=>matches(x.name,homeName)),away=pair.find(x=>matches(x.name,awayName));if(!home||!away)return []
-    return [home,away].map(x=>{const isHome=x===home;const probability=coverProbability(prediction.projectedMargin,x.point!,isHome);return {side:x.name,teamSide:isHome?'home' as const:'away' as const,line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
+    return [home,away].map(x=>{const isHome=x===home;const probability=coverProbability(prediction.projectedMargin,x.point!,isHome,marketErrorCalibration?.spreadValidated?marketErrorCalibration.marginStdDev:11.8,marketErrorCalibration?.spreadValidated?marketErrorCalibration.marginMean:0);return {side:x.name,teamSide:isHome?'home' as const:'away' as const,line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
   })).sort((x,y)=>y.ev-x.ev)
   const totalRows=books.flatMap(b=>b.markets.filter(m=>m.key==='totals').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const totalGroups=new Map<string,typeof totalRows>()
   for(const x of totalRows)if(typeof x.point==='number'&&Number.isFinite(x.price)&&x.price>1){const k=x.book+'|'+x.point;totalGroups.set(k,[...(totalGroups.get(k)??[]),x])}
   const totalCandidates=([...totalGroups.values()].flatMap(pair=>{
     const over=pair.find(x=>/over|大/i.test(x.name)),under=pair.find(x=>/under|小/i.test(x.name));if(!over||!under)return []
-    return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,prediction.totalStdDev);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
+    return [over,under].map(x=>{const isOver=x===over;const probability=totalProbability(prediction.projectedTotal,x.point!,isOver,marketErrorCalibration?.totalsValidated?marketErrorCalibration.totalStdDev:prediction.totalStdDev,marketErrorCalibration?.totalsValidated?marketErrorCalibration.totalMean:0);return {side:isOver?'over':'under',line:x.point!,price:x.price,probability,ev:decimalExpectedValue(probability,x.price)}})
   })).sort((x,y)=>y.ev-x.ev)
   // Keep a model direction for all three markets, but only mark a formal recommendation
   // when probability, EV, confidence and injury-risk gates are all satisfied.
@@ -156,8 +157,8 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   const moneylinePick=h2hCandidates.find(qualifies)
   const spreadLean=spreadCandidates[0]
   const totalLean=totalCandidates[0]
-  const spreadPick=spreadCandidates.find(qualifies)
-  const totalPick=totalCandidates.find(qualifies)
+  const spreadPick=marketErrorCalibration?.spreadValidated?spreadCandidates.find(qualifies):undefined
+  const totalPick=marketErrorCalibration?.totalsValidated?totalCandidates.find(qualifies):undefined
   return {
     moneylineLean,
     ...(moneylinePick?{moneylinePick}:{}),
