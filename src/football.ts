@@ -194,14 +194,19 @@ export async function getFootballMatches(taiwanDate:string,competition:FootballC
   leagueGames=Array.from(new Map(fallback.filter((x):x is PromiseFulfilledResult<any>=>x.status==='fulfilled').flatMap(x=>parseEvents(x.value)).map(game=>[game.id,game])).values())
  }
  const matches=leagueGames.filter(game=>taiwanDay(game.date)===taiwanDate)
- const leagueHistory=leagueGames.filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
+ const currentYear=Number(taiwanDate.slice(0,4))
+ const historyYears=[currentYear-3,currentYear-2,currentYear-1,currentYear]
+ const historicalResults=await Promise.allSettled(historyYears.map(year=>scoreboard(String(year),config.espn)))
+ const historicalPayloads=historicalResults.filter((item):item is PromiseFulfilledResult<any>=>item.status==='fulfilled').map(item=>item.value)
+ const allLeagueGames=Array.from(new Map([...leagueGames,...historicalPayloads.flatMap(parseEvents)].map(game=>[game.id,game])).values())
+ const leagueHistory=allLeagueGames.filter(game=>taiwanDay(game.date)<=taiwanDate&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
  let history=leagueHistory
  if(config.kind==='cup'){
   const teams=Array.from(new Map(matches.flatMap(game=>[game.home,game.away]).map(team=>[team.id,team])).values())
   const schedules=await Promise.allSettled(teams.map(team=>teamSchedule(team)))
   const teamGames=schedules.flatMap(result=>result.status==='fulfilled'?result.value:[])
   history=Array.from(new Map([...leagueHistory,...teamGames]
-   .filter(game=>taiwanDay(game.date)<=taiwanDate&&taiwanDay(game.date)>=dateShift(taiwanDate,-120)&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
+   .filter(game=>taiwanDay(game.date)<=taiwanDate&&isFinalStatus(game.status)&&game.home.score!==undefined&&game.away.score!==undefined)
    .map(game=>[game.id,game])).values())
  }
  return {matches,history,leagueHistory}
