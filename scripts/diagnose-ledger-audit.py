@@ -11,6 +11,7 @@ import json
 import math
 import pathlib
 import statistics
+from zoneinfo import ZoneInfo
 
 SOURCE = pathlib.Path("public/data/prediction-ledger.json")
 OUT = pathlib.Path("audit/ledger-audit.json")
@@ -99,7 +100,14 @@ spread_rows = [r for r in official if r.get("spreadPick")]
 total_rows = [r for r in official if r.get("totalPick")]
 
 def date_of(r):
-    return str(r.get("date") or "")[:10]
+    value = str(r.get("date") or "")
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat()
+    except Exception:
+        return value[:10]
 
 def month_of(r):
     return date_of(r)[:7] or "unknown"
