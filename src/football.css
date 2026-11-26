@@ -16,3 +16,17 @@
 .football-light.is-yellow{color:#a97817}
 .football-traffic-detail{margin-top:8px}
 @media(max-width:760px){.football-pick-hero{grid-template-columns:auto 1fr auto;padding:11px}.football-pick-hero>strong{font-size:15px}.football-pick-hero>b{font-size:23px}.football-traffic-row{gap:7px}.football-light{font-size:10px}}
+
+
+/* Desktop split view: fixtures and prediction on the left, selected match analysis on the right. */
+.football-workspace{display:grid;grid-template-columns:minmax(300px,.88fr) minmax(0,1.35fr);gap:16px;align-items:start;margin-top:4px}
+.football-fixture-column{min-width:0}
+.football-fixture-column .football-match-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+.football-fixture-column .football-match{width:100%}
+.football-analysis-column{min-width:0;position:sticky;top:16px}
+.football-analysis-column .football-analysis{margin-top:0;max-height:calc(100vh - 32px);overflow:auto}
+.football-analysis-placeholder{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;border:1px dashed #d5e3da;border-radius:14px;background:#f8fbf9;color:#7c8c82;text-align:center}
+.football-analysis-placeholder b{font-size:15px;color:#315e48}
+.football-analysis-placeholder span{max-width:320px;font-size:12px;line-height:1.7}
+@media(max-width:900px){.football-workspace{grid-template-columns:minmax(0,1fr);gap:12px}.football-analysis-column{position:static}.football-analysis-column .football-analysis{max-height:none}.football-fixture-column .football-match-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.football-fixture-column .football-match-grid{grid-template-columns:minmax(0,1fr)}}
