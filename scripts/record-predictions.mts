@@ -562,7 +562,10 @@ const summarizeMarket=(items:Row[],market:'moneyline'|'spread'|'total',field:'le
   for(const row of items){
     const frozen=(row.finalSnapshot??{}) as Record<string,unknown>
     const key=market==='moneyline'?(field==='lean'?'moneylineLean':'moneylinePick'):market==='spread'?(field==='lean'?'spreadLean':'spreadPick'):(field==='lean'?'totalLean':'totalPick')
-    const raw=Object.prototype.hasOwnProperty.call(frozen,key)?frozen[key]:row[key as keyof Row]
+    let raw=Object.prototype.hasOwnProperty.call(frozen,key)?frozen[key]:row[key as keyof Row]
+    if(!raw&&field==='lean'&&market==='moneyline'&&Number.isFinite(row.homeWin)&&Number.isFinite(row.awayWin)){const teamSide=Number(row.homeWin)>=Number(row.awayWin)?'home':'away';raw={teamSide,side:teamSide==='home'?row.home:row.away,probability:Math.max(Number(row.homeWin),Number(row.awayWin))}}
+    if(!raw&&field==='lean'&&market==='spread')raw=row.spreadPick
+    if(!raw&&field==='lean'&&market==='total')raw=row.totalPick
     const pick=raw&&typeof raw==='object'?raw as MarketPick:undefined
     if(!pick || (market!=='total'&&!pick.teamSide) || (market!=='moneyline'&&typeof pick.line!=='number') || (market==='total'&&!['over','under'].includes(String(pick.side)))){tally.noDirection++;continue}
     let result:'win'|'loss'|'push'
