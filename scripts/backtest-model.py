@@ -397,12 +397,15 @@ current_season_end_year = now.year if now.month >= 7 else now.year - 1
 current_season_games = fetch_season(current_season_end_year + 1)
 current_season_predictions = run_walk_forward(current_season_games, 0.6) if current_season_games else []
 current_season_candidate = run_walk_forward(current_season_games, 0.8) if current_season_games else []
+current_season_elo_candidate = run_walk_forward(current_season_games, 0.6, 0.25) if current_season_games else []
 season_years = list(range(current_season_end_year - 2, current_season_end_year + 1))
 season_results = []
 all_predictions = []
 all_candidate_predictions = []
+all_elo_predictions = []
 calibration_training = []
 candidate_calibration_training = []
+elo_calibration_training = []
 calibrated_predictions = []
 candidate_calibrated_predictions = []
 for season_year in season_years:
@@ -412,7 +415,8 @@ for season_year in season_years:
         continue
     predictions = run_walk_forward(games, 0.6)
     candidate_predictions = run_walk_forward(games, 0.8)
-    if len(predictions) < 300 or len(candidate_predictions) != len(predictions):
+    elo_predictions = run_walk_forward(games, 0.6, 0.25)
+    if len(predictions) < 300 or len(candidate_predictions) != len(predictions) or len(elo_predictions) != len(predictions):
         print('Skipping insufficient or mismatched prediction season', season_year, 'predictions:', len(predictions), len(candidate_predictions))
         continue
     season_name = f'{season_year-1}-{str(season_year)[-2:]}'
@@ -444,6 +448,7 @@ for season_year in season_years:
         'metrics': metrics(candidate_predictions),
         'baselineMetrics': metrics(predictions),
         'candidateV2Metrics': metrics(candidate_predictions),
+        'eloCandidateMetrics': metrics(elo_predictions),
         'calibrationTrainingSamples': len(candidate_calibration_training),
         'calibrator': candidate_calibrator,
         'calibratedMetrics': candidate_calibrated_metrics,
@@ -456,8 +461,10 @@ for season_year in season_years:
     })
     calibration_training.extend(predictions)
     candidate_calibration_training.extend(candidate_predictions)
+    elo_calibration_training.extend(elo_predictions)
     all_predictions.extend(predictions)
     all_candidate_predictions.extend(candidate_predictions)
+    all_elo_predictions.extend(elo_predictions)
 
 current_calibrator = next((row.get('calibrator') for row in reversed(season_results) if row.get('calibrator')), None)
 candidate_calibrator = next((row.get('candidateV2Calibrator') for row in reversed(season_results) if row.get('candidateV2Calibrator')), None)
