@@ -191,6 +191,65 @@ def fit_platt(training):
         if abs(da) + abs(db) < 1e-7: break
     return {'a': round(a, 6), 'b': round(b, 6), 'trainingSamples': len(training)}
 
+def residual_stats(training, predicted_key, actual_key):
+    errors = [float(row[actual_key]) - float(row[predicted_key]) for row in training
+              if isinstance(row.get(predicted_key), (int, float))
+              and isinstance(row.get(actual_key), (int, float))]
+    if len(errors) < 100:
+        return {'mean': 0.0, 'stdDev': None, 'sampleSize': len(errors)}
+    mean = avg(errors)
+    variance = sum((value - mean) ** 2 for value in errors) / (len(errors) - 1)
+    return {'mean': round(mean, 6), 'stdDev': round(math.sqrt(max(variance, 1e-9)), 6), 'sampleSize': len(errors)}
+
+
+def fit_market_error_calibration(training):
+    margin = residual_stats(training, 'predictedMargin', 'actualMargin')
+    total = residual_stats(training, 'predictedTotal', 'actualTotal')
+    if margin['stdDev'] is None or total['stdDev'] is None:
+        return None
+    return {
+        'marginMean': margin['mean'], 'marginStdDev': margin['stdDev'],
+        'totalMean': total['mean'], 'totalStdDev': total['stdDev'],
+        'trainingSamples': min(margin['sampleSize'], total['sampleSize'])
+    }
+
+
+def evaluate_market_error_calibration(predictions, calibration):
+    if not calibration or not predictions:
+        return None
+    offsets = (-10.5, -5.5, -0.5, 4.5, 9.5)
+    spread_raw, spread_cal, spread_actual = [], [], []
+    total_raw, total_cal, total_actual = [], [], []
+    for row in predictions:
+        margin_error = row['actualMargin'] - row['predictedMargin']
+        total_error = row['actualTotal'] - row['predictedTotal']
+        for offset in offsets:
+            spread_actual.append(1.0 if margin_error + offset > 0 else 0.0)
+            spread_raw.append(cdf(offset / 11.8))
+            spread_cal.append(cdf((offset + calibration['marginMean']) / calibration['marginStdDev']))
+            raw_total_sigma = max(14.2, min(20.0, row.get('totalStdDev', 18.6)))
+            total_actual.append(1.0 if total_error > offset else 0.0)
+            total_raw.append(cdf(-offset / raw_total_sigma))
+            total_cal.append(cdf((calibration['totalMean'] - offset) / calibration['totalStdDev']))
+    def summary(raw, calibrated, actual):
+        raw_brier = avg([(p-y)**2 for p, y in zip(raw, actual)])
+        calibrated_brier = avg([(p-y)**2 for p, y in zip(calibrated, actual)])
+        return {
+            'sampleSize': len(actual),
+            'rawBrier': round(raw_brier, 6),
+            'calibratedBrier': round(calibrated_brier, 6),
+            'improved': calibrated_brier < raw_brier
+        }
+    spread = summary(spread_raw, spread_cal, spread_actual)
+    totals = summary(total_raw, total_cal, total_actual)
+    return {
+        'spread': spread, 'totals': totals,
+        'spreadValidated': spread['sampleSize'] >= 500 and spread['improved'],
+        'totalsValidated': totals['sampleSize'] >= 500 and totals['improved'],
+        'evaluationMethod': 'Strict temporal holdout: residual distribution fitted only on completed prior seasons, evaluated on current-season walk-forward forecasts using five half-point offsets around each model projection. This validates probability shape, not profitability.'
+    }
+
+
 def probability_metrics(predictions, probability_key):
     n = len(predictions)
     if not n:
@@ -240,7 +299,7 @@ def read_odds_history():
             continue
     return rows
 
-def market_backtest(predictions):
+def market_backtest(predictions, error_calibration=None):
     # Only use a real, timestamped Taiwan Sports Lottery snapshot captured before tipoff.
     # Missing historical lines are excluded, never reconstructed from closing scores.
     odds_by_game = {}
@@ -278,14 +337,14 @@ def market_backtest(predictions):
                                 point = float(outcome.get('point'))
                                 is_home = str(outcome.get('name','')).lower() == str(snap.get('home_team','')).lower()
                                 margin = pred['predictedMargin'] if is_home else -pred['predictedMargin']
-                                prob = cdf((margin + point) / 11.8)
+                                prob = cdf((margin + point + (error_calibration['marginMean'] if error_calibration and error_calibration.get('spreadValidated') else 0.0)) / (error_calibration['marginStdDev'] if error_calibration and error_calibration.get('spreadValidated') else 11.8))
                                 actual_margin = pred['actualMargin'] if is_home else -pred['actualMargin']
                                 actual = 1 if actual_margin + point > 0 else (0 if actual_margin + point < 0 else 0.5)
                                 line = point
                             else:
                                 point = float(outcome.get('point'))
                                 is_over = str(outcome.get('name','')).lower() in ('over','大')
-                                prob = cdf((pred['predictedTotal']-point)/pred.get('totalStdDev',14.2)) if is_over else cdf((point-pred['predictedTotal'])/pred.get('totalStdDev',14.2))
+                                prob = cdf((pred['predictedTotal']+(error_calibration['totalMean'] if error_calibration and error_calibration.get('totalsValidated') else 0.0)-point)/(error_calibration['totalStdDev'] if error_calibration and error_calibration.get('totalsValidated') else pred.get('totalStdDev',14.2))) if is_over else cdf((point-pred['predictedTotal']-(error_calibration['totalMean'] if error_calibration and error_calibration.get('totalsValidated') else 0.0))/(error_calibration['totalStdDev'] if error_calibration and error_calibration.get('totalsValidated') else pred.get('totalStdDev',14.2)))
                                 actual_total = pred['actualTotal']
                                 actual = 1 if (actual_total > point if is_over else actual_total < point) else (0.5 if actual_total == point else 0)
                                 line = point
@@ -397,8 +456,16 @@ for row in current_season_candidate:
     item = dict(row)
     item['marketHomeWin'] = sigmoid(candidate_calibrator['a'] * logit(row['homeWin']) + candidate_calibrator['b']) if candidate_calibrator else row['homeWin']
     candidate_market_predictions.append(item)
-current_market_backtest = market_backtest(market_predictions)
-candidate_market_backtest = market_backtest(candidate_market_predictions)
+baseline_market_error_calibration = fit_market_error_calibration(calibration_training)
+candidate_market_error_calibration = fit_market_error_calibration(candidate_calibration_training)
+baseline_market_error_evaluation = evaluate_market_error_calibration(current_season_predictions, baseline_market_error_calibration)
+candidate_market_error_evaluation = evaluate_market_error_calibration(current_season_candidate, candidate_market_error_calibration)
+if baseline_market_error_calibration:
+    baseline_market_error_calibration.update(baseline_market_error_evaluation or {})
+if candidate_market_error_calibration:
+    candidate_market_error_calibration.update(candidate_market_error_evaluation or {})
+current_market_backtest = market_backtest(market_predictions, baseline_market_error_calibration)
+candidate_market_backtest = market_backtest(candidate_market_predictions, candidate_market_error_calibration)
 current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
 candidate_market_backtest['h2h']['method'] += ' 候選 80/20 模型使用其自身前季 Platt 校準；讓分及大小分使用候選模型分差。'
 print('Current-season market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
@@ -444,7 +511,8 @@ result = {
         'baselineMetrics': metrics(current_season_predictions),
         'candidateV2Metrics': metrics(current_season_candidate),
         'calibrator': fit_platt(candidate_calibration_training + current_season_candidate),
-        'calibrationTrainingSamples': len(candidate_calibration_training) + len(current_season_candidate)
+        'calibrationTrainingSamples': len(candidate_calibration_training) + len(current_season_candidate),
+        'marketErrorCalibration': candidate_market_error_calibration
     },
     'seasonResults': season_results,
     'calibration': calibration(all_candidate_predictions),
@@ -468,7 +536,8 @@ result = {
         'Historical injury reports and player availability are not reconstructed; injury adjustment is not included in this historical test.',
         '獨贏三季回測與市場盤口回測分開：讓分及大小分只使用當季可配對的開賽前台灣運彩快照；沒有歷史盤口的往季不補造盤口。',
         'Each season starts with an empty team form history; the first three completed games per team are warm-up data and are not predicted.',
-        'Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance.'
+        'Probability calibration is fitted on prior seasons only and evaluated on later held-out seasons; it is not proof of future performance.',
+        'Spread and total residual distributions are fitted on prior seasons only; the current season is a temporal holdout. A market is recommendation-eligible only when its probability calibration improves the synthetic-line Brier test; this is not a guarantee of positive ROI.'
     ]
 }
 pathlib.Path('public/data').mkdir(parents=True, exist_ok=True)
