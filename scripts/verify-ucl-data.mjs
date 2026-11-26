@@ -24,3 +24,5 @@ const results=await Promise.all(competitions.map(async([key,league])=>{
 console.log(JSON.stringify({taiwanDate:date,competitions:results},null,2))
 const failed=results.filter(row=>row.checks.every(check=>check.status!==200))
 if(failed.length)throw new Error('Competition scoreboards unavailable: '+failed.map(x=>x.key).join(', '))
+const empty=results.filter(row=>row.checks.reduce((sum,check)=>sum+check.count,0)===0)
+if(empty.length)throw new Error('No fixtures returned for competitions: '+empty.map(x=>x.key).join(', '))
