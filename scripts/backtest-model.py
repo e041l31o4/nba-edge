@@ -466,6 +466,15 @@ if candidate_market_error_calibration:
     candidate_market_error_calibration.update(candidate_market_error_evaluation or {})
 current_market_backtest = market_backtest(market_predictions, baseline_market_error_calibration)
 candidate_market_backtest = market_backtest(candidate_market_predictions, candidate_market_error_calibration)
+def recommendation_ready(market):
+    return bool(market and market.get('decided', 0) >= 50
+                and market.get('hitRate') is not None and market['hitRate'] >= 0.55
+                and market.get('roi') is not None and market['roi'] >= 0.02)
+
+if candidate_market_error_calibration:
+    candidate_market_error_calibration['moneylineRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('h2h'))
+    candidate_market_error_calibration['spreadRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('spreads')) and candidate_market_error_calibration.get('spreadValidated', False)
+    candidate_market_error_calibration['totalsRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('totals')) and candidate_market_error_calibration.get('totalsValidated', False)
 current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
 candidate_market_backtest['h2h']['method'] += ' 候選 80/20 模型使用其自身前季 Platt 校準；讓分及大小分使用候選模型分差。'
 print('Current-season market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
