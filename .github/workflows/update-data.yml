@@ -127,6 +127,7 @@ jobs:
           PY
       - name: Refresh date-scoped PlaySport 運彩盤 markets for every NBA matchup
         id: playsport_refresh
+        continue-on-error: true
         env:
           TARGET_TAIWAN_DATE: ${{ vars.NBA_EDGE_TARGET_TAIWAN_DATE }}
         run: python scripts/refresh-playsport-taiwan-odds.py
@@ -149,6 +150,8 @@ jobs:
         with:
           node-version: 20
       - name: Capture pregame predictions and settle completed games
+        env:
+          NBA_EDGE_ODDS_REFRESH_SUCCESS: ${{ steps.playsport_refresh.outcome == 'success' }}
         run: npx --yes tsx scripts/record-predictions.mts
       - name: Diagnose every totals market against the independent model
         env:
