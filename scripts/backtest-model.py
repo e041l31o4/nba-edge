@@ -478,16 +478,27 @@ for row in current_season_candidate:
     item = dict(row)
     item['marketHomeWin'] = sigmoid(candidate_calibrator['a'] * logit(row['homeWin']) + candidate_calibrator['b']) if candidate_calibrator else row['homeWin']
     candidate_market_predictions.append(item)
+elo_calibrator = fit_platt(elo_calibration_training)
+elo_market_predictions = []
+for row in current_season_elo_candidate:
+    item = dict(row)
+    item['marketHomeWin'] = sigmoid(elo_calibrator['a'] * logit(row['homeWin']) + elo_calibrator['b']) if elo_calibrator else row['homeWin']
+    elo_market_predictions.append(item)
 baseline_market_error_calibration = fit_market_error_calibration(calibration_training)
 candidate_market_error_calibration = fit_market_error_calibration(candidate_calibration_training)
+elo_market_error_calibration = fit_market_error_calibration(elo_calibration_training)
 baseline_market_error_evaluation = evaluate_market_error_calibration(current_season_predictions, baseline_market_error_calibration)
 candidate_market_error_evaluation = evaluate_market_error_calibration(current_season_candidate, candidate_market_error_calibration)
+elo_market_error_evaluation = evaluate_market_error_calibration(current_season_elo_candidate, elo_market_error_calibration)
 if baseline_market_error_calibration:
     baseline_market_error_calibration.update(baseline_market_error_evaluation or {})
 if candidate_market_error_calibration:
     candidate_market_error_calibration.update(candidate_market_error_evaluation or {})
+if elo_market_error_calibration:
+    elo_market_error_calibration.update(elo_market_error_evaluation or {})
 current_market_backtest = market_backtest(market_predictions, baseline_market_error_calibration)
 candidate_market_backtest = market_backtest(candidate_market_predictions, candidate_market_error_calibration)
+elo_market_backtest = market_backtest(elo_market_predictions, elo_market_error_calibration)
 def recommendation_ready(market):
     return bool(market and market.get('decided', 0) >= 50
                 and market.get('hitRate') is not None and market['hitRate'] >= 0.55
@@ -497,12 +508,18 @@ if candidate_market_error_calibration:
     candidate_market_error_calibration['moneylineRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('h2h'))
     candidate_market_error_calibration['spreadRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('spreads')) and candidate_market_error_calibration.get('spreadValidated', False)
     candidate_market_error_calibration['totalsRecommendationReady'] = recommendation_ready(candidate_market_backtest.get('totals')) and candidate_market_error_calibration.get('totalsValidated', False)
+if elo_market_error_calibration:
+    elo_market_error_calibration['moneylineRecommendationReady'] = recommendation_ready(elo_market_backtest.get('h2h'))
+    elo_market_error_calibration['spreadRecommendationReady'] = recommendation_ready(elo_market_backtest.get('spreads')) and elo_market_error_calibration.get('spreadValidated', False)
+    elo_market_error_calibration['totalsRecommendationReady'] = recommendation_ready(elo_market_backtest.get('totals')) and elo_market_error_calibration.get('totalsValidated', False)
 current_market_backtest['h2h']['method'] += ' 獨贏機率使用前一完整賽季資料訓練的 Platt 校準；讓分及大小分維持原計算。'
 candidate_market_backtest['h2h']['method'] += ' 候選 80/20 模型使用其自身前季 Platt 校準；讓分及大小分使用候選模型分差。'
 print('Current-season market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
       'pregame predictions:', len(current_season_predictions), json.dumps(current_market_backtest, ensure_ascii=False))
 print('Candidate 80/20 market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
       'pregame predictions:', len(current_season_candidate), json.dumps(candidate_market_backtest, ensure_ascii=False))
+print('Elo 25% blend market-only backtest:', current_season_end_year, 'completed games:', len(current_season_games),
+      'pregame predictions:', len(current_season_elo_candidate), json.dumps(elo_market_backtest, ensure_ascii=False))
 
 if len(all_predictions) < 900 or len(season_results) < 2:
     raise SystemExit(f'Insufficient multi-season out-of-sample data: {len(all_predictions)} predictions across {len(season_results)} seasons')
@@ -528,6 +545,7 @@ result = {
     'modelComparison': {
         'baseline': {'version': 'recent-form-pace-v1 (60% last-10 / 40% last-5)', 'metrics': v1_metrics},
         'candidateV2': {'version': 'recent-form-pace-v2-candidate (80% last-10 / 20% last-5)', 'metrics': candidate_metrics},
+        'eloCandidate': {'version': 'recent-form-pace-v2-elo-25pct', 'metrics': metrics(all_elo_predictions)},
         'candidateImprovesBothAccuracyAndBrier': candidate_improves,
         'decision': 'candidateV2-promoted-after-improving-walk-forward-accuracy-and-Brier' if candidate_improves else 'keep-baseline; candidate-not-proven-better',
         'policy': 'Do not replace production model unless the candidate improves both walk-forward winner accuracy and Brier Score on identical samples; this is a comparison, not a 70% guarantee.'
@@ -541,6 +559,9 @@ result = {
         'metrics': metrics(current_season_candidate),
         'baselineMetrics': metrics(current_season_predictions),
         'candidateV2Metrics': metrics(current_season_candidate),
+        'eloCandidateMetrics': metrics(current_season_elo_candidate),
+        'eloMarketBacktest': elo_market_backtest,
+        'eloMarketErrorCalibration': elo_market_error_calibration,
         'calibrator': fit_platt(candidate_calibration_training + current_season_candidate),
         'calibrationTrainingSamples': len(candidate_calibration_training) + len(current_season_candidate),
         'marketErrorCalibration': candidate_market_error_calibration
