@@ -6,6 +6,7 @@ export type FootballMatch = {
 export type TeamGoalForm = { played: number; scored: number; conceded: number; homePlayed:number; awayPlayed:number; homeScored:number; homeConceded:number; awayScored:number; awayConceded:number; lastFive: string[] }
 export type FootballModel = {
   homeXg: number; awayXg: number; homeWin: number; draw: number; awayWin: number;
+  poissonHomeWin:number; poissonDraw:number; poissonAwayWin:number; homeEloRating:number; awayEloRating:number; eloMargin:number;
   over: number; under: number; topScores: Array<{score:string; probability:number}>;
   sampleHome: number; sampleAway: number; confidence: '低'|'中'|'高'; dataReady:boolean; dataWarnings:string[];
   homeRecent: string[]; awayRecent: string[];
@@ -31,9 +32,13 @@ function weightedForm(team:FootballTeam,history:FootballMatch[]):TeamGoalForm{
   return {played:validPlayed,scored:totalWeight?scored/totalWeight:0,conceded:totalWeight?conceded/totalWeight:0,homePlayed,awayPlayed,homeScored:homeWeight?homeScored/homeWeight:0,homeConceded:homeWeight?homeConceded/homeWeight:0,awayScored:awayWeight?awayScored/awayWeight:0,awayConceded:awayWeight?awayConceded/awayWeight:0,lastFive:rows.filter(g=>g.home.score!==undefined&&g.away.score!==undefined).slice(0,5).map(g=>`${g.home.name} ${g.home.score}-${g.away.score} ${g.away.name}`)}
 }
 export function buildFootballModel(match:FootballMatch,history:FootballMatch[],totalLine=2.5,baselineHistory:FootballMatch[]=history):FootballModel{
-  const h=weightedForm(match.home,history),a=weightedForm(match.away,history)
-  // Estimate this competition's home/away scoring environment from its own completed matches.
-  const baselineRows=baselineHistory.filter(g=>isFinalStatus(g.status)&&Number.isFinite(g.home.score)&&Number.isFinite(g.away.score)).sort((x,y)=>y.date.localeCompare(x.date)).slice(0,300)
+  const kickoff=new Date(match.date).getTime()
+  const priorHistory=history.filter(g=>new Date(g.date).getTime()<kickoff)
+  const priorBaseline=baselineHistory.filter(g=>new Date(g.date).getTime()<kickoff)
+  const h=weightedForm(match.home,priorHistory),a=weightedForm(match.away,priorHistory)
+  // Recent scoring environment uses the latest 300 completed competition matches; Elo uses the full chronological history before kickoff.
+  const allBaselineRows=priorBaseline.filter(g=>isFinalStatus(g.status)&&Number.isFinite(g.home.score)&&Number.isFinite(g.away.score)).sort((x,y)=>x.date.localeCompare(y.date))
+  const baselineRows=[...allBaselineRows].reverse().slice(0,300)
   const avg=(values:number[],fallback:number)=>values.length?values.reduce((sum,value)=>sum+value,0)/values.length:fallback
   const leagueHomeAvg=clamp(avg(baselineRows.map(g=>Number(g.home.score)),1.42),0.85,2.15)
   const leagueAwayAvg=clamp(avg(baselineRows.map(g=>Number(g.away.score)),1.18),0.65,1.95)
@@ -53,6 +58,33 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   let homeWin=0,draw=0,awayWin=0,over=0
   const scores:Array<{score:string;probability:number}>=[]
   for(const x of raw){const p=x.p/mass;if(x.home>x.away)homeWin+=p;else if(x.home===x.away)draw+=p;else awayWin+=p;if(x.home+x.away>totalLine)over+=p;scores.push({score:`${x.home}:${x.away}`,probability:p})}
+  const poissonHomeWin=homeWin,poissonDraw=draw,poissonAwayWin=awayWin
+  const eloRatings=new Map<string,number>()
+  let currentSeasonKey=''
+  for(const game of allBaselineRows){
+    const gameDate=new Date(game.date),seasonKey=String(gameDate.getUTCFullYear()-(gameDate.getUTCMonth()<7?1:0))
+    if(currentSeasonKey&&seasonKey!==currentSeasonKey){for(const [id,rating] of eloRatings)eloRatings.set(id,1500+(rating-1500)*0.75)}
+    currentSeasonKey=seasonKey
+    const homeRating=eloRatings.get(game.home.id)??1500,awayRating=eloRatings.get(game.away.id)??1500
+    const expectedHome=1/(1+Math.pow(10,-((homeRating+65)-awayRating)/400))
+    const actualHome=Number(game.home.score)>Number(game.away.score)?1:Number(game.home.score)===Number(game.away.score)?0.5:0
+    const margin=Math.abs(Number(game.home.score)-Number(game.away.score))
+    const mov=margin?Math.log(margin+1)*(2.2/(2.2+0.001*Math.abs(homeRating-awayRating))):1
+    const delta=20*mov*(actualHome-expectedHome)
+    eloRatings.set(game.home.id,homeRating+delta);eloRatings.set(game.away.id,awayRating-delta)
+  }
+  const homeEloRating=eloRatings.get(match.home.id)??1500,awayEloRating=eloRatings.get(match.away.id)??1500
+  const eloMargin=(homeEloRating-awayEloRating)*0.055+2.2
+  const expectedHome=1/(1+Math.pow(10,-((homeEloRating+65)-awayEloRating)/400))
+  const priorDraws=allBaselineRows.filter(game=>Number(game.home.score)===Number(game.away.score)).length
+  const eloDraw=(priorDraws+1)/(allBaselineRows.length+3)
+  const eloHomeWin=(1-eloDraw)*expectedHome,eloAwayWin=(1-eloDraw)*(1-expectedHome)
+  const eloWeight=0.4
+  const blendedHome=(1-eloWeight)*poissonHomeWin+eloWeight*eloHomeWin
+  const blendedDraw=(1-eloWeight)*poissonDraw+eloWeight*eloDraw
+  const blendedAway=(1-eloWeight)*poissonAwayWin+eloWeight*eloAwayWin
+  const blendedSum=blendedHome+blendedDraw+blendedAway
+  homeWin=blendedHome/blendedSum;draw=blendedDraw/blendedSum;awayWin=blendedAway/blendedSum
   const warnings:string[]=[]
   if(baselineRows.length<12)warnings.push(`聯賽完賽樣本僅 ${baselineRows.length} 場，基準值可信度有限`)
   if(h.played<5)warnings.push(`${match.home.name} 近況樣本僅 ${h.played} 場，至少需要 5 場`)
@@ -60,7 +92,7 @@ export function buildFootballModel(match:FootballMatch,history:FootballMatch[],t
   if(h.homePlayed<2)warnings.push(`${match.home.name} 主場樣本不足（${h.homePlayed} 場）`)
   if(a.awayPlayed<2)warnings.push(`${match.away.name} 客場樣本不足（${a.awayPlayed} 場）`)
   const confidence:FootballModel['confidence']=warnings.length===0&&h.played>=6&&a.played>=6?'高':warnings.length===0&&h.played>=5&&a.played>=5?'中':'低'
-  return {homeXg,awayXg,homeWin,draw,awayWin,over,under:1-over,topScores:scores.sort((x,y)=>y.probability-x.probability).slice(0,3),sampleHome:h.played,sampleAway:a.played,confidence,dataReady:warnings.length===0,dataWarnings:warnings,homeRecent:h.lastFive,awayRecent:a.lastFive}
+  return {homeXg,awayXg,homeWin,draw,awayWin,poissonHomeWin,poissonDraw,poissonAwayWin,homeEloRating,awayEloRating,eloMargin,over,under:1-over,topScores:scores.sort((x,y)=>y.probability-x.probability).slice(0,3),sampleHome:h.played,sampleAway:a.played,confidence,dataReady:warnings.length===0,dataWarnings:warnings,homeRecent:h.lastFive,awayRecent:a.lastFive}
 }
 function espnDate(date:string){return date.replace(/-/g,'')}
 function dateShift(date:string,days:number){const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10)}
