@@ -545,9 +545,11 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
    // Preliminary records must also be eligible for the member card. Read the
    // opening snapshot first; official records continue to prefer the final snapshot.
    const snapshot=(useSaved?savedPrediction.finalSnapshot:savedPrediction.openingSnapshot) as Record<string,unknown>|undefined
-   const moneyline=(snapshot?.moneylinePick??snapshot?.moneylineLean??savedPrediction.moneylinePick??savedPrediction.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
-   const spread=(snapshot?.spreadPick??snapshot?.spreadLean??savedPrediction.spreadPick??savedPrediction.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
-   const total=(snapshot?.totalPick??snapshot?.totalLean??savedPrediction.totalPick??savedPrediction.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
+   // Never promote a directional lean into the member's single formal recommendation.
+   // Only picks that passed the market's walk-forward validation gate are eligible.
+   const moneyline=(snapshot?.moneylinePick??savedPrediction.moneylinePick) as NonNullable<PredictionRecord['moneylinePick']>|undefined
+   const spread=(snapshot?.spreadPick??savedPrediction.spreadPick) as NonNullable<PredictionRecord['spreadPick']>|undefined
+   const total=(snapshot?.totalPick??savedPrediction.totalPick) as NonNullable<PredictionRecord['totalPick']>|undefined
    const candidates = [
     ...(moneyline ? [{market:'不讓分', key:'moneyline' as const, label:moneyline.side, pick:moneyline}] : []),
     ...(spread ? [{market:'讓分', key:'spread' as const, label:spread.side+' '+(spread.line>0?'+':'')+spread.line, pick:spread}] : []),
