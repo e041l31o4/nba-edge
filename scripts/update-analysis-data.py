@@ -227,8 +227,10 @@ def expand_espn_refs(node, depth=0, budget=None):
 def extract_team_metrics(payload):
     found = {}
     aliases = {
-        'offensiveRating': {'offensiverating', 'offensiveefficiency', 'offensiveefficiencyrating', 'offrtg'},
+        # ESPN Core API exposes points per estimated possession, not an OffRtg label.
+        'offensiveRating': {'offensiverating', 'offensiveefficiency', 'offensiveefficiencyrating', 'offrtg', 'pointsperestimatedpossessions'},
         'defensiveRating': {'defensiverating', 'defensiveefficiency', 'defensiveefficiencyrating', 'defrtg'},
+        'estimatedPossessionsPerGame': {'avgestimatedpossessions'},
         'netRating': {'netrating', 'netefficiency', 'netrtg'},
         'pace': {'pace', 'pacefactor'},
         'trueShootingPct': {'trueshootingpct', 'trueshootingpercentage', 'tspct'},
@@ -271,6 +273,23 @@ for item in teams:
         payload = get(stats_url)
         expanded_payload = expand_espn_refs(payload)
         metrics = extract_team_metrics(expanded_payload)
+        # Normalize ESPN's points-per-estimated-possession ratio to points per 100 possessions.
+        if isinstance(metrics.get('offensiveRating'), (int, float)) and 0 < metrics['offensiveRating'] <= 3:
+            metrics['offensiveRating'] *= 100
+        # Derive season defensive efficiency from completed regular-season team schedules
+        # divided by ESPN's average estimated possessions per game.
+        possessions = metrics.get('estimatedPossessionsPerGame')
+        if isinstance(possessions, (int, float)) and possessions > 0:
+            season_rows = [
+                event_row(event, team_id)
+                for event in all_events_by_id.values()
+                if completed_event(event)
+                and str(((event.get('season') or {}).get('type') or ((event.get('competitions') or [{}])[0].get('season') or {}).get('type') or '2')) == '2'
+            ]
+            season_rows = [row for row in season_rows if row]
+            if season_rows:
+                metrics['defensiveRating'] = (sum(row['pointsAgainst'] for row in season_rows) / len(season_rows)) / possessions * 100
+            metrics.pop('estimatedPossessionsPerGame', None)
         if abbreviation == str((teams[0].get('team') or {}).get('abbreviation') or ''):
             categories = ((expanded_payload.get('splits') or {}).get('categories') or expanded_payload.get('categories', [])) if isinstance(expanded_payload, dict) else []
             category_names = [str(x.get('name') or x.get('displayName') or '') for x in categories if isinstance(x, dict)]
