@@ -30,10 +30,10 @@ const [form, injuries, teamMetrics, backtest, previousPayload, oddsPayload] = aw
   readJson<{records:Row[];footballRecords?:Record<string,unknown>[]}>('public/data/prediction-ledger.json'),
   readJson<{games:Array<{home_team:string;away_team:string;bookmakers?:{title:string;markets:{key:string;outcomes:{name:string;point?:number;price:number}[]}[]}[]}>}>('public/data/odds.json')
 ])
-const oddsRefreshSucceeded = process.env.NBA_EDGE_ODDS_REFRESH_SUCCESS !== 'false'
+const oddsRefreshSucceeded = process.env.NBA_EDGE_ODDS_REFRESH_SUCCESS === 'true'
 const analysisRefreshSucceeded = process.env.NBA_EDGE_ANALYSIS_REFRESH_SUCCESS !== 'false'
-const canGeneratePredictions = oddsRefreshSucceeded && analysisRefreshSucceeded && !!form
-if (!oddsRefreshSucceeded) console.warn('PlaySport odds refresh failed: settlement-only mode enabled; no new predictions or pregame market refreshes will be generated from retained odds.')
+const canGeneratePredictions = analysisRefreshSucceeded && !!form
+if (!oddsRefreshSucceeded) console.warn('PlaySport odds refresh unavailable: continue generating score and win forecasts from fresh team-form data; do not create or refresh market picks from retained odds.')
 if (!analysisRefreshSucceeded || !form) console.warn('Team-form/injury refresh unavailable: settlement-only mode enabled; existing completed games will still be graded, but no pregame predictions will be generated.')
 
 // Fetch each local-date scoreboard independently. A single transient ESPN error
@@ -127,7 +127,7 @@ const makeMarketPicks=(event:any,prediction:any)=>{
   const awayName=String(a?.team?.name??a?.team?.displayName??'').toLowerCase()
   const oddsGame=oddsPayload?.games?.find(g=>g.home_team.toLowerCase()===homeName&&g.away_team.toLowerCase()===awayName)
   // Only use the Taiwan Sports Lottery "運彩盤" market; never mix foreign books.
-  const books=(oddsGame?.bookmakers??[]).filter(b=>b.title==='台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）')
+  const books=oddsRefreshSucceeded?(oddsGame?.bookmakers??[]).filter(b=>b.title==='台灣運彩（玩運彩「運彩盤」欄位；第三方資料呈現）'):[]
   const matches=(name:string,target:string)=>{const n=name.toLowerCase().replace(/[^a-z]/g,''),t=target.toLowerCase().replace(/[^a-z]/g,'');return n===t||n.includes(t)||t.includes(n)}
   const h2hRows=books.flatMap(b=>b.markets.filter(m=>m.key==='h2h').flatMap(m=>m.outcomes.map(o=>({...o,book:b.title}))))
   const h2hCandidates=h2hRows.flatMap(x=>{
@@ -456,8 +456,8 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
     continue
   }
   if (existing && existing.stage==='official') continue
-  // If the Taiwan Sports Lottery refresh failed, continue grading completed games above,
-  // but never create or refresh pregame recommendations from retained/stale odds.
+  // Missing odds must not block independent score and win forecasts.
+  // Market picks are refreshed only when this run explicitly confirms fresh odds.
   if (!canGeneratePredictions) continue
   // Freeze at exactly 21:00 Taiwan time on the previous calendar day.
   // Do not run one last rolling refresh after the agreed cutoff.
@@ -491,18 +491,21 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
       }
       const changed=(a:MarketPick|undefined,b:MarketPick|undefined)=>!!a&&!!b&&(a.side!==b.side||a.teamSide!==b.teamSide||a.line!==b.line)
       const marketHistory=existing.marketChangeHistory??[]
-      if(!samePick(existing.moneylinePick,reviewedMarkets.moneylinePick)) marketHistory.push({at:now.toISOString(),market:'moneyline',from:existing.moneylinePick,to:reviewedMarkets.moneylinePick,reason:'不讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
-      if(!samePick(existing.spreadPick,reviewedMarkets.spreadPick)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
-      if(!samePick(existing.totalPick,reviewedMarkets.totalPick)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'大小分方向、盤口或模型機率有實質差異；保留前後值供核對'})
-      existing.marketChangeHistory=marketHistory.slice(-200)
+      if(oddsRefreshSucceeded){
+        if(!samePick(existing.moneylinePick,reviewedMarkets.moneylinePick)) marketHistory.push({at:now.toISOString(),market:'moneyline',from:existing.moneylinePick,to:reviewedMarkets.moneylinePick,reason:'不讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
+        if(!samePick(existing.spreadPick,reviewedMarkets.spreadPick)) marketHistory.push({at:now.toISOString(),market:'spread',from:existing.spreadPick,to:reviewedMarkets.spreadPick,reason:'讓分方向、盤口或模型機率有實質差異；保留前後值供核對'})
+        if(!samePick(existing.totalPick,reviewedMarkets.totalPick)) marketHistory.push({at:now.toISOString(),market:'total',from:existing.totalPick,to:reviewedMarkets.totalPick,reason:'大小分方向、盤口或模型機率有實質差異；保留前後值供核對'})
+        existing.marketChangeHistory=marketHistory.slice(-200)
+      }
       existing.homeWin=rolling.homeWin; existing.awayWin=rolling.awayWin
       existing.projectedMargin=rolling.projectedMargin; existing.projectedTotal=rolling.projectedTotal
-      existing.moneylineLean=reviewedMarkets.moneylineLean; existing.moneylinePick=reviewedMarkets.moneylinePick
-      existing.spreadLean=reviewedMarkets.spreadLean; existing.totalLean=reviewedMarkets.totalLean
-      existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
-      existing.paceAdjustment=rolling.paceAdjustment; existing.totalTrend=rolling.totalTrend; existing.totalStdDev=rolling.totalStdDev
-      existing.homeInjuryImpact=rolling.homeInjuryImpact; existing.awayInjuryImpact=rolling.awayInjuryImpact; existing.injuryRisk=rolling.injuryRisk
-      existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
+      existing.moneylineLean=reviewedMarkets.moneylineLean
+      if(oddsRefreshSucceeded){
+        existing.moneylinePick=reviewedMarkets.moneylinePick
+        existing.spreadLean=reviewedMarkets.spreadLean; existing.totalLean=reviewedMarkets.totalLean
+        existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
+        existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
+      }
        const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
        if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
       existing.modelVersion='recent-form-pace-v2.2-backtest-aligned-total-uncertainty-qualified-picks'
@@ -534,7 +537,6 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
   const stage:Row['stage']=isFinalReviewReached(event.date)||tipoff<=now.getTime()?'official':'draft'
   const markets=makeMarketPicks(event,prediction)
   const hasOpeningMarket=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
-   if(!hasOpeningMarket) continue
    const row:Row={gameId:id,date:event.date,home:game.home.abbreviation,away:game.away.abbreviation,analysisStatus:stage==='official'?'final':'preliminary',preliminaryAt:now.toISOString(),openingSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,moneylineLean:markets.moneylineLean??null,moneylinePick:markets.moneylinePick??null,spreadLean:markets.spreadLean??null,totalLean:markets.totalLean??null,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,capturedAt:now.toISOString()},...(stage==='official'?{finalAt:now.toISOString(),finalSnapshot:{homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,moneylineLean:markets.moneylineLean??null,moneylinePick:markets.moneylinePick??null,spreadLean:markets.spreadLean??null,totalLean:markets.totalLean??null,spreadPick:markets.spreadPick??null,totalPick:markets.totalPick??null,confirmedAt:now.toISOString()}}:{}),homeWin:prediction.homeWin,awayWin:prediction.awayWin,projectedMargin:prediction.projectedMargin,projectedTotal:prediction.projectedTotal,...markets,paceAdjustment:prediction.paceAdjustment,totalTrend:prediction.totalTrend,totalStdDev:prediction.totalStdDev,homeInjuryImpact:prediction.homeInjuryImpact,awayInjuryImpact:prediction.awayInjuryImpact,injuryRisk:prediction.injuryRisk,moneylineLean:markets.moneylineLean,moneylinePick:markets.moneylinePick,spreadLean:markets.spreadLean,totalLean:markets.totalLean,modelVersion:'recent-form-elo-v2.4-market-residual-calibration-qualified-picks',stage,capturedAt:now.toISOString(),...(stage==='official'?{lockedAt:now.toISOString(),finalizedAt:now.toISOString()}:{})}
   if (existing) {
     Object.assign(existing,row)
