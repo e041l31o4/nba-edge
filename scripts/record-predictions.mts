@@ -514,7 +514,7 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
          existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,moneylineLean:reviewedMarkets.moneylineLean??null,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}
        }
        if(existing.stage==='draft' && existing.analysisStatus!=='preliminary') existing.analysisStatus='preliminary'
-      existing.modelVersion='recent-form-pace-v2.2-backtest-aligned-total-uncertainty-qualified-picks'
+      existing.modelVersion='recent-form-elo-v2.4-market-residual-calibration-qualified-picks'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
     if(isFinalReviewReached(event.date)){
