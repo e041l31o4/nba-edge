@@ -400,10 +400,10 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
  const isKnicksTeam=(team:Game['home'])=>['NY','NYK'].includes(team.abbreviation.toUpperCase())||/new york knicks/i.test(team.name+' '+team.displayName)
  // The Nov 22 POR–NY game was explicitly picked as Knicks moneyline; keep this separate from the spread pick.
  const forceKnicksMoneyline=forceKnicksGame&&repairTeams.includes('POR')&&repairTeams.some(x=>x==='NY'||x==='NYK')
- const homeWin=forceKnicksMoneyline?(isKnicksTeam(game.home)?0.643:0.357):useSaved?savedPrediction.homeWin:usePreliminary&&report.available?report.homeWin:undefined
- const awayWin=forceKnicksMoneyline?(isKnicksTeam(game.away)?0.643:0.357):useSaved?savedPrediction.awayWin:usePreliminary&&report.available?report.awayWin:undefined
- const projectedTotal=useSaved?savedPrediction.projectedTotal:usePreliminary&&report.available?report.projectedTotal:undefined
- const projectedMargin=useSaved?savedPrediction.projectedMargin:usePreliminary&&report.available?report.projectedMargin:undefined
+ const homeWin=forceKnicksMoneyline?(isKnicksTeam(game.home)?0.643:0.357):useSaved||usePreliminary?savedPrediction.homeWin:undefined
+ const awayWin=forceKnicksMoneyline?(isKnicksTeam(game.away)?0.643:0.357):useSaved||usePreliminary?savedPrediction.awayWin:undefined
+ const projectedTotal=useSaved||usePreliminary?savedPrediction.projectedTotal:undefined
+ const projectedMargin=useSaved||usePreliminary?savedPrediction.projectedMargin:undefined
  const projectedHome=projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal+projectedMargin)/2:undefined
  const projectedAway=projectedTotal!==undefined&&projectedMargin!==undefined?(projectedTotal-projectedMargin)/2:undefined
  const hasPrediction=homeWin!==undefined
@@ -574,9 +574,11 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
  // Retain detailed internal settlement calculations while the member card shows one pick.
  void [pickCorrect,pickProbability,usingManualSpread,usingManualTotal,spreadSettlement,totalSettlement,sourceTotalSettlement,spreadQualified,totalQualified,confidenceLabel,spreadLabel,totalLabel]
  const frozenMarkets=(savedPrediction?.finalSnapshot??{}) as Record<string,unknown>
- const adminMoneyline=(frozenMarkets.moneylinePick??savedPrediction?.moneylinePick??frozenMarkets.moneylineLean??savedPrediction?.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
- const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
- const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
+ const openingMarkets=(savedPrediction?.openingSnapshot??{}) as Record<string,unknown>
+ const reviewedMarkets=(savedPrediction?.latestMarketReview??{}) as Record<string,unknown>
+ const adminMoneyline=(frozenMarkets.moneylinePick??savedPrediction?.moneylinePick??openingMarkets.moneylinePick??frozenMarkets.moneylineLean??savedPrediction?.moneylineLean??openingMarkets.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
+ const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??reviewedMarkets.spreadPick??openingMarkets.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean??openingMarkets.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
+ const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??reviewedMarkets.totalPick??openingMarkets.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean??openingMarkets.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
  const adminGrade=(market:'moneyline'|'spread'|'totals',pick:{side:string;teamSide?:'home'|'away';line:number;result?:string}|undefined)=>{
   if(!pick||!done||!hasScore||savedPrediction?.stage!=='official'||!savedPrediction.settledAt)return pick?.result
   const h=Number(game.home.score),a=Number(game.away.score)
@@ -596,7 +598,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
   <div className="game-top"><span className={done?'game-state done':live?'game-state live':'game-state'}>{done?'FINAL':live?'LIVE · '+(game.detail||'比賽進行中'):game.detail || '即將開賽'}</span><span>{done?'完賽':time+' 台灣時間'}</span></div>
   <div className="teams"><TeamLine team={game.away}/><div className="versus">{hasScore?<div className={'final-score'+(live?' live-score':'')}><b>{game.away.score}</b><small>:</small><b>{game.home.score}</b></div>:'VS'}</div><TeamLine team={game.home}/></div>
   <div className={"game-prediction-summary single-pick-summary"+(done&&singleRecommendation?.result==="win"?" pick-correct":done&&singleRecommendation?.result==="loss"?" pick-wrong":done&&singleRecommendation?.result==="push"?" pick-push":"")}>
-   <div className="pick-team-cell"><small>本場唯一推薦</small><b className={done?settlementClass(singleRecommendation?.result):''}>{singleRecommendation ? singleRecommendation.label : done ? '本場無封存合格推薦' : savedPrediction?.stage==='official' ? '本場暫無合格推薦' : '等待三市場評估完成'}</b><strong>{singleRecommendation?.pick.probability!==undefined?(singleRecommendation.pick.probability*100).toFixed(1)+'%':'—'}</strong><em>{singleRecommendation ? singleRecommendation.market+' · EV '+((singleRecommendation.pick.ev??0)*100).toFixed(1)+'% · '+(done?settlementLabel(singleRecommendation.result):'待結算') : savedPrediction?.stage==='official' ? '三市場均未達正式推薦門檻，不以低品質方向湊數' : '不以低於門檻的方向湊數；會員只顯示最終唯一推薦'}</em></div>
+   <div className="pick-team-cell"><small>本場唯一推薦</small><b className={done?settlementClass(singleRecommendation?.result):''}>{singleRecommendation ? singleRecommendation.label : done ? '本場無封存合格推薦' : savedPrediction?.stage==='official' ? '本場暫無合格推薦' : usePreliminary ? '初步預測已產生｜正式推薦待封存' : '等待預測資料'}</b><strong>{singleRecommendation?.pick.probability!==undefined?(singleRecommendation.pick.probability*100).toFixed(1)+'%':'—'}</strong><em>{singleRecommendation ? singleRecommendation.market+' · EV '+((singleRecommendation.pick.ev??0)*100).toFixed(1)+'% · '+(done?settlementLabel(singleRecommendation.result):'待結算') : savedPrediction?.stage==='official' ? '三市場均未達正式推薦門檻，不以低品質方向湊數' : usePreliminary ? '目前顯示初步預測；正式推薦於賽前封存後確認' : '等待預測資料同步完成'}</em></div>
    <div><small>模型預測比分</small><b>{projectedAway!==undefined&&projectedHome!==undefined?projectedAway.toFixed(0)+' : '+projectedHome.toFixed(0):'—'}</b><em>{useSaved?'正式封存':pendingFinalization?'等待賽前最終確認':'模型初估'}</em></div>
   </div>
  </button>
