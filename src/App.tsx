@@ -575,10 +575,9 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
  void [pickCorrect,pickProbability,usingManualSpread,usingManualTotal,spreadSettlement,totalSettlement,sourceTotalSettlement,spreadQualified,totalQualified,confidenceLabel,spreadLabel,totalLabel]
  const frozenMarkets=(savedPrediction?.finalSnapshot??{}) as Record<string,unknown>
  const openingMarkets=(savedPrediction?.openingSnapshot??{}) as Record<string,unknown>
- const reviewedMarkets=(savedPrediction?.latestMarketReview??{}) as Record<string,unknown>
  const adminMoneyline=(frozenMarkets.moneylinePick??savedPrediction?.moneylinePick??openingMarkets.moneylinePick??frozenMarkets.moneylineLean??savedPrediction?.moneylineLean??openingMarkets.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
- const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??reviewedMarkets.spreadPick??openingMarkets.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean??openingMarkets.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
- const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??reviewedMarkets.totalPick??openingMarkets.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean??openingMarkets.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
+ const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??openingMarkets.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean??openingMarkets.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
+ const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??openingMarkets.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean??openingMarkets.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
  const adminGrade=(market:'moneyline'|'spread'|'totals',pick:{side:string;teamSide?:'home'|'away';line:number;result?:string}|undefined)=>{
   if(!pick||!done||!hasScore||savedPrediction?.stage!=='official'||!savedPrediction.settledAt)return pick?.result
   const h=Number(game.home.score),a=Number(game.away.score)
