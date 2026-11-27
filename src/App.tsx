@@ -541,11 +541,13 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
  // Members receive one best pick per game. The three underlying markets remain
   // stored and graded independently; only an EV-qualified pick is eligible here.
   const singleRecommendation = (() => {
-   if (!savedPrediction || !useSaved) return undefined
-   const frozen=(savedPrediction.finalSnapshot??{}) as Record<string,unknown>
-   const moneyline=(frozen.moneylinePick??savedPrediction.moneylinePick) as NonNullable<PredictionRecord['moneylinePick']>|undefined
-   const spread=(frozen.spreadPick??savedPrediction.spreadPick) as NonNullable<PredictionRecord['spreadPick']>|undefined
-   const total=(frozen.totalPick??savedPrediction.totalPick) as NonNullable<PredictionRecord['totalPick']>|undefined
+   if (!savedPrediction || (!useSaved && !usePreliminary)) return undefined
+   // Preliminary records must also be eligible for the member card. Read the
+   // opening snapshot first; official records continue to prefer the final snapshot.
+   const snapshot=(useSaved?savedPrediction.finalSnapshot:savedPrediction.openingSnapshot) as Record<string,unknown>|undefined
+   const moneyline=(snapshot?.moneylinePick??snapshot?.moneylineLean??savedPrediction.moneylinePick??savedPrediction.moneylineLean) as NonNullable<PredictionRecord['moneylinePick']>|undefined
+   const spread=(snapshot?.spreadPick??snapshot?.spreadLean??savedPrediction.spreadPick??savedPrediction.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
+   const total=(snapshot?.totalPick??snapshot?.totalLean??savedPrediction.totalPick??savedPrediction.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
    const candidates = [
     ...(moneyline ? [{market:'不讓分', key:'moneyline' as const, label:moneyline.side, pick:moneyline}] : []),
     ...(spread ? [{market:'讓分', key:'spread' as const, label:spread.side+' '+(spread.line>0?'+':'')+spread.line, pick:spread}] : []),
@@ -554,7 +556,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
    const selected=candidates.sort((a,b)=>(b.pick.ev??-Infinity)-(a.pick.ev??-Infinity)||(b.pick.probability??0)-(a.pick.probability??0))[0]
    if(!selected)return undefined
    let result=selected.pick.result
-   if(done&&hasScore&&savedPrediction.stage==='official'&&savedPrediction.settledAt){
+   if(useSaved&&done&&hasScore&&savedPrediction.stage==='official'&&savedPrediction.settledAt){
     const home=Number(game.home.score),away=Number(game.away.score)
     if(Number.isFinite(home)&&Number.isFinite(away)){
      if(selected.key==='moneyline')result=selected.pick.teamSide==='home'?(home>away?'win':'loss'):(away>home?'win':'loss')
