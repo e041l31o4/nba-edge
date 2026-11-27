@@ -506,8 +506,14 @@ for (const event of scoreboards.flatMap(s=>s.events ?? [])) {
         existing.spreadPick=reviewedMarkets.spreadPick; existing.totalPick=reviewedMarkets.totalPick
         existing.latestMarketReview={...reviewedMarkets,updatedAt:now.toISOString()}
       }
-       const openingMarketAvailable=(oddsPayload?.games??[]).some(g=>g.home_team.toLowerCase()===String(h.team?.name??h.team?.displayName??'').toLowerCase()&&g.away_team.toLowerCase()===String(a.team?.name??a.team?.displayName??'').toLowerCase()&&(g.bookmakers??[]).some(b=>(b.markets??[]).some(m=>(m.outcomes??[]).length>0)))
-       if(!existing.preliminaryAt && openingMarketAvailable){existing.preliminaryAt=now.toISOString();existing.analysisStatus='preliminary';existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}}
+       // Publish a usable score/win forecast as preliminary even when a Taiwan
+       // market line is temporarily unavailable. Market recommendations remain
+       // absent unless the fresh-odds refresh succeeded; odds must not gate member visibility.
+       if(!existing.preliminaryAt){
+         existing.preliminaryAt=now.toISOString()
+         existing.openingSnapshot={homeWin:rolling.homeWin,awayWin:rolling.awayWin,projectedMargin:rolling.projectedMargin,projectedTotal:rolling.projectedTotal,moneylineLean:reviewedMarkets.moneylineLean??null,spreadPick:reviewedMarkets.spreadPick??null,totalPick:reviewedMarkets.totalPick??null,capturedAt:now.toISOString()}
+       }
+       if(existing.stage==='draft' && existing.analysisStatus!=='preliminary') existing.analysisStatus='preliminary'
       existing.modelVersion='recent-form-pace-v2.2-backtest-aligned-total-uncertainty-qualified-picks'
       existing.refreshedAt=now.toISOString(); refreshed++
     }
@@ -618,4 +624,9 @@ if (recentMarketChanges.length) console.log('NBA_EDGE_MARKET_DIRECTION_CHANGES:'
 const recentAnalysisChanges=output.flatMap(row=>(row.analysisChangeHistory??[]).filter(change=>now.getTime()-new Date(change.at).getTime()<6*60*1000).map(change=>({date:row.date,game:row.away+' @ '+row.home,at:change.at})))
 if (recentAnalysisChanges.length) console.log('NBA_EDGE_ANALYSIS_CHANGE_AUDIT_COUNT:',recentAnalysisChanges.length)
 console.log('DEN_NOP_SPREAD_RESTORE_APPLIED:',denNopRestored)
+const releaseDiagnostics=Array.from({length:3},(_,i)=>new Date(Date.UTC(year,month-1,day+i)).toISOString().slice(0,10).replace(/-/g,'')).map(date=>{
+  const dayRows=output.filter(row=>taiwanDateKey(row.date).replace(/-/g,'')===date)
+  return {date,records:dayRows.length,preliminary:dayRows.filter(row=>row.analysisStatus==='preliminary').length,final:dayRows.filter(row=>row.analysisStatus==='final').length,official:dayRows.filter(row=>row.stage==='official').length,draft:dayRows.filter(row=>row.stage==='draft').length}
+})
+console.log('NBA_EDGE_MEMBER_RELEASE_DIAGNOSTIC:',JSON.stringify(releaseDiagnostics))
 console.log(`Taiwan date ${twNoDash}; ESPN dates ${allDateKeys[0]}-${allDateKeys[allDateKeys.length-1]}; successful dates ${successfulDates}/${allDateKeys.length}; reopened premature locks ${reopenedPrematureLocks}; preliminary ${preliminary}; new/locked ${added}; rolling refreshed ${refreshed}; settled ${settled}; market regraded ${regraded}; upcoming drafts ${upcoming}; official records ${official}; total ${output.length}`)
