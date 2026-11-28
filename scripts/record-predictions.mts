@@ -196,21 +196,44 @@ const ensureFinalSnapshot=(row:Row)=>{
   }
 }
 const settleMarkets=(row:Row,home:number,away:number)=>{
-  const frozen=(row.finalSnapshot??{}) as any
-  const moneyline=(frozen.moneylinePick??row.moneylinePick) as MarketPick|undefined
-  const spread=(frozen.spreadPick??row.spreadPick) as MarketPick|undefined
-  const total=(frozen.totalPick??row.totalPick) as MarketPick|undefined
-  if(moneyline){
-    const correct=moneyline.teamSide==='home'?home>away:away>home
-    row.moneylinePick={...moneyline,result:correct?'win':'loss'}
+  const frozen=(row.finalSnapshot??{}) as Record<string,any>
+  const gradeMoneyline=(pick:MarketPick|undefined):MarketPick|undefined=>{
+    if(!pick||!['home','away'].includes(String(pick.teamSide)))return pick
+    return {...pick,result:(pick.teamSide==='home'?home>away:away>home)?'win':'loss'}
   }
-  if(spread){
-    const margin=spread.teamSide==='away'?away-home+spread.line:home-away+spread.line
-    row.spreadPick={...spread,result:Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
+  const gradeSpread=(pick:MarketPick|undefined):MarketPick|undefined=>{
+    if(!pick||!['home','away'].includes(String(pick.teamSide))||!Number.isFinite(pick.line))return pick
+    const margin=pick.teamSide==='away'?away-home+pick.line:home-away+pick.line
+    return {...pick,result:Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
   }
-  if(total){
-    const diff=home+away-total.line
-    row.totalPick={...total,result:Math.abs(diff)<1e-9?'push':((total.side==='over'&&diff>0)||(total.side==='under'&&diff<0))?'win':'loss'}
+  const gradeTotal=(pick:MarketPick|undefined):MarketPick|undefined=>{
+    if(!pick||!Number.isFinite(pick.line)||!['over','under'].includes(String(pick.side)))return pick
+    const diff=home+away-pick.line
+    return {...pick,result:Math.abs(diff)<1e-9?'push':((pick.side==='over'&&diff>0)||(pick.side==='under'&&diff<0))?'win':'loss'}
+  }
+  // Grade both the frozen analysis directions (leans) and formal EV-qualified picks.
+  // Admin traffic lights use the analysis directions even when no formal pick qualified.
+  const moneylineLean=gradeMoneyline((frozen.moneylineLean??row.moneylineLean) as MarketPick|undefined)
+  const moneylinePick=gradeMoneyline((frozen.moneylinePick??row.moneylinePick) as MarketPick|undefined)
+  const spreadLean=gradeSpread((frozen.spreadLean??row.spreadLean??row.spreadPick) as MarketPick|undefined)
+  const spreadPick=gradeSpread((frozen.spreadPick??row.spreadPick) as MarketPick|undefined)
+  const totalLean=gradeTotal((frozen.totalLean??row.totalLean??row.totalPick) as MarketPick|undefined)
+  const totalPick=gradeTotal((frozen.totalPick??row.totalPick) as MarketPick|undefined)
+  if(moneylineLean)row.moneylineLean=moneylineLean
+  if(moneylinePick)row.moneylinePick=moneylinePick
+  if(spreadLean)row.spreadLean=spreadLean
+  if(spreadPick)row.spreadPick=spreadPick
+  if(totalLean)row.totalLean=totalLean
+  if(totalPick)row.totalPick=totalPick
+  // Keep the frozen selections unchanged; append only their settlement outcomes.
+  row.finalSnapshot={
+    ...frozen,
+    ...(moneylineLean?{moneylineLean}:{}),
+    ...(moneylinePick?{moneylinePick}:{}),
+    ...(spreadLean?{spreadLean}:{}),
+    ...(spreadPick?{spreadPick}:{}),
+    ...(totalLean?{totalLean}:{}),
+    ...(totalPick?{totalPick}:{})
   }
 }
 
