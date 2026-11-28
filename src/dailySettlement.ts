@@ -61,6 +61,15 @@ function finishTally(value: MarketTally) {
   return value
 }
 
+function resolveDailyTeamSide(pick: Pick | null | undefined, homeAbbr: string, awayAbbr: string): Pick | null | undefined {
+  if (!pick) return pick
+  const normalize=(value:unknown)=>String(value??'').toLowerCase().replace(/[^a-z0-9]/g,'')
+  const aliases:Record<string,string[]>={ATL:['hawks','atlantahawks'],BOS:['celtics','bostonceltics'],BKN:['nets','brooklynnets'],CHA:['hornets','charlottehornets'],CHI:['bulls','chicagobulls'],CLE:['cavaliers','cavs','clevelandcavaliers'],DAL:['mavericks','mavs','dallasmavericks'],DEN:['nuggets','denvernuggets'],DET:['pistons','detroitpistons'],GS:['warriors','goldenstatewarriors','gsw'],GSW:['warriors','goldenstatewarriors'],HOU:['rockets','houstonrockets'],IND:['pacers','indianapacers'],LAC:['clippers','laclippers','losangelesclippers'],LAL:['lakers','losangeleslakers'],MEM:['grizzlies','memphisgrizzlies'],MIA:['heat','miamiheat'],MIL:['bucks','milwaukeebucks'],MIN:['timberwolves','wolves','minnesotatimberwolves'],NO:['pelicans','neworleanspelicans'],NOP:['pelicans','neworleanspelicans'],NY:['knicks','newyorkknicks'],NYK:['knicks','newyorkknicks'],OKC:['thunder','oklahomacitythunder'],ORL:['magic','orlandomagic'],PHI:['76ers','sixers','philadelphia76ers'],PHX:['suns','phoenixsuns'],POR:['trailblazers','blazers','portlandtrailblazers'],SAC:['kings','sacramentokings'],SA:['spurs','sanantoniospurs'],SAS:['spurs','sanantoniospurs'],TOR:['raptors','torontoraptors'],UTAH:['jazz','utahjazz'],UTA:['jazz','utahjazz'],WAS:['wizards','washingtonwizards']}
+  const token=normalize(pick.side)
+  const matches=(abbr:string)=>[normalize(abbr),...(aliases[abbr.toUpperCase()]??[]).map(normalize)].some(alias=>alias&&(alias===token||alias.includes(token)||token.includes(alias)))
+  const h=matches(homeAbbr),a=matches(awayAbbr)
+  return h!==a?{...pick,teamSide:h?'home':'away'}:pick
+}
 function grade(pick: Pick | null | undefined, market: 'moneyline' | 'spread' | 'totals', home: number, away: number) {
   if (!pick || !pick.teamSide && market !== 'totals' || typeof pick.line !== 'number' && market !== 'moneyline') return null
   if (market === 'moneyline') {
@@ -120,9 +129,9 @@ export function buildDailySettlementReport(
     settledRecordCount++
     const frozen = (record.finalSnapshot ?? {}) as Record<string, unknown>
     const lean = (key: string, fallback?: unknown) => (frozen[key] ?? fallback ?? null) as Pick | null
-    const moneylineLean = lean('moneylineLean', record.moneylineLean) ??
-      (typeof record.homeWin === 'number' ? { teamSide: record.homeWin >= 0.5 ? 'home' as const : 'away' as const, line: 0 } : null)
-    const spreadLean = lean('spreadLean', record.spreadLean ?? record.spreadPick)
+    const moneylineLean = resolveDailyTeamSide(lean('moneylineLean', record.moneylineLean) ??
+      (typeof record.homeWin === 'number' ? { teamSide: record.homeWin >= 0.5 ? 'home' as const : 'away' as const, line: 0 } : null), game.home.abbreviation, game.away.abbreviation)
+    const spreadLean = resolveDailyTeamSide(lean('spreadLean', record.spreadLean ?? record.spreadPick), game.home.abbreviation, game.away.abbreviation)
     const totalLean = lean('totalLean', record.totalLean ?? record.totalPick)
     addOutcome(moneyline, grade(moneylineLean, 'moneyline', home, away))
     addOutcome(spread, grade(spreadLean, 'spread', home, away))
