@@ -42,6 +42,52 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    ...(recoveredSpread?{spreadPick:{...recoveredSpread}}:{}),
    ...(!record.spreadLean&&recoveredSpread?{spreadLean:{...recoveredSpread}}:{})
   }
+  // Resolve team identity from the visible pick label before trusting stored home/away.
+  // Some frozen rows have a valid team name but an inverted teamSide, which flips settlement.
+  const resolveTeamSide=(pick:{side?:string;teamSide?:'home'|'away'}|undefined):'home'|'away'|undefined=>{
+   if(!pick)return undefined
+   const token=String(pick.side??'').toLowerCase().replace(/[^a-z0-9]/g,'')
+   if(token){
+    const aliases=(team:Game['home'])=>[team.abbreviation,team.name,team.displayName,team.displayName.split(' ').slice(-1).join(' ')].map(value=>String(value??'').toLowerCase().replace(/[^a-z0-9]/g,'')).filter(Boolean)
+    const homeAliases=aliases(game.home),awayAliases=aliases(game.away)
+    const matches=(list:string[])=>list.some(alias=>alias===token||alias.includes(token)||token.includes(alias))
+    const homeMatch=matches(homeAliases),awayMatch=matches(awayAliases)
+    if(homeMatch!==awayMatch)return homeMatch?'home':'away'
+   }
+   return pick.teamSide
+  }
+  const finish=(value:PredictionRecord):PredictionRecord=>{
+   if(!game.status.toLowerCase().includes('final'))return value
+   const homeScore=Number(game.home.score),awayScore=Number(game.away.score)
+   if(!Number.isFinite(homeScore)||!Number.isFinite(awayScore))return value
+   const normalize=(pick:any,market:'moneyline'|'spread'|'totals')=>{
+    if(!pick)return pick
+    const teamSide=market==='totals'?undefined:resolveTeamSide(pick)
+    const next={...pick,...(teamSide?{teamSide}:{})}
+    if(market==='moneyline'&&teamSide)next.result=(teamSide==='home'?homeScore>awayScore:awayScore>homeScore)?'win':'loss'
+    if(market==='spread'&&teamSide&&typeof pick.line==='number'){
+     const margin=(teamSide==='home'?homeScore-awayScore:awayScore-homeScore)+pick.line
+     next.result=Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'
+    }
+    if(market==='totals'&&typeof pick.line==='number'){
+     const diff=homeScore+awayScore-pick.line
+     next.result=Math.abs(diff)<1e-9?'push':((/^(over|大)$/i.test(String(pick.side))&&diff>0)||(/^(under|小)$/i.test(String(pick.side))&&diff<0))?'win':'loss'
+    }
+    return next
+   }
+   const moneylineLean=normalize(value.moneylineLean,'moneyline')
+   const moneylinePick=normalize(value.moneylinePick,'moneyline')
+   const spreadLean=normalize(value.spreadLean??value.spreadPick,'spread')
+   const spreadPick=normalize(value.spreadPick??value.spreadLean,'spread')
+   const totalLean=normalize(value.totalLean??value.totalPick,'totals')
+   const totalPick=normalize(value.totalPick??value.totalLean,'totals')
+   return {...value,
+    ...(moneylineLean?{moneylineLean}:{}),...(moneylinePick?{moneylinePick}:{}),
+    ...(spreadLean?{spreadLean}:{}),...(spreadPick?{spreadPick}:{}),
+    ...(totalLean?{totalLean}:{}),...(totalPick?{totalPick}:{}),
+    finalSnapshot:{...(value.finalSnapshot??{}),...(moneylineLean?{moneylineLean}:{}),...(moneylinePick?{moneylinePick}:{}),...(spreadLean?{spreadLean}:{}),...(spreadPick?{spreadPick}:{}),...(totalLean?{totalLean}:{}),...(totalPick?{totalPick}:{})}
+   }
+  }
   const settleSpread=(value:PredictionRecord):PredictionRecord=>{
    const pick=value.spreadPick
    if(!pick||!game.status.toLowerCase().includes('final'))return value
@@ -56,7 +102,7 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    return {...value,spreadPick:{...pick,result}}
   }
   const day=taiwanDate(new Date(game.date))
-  if(!['20261119','20261120','20261121','20261122'].includes(day))return settleSpread(restored)
+  if(!['20261119','20261120','20261121','20261122'].includes(day))return finish(settleSpread(restored))
   const abbr=(team:Game['home'])=>team.abbreviation.toUpperCase()
   const home=abbr(game.home),away=abbr(game.away)
   const knicksHome=['NY','NYK'].includes(home),knicksAway=['NY','NYK'].includes(away)
@@ -79,7 +125,7 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(total)
    const totalResult=hasFinalTotal?(Math.abs(total-totalLine)<1e-9?'push':total>totalLine?'win':'loss'):undefined
    const overPick:NonNullable<PredictionRecord['totalPick']>={side:'over',line:totalLine,...(totalSource?.price!==undefined?{price:totalSource.price}:{}),...(totalSource?.probability!==undefined?{probability:totalSource.probability}:{}),...(totalSource?.ev!==undefined?{ev:totalSource.ev}:{}),...(totalResult?{result:totalResult}:{})}
-   return settleSpread({...restored,homeWin,awayWin:1-homeWin,moneylineLean,finalSnapshot:{...(restored.finalSnapshot??{}),moneylineLean},totalPick:overPick,totalLean:overPick})
+   return finish(settleSpread({...restored,homeWin,awayWin:1-homeWin,moneylineLean,finalSnapshot:{...(restored.finalSnapshot??{}),moneylineLean},totalPick:overPick,totalLean:overPick}))
   }
   // Knicks and Wolves are separate games on this slate; identify each matchup independently.
   if(knicksHome||knicksAway){
@@ -91,7 +137,7 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    const hasFinalTotal=game.status.toLowerCase().includes('final')&&Number.isFinite(actualTotal)
    const totalResult=hasFinalTotal?(Math.abs(actualTotal-totalLine)<1e-9?'push':actualTotal<totalLine?'win':'loss'):undefined
    const underPick=totalBase
-   return settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick},totalPick:{...underPick,...(totalResult?{result:totalResult}:{})},totalLean:underPick})
+   return finish(settleSpread({...restored,spreadPick:{...(restored.spreadPick??restored.spreadLean??{}),...pick},totalPick:{...underPick,...(totalResult?{result:totalResult}:{})},totalLean:underPick}))
   }
   if((wolvesHome||wolvesAway)&&grizzliesPresent){
    const wolvesSide=wolvesHome?'home' as const:'away' as const
@@ -101,7 +147,7 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
    const repairedSpread=sourceSpread?{...sourceSpread,side:wolvesName,teamSide:wolvesSide}:undefined
    const repairedLean=restored.spreadLean?{...restored.spreadLean,side:wolvesName,teamSide:wolvesSide}:repairedSpread
    const updateMoneyline=(pick:PredictionRecord['moneylinePick']|PredictionRecord['moneylineLean'])=>pick?{...pick,side:wolvesName,teamSide:wolvesSide}:pick
-   return settleSpread({...restored,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(restored.projectedMargin)),moneylinePick:updateMoneyline(restored.moneylinePick),moneylineLean:updateMoneyline(restored.moneylineLean),spreadPick:repairedSpread?{...repairedSpread,result:restored.spreadPick?.result}:restored.spreadPick,spreadLean:repairedLean})
+   return finish(settleSpread({...restored,homeWin,awayWin:1-homeWin,projectedMargin:(wolvesHome?1:-1)*Math.max(0.1,Math.abs(restored.projectedMargin)),moneylinePick:updateMoneyline(restored.moneylinePick),moneylineLean:updateMoneyline(restored.moneylineLean),spreadPick:repairedSpread?{...repairedSpread,result:restored.spreadPick?.result}:restored.spreadPick,spreadLean:repairedLean}))
   }
   return settleSpread(restored)
  })
