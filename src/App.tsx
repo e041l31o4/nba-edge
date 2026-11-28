@@ -583,7 +583,7 @@ function GameCard({game, odds, teamForm, injuryData, teamMetrics, calibrator, ma
  const adminSpread=(frozenMarkets.spreadPick??savedPrediction?.spreadPick??openingMarkets.spreadPick??frozenMarkets.spreadLean??savedPrediction?.spreadLean??openingMarkets.spreadLean) as NonNullable<PredictionRecord['spreadPick']>|undefined
  const adminTotal=(frozenMarkets.totalPick??savedPrediction?.totalPick??openingMarkets.totalPick??frozenMarkets.totalLean??savedPrediction?.totalLean??openingMarkets.totalLean) as NonNullable<PredictionRecord['totalPick']>|undefined
  const adminGrade=(market:'moneyline'|'spread'|'totals',pick:{side:string;teamSide?:'home'|'away';line:number;result?:string}|undefined)=>{
-  if(!pick||!done||!hasScore||savedPrediction?.stage!=='official'||!savedPrediction.settledAt)return pick?.result
+  if(!pick||!done||!hasScore||savedPrediction?.stage!=='official')return pick?.result
   const h=Number(game.home.score),a=Number(game.away.score)
   if(!Number.isFinite(h)||!Number.isFinite(a))return pick.result
   if(market==='moneyline')return pick.teamSide==='home'?(h>a?'win':'loss'):pick.teamSide==='away'?(a>h?'win':'loss'):pick.result
