@@ -132,6 +132,21 @@ function frozenPick(record:PredictionRecord,key:string,fallback?:unknown):Ledger
   const snapshot=(record.finalSnapshot??{}) as Record<string,unknown>
   return (snapshot[key]??fallback??null) as LedgerPick|null
 }
+function resolveLedgerTeamSide(record:PredictionRecord,pick:LedgerPick|null,market:'moneyline'|'spread'|'totals'):LedgerPick|null {
+  if(!pick||market==='totals')return pick
+  const normalize=(value:unknown)=>String(value??'').toLowerCase().replace(/[^a-z0-9]/g,'')
+  const aliases:Record<string,string[]>={ATL:['hawks','atlantahawks'],BOS:['celtics','bostonceltics'],BKN:['nets','brooklynnets'],CHA:['hornets','charlottehornets'],CHI:['bulls','chicagobulls'],CLE:['cavaliers','cavs','clevelandcavaliers'],DAL:['mavericks','mavs','dallasmavericks'],DEN:['nuggets','denvernuggets'],DET:['pistons','detroitpistons'],GS:['warriors','goldenstatewarriors','gsw'],GSW:['warriors','goldenstatewarriors'],HOU:['rockets','houstonrockets'],IND:['pacers','indianapacers'],LAC:['clippers','laclippers','losangelesclippers'],LAL:['lakers','losangeleslakers'],MEM:['grizzlies','memphisgrizzlies'],MIA:['heat','miamiheat'],MIL:['bucks','milwaukeebucks'],MIN:['timberwolves','wolves','minnesotatimberwolves'],NO:['pelicans','neworleanspelicans'],NOP:['pelicans','neworleanspelicans'],NY:['knicks','newyorkknicks'],NYK:['knicks','newyorkknicks'],OKC:['thunder','oklahomacitythunder'],ORL:['magic','orlandomagic'],PHI:['76ers','sixers','philadelphia76ers'],PHX:['suns','phoenixsuns'],POR:['trailblazers','blazers','portlandtrailblazers'],SAC:['kings','sacramentokings'],SA:['spurs','sanantoniospurs'],SAS:['spurs','sanantoniospurs'],TOR:['raptors','torontoraptors'],UTAH:['jazz','utahjazz'],UTA:['jazz','utahjazz'],WAS:['wizards','washingtonwizards']}
+  const teamMatches=(team:string,token:string)=>{
+    const key=normalize(team)
+    const candidates=[key,...(aliases[String(team).toUpperCase()]??[]).map(normalize)].filter(Boolean)
+    return candidates.some(alias=>alias===token||alias.includes(token)||token.includes(alias))
+  }
+  const token=normalize(pick.side)
+  if(!token)return pick
+  const home=teamMatches(record.home,token),away=teamMatches(record.away,token)
+  if(home!==away)return {...pick,teamSide:home?'home':'away'}
+  return pick
+}
 function blankTally(){return {total:0,decided:0,wins:0,losses:0,pushes:0,noDirection:0,hitRate:null as number|null}}
 function tallyOutcome(tally:ReturnType<typeof blankTally>,result:'win'|'loss'|'push'|null){
   tally.total++
@@ -149,8 +164,8 @@ export function summarizeAllMarketDirections(records:PredictionRecord[]){
     if(record.stage!=='official'||!record.settledAt||!Number.isFinite(record.actualHome)||!Number.isFinite(record.actualAway))continue
     const home=Number(record.actualHome),away=Number(record.actualAway)
     const picks=[
-      {key:'moneyline',market:'moneyline' as const,pick:frozenPick(record,'moneylineLean',record.moneylineLean??{teamSide:record.homeWin>=0.5?'home':'away',line:0})},
-      {key:'spread',market:'spread' as const,pick:frozenPick(record,'spreadLean',record.spreadLean??record.spreadPick)},
+      {key:'moneyline',market:'moneyline' as const,pick:resolveLedgerTeamSide(record,frozenPick(record,'moneylineLean',record.moneylineLean??{teamSide:record.homeWin>=0.5?'home':'away',line:0}),'moneyline')},
+      {key:'spread',market:'spread' as const,pick:resolveLedgerTeamSide(record,frozenPick(record,'spreadLean',record.spreadLean??record.spreadPick),'spread')},
       {key:'totals',market:'totals' as const,pick:frozenPick(record,'totalLean',record.totalLean??record.totalPick)}
     ]
     for(const item of picks){
