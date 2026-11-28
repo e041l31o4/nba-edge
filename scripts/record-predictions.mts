@@ -197,11 +197,23 @@ const ensureFinalSnapshot=(row:Row)=>{
 }
 const settleMarkets=(row:Row,home:number,away:number)=>{
   const frozen=(row.finalSnapshot??{}) as Record<string,any>
-  const gradeMoneyline=(pick:MarketPick|undefined):MarketPick|undefined=>{
+  const normalizeTeam=(value:string)=>String(value??'').toLowerCase().replace(/[^a-z0-9]/g,'')
+  const teamAliases:Record<string,string[]>={ATL:['hawks','atlantahawks'],BOS:['celtics','bostonceltics'],BKN:['nets','brooklynnets'],CHA:['hornets','charlottehornets'],CHI:['bulls','chicagobulls'],CLE:['cavaliers','cavs','clevelandcavaliers'],DAL:['mavericks','mavs','dallasmavericks'],DEN:['nuggets','denvernuggets'],DET:['pistons','detroitpistons'],GS:['warriors','goldenstatewarriors','gsw'],GSW:['warriors','goldenstatewarriors'],HOU:['rockets','houstonrockets'],IND:['pacers','indianapacers'],LAC:['clippers','laclippers','losangelesclippers'],LAL:['lakers','losangeleslakers'],MEM:['grizzlies','memphisgrizzlies'],MIA:['heat','miamiheat'],MIL:['bucks','milwaukeebucks'],MIN:['timberwolves','wolves','minnesotatimberwolves'],NO:['pelicans','neworleanspelicans'],NOP:['pelicans','neworleanspelicans'],NY:['knicks','newyorkknicks'],NYK:['knicks','newyorkknicks'],OKC:['thunder','oklahomacitythunder'],ORL:['magic','orlandomagic'],PHI:['76ers','sixers','philadelphia76ers'],PHX:['suns','phoenixsuns'],POR:['trailblazers','blazers','portlandtrailblazers'],SAC:['kings','sacramentokings'],SA:['spurs','sanantoniospurs'],SAS:['spurs','sanantoniospurs'],TOR:['raptors','torontoraptors'],UTAH:['jazz','utahjazz'],UTA:['jazz','utahjazz'],WAS:['wizards','washingtonwizards']}
+  const resolveSide=(pick:MarketPick|undefined):'home'|'away'|undefined=>{
+    if(!pick)return undefined
+    const token=normalizeTeam(pick.side)
+    const matches=(team:string)=>[normalizeTeam(team),...(teamAliases[team.toUpperCase()]??[])].some(alias=>alias===token||alias.includes(token)||token.includes(alias))
+    const homeMatch=matches(row.home),awayMatch=matches(row.away)
+    return homeMatch!==awayMatch?(homeMatch?'home':'away'):pick.teamSide
+  }
+  const normalizePick=(pick:MarketPick|undefined)=>pick?{...pick,...(resolveSide(pick)?{teamSide:resolveSide(pick)}:{})}:undefined
+  const gradeMoneyline=(source:MarketPick|undefined):MarketPick|undefined=>{
+    const pick=normalizePick(source)
     if(!pick||!['home','away'].includes(String(pick.teamSide)))return pick
     return {...pick,result:(pick.teamSide==='home'?home>away:away>home)?'win':'loss'}
   }
-  const gradeSpread=(pick:MarketPick|undefined):MarketPick|undefined=>{
+  const gradeSpread=(source:MarketPick|undefined):MarketPick|undefined=>{
+    const pick=normalizePick(source)
     if(!pick||!['home','away'].includes(String(pick.teamSide))||!Number.isFinite(pick.line))return pick
     const margin=pick.teamSide==='away'?away-home+pick.line:home-away+pick.line
     return {...pick,result:Math.abs(margin)<1e-9?'push':margin>0?'win':'loss'}
