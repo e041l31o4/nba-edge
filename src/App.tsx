@@ -75,12 +75,13 @@ function applyRequestedMarketRepairs(games:Game[],records:PredictionRecord[]):Pr
     }
     return next
    }
-   const moneylineLean=normalize(value.moneylineLean,'moneyline')
-   const moneylinePick=normalize(value.moneylinePick,'moneyline')
-   const spreadLean=normalize(value.spreadLean??value.spreadPick,'spread')
-   const spreadPick=normalize(value.spreadPick??value.spreadLean,'spread')
-   const totalLean=normalize(value.totalLean??value.totalPick,'totals')
-   const totalPick=normalize(value.totalPick??value.totalLean,'totals')
+   const snapshot=(value.finalSnapshot??{}) as Record<string,any>
+   const moneylineLean=normalize(value.moneylineLean??snapshot.moneylineLean,'moneyline')
+   const moneylinePick=normalize(value.moneylinePick??snapshot.moneylinePick,'moneyline')
+   const spreadLean=normalize(value.spreadLean??snapshot.spreadLean??value.spreadPick??snapshot.spreadPick,'spread')
+   const spreadPick=normalize(value.spreadPick??snapshot.spreadPick??value.spreadLean??snapshot.spreadLean,'spread')
+   const totalLean=normalize(value.totalLean??snapshot.totalLean??value.totalPick??snapshot.totalPick,'totals')
+   const totalPick=normalize(value.totalPick??snapshot.totalPick??value.totalLean??snapshot.totalLean,'totals')
    return {...value,
     ...(moneylineLean?{moneylineLean}:{}),...(moneylinePick?{moneylinePick}:{}),
     ...(spreadLean?{spreadLean}:{}),...(spreadPick?{spreadPick}:{}),
